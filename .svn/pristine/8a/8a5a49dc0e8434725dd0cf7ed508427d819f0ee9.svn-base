@@ -1,0 +1,95 @@
+.shortcode-mapping-container{
+    width: 100%;height: 400px;
+}
+.shortcode-mapping-container .template-header{
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+.shortcode-mapping-container .table-container{
+    padding-top: 25px;
+}
+.shortcode-mapping-container .table{
+    width: 95%;
+    display: table;
+}
+.shortcode-mapping-container .table>thead,
+.shortcode-mapping-container .table>tbody{
+    float: left;width: 100%;
+}
+.shortcode-mapping-container .table>tbody{
+    overflow: auto;
+    height: 365px;
+    /*background-color: aliceblue;*/
+}
+.shortcode-mapping-container .table>thead>tr{
+    text-transform: uppercase;
+}
+.shortcode-mapping-container .table>thead>tr>th{
+    padding: 0px;
+    padding-left: 4px;
+}
+.shortcode-mapping-container .table>tbody>tr>td{
+    padding: 2px;
+    border-top: transparent;
+    border-bottom:1px solid #000000;
+    font-size: 11px;
+    padding-left: 8px;
+    overflow: hidden; white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.shortcode-mapping-container .table>tbody>tr{
+    text-align: left;
+    font-weight: bold;
+}
+.shortcode-mapping-container .table>tbody>tr:hover{
+    cursor: pointer;
+}
+.shortcode-mapping-container .shortCodeGrpRow{
+    background-color: black;
+    color: white;
+}
+.shortcode-mapping-container .service-area-column{
+    width: 290px;
+}
+.shortcode-mapping-container .short-code-column{
+    width: 210px;
+}
+.shortcode-mapping-container .item-hover:hover{
+    background-color: #ddddde;
+    cursor: pointer;
+}
+.shortcode-mapping-container .footer-container-div{
+    padding-top: 10px;
+    padding-left: 12px;
+    border-top: 1px solid;
+    width: 95%;
+}
+.shortcode-mapping-container .btn{
+    height: 22px;
+    border: none;
+    border-radius: 0;
+    background: #878787 !important;
+    margin-left: -3px;
+    padding-top: 2px;
+    color: white;
+    width: 58px;
+    float: right;
+}
+.shortcode-mapping-container .btn-edit{
+    height: 16px;
+    border: none;
+    border-radius: 0;
+    background: inherit !important;
+    color: #000000;
+    width: 33px;
+    margin-right: 4px;
+}
+.shortcode-mapping-container .btn-edit:hover{
+    background: #555759 !important;
+    color: white;
+}
+.shortcode-mapping-container .invisible{
+    visibility: hidden;
+}

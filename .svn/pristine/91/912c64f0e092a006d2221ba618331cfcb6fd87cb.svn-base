@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="Views/DataFilter/AddToGroupWindowTemplate.css"/>
+<div class="add-to-group-window-wrapper">
+    <div class="modal-header">
+        <span class="modal-title">Group</span>
+        <i ng-click="cancel()" class="fa fa-times-circle fa-lg modal-close"></i>
+    </div>
+    <div class="modal-body">
+
+        <div class="list-wrapper">
+            <ul class="list-group">
+                <li class="list-item" ng-repeat="item in items">
+                    <span class="label">{{item.Name}}</span>
+                    <span class="delete" ng-click="onDelete(item)"><i class="fa fa-times"></i></span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="group-creation-content">
+            <div class="txt-box-container">
+                <label for="txt-group-name" class="lbl-new-group">Create new group</label>
+                <input type="text" id="txt-group-name" class="txt-group-name" ng-model="GroupText.Name"
+                       ng-change="addtoGroupBtnEnableDisable()"/>
+            </div>
+            <div class="ddl-existing-group-container">
+                <label for="ddl-existing-group" class="lbl-existing-group">or add to existing group</label>
+                <select id="ddl-existing-group" class="ddl-existing-group"
+                        ng-init="selectedGroup = ddlColl[0]"
+                        ng-model="selectedGroup"
+                        ng-options="item.Name for item in ddlColl"></select>
+            </div>
+        </div>
+        <!--<div>-->
+        <!--<label id="heading" class="content-heading">SELECT CLIENT </label>-->
+        <!--<select id="ddlClient"-->
+        <!--ng-init="selectedCustomer = currentuser.UserToCustomers[0]"-->
+        <!--ng-model="selectedCustomer"-->
+        <!--ng-options="item.CustomerName for item in currentuser.UserToCustomers"-->
+        <!--ng-change="customerChanged()"></select>-->
+        <!--</div>-->
+    </div>
+    <div class="modal-footer">
+        <button class="btn-add-to-group" ng-click="onAddToGroupClick()" ng-disabled="isEnableAddToGroupBtn"><span
+                class="lbl-btn">Add to group</span></button>
+    </div>
+
+</div>

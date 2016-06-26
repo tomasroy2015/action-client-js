@@ -1,0 +1,6 @@
+
+<div style="width: 50%;height: 60%;background-color: #fff"  ng-controller="evaluationController">
+    <action-evaluations evaluation-collection="serviceAreaEvaluationViewData" selected-service-area-id="OS"></action-evaluations>
+</div>
+</div>
+</div>

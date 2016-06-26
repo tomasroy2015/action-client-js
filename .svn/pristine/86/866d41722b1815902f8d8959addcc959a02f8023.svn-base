@@ -1,0 +1,152 @@
+"use strict";
+
+define(['application-configuration', 'dataFactory', 'comparatorFactory','fullScorecardDataFactory'], function (app) {
+
+    app.register.controller('fullScorecardController',
+        ['$scope', '$timeout', 'serviceAreaScoreData', 'dataFactory', 'comparatorFactory','fullScorecardDataFactory',
+            function ($scope, $timeout, serviceAreaScoreData, dataFactory, comparatorFactory,fullScorecardDataFactory) {
+
+                $scope.generalSurveyData = {};
+                $scope.triggerSurveyData = {};
+                $timeout(function () {
+                    initializeData();
+                }, 0);
+
+                function initializeData() {
+
+                    //prepareServiceAreaScoreDataCollection(dataFactory.ServiceAreaScoreDataCollection());
+
+                    $scope.fullScorecardData = fullScorecardDataFactory.getPreparedFullScorecardData(dataFactory.ServiceAreaScoreDataCollection());
+                    //var genData = fullScorecardDataFactory.getPreparedGeneralSurveyData();
+                    //var trigData = fullScorecardDataFactory.getPreparedTriggerSurveyData();
+
+                    //calculateFullScorecardContainerWidth($scope.generalSurveyData, $scope.triggerSurveyData);
+                }
+
+                /**
+                 * Service area score data collection preparation
+                 * @param data
+                 */
+                function prepareServiceAreaScoreDataCollection(data) {
+                    var serviceAreaCollection = data;
+                    var generalSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                        return n.SurveyType === "GEN";
+                    });
+
+                    var triggerSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                        return n.SurveyType === "TCK" && n.Id !== 'SES';
+                    });
+
+                    /* prepare data with score comparator object */
+                    var preparedGenSurvey = [], prepareTrigSurvey = [];
+                    _.forEach(generalSurveyCollection, function (n, key) {
+                        preparedGenSurvey.push(prepareScoreComparatorObject(n));
+                    });
+
+                    _.forEach(triggerSurveyCollection, function (n, key) {
+                        prepareTrigSurvey.push(prepareScoreComparatorObject(n));
+                    });
+
+                    $scope.generalSurveyData = _.sortByOrder(preparedGenSurvey, 'SortOrder', true);
+                    $scope.triggerSurveyData = _.sortByOrder(prepareTrigSurvey, 'SortOrder', true);
+
+                    var genobj = prepareSurveyHeaderData('general', 'OVERALL SATISFACTION', data);
+                    var trigobj = prepareSurveyHeaderData('ticket', 'IT SERVICE EFFORT SCORE', data);
+                    console.log(genobj);
+                    console.log(trigobj);
+                }
+
+                /**
+                 * prepare question object with score comparator object
+                 * @param question
+                 * @returns {*}
+                 */
+                function prepareScoreComparatorObject(question) {
+                    var groupObj = _.extend({}, question, {
+                        scoreComparator: {
+                            Score: question.Score,
+                            ComparatorValue: comparatorFactory.GetScoreItemComparator(question.Id),
+                            ComparatorColorCode: dataFactory.GetScoreColor(question.Score, comparatorFactory.GetScoreItemComparator(question.QuestionId))
+                        }
+                    });
+
+                    var QuestionScores = [];
+                    _.forEach(question.QuestionScores, function (item, key) {
+                        var tmpQesObj = _.extend({}, item, {
+                            scoreComparator: {
+                                Score: item.Score,
+                                ComparatorValue: comparatorFactory.GetScoreItemComparator(item.QuestionId),
+                                ComparatorColorCode: dataFactory.GetScoreColor(item.Score, comparatorFactory.GetScoreItemComparator(item.QuestionId))
+                            }
+                        });
+                        QuestionScores.push(tmpQesObj);
+                    });
+
+                    //var resObj = _.assign({}, groupObj, {QuestionScores: QuestionScores});
+                    //console.log(resObj);
+                    return _.assign({}, groupObj, {QuestionScores: QuestionScores});
+                };
+
+                /**
+                 * calculate Full Scorecard container width
+                 * @param generalSurveyColl
+                 * @param triggerSurveyColl
+                 */
+                function calculateFullScorecardContainerWidth(generalSurveyColl, triggerSurveyColl) {
+                    var gen = generalSurveyColl.length;
+                    var trig = triggerSurveyColl.length;
+                    var contentWidth = 0;
+                    if (gen >= trig) {
+                        contentWidth = (298 * gen) + (15 * (gen - 1)) + 20 + 'px';
+                    } else {
+                        contentWidth = (298 * trig) + (15 * (trig - 1)) + 20 + 'px';
+                    }
+                    //$('div#general-survey-wrapper,div#trigger-survey-wrapper').css({
+                    $('div.general-survey-wrapper,div.trigger-survey-wrapper').css({
+                        width: contentWidth.toString()
+                    });
+                };
+
+                function prepareSurveyHeaderData(surveyType, title, serviceAreaCollection) {
+                    var surveyTypeTitle = "";
+                    var tmpCollection = {};
+                    if (surveyType === "general") {
+                        surveyTypeTitle = "GENERAL SURVEYS";
+                        tmpCollection = _.filter(serviceAreaCollection, function (n) {
+                            return n.Id === 'OS';
+                        });
+                    } else if (surveyType === "ticket") {
+                        surveyTypeTitle = "TICKETS";
+                        tmpCollection = _.filter(serviceAreaCollection, function (n) {
+                            return n.Id === 'TCK' || n.Id === 'SES';
+                        });
+                    }
+
+                    //var tmpCollection = _.filter(serviceAreaCollection, function (n) {
+                    //    return n.Id === 'OS';
+                    //});
+                    //var tmp = _.extend({},
+                    //    { scoreComparator: {
+                    //        Score: tmpCollection[0].Score,
+                    //        ComparatorValue: comparatorFactory.GetScoreItemComparator(tmpCollection[0].Id),
+                    //        ComparatorColorCode: dataFactory.GetScoreColor(tmpCollection[0].Score, comparatorFactory.GetScoreItemComparator(tmpCollection[0].QuestionId))
+                    //        },
+                    //        surveyType:surveyType,
+                    //        title:title
+                    //    });
+
+                    return {
+                        scoreComparator: {
+                            Score: tmpCollection[0].Score,
+                            ComparatorValue: comparatorFactory.GetScoreItemComparator(tmpCollection[0].Id),
+                            ComparatorColorCode: dataFactory.GetScoreColor(tmpCollection[0].Score, comparatorFactory.GetScoreItemComparator(tmpCollection[0].QuestionId))
+                        },
+                        surveyType: surveyTypeTitle,
+                        title: title
+                    };
+                    // return tmp;
+                }
+
+            }]);
+});
+

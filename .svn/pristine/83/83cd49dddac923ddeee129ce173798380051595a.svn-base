@@ -1,0 +1,71 @@
+.ratio-label{
+  color: #FFFFFF;
+}
+.ratioContainer{
+  width: auto;
+  margin-left: 5px;
+}
+.ratioLabelContainer{
+  float: left;
+}
+.negative-ratio{
+  color: #e33833;
+  float:left;
+  width: 12px;
+  height: 18px;
+  margin-left:5px;
+}
+.positive-ratio{
+  color: #4bac4b;
+  float:left;
+  width: 12px;
+  height: 18px;
+}
+.marginLeft{
+  margin-left: 5px;
+}
+.fractionWrapper{
+  float: left;
+}
+.fractionContainer{
+  position: relative;
+}
+#clipUserIcon1{
+  position: absolute;
+  clip: rect(0, 2px, 18px, 0);
+}
+#clipUserIcon2{
+  position: absolute;
+  clip: rect(0, 3px, 18px, 0);
+}
+#clipUserIcon3{
+  position: absolute;
+  clip: rect(0, 4px, 18px, 0);
+}
+#clipUserIcon4{
+  position: absolute;
+  clip: rect(0, 5px, 18px, 0);
+}
+#clipUserIcon5{
+  position: absolute;
+  clip: rect(0, 6px, 18px, 0);
+}
+#clipUserIcon6{
+  position: absolute;
+  clip: rect(0, 7px, 18px, 0);
+}
+#clipUserIcon7{
+  position: absolute;
+  clip: rect(0, 8px, 18px, 0);
+}
+#clipUserIcon8{
+  position: absolute;
+  clip: rect(0, 9px, 18px, 0);
+}
+#clipUserIcon9{
+  position: absolute;
+  clip: rect(0, 10px, 18px, 0);
+}
+.fa{
+  font-size: 14px;
+}

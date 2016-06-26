@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="Views/CustomerSettings/SiteClustering/SiteClusteringTemplate.css"/>
+<div class="site-clustering-container" ng-controller="siteClusteringController">
+    <span class="template-header">
+        SITE CLUSTERING
+    </span>
+    <div class="table-container">
+        <table st-table="siteClusteringCollection" st-safe-src="rowCollection"  id="smartTable" class="table">
+            <thead>
+                <tr>
+                    <th class="name-column" st-sort="ClusterName" st-sort-default="regular">CLUSTER<i st-sort="ClusterName"/></span></th>
+                    <th class="latitude-column" st-sort="Lat">LATITUDE<i st-sort="Lat"></i></th>
+                    <th class="longitude-column" st-sort="Lon">LONGITUDE<i st-sort="Lon"></i></th>
+                    <th class="mapped-value-column">SITES</th>
+                    <th class="operation-column"></th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="site in siteClusteringCollection"
+                ng-mouseleave="rowMouseOut_Handler(site)"
+                ng-mouseover="rowHover_Handler(site)">
+                <td class="name-column"><span>{{site.ClusterName}}</span></td>
+                <td class="latitude-column"><span>{{site.Lat}}</span></td>
+                <td class="longitude-column"><span>{{site.Lon}}</span></td>
+                <td class="mapped-column-value">
+                    <div class="mapped-value-item" ng-repeat="mapValue in site.Sites">
+                        <span style="font-size: 10px; background-color: #ddddde;">{{mapValue.SiteName}}</span>
+                    </div>
+
+                    <!--<button class="btn-edit" ng-class="{invisible:regionMapping.isEditDeleteHide}">Edit</button>-->
+                    <!--<span ng-class="{invisible:regionMapping.isEditDeleteHide}" class="fa fa-times"></span>-->
+                </td>
+                <td class="operation-column">
+                    <button class="btn-edit" ng-hide="site.isEditDeleteHide"
+                            ng-click="editCluster(site)">Edit</button>
+                    <span ng-hide="site.isEditDeleteHide" class="fa fa-times"
+                              ng-click="deleteCluster(site)"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="footer-container-div">
+        <button class="left-align btn-add-cluster" ng-click="addCluster()"><i class="fa fa-plus-circle"/> <span>ADD CLUSTER</span></button>
+    </div>
+    <action-confirmation-alert-dialog show='modalShown' message="message"
+                                      confirm-ok="confirmDelete()"
+                                      info='modalShown' width='262px' height='20%'>
+    </action-confirmation-alert-dialog>
+    <action-add-edit-site-mapping show="addEditModalShown" data="mappedData" selected-data="selectedData"
+                                    customer="selectedCustomer" ng-if="addEditModalShown"
+                                    window-close-listener="addEditWindowClose()" is-edit="isEditMode"
+                                    info='addEditModalShown' width='480px' >
+    </action-add-edit-site-mapping>
+</div>

@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="Views/List/ngtable/ng-table.css"/>
+<link rel="stylesheet" href="Views/List/listview.css"/>
+<div class="container lisview-container">
+    <div class="row" ng-controller="listViewController">
+        <div class="table-responsive">
+            <table ng-table="tableParams" class="table" id="tbl">
+                <!--$data wrap in getData internal method.should use as items data scource. it's equivalent as contain vm.myValues data-->
+                <tr ng-repeat="user in $data">
+                    <td data-title="'Name'" sortable="'name'">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img style="float: left;width:20px;height: 24px;margin-right: 10px;"
+                                     src="Content/images/geo-attribute-default-icon.png"/>
+                                <span id="name">{{user.name}}</span>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td data-title="'Score'" sortable="'score.score'">
+                        <scorebar score="user.score.score"></scorebar>
+                    </td>
+                    <td data-title="'Questions'">
+                        <ul ng-repeat="q in user.questionScores" style="display: inline;padding: 0px;margin: 0px">
+                            <li class="horizontal">
+                                <questionscore score="q.score"></questionscore>
+                            </li>
+                        </ul>
+                    </td>
+                    <td data-title="'Age'" sortable="'age'" width="100px">
+                        {{user.age}}
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>

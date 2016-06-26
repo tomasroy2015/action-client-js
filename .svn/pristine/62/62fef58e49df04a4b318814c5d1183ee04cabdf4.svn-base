@@ -1,0 +1,18 @@
+/**
+ * Created by Shahin on 3/18/2015.
+ */
+(function() {
+    'use strict';
+
+    angular.module(AppModule().MAIN_MODULE)
+        .constant("appSettings" , {
+            //apiUrl  : 'http://localhost:8080/api/' ,
+            //apiPort : '8080'
+
+            apiUrl  : 'http://192.168.255.40/actionhtml5/api/' ,
+            //apiUrl  : 'http://localhost:6424/' ,
+            apiPort : '8080'
+        });
+})();
+
+

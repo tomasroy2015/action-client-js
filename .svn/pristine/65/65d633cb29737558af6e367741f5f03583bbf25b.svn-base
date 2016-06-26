@@ -1,0 +1,296 @@
+<link rel="stylesheet" href="Views/LeftMenu/LeftMenuTemplate.css"/>
+<div ng-controller="leftMenuController" class="left-menu-main-container">
+    <div class="menu-component-container"><!-- company logo section -->
+    <div id="logoContainer" class="logo-container">
+        <img class="logo" src="{{logoUrl}}"/>
+    </div>
+    <!-- Dataset selection section -->
+    <div class="dataset-container">
+        <div class="expand-collapse-label" ng-class="{'ds-collasped-panel-bottom-border':datasetIsCollapsed}"
+             ng-click="datasetSelectionExapansion()">
+            <i aria-hidden="true"
+               ng-class="{'fa fa-play': datasetIsCollapsed, 'fa fa-play fa-rotate-90': !datasetIsCollapsed}"></i> DATA
+            SET
+        </div>
+        <div collapse="datasetIsCollapsed" class="dataset-selection-container">
+            <!--<div class="questionListItem">Data-may</div>-->
+            <div id="dataset-selection" class="dataset-selection"
+                 ng-click="datasetSelected_Handler()">
+                <div id="dataset-info">
+                    <span>{{datasetName}}</span><br>
+                    <span>{{datasetDaterange}}</span>
+                </div>
+            </div>
+        </div>
+
+
+        <!--<div class="modal fade" id="datasetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"-->
+        <!--aria-hidden="true">-->
+        <!--<div class="modal-dialog">-->
+        <!--<div class="modal-content">-->
+        <!--<div class="modal-header">-->
+        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+        <!--<h4 class="modal-title" id="myModalLabel">Change dataset</h4>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+        <!--<action-data-set-accordion data="selectedDataset"></action-data-set-accordion>-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
+    <!-- Data filter accordion section -->
+    <div class="data-filter-accordion-container">
+        <div class="expand-collapse-label"
+             ng-click="expandCollapsedDataFilterPanel()">
+            <i aria-hidden="true"
+               ng-class="{'fa fa-play': isdatafilterCollapsed, 'fa fa-play fa-rotate-90': !isdatafilterCollapsed}"></i>
+            DATA FILTERS
+        </div>
+        <div collapse="isdatafilterCollapsed">
+            <action-data-filter-accordion data="categorizedAttributeColl"></action-data-filter-accordion>
+        </div>
+        <div ng-class="{'collapsible-panel-container-for-df':isdatafilterCollapsed}"></div>
+    </div>
+    <!--<div class="ac-collasped-panel" ng-click="isCollapsed = !isCollapsed">-->
+    <!--<i aria-hidden="true"-->
+    <!--ng-class="{'glyphicon glyphicon-chevron-right': isCollapsed, 'glyphicon glyphicon-chevron-down': !isCollapsed}"></i>-->
+    <!--DATA FILTERS-->
+    <!--</div>-->
+    <!--<div collapse="isCollapsed">-->
+    <!--<action-data-filter-accordion data="categorizedAttributeColl"></action-data-filter-accordion>-->
+    <!--</div>-->
+
+    <!-- Service area button section -->
+    <div class="service-area-container">
+        <span>SCORES (%)</span>
+        <action-service-area id="generalSurvey" item-click="itemClicked(selectedItem)"
+                             data="generalSurveyCollection"></action-service-area>
+        <div class="service-area-gap"></div>
+        <action-service-area id="triggerSurvey" item-click="itemClicked(selectedItem)"
+                             data="triggerSurveyCollection"></action-service-area>
+    </div>
+    <!-- Service area questions button section -->
+    <div class="service-area-questions-container">
+        <ul class="question" id="selectabl">
+            <li ng-repeat="q in combinedScoreDataCollection track by $index" id="question-{{$index}}"
+                data-ng-click="questionSelection_Handler($index)" onclick="questionSelection_Handler(this)"
+                class="questionListItem">
+                <div class="questionListItemDiv" id="div-{{$index}}" onclick="divSelection_Handler(this)">
+                    <action-service-area-question score="q.Score" question="q"></action-service-area-question>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!-- Full scorecard button section -->
+    <div class="full-scorecard-btn-container">
+        <button type="button" class="btn ac-btn-full-scorecard" data-toggle="button">
+            View full scorecard <i class="fa fa-play-circle circle-arrow-size-2x"></i>
+        </button>
+    </div>
+
+    <!-- evaluation button section -->
+    <div class="left-menu-btn-container">
+        <div class="expand-collapse-label" ng-class="{'collapsible-panel-container':evaluationIsCollapsed}"
+             ng-click="evaluationSectionExapansion()">
+            <i aria-hidden="true"
+               ng-class="{'fa fa-play': evaluationIsCollapsed, 'fa fa-play fa-rotate-90': !evaluationIsCollapsed}"></i>
+            INDIVIDUAL EVALUATIONS
+        </div>
+        <div collapse="evaluationIsCollapsed" class="btn-holder">
+            <div id="btn-evaluation" class="btn-arrow-left-menu" ng-click="evaluationBtn_Handler()">
+                Evaluations
+            </div>
+        </div>
+    </div>
+    <!-- Settings button section -->
+    <div class="left-menu-btn-container settings-panel">
+        <div class="expand-collapse-label" ng-class="{'collapsible-panel-container':settingsIsCollapsed}"
+             ng-click="settingsSectionExapansion()">
+            <i aria-hidden="true"
+               ng-class="{'fa fa-play': settingsIsCollapsed, 'fa fa-play fa-rotate-90': !settingsIsCollapsed}"></i>
+            SETTINGS
+        </div>
+        <div collapse="settingsIsCollapsed" class="btn-holder">
+
+            <div class="compare-with-container">
+                <label id="lblCompareWith">Compare with</label>
+
+                <div id="btn-compare-with" class="btn-arrow-left-menu" ng-click="compareWithBtn_Handler($event)">
+                    {{comparatorSettings.GetSelectedComparatorName()}}
+                </div>
+            </div>
+
+            <div class="threshold-container">
+                <label id="lblThreshold">Respondent threshold</label>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Site:0, Country:0
+                    </label>
+                </div>
+            </div>
+
+            <div class="more-settings-btn-container">
+                <button type="button" class="btn btn-more-settings" data-toggle="button" ng-click="moreSettingsBtn_Handler($event)">
+                    More settings <i class="fa fa-play-circle circle-arrow-size-2x"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <!--<div class="modal" id="compareWithSettingsContainer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2"-->
+        <!--aria-hidden="true">-->
+        <!--<div class="modal-dialog">-->
+        <!--<div class="modal-content">-->
+        <!--<div class="modal-header">-->
+        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+        <!--<h4 class="modal-title" id="myModalLabel2">Compare with value</h4>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+        <!--<action-compare-with-settings id="compareWithSettings"></action-compare-with-settings>-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
+
+    <!-- Activity Logs section -->
+    <div class="left-menu-btn-container log-panel">
+        <div class="expand-collapse-label" ng-class="{'collapsible-panel-container':logsPanelIsCollapsed}"
+             ng-click="activityLogSectionExapansion()">
+            <i aria-hidden="true"
+               ng-class="{'fa fa-play': logsPanelIsCollapsed, 'fa fa-play fa-rotate-90': !logsPanelIsCollapsed}"></i>
+            LOGS
+        </div>
+        <div collapse="logsPanelIsCollapsed" class="btn-holder">
+            <div id="btn-activity-log" class="btn-arrow-left-menu" ng-click="activityLogBtn_Handler()">
+                Activity logs
+            </div>
+        </div>
+    </div>
+
+    <div class="arrow"></div></div>
+    <!-- Custom javascript section -->
+    <script type="text/javascript">
+        function questionSelection_Handler(ele) {
+            var id = "#" + ele.id;
+            $(id).addClass('selectedQuestionItem').siblings().removeClass('selectedQuestionItem');
+
+            var selectableDom = document.getElementById("selectable");
+            var questionPrefix = "question-";
+            var selectedQuestionNumber = ele.id.substr(questionPrefix.length);
+            var divItems = selectableDom.getElementsByTagName("li");
+
+            var innerDivIdColl = [];
+            for (var i = 0; i < divItems.length; i++) {
+                innerDivIdColl[i] = "#div-" + i;
+                if (i == selectedQuestionNumber) {
+                    $(innerDivIdColl[i]).addClass('selectedQuestionListItemDiv').removeClass('questionListItemDiv');
+                }
+                else {
+                    $(innerDivIdColl[i]).addClass('questionListItemDiv').removeClass('selectedQuestionListItemDiv');
+                }
+            }
+            // updateQuestionItemsCSSClass(ele.id);
+        }
+        ;
+
+        function divSelection_Handler(ele) {
+            var id = "#" + ele.id;
+            $(id).addClass('selectedQuestionListItemDiv').removeClass('questionListItemDiv');
+        }
+
+        function updateQuestionItemsCSSClass(selectedId) {
+            var selectableDom = document.getElementById("selectable");
+            var questionPrefix = "question-";
+            var selectedQuestionNumber = selectedId.substr(questionPrefix.length);
+            var divItems = selectableDom.getElementsByTagName("li");
+
+            var innerDivIdColl = [];
+            for (var i = 0; i < divItems.length; i++) {
+                innerDivIdColl[i] = "#div-" + i;
+                if (i == selectedQuestionNumber) {
+                    $(innerDivIdColl[i]).addClass('selectedQuestionListItemDiv').removeClass('questionListItemDiv');
+                }
+                else {
+                    $(innerDivIdColl[i]).addClass('questionListItemDiv').removeClass('selectedQuestionListItemDiv');
+                }
+                console.log("div id: " + innerDivIdColl[i]);
+            }
+        }
+
+        /*=====================================================
+         Sliding in / out functionality section
+         ======================================================*/
+        /* Dataset selection */
+//                var isDatasetSelectionWindowSlideIn = false;
+        //        $("#dataset-selection").click(function () {
+        //            var topPadding = 45;
+        //            /*position - component height - offset */
+        //
+        //            $('#datsetContainer.slide-out').css('top', topPadding + 'px');
+        //
+        //            isDatasetSelectionWindowSlideIn = !isDatasetSelectionWindowSlideIn;
+        //            if (isDatasetSelectionWindowSlideIn) {
+        //                $('#datsetContainer.slide-out').animate({left: 253}, 500, "linear");
+        //            }
+        //            else {
+        //                $('#datsetContainer.slide-out').animate({left: -253}, 500, "linear");
+        //            }
+        //        });
+
+        /* Settings target selection */
+//        var isSettingsTargetWindowSlideIn = false;
+//        $("#btn-compare-with").click(function (e) {
+//
+//            var topPadding = e.pageY - 215 - 100;
+//            /* position - component height - offset */
+//
+//            $('#compareWithSettingsContainer.slide-out').css('top', topPadding + 'px');
+//
+//            isSettingsTargetWindowSlideIn = !isSettingsTargetWindowSlideIn;
+//            if (isSettingsTargetWindowSlideIn) {
+//                $('#compareWithSettingsContainer.slide-out').animate({left: 253}, 500, "linear");
+//            }
+//            else {
+//                $('#compareWithSettingsContainer.slide-out').animate({left: -253}, 500, "linear");
+//            }
+//        });
+
+        /* Full scorecard section */
+//        var isFullScorecardWindowSlideIn = false;
+//        var containerWidth;
+//        $(".ac-btn-full-scorecard").click(function (e) {
+////            var topPadding = e.pageY - 280;
+//            var topPadding = 50;
+//            containerWidth = $('#fullScorecardWindowContainer').width();
+//            console.log(containerWidth);
+//
+//            $('#fullScorecardWindowContainer.slide-out').css('top', topPadding + 'px');
+//
+//            isFullScorecardWindowSlideIn = !isFullScorecardWindowSlideIn;
+//            if (isFullScorecardWindowSlideIn) {
+//
+//                $('#fullScorecardWindowContainer.slide-out').animate({left: 253}, 500, "linear");
+//            }
+//            else {
+//                $('#fullScorecardWindowContainer.slide-out').animate({left: -containerWidth - 253}, 500, "linear");
+//            }
+//        });
+//
+//        $("#fullScorecardWindowContainer .close-slide-in").click(function () {
+//            isFullScorecardWindowSlideIn = false;
+//            $('.full-scorecard-btn-container .ac-btn-full-scorecard').removeClass('active');
+//            $('#fullScorecardWindowContainer.slide-out').animate({left: -containerWidth - 253}, 500, "linear");
+//        });
+    </script>
+
+</div>
+

@@ -1,0 +1,20 @@
+"use strict";
+
+define(['application-configuration', 'd3','topojson','d3Map','dataFactory'], function (app) {
+
+    app.register.controller('mapViewController', ['$document', '$scope','dataFactory','Notify', function ($document,$scope,dataFactory,Notify) {
+
+      //  $scope.title = "MapCtrl";
+        $scope.d3Data = dataFactory.CountryaScoreDataCollection();
+        $scope.d3ServiceId = dataFactory.SelectedServiceAreaId();
+
+        //$scope.$watch(dataFactory.SelectedServiceAreaId(), function(){
+        //    console.log("Map data changed")
+        //});
+        $scope.$on(Notify.SERVICE_AREA_CHANGED, function () {
+            console.log("Map data changed");
+            $scope.d3ServiceId = dataFactory.SelectedServiceAreaId();
+        });
+    }]);
+
+});

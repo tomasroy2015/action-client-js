@@ -1,0 +1,37 @@
+"use strict";
+define(['application-configuration','lodash'], function (app) {
+    app.register.directive('actionAddPredefinedCountryValue',['customerSettingsFactory','Notify',
+        function (customerSettingsFactory,Notify) {
+            return {
+                restrict: 'E',
+                scope: {
+                    show: '=info',
+                    message:'=',
+                    windowCloseListener:'&',
+                    customer:'='
+                },
+                link:function (scope, el, attrs) {
+                    scope.CountryValue = "";
+                    scope.isOkbtnClicked = false;
+                    scope.hideModal = function() {
+                        scope.show = false;
+                        scope.windowCloseListener();
+                    };
+                    scope.addPredefinedValue = function(){
+                        scope.isOkbtnClicked = false;
+                        if (scope.countryValueForm.$valid) {
+                            var predefinedCountry = {
+                                CustomerId:scope.customer.CustomerId,
+                                CountryValue:scope.CountryValue
+                            };
+                            var attrRoute = "/" + scope.customer.SessionId + "/" + scope.customer.CustomerId;
+                            customerSettingsFactory.AddPredefinedCountryValue(predefinedCountry,attrRoute);
+                            scope.hideModal();
+                        }
+                    };
+                },
+                templateUrl: 'Views/CustomerSettings/CountryMapping/PredefinedCountryValueTemplate.html'
+            };
+        }]);
+
+});

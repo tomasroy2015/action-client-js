@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="Views/Header/Header.tpl.css"/>
+
+<!-- Tab container -->
+<div role="tabpanel" class="tab-panel-container">
+    <ul id="myTab" class="nav nav-tabs" role="tablist">
+        <li><a href="#worldMap" aria-controls="worldMap" role="tab" data-toggle="tab">Map</a></li>
+        <li><a href="#list" aria-controls="list" role="tab" data-toggle="tab">List</a></li>
+        <li><a href="#sentiment" aria-controls="sentiment" role="tab"
+               data-toggle="tab">Sentiment</a></li>
+    </ul>
+    <script type="text/javascript">
+        $('#myTab a:first').tab('show');
+        $('#myTab a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        })
+    </script>
+</div>
+
+<!-- Logout btn -->
+<div id="logout">
+    <button type="submit" class="btn btn-success btn-sm" data-ng-click="logOutEvent()">Log out</button>
+</div>

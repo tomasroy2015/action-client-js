@@ -1,0 +1,143 @@
+<link rel="stylesheet" href="Views/LeftMenu/LeftMenuTemplate.css"/>
+<div ng-controller="leftMenuController" class="left-menu-main-container">
+    <div class="menu-component-container">
+        <!-- company logo section -->
+        <div id="logoContainer" class="logo-container">
+            <img class="logo" ng-src="{{logoUrl}}" alt="logo"/>
+        </div>
+        <div class="up-button-container">
+            <span class="btn-up-scroll" ng-show="isShowScrollBtn">
+            <i aria-hidden="true"
+               class="fa fa-play fa-rotate-270 up-icon"></i>
+            </span>
+        </div>
+        <div class="left-menu-scroll-container" action-vertical-scrollbar-check>
+            <!-- Dataset selection section -->
+            <div class="dataset-container">
+                <div class="expand-collapse-label" ng-class="{'ds-collasped-panel-bottom-border':datasetIsCollapsed}"
+                     ng-click="datasetSelectionExapansion()">
+                    <i aria-hidden="true"
+                       ng-class="{'fa fa-play': datasetIsCollapsed, 'fa fa-play fa-rotate-90': !datasetIsCollapsed}"></i>
+                    DATA
+                    SET
+                </div>
+                <div collapse="datasetIsCollapsed" class="dataset-selection-container">
+                    <!--<div class="questionListItem">Data-may</div>-->
+                    <div id="dataset-selection" class="dataset-selection"
+                         ng-click="datasetSelected_Handler()">
+                        <div id="dataset-info">
+                            <span>{{datasetName}}</span><br>
+                            <span>{{datasetDaterange}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Data filter accordion section -->
+            <div class="data-filter-accordion-container">
+                <div class="expand-collapse-label"
+                     ng-click="expandCollapsedDataFilterPanel()">
+                    <i aria-hidden="true"
+                       ng-class="{'fa fa-play': isdatafilterCollapsed, 'fa fa-play fa-rotate-90': !isdatafilterCollapsed}"></i>
+                    DATA FILTERS
+                </div>
+                <div collapse="isdatafilterCollapsed">
+                    <action-data-filter-accordion data="categorizedAttributeColl"
+                                                  control="DataFilterControl"
+                                                  attribute-clicked="onAttibuteClicked"></action-data-filter-accordion>
+                </div>
+                <div ng-class="{'collapsible-panel-container-for-df':isdatafilterCollapsed}"></div>
+            </div>
+
+            <div class="service-area-score-box-container">
+                <action-service-area-score-box></action-service-area-score-box>
+            </div>
+            <!-- Full scorecard button section -->
+            <div class="full-scorecard-btn-container">
+                <button type="button" class="btn ac-btn-full-scorecard" data-toggle="button">
+                    View full scorecard <i class="fa fa-play-circle circle-arrow-size-2x"></i>
+                </button>
+            </div>
+
+            <!-- evaluation button section -->
+            <div class="left-menu-btn-container">
+                <div class="expand-collapse-label" ng-class="{'collapsible-panel-container':evaluationIsCollapsed}"
+                     ng-click="evaluationSectionExapansion()">
+                    <i aria-hidden="true"
+                       ng-class="{'fa fa-play': evaluationIsCollapsed, 'fa fa-play fa-rotate-90': !evaluationIsCollapsed}"></i>
+                    INDIVIDUAL EVALUATIONS
+                </div>
+                <div collapse="evaluationIsCollapsed" class="btn-holder">
+                    <div id="btn-evaluation" class="btn-arrow-left-menu" ng-click="evaluationBtn_Handler($event)"
+                         action-evaluation-btn-disabled="IsEvaluationBtnDisabled">
+                        Evaluations <span ng-if="!IsEvaluationBtnDisabled">({{noOfRespondent}})</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Settings button section -->
+            <div class="left-menu-btn-container settings-panel">
+                <div class="expand-collapse-label" ng-class="{'collapsible-panel-container':settingsIsCollapsed}"
+                     ng-click="settingsSectionExapansion()">
+                    <i aria-hidden="true"
+                       ng-class="{'fa fa-play': settingsIsCollapsed, 'fa fa-play fa-rotate-90': !settingsIsCollapsed}"></i>
+                    SETTINGS
+                </div>
+                <div collapse="settingsIsCollapsed" class="btn-holder">
+
+                    <div class="compare-with-container">
+                        <label id="lblCompareWith">Compare with</label>
+
+                        <div id="btn-compare-with" class="btn-arrow-left-menu"
+                             ng-click="compareWithBtn_Handler($event)">
+                            {{comparatorSettings.GetSelectedComparatorName()}}
+                        </div>
+                    </div>
+
+                    <div class="threshold-container">
+                        <label id="lblThreshold">Respondent threshold</label>
+
+                        <div class="checkbox threshold-checkbox">
+                            <label for="threshold-check">
+                                <input id="threshold-check" type="checkbox">
+                                Site:{{moreSettings.GetMinimumResponseForSite()}},
+                                Country:{{moreSettings.GetMinimumResponseForCountry()}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="more-settings-btn-container">
+                        <button type="button" class="btn btn-more-settings" data-toggle="button"
+                                ng-click="moreSettingsBtn_Handler($event)">
+                            More settings <i class="fa fa-play-circle circle-arrow-size-2x"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Activity Logs section -->
+            <div ng-show="isActivityLogEnable" class="left-menu-btn-container log-panel">
+                <div class="expand-collapse-label" ng-class="{'collapsible-panel-container':logsPanelIsCollapsed}"
+                     ng-click="activityLogSectionExapansion()">
+                    <i aria-hidden="true"
+                       ng-class="{'fa fa-play': logsPanelIsCollapsed, 'fa fa-play fa-rotate-90': !logsPanelIsCollapsed}"></i>
+                    LOGS
+                </div>
+                <div collapse="logsPanelIsCollapsed" class="btn-holder">
+                    <div id="btn-activity-log" class="btn-arrow-left-menu" ng-click="activityLogBtn_Handler()">
+                        Activity logs
+                    </div>
+                </div>
+            </div>
+            <!-- log-panel -->
+        </div>
+        <div class="down-button-container">
+             <span class="btn-down-scroll" ng-show="isShowScrollBtn">
+            <i aria-hidden="true"
+               class="fa fa-play fa-rotate-90 down-icon"></i>
+             </span>
+        </div>
+    </div>
+    <!-- menu-component-container -->
+</div>
+

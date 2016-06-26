@@ -1,0 +1,8 @@
+<link rel="stylesheet" href="Views/Shared/CSS/CustomCheckboxTemplate.css"/>
+<div class="action-checkbox-wrapper">
+    <div class="action-checkbox" ng-click="isCheckedState = !isCheckedState">
+        <div class="action-checkMarked" ng-if="isCheckedState"></div>
+    </div>
+    <span class="action-checkbox-label" ng-click="isCheckedState = !isCheckedState">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{label}}</span>
+    <!--ng-mouseover="onCheckboxLabelHover()" ng-mouseleave="onCheckboxLabelMouseOut()"-->
+</div>

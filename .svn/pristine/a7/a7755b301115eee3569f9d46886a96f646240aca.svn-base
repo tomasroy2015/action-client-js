@@ -1,0 +1,170 @@
+/* All external import files
+======================================================*/
+div.service-area-questions-container {
+  margin-right: 0px;
+  width: 235px;
+  /*question item width in left panel.total background width of a item*/
+  margin-top: 10px;
+  padding-left: 0px;
+}
+
+/*Question hover arrow style  */
+ul.question {
+  display: table;
+  width: 100%;
+  /*94% need to check from this line */
+  padding: 0px;
+  margin: 0px;
+  position: relative;
+  width: 225px;
+}
+ul.question li.questionListItem {
+  display: block;
+  height: 24px;
+  position: relative;
+  padding: 0px;
+  text-align: center;
+  width: 235px;
+}
+ul.question li.questionListItem:not(.selectedQuestionListItemDiv):hover {
+  background-color: #ddddde;
+  cursor: pointer;
+}
+ul.question li.questionListItem:not(.selectedQuestionListItemDiv):hover:after {
+  top: 0;
+  content: "";
+  position: absolute;
+  right: -12px;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid #ddddde;
+  z-index: 100;
+  right: -11px;
+}
+ul.question .questionListItemDiv {
+  position: relative;
+  line-height: 24px;
+  /* equal to the list item's height */
+  height: 100%;
+  width: 235px;
+}
+
+ul.question > li[data-questiontype='group'] {
+  width: 235px;
+  background: #ddddde;
+  font-weight: bold;
+}
+
+.topGroupContainer {
+  margin-bottom: 15px;
+}
+
+.bottomGroupContainer {
+  margin-top: 15px;
+}
+
+/*list item style*/
+.questionContainerDiv {
+  padding-left: 5px;
+  margin: 0;
+  width: 100%;
+  float: left;
+  height: 24px;
+  font-size: 11px;
+}
+
+.questionLabelDiv {
+  text-align: left;
+  margin-top: 0px;
+  width: 120px;
+  float: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  top: 0;
+  margin-right: 3px;
+  padding-left: 0px;
+}
+
+.question-score-bar {
+  margin-top: 0px;
+  width: 98px;
+  display: inline-block;
+  float: left;
+  top: 0;
+  font-weight: bold;
+}
+
+.scoreContainer {
+  height: 24px;
+  width: 95px;
+  float: left;
+}
+
+.questionScorebar {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: auto;
+  display: block;
+  float: left;
+  top: 5px;
+}
+
+.questionText {
+  color: #000000;
+}
+
+ul li {
+  list-style: none;
+}
+
+/*
+.questionContainerDiv {
+  width: 235px;
+  background: #ddddde;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+
+data-questionType="{{itemData.IsGroup  ? 'group' : ''}}"
+ul.question li[data-questionType='group'].selectedQuestionItem{
+  background:transparent;
+}*/
+ul.question > li[data-questiontype='group']:first-child {
+  margin-top: 0;
+}
+
+/*start*/
+.selectedQuestionListItemDiv {
+  cursor: pointer;
+  background-color: #FFED00;
+  position: relative;
+  line-height: 24px;
+  /* equal to the list item's height */
+  height: 100%;
+  width: 225px;
+}
+.selectedQuestionListItemDiv:hover {
+  background-color: #FFED00;
+  cursor: pointer;
+}
+.selectedQuestionListItemDiv:hover:after {
+  top: 0;
+  content: "";
+  position: absolute;
+  right: -12px;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid #FFED00;
+  z-index: 100;
+  right: -11px;
+}
+
+div.clear {
+  clear: both;
+}
+
+/*# sourceMappingURL=ScoreBoxTemplate.css.map */

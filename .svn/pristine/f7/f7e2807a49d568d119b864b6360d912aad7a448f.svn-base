@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="Views/Header/HeaderTemplate.css"/>
+<div ng-controller="headerController">
+    <!--<div ng-model="data">-->
+        <!--<label class="service-area-name">SCORE {{  data.GetSelectedQuestion() ? ": LABEL":""  }}</label>-->
+        <!--<label id="header-service-area-name" class="service-area-name service-area-bellow">{{data.GetSelectedServiceArea().Name | uppercase}} {{ data.GetSelectedQuestion() ? ": " + data.GetSelectedQuestion().Text :"" | uppercase }}</label>-->
+    <!--</div>-->
+    <!--<div>-->
+        <!--<label class="div-header-attribute-type">{{headerAttributeType}}</label>-->
+        <!--<label class="div-header-attribute-type div-header-attribute-value">{{headerAttributeValue}}</label>-->
+    <!--</div>-->
+    <div class="header-data-div">
+        <ul class="header-data-list-container">
+            <li class="header-data-list-item" ng-repeat="header in headerData">
+                <div class="div-header-attribute-type">{{header.Type}}</div>
+                <div class="div-header-attribute-value">
+                    <span class="header-name">{{header.Name}}</span>
+                    <div class="header-count-circle" ng-show="header.Count !== ''">
+                        <span>{{header.Count}}</span>
+                    </div>
+                    <div class="top-level-child-label-wrapper" ng-show="header.TopLevelChildren">
+                        <span class="header-name2">{{header.TopLevelChildren.Name}}</span>
+                        <div class="header-count-circle2" ng-show="header.TopLevelChildren && header.TopLevelChildren.Count > 1">
+                            <span>{{header.TopLevelChildren.Count}}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </li>
+        </ul>
+    </div>
+
+    <!-- Tab container -->
+    <div role="tabpanel" class="tab-panel-container">
+        <ul id="headerTab" class="nav nav-tabs" role="tablist">
+            <li><a href="#worldMap" aria-controls="worldMap" role="tab" ng-click="mapviewtab_clickHandler()" data-toggle="tab">Map</a></li>
+            <li><a href="#list" aria-controls="list" role="tab" ng-click="listviewtab_clickHandler()" data-toggle="tab">List</a></li>
+            <!--<li><a href="#sentiment" aria-controls="sentiment" role="tab"-->
+                   <!--data-toggle="tab">Sentiment</a></li>-->
+        </ul>
+        <script type="text/javascript">
+//            $('#headerTab a:first').tab('show');
+//            $('#headerTab a').click(function (e) {
+//                e.preventDefault()
+//                $(this).tab('show')
+//            })
+        </script>
+    </div>
+
+    <div id="topbarLogo" class="top-bar-logo">
+        <a href = "http://giarte.com/itsat/" target="_blank">
+            <img src="Content/images/giarte_topbar_logo.png"/>
+        </a>
+    </div>
+    
+    <!-- Back btn -->
+    <div class="btn-back" ng-if="IsLoginFromPentaho">
+        <a href="/pentaho/api/repos/%3Apublic%3AGiarte%3Amain.wcdf/generatedContent">
+            <i class="fa fa-arrow-left" ng-class="{'btn-back-left-arrow-pentaho-enduser':IsLoginFromPentaho && isEndUser}"></i>
+            <span class="lblBack"  ng-class="{'btn-back-lblBack-pentaho-enduser':IsLoginFromPentaho && isEndUser}">Back</span>
+        </a>
+    </div>
+    <div id="help" class="help-btn" ng-click="help_clickHandler()"
+         ng-class="{'help-btn-shift':isEndUser,'btn-help-right':IsLoginFromPentaho,'btn-help-pentaho-enduser':IsLoginFromPentaho && isEndUser }">
+        <span class = "header-font-size">Help</span>
+        <div class = "help-circle-container">
+            <div class="help-circle">
+                <i class="help-icon-size fa fa-question-circle"></i>
+                <!--<label id="questionMark" class="question-mark-text">?</label>-->
+            </div>
+        </div>
+    </div>
+    <!-- Logout btn -->
+    <div id="logout" ng-if="!IsLoginFromPentaho">
+        <div class="logout-container" ng-class="{'logout-shift-right':isEndUser}" data-ng-click="logOutEvent()">
+            <span class = "header-font-size">Log out</span>
+            <div class = "logout-right-arrow-container">
+                <i class="fa fa-play-circle logout-circle-arrow-size-2x"/>
+            </div>
+        </div>
+    </div>
+    <div id="settings" ng-hide="isEndUser" class="settings-logo">
+        <a class="app-settings" ng-click="settings_clickHandler($event)">
+              <!--<img id="setting-image" src="Content/images/settings-icon-white.png" height="15px"/>-->
+            <i  class="app-settings-icon fa fa-cog"></i>
+        </a>
+    </div>
+</div>

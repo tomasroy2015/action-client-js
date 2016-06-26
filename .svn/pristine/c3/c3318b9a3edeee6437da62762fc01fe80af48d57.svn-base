@@ -1,0 +1,113 @@
+<link href="Views/List/ViewByAttributeTemplate.css" rel="stylesheet">
+<div class="content white" id="viewByAttributeParentDiv">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/Main">View by </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="attributeItemsMainDIv">
+
+            <ul class="nav navbar-nav" id="atttibuteItemRoot">
+                <li class="dropdown">
+                    <a href="#/Main" id="selectedAttribute" class="dropdown-toggle" data-toggle="dropdown"><span>{{selectedAttribute}}</span> <b class="caret"></b></a>
+                    <ul class="dropdown-menu multi-column columns-2">
+                        <div class="row">
+                            <div  style="font-size: 18px;margin-left: 45px;padding-top: 14px;">
+                                <div class="viewby-label col-sm-6" style="display: inline;width: 100%;float: left">
+                                    <label style="padding-right: 4px !important;font-weight: normal !important;">View by</label>
+                                    <span style="font-weight: bold; color: #000000 !important;"> {{selectedAttribute}}</span><b class="view-by-attribute-open-caret"></b>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" id="attributeType1">
+                                <ul class="multi-column-dropdown"
+                                    ng-class="$index>1?'multi-column-dropdown-group-item-margin':'multi-column-dropdown'"
+                                    ng-repeat="item in attrItemCollection"  ng-init="parentIndex = $index" ng-if="$even">
+                                    <li class="attributeGroupItem">
+                                        <a style=" font-size: 12px !important;background-color: transparent !important;
+                                         text-transform: uppercase;" href="#/Main#">
+                                            {{item.groupName}}
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li  ng-repeat="grpItem in item.grpItems" class="attributeHoverEffect"
+                                         onclick="attributeItemSelection_Handler(this)"
+                                         ng-click="attributeItem_clickHandler(grpItem.Label)"
+                                         ng-class="getClass(grpItem.Label)"
+                                         id="type1-{{$parent.$index}}-{{$index}}">
+                                        <a href="#/Main">{{grpItem.Label}}({{grpItem.AttributeCount}})</a>
+                                    </li>
+                                </ul>
+                            </div>
+                             <div class="col-sm-6" id="attributeType2">
+                                 <ul class="multi-column-dropdown"
+                                     ng-class="$index>2?'multi-column-dropdown-group-item-margin':'multi-column-dropdown'"
+                                     ng-repeat="item in attrItemCollection" ng-init="parentIndex = $index" ng-if="$odd">
+                                     <li class="attributeGroupItem">
+                                         <a style="font-size: 12px !important; text-transform: uppercase;
+                                         background-color: transparent !important;" href="#/Main#">{{item.groupName}}</a></li>
+                                     <li class="divider"></li>
+                                     <li ng-repeat="grpItem in item.grpItems"
+                                         id="type2-{{$parent.$index}}-{{$index}}"
+                                         class="attributeHoverEffect"
+                                         ng-class="getClass(grpItem.Label)"
+                                         onclick="attributeItemSelection_Handler(this)"
+                                         ng-click="attributeItem_clickHandler(grpItem.Label)">
+
+                                       <a href="#/Main">{{grpItem.Label}}({{grpItem.AttributeCount}})</a>
+
+                                     </li>
+                                 </ul>
+                             </div>
+
+                        </div>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+        <!--Custom java script section -->
+        <script type="text/javascript">
+            function attributeItemSelection_Handler(ele){
+                var id="#"+ele.id;
+                $(id).addClass('selectedAttributeItem');
+                updateQuestionItemsCSSClass(ele);
+            }
+            function updateQuestionItemsCSSClass(ele) {
+                var list1 = document.getElementById("attributeType1");
+                var list2 = document.getElementById("attributeType2");
+
+                var listItems1 = list1.getElementsByTagName("li");
+                var listItems2 = list2.getElementsByTagName("li");
+
+                var finalList =[];
+                finalList[0]=listItems1;
+                finalList[1]=listItems2;
+
+                for(var i=0;i<finalList.length;i++)
+                {
+                    var list = finalList[i];
+
+                    for(var j=0;j<list.length;j++)
+                    {
+                      if( isAlreadySelectedClassApply(list[j].className) && (list[j].id!=ele.id))
+                        {
+                            $("#"+list[j].id).removeClass('selectedAttributeItem');
+                        }
+                       // console.log("selected:"+ele.id+" current id: "+list[j].id);
+                    }
+                }
+            }
+            function  isAlreadySelectedClassApply(itemClassNames)
+            {
+                var selectedClassName="selectedAttributeItem";
+                return itemClassNames.search(selectedClassName)> -1?true:false;
+            }
+
+        </script>

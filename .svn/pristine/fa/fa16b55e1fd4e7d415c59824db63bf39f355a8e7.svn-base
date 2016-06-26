@@ -1,0 +1,406 @@
+"use strict";
+define(['application-configuration','lodash'], function (app) {
+
+    app.register.directive('actionAttributeScoreSummary',['$timeout','Notify','moreSettingsFactory','dataFactory','attributeScoreSummaryData','appSettings',
+        function ($timeout,Notify,moreSettingsFactory,dataFactory,attributeScoreSummaryData,appSettings) {
+
+            return {
+                restrict: 'AE',
+                scope   : {
+                    fromView:"=",
+                    titleImage:"=",
+                    attributeIndex:"=",
+                    attributeValue:"=",
+                    evaluationDataCollection:"=",
+                    control:"="
+                },
+                link    : function (scope,el,attrs) {
+                    var selectedServiceAreaID = "";
+                    var serviceAreaViewScoreDataCollection = [];
+                    scope.colorSet = {};
+                    scope.ticketSummaryData = {};
+                    scope.scorecardSelected = true;
+                    scope.evaluationSelected = false;
+                    scope.isDetailsState = false;
+                    scope.isSummaryState = true;
+                    scope.isOSSelected = true;
+                    scope.isSESSelected = false;
+                    scope.isTCKSelected = false;
+                    scope.selectedAttributeQuestionId = "";
+                    scope.fullScorecardData = {};
+                    scope.attributeData = {};
+                    scope.QuestionScoreData = {};
+                    var isTranslationSelected = false;
+
+                    scope.control.openSummaryView = function(data){
+                        scope.attributeData = data;
+                        if(scope.fromView == "listview"){
+                            $('#list-view-summary').addClass('show-popup open-popup-animation').removeClass('hide-popup');
+                            $('#list-view-wrapper').css({"display":'block'});
+                        }else if(scope.fromView == "mapview"){
+                            $('#map-view-summary').addClass('show-popup open-popup-animation').removeClass('hide-popup');
+                        }
+                        selectedServiceAreaID = dataFactory.SelectedServiceAreaId();
+                        scope.selectedAttributeQuestionId = selectedServiceAreaID;
+                        serviceAreaViewScoreDataCollection = dataFactory.PrepareAttributeSeriveAreaViewScoreData(scope.attributeData.ServiceAreaScoreDataCollection);
+                        scope.attributeValue = scope.attributeData.Id;
+                        scope.summaryTitle = scope.attributeData.Name;
+                        scope.generalSurveyCollection = function(){
+                            return _.filter(dataFactory.ServiceAreaCollection(), function(n){
+                                return n.SurveyType == "GEN" || n.SurveyType == "NOG";
+                            });
+                        }();
+                        scope.triggerSurveyCollection =  function(){
+                            var tmp =  _.filter(dataFactory.ServiceAreaScoreDataCollection(), function(n){
+                                return n.SurveyType == "TCK";
+                            });
+                            return _.sortByOrder(tmp,"SortOrder",true);
+                        }();
+                        initializeScoreData();
+                    };
+                    function initializeScoreData(){
+                        var elem = "#"+el[0].parentElement.id;
+                        var selectedArrow = $(elem).find('#selected-summary-arrow');
+                        $(selectedArrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+                        scope.scorecardSelected = true;
+                        scope.evaluationSelected = false;
+                        setSelectedServiceArea(selectedServiceAreaID);
+                    }
+                    scope.scorecard_selected = function(evt){
+                        var elem = "#"+el[0].parentElement.id;
+                        var selectedArrow = $(elem).find('#selected-summary-arrow');
+                        $(selectedArrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+                        scope.scorecardSelected = true;
+                        scope.evaluationSelected = false;
+
+                        if(scope.isDetailsState){
+                            scope.fullScorecardData= dataFactory.preparedFullScorecardDataCollection(serviceAreaViewScoreDataCollection);
+                        }
+                        setSelectedServiceArea(selectedServiceAreaID);
+                    };
+                    scope.evaluation_selected = function(evt){
+                        var elem = "#"+el[0].parentElement.id;
+                        var selectedArrow = $(elem).find('#selected-summary-arrow');
+                        $(selectedArrow).addClass('evaluation-summary-arrow-selected').removeClass('score-summary-arrow-selected');
+                        if(scope.isSummaryState){
+                            scope.scorecardSelected = false;
+                            scope.evaluationSelected = true;
+                        }else{
+                            scope.scorecardSelected = false;
+                            scope.evaluationSelected = true;
+                            attributeScoreSummaryData.setSelectedView(el[0].id);
+                            var requestParam = {};
+                            requestParam = createEvaluationParameter(requestParam);
+                            dataFactory.GetAttributeEvaluations(requestParam);
+                        }
+                       setSelectedServiceArea(selectedServiceAreaID)
+                    };
+                    scope.questionItemClick = function (selectedQuestion) {
+                        scope.selectedAttributeQuestionId = selectedQuestion.QuestionId;
+                    };
+                    scope.questionItemDblClick = function (selectedQuestion){
+                        if(selectedQuestion.IsGroup || selectedQuestion.QuestionId.indexOf("_") >= 0)
+                            return;
+
+                        selectedQuestion.Id = selectedQuestion.QuestionId;
+                        setSelectedServiceArea(selectedQuestion.Id);
+                    };
+
+                    scope.close_summary = function(event){
+                        scope.ticketSummaryData = {};
+                        scope.scorecardSelected = true;
+                        scope.evaluationSelected = false;
+                        scope.isDetailsState = false;
+                        scope.isSummaryState = true;
+                        scope.isOSSelected = true;
+                        scope.isSESSelected = false;
+                        scope.isTCKSelected = false;
+
+                        if(scope.fromView == 'mapview'){
+                            $('#map-view-summary').addClass('hide-popup').removeClass('show-popup open-popup-animation');
+                            $('#map-view-summary').addClass('hide-popup').removeClass('show-popup');
+                            $('#map-view-summary').removeClass('expand-details').removeClass('collapse-details');
+
+                            var mapArrow = $('#map-view-summary').find('#selected-summary-arrow');
+                            $(mapArrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+
+                            var summayElement = $('#map-view-summary').find('#summary-service-area-container,#summary-container,#btn-view-details,#summary-popup-footer');
+                            $(summayElement).addClass('show-summary-content').removeClass('hide-summary-content');
+
+                        }else if(scope.fromView == 'listview'){
+                            $('#list-view-summary').addClass('hide-popup').removeClass('show-popup open-popup-animation');
+                            $('#list-view-summary').addClass('hide-popup').removeClass('show-popup');
+                            $('#list-view-summary').removeClass('expand-details').removeClass('collapse-details');
+
+                            var listArrow = $('#list-view-summary').find('#selected-summary-arrow');
+                            $(listArrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+                            $('#list-view-wrapper').css({"display":'none'});
+
+                            var summayElement = $('#list-view-summary').find('#summary-service-area-container,#summary-container,#btn-view-details,#summary-popup-footer');
+                            $(summayElement).addClass('show-summary-content').removeClass('hide-summary-content');
+                        }
+
+                    };
+
+                    scope.viewDetails_click_Handler = function(event){
+                        var requestParam= {};
+                        scope.isDetailsState = true;
+                        scope.isSummaryState = false;
+                        var elem = "#"+el[0].parentElement.id;
+                        $(elem).addClass('expand-details').removeClass('collapse-details');
+                        var arrow = $(elem).find('#selected-summary-arrow');
+                        var summaryElement = $(elem).find('#summary-service-area-container,#summary-container,#btn-view-details,#summary-popup-footer');
+                        $(summaryElement).addClass('hide-summary-content show-by-animation').removeClass('show-summary-content');
+
+                        if(scope.scorecardSelected) {
+                            $(arrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+                            scope.scorecardSelected = true;
+                            scope.evaluationSelected = false;
+                            scope.fullScorecardData= dataFactory.preparedFullScorecardDataCollection(serviceAreaViewScoreDataCollection);
+                            setFullScorecardDetails();
+                        }else {
+                            $(arrow).addClass('evaluation-summary-arrow-selected').removeClass('score-summary-arrow-selected');
+                            scope.scorecardSelected = false;
+                            scope.evaluationSelected = true;
+                            attributeScoreSummaryData.setSelectedView(el[0].id);
+                            requestParam = createEvaluationParameter(requestParam);
+                            dataFactory.GetAttributeEvaluations(requestParam);
+                        }
+
+                    };
+                    function setFullScorecardDetails(){
+                        $timeout(function () {
+                            scope.$apply(calculateFullScorecardContainer());
+                        }, 0);
+                    }
+                    function calculateFullScorecardContainer() {
+                        if(angular.isUndefined(scope.fullScorecardData)) return;
+
+                        if(scope.fullScorecardData.generalSurveyData && scope.fullScorecardData.triggerSurveyData) {
+                            var gen = scope.fullScorecardData.generalSurveyData.length;
+                            var trig = scope.fullScorecardData.triggerSurveyData.length;
+
+                            var contentWidth = 0;
+                            if (gen >= trig) {
+                                contentWidth = (298 * gen) + (15 * (gen - 1)) + 15 + 'px';
+                            } else {
+                                contentWidth = (298 * trig) + (15 * (trig - 1)) + 15 + 'px';
+                            }
+
+                            $('div.general-survey-wrapper,div.trigger-survey-wrapper').css({
+                                width: contentWidth.toString()
+                            });
+                        } else if(scope.fullScorecardData.generalSurveyData){
+                            var gen = scope.fullScorecardData.generalSurveyData.length;
+                            var contentWidth = 0;
+                            contentWidth = (298 * gen) + (15 * (gen - 1)) + 15 + 'px';
+
+                            $('div.general-survey-wrapper').css({
+                                width: contentWidth.toString()
+                            });
+                        } else if(scope.fullScorecardData.triggerSurveyData){
+                            var gen = scope.fullScorecardData.triggerSurveyData.length;
+                            var contentWidth = 0;
+                            contentWidth = (298 * gen) + (15 * (gen - 1)) + 15 + 'px';
+
+                            $('div.trigger-survey-wrapper').css({
+                                width: contentWidth.toString()
+                            });
+                        }
+                    }
+                    scope.viewEvaluation_click_Handler = function(event){
+                        var requestParam= {};
+                        scope.isDetailsState = true;
+                        scope.isSummaryState = false;
+                        scope.scorecardSelected = false;
+                        scope.evaluationSelected = true;
+
+                        var elem = "#"+el[0].parentElement.id;
+                        $(elem).addClass('expand-details').removeClass('collapse-details');
+                        var arrow = $(elem).find('#selected-summary-arrow');
+                        $(arrow).addClass('evaluation-summary-arrow-selected').removeClass('score-summary-arrow-selected');
+
+                        var summaryElement = $(elem).find('#summary-service-area-container,#summary-container,#btn-view-details,#summary-popup-footer');
+                        $(summaryElement).addClass('hide-summary-content show-by-animation').removeClass('show-summary-content');
+
+                        attributeScoreSummaryData.setSelectedView(el[0].id);
+                        requestParam = createEvaluationParameter(requestParam);
+                        dataFactory.GetAttributeEvaluations(requestParam);
+                    };
+                    scope.translationSelectionEvent = function (type) {
+                        isTranslationSelected = type === 2;
+                    };
+                    scope.download_evaluation = function(){
+                        var requestParameter = getEvaluationsRequestParam();
+                        var url = addParameterToURL(requestParameter,appSettings.API_BASE_URL+"EvaluationDataTemplate.aspx");
+                        window.location.href =  url;
+                    };
+                    function formatDate(date) {
+                        date = new Date(date);
+
+                        var day = ('0' + date.getDate()).slice(-2);
+                        var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                        var year = date.getFullYear();
+
+                        return year + '-' + month + '-' + day;
+                    }
+
+                    function addParameterToURL(requestParameter,_url){
+                        var param = "sessionId="+requestParameter.sessionID;
+                        param += "&customerId=" +requestParameter.customerID;
+                        param += "&fromDate=" +formatDate(requestParameter.fromDate).toString();
+                        param += "&toDate=" +formatDate(requestParameter.toDate).toString();
+                        param += "&surveyType=" +requestParameter.surveyType;
+                        param += "&serviceAreaId="+selectedServiceAreaID;
+                        param += "&isAttributeEvaluation="+"true";
+                        param += "&hasTranslation="+ (isTranslationSelected ? "YES" : "NO");
+                        param += "&hasAdditionalRemarks="+(dataFactory.CustomerGeneralSettings().HasAdditionalRemarks ? "YES" : "NO");
+                        param += "&attributeIndex="+ scope.attributeIndex.toString();
+                        param += "&attributeValues="+ scope.attributeValue;
+
+                        _url += (_url.split('?')[1] ? '&':'?') + param;
+                        return _url;
+                    }
+                    function getEvaluationsRequestParam() {
+                        var applicationDataInfo = dataFactory.DataInfo();
+                        var selectedSurveyType = GetSelectedServiceAreaSurveyType();
+                        scope.selectedServiceAreaType = selectedSurveyType;
+                        scope.customAttributeCollection = dataFactory.CustomAttributeCollection();
+                        return{
+                            sessionID: applicationDataInfo.sessionID,
+                            customerID: applicationDataInfo.customerID,
+                            fromDate: applicationDataInfo.fromDate,
+                            toDate: applicationDataInfo.toDate,
+                            surveyType: surveyTypeConverter(selectedSurveyType)
+                        }
+                    }
+                    function GetSelectedServiceAreaSurveyType() {
+                        return _.result(_.findWhere(scope.attributeData.ServiceAreaScoreDataCollection, {'Id': selectedServiceAreaID}), 'SurveyType');
+                    }
+                    function surveyTypeConverter(type) {
+                        return  type == "NOG" ? "GEN" : type;
+                    }
+                    scope.backToSummary_click_Handler = function(){
+                        scope.isDetailsState = false;
+                        scope.isSummaryState = true;
+
+                        var elem = "#"+el[0].parentElement.id;
+                        var arrow = $(elem).find('#selected-summary-arrow');
+                        var summaryElement = $(elem).find('#summary-service-area-container,#summary-container,#btn-view-details,#summary-popup-footer');
+                        $(elem).addClass('collapse-details').removeClass('expand-details');
+
+                        if(scope.scorecardSelected) {
+                            $(arrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+                            $(summaryElement).removeClass('hide-summary-content').addClass('show-summary-content');
+                        }else {
+                            $(arrow).addClass('evaluation-summary-arrow-selected').removeClass('score-summary-arrow-selected');
+                            $(summaryElement).removeClass('hide-summary-content').addClass('show-summary-content');
+                        }
+
+                    };
+                    scope.scoreBar_Clicked = function (selectedItem) {
+                        if(angular.isUndefined(selectedItem)) return;
+
+                        selectedServiceAreaID = selectedItem.Id;
+                        setSelectedServiceArea(selectedServiceAreaID);
+                    };
+                    function setSelectedServiceArea(selectedServiceAreaID){
+                        scope.selectedServiceAreaType =  GetSelectedServiceAreaSurveyType();
+                        scope.customAttributeCollection = dataFactory.CustomAttributeCollection();
+                        scope.selectedAttributeScore = dataFactory.getSelectedAttributeServiceAreaViewDataById(serviceAreaViewScoreDataCollection,selectedServiceAreaID);
+                        scope.evaluationSummary = attributeScoreSummaryData.getEvaluationSummaryData(scope.attributeData.ServiceAreaScoreDataCollection,scope.selectedAttributeScore,selectedServiceAreaID);
+                        if(selectedServiceAreaID == "OS") {
+                            scope.isOSSelected = true;
+                            scope.isSESSelected = false;
+                            scope.isTCKSelected = false;
+                            scope.QuestionScoreData = _.find(scope.evaluationSummary, function (n) {
+                                                      return n.QuestionId == ('OS' || 'NOG');
+                                                });
+                            scope.QuestionScoreData.ShortCode = "SAT";
+                        }else if(selectedServiceAreaID == "SES"){
+                            scope.isSESSelected = true;
+                            scope.isOSSelected = false;
+                            scope.isTCKSelected = false;
+                            scope.QuestionScoreData = _.find(scope.evaluationSummary, function (n) {
+                                                     return n.QuestionId == 'SES';
+                                               });
+                            scope.QuestionScoreData.ShortCode = "SES";
+                        }else if(selectedServiceAreaID == "TCK"){
+                            scope.isSESSelected = false;
+                            scope.isTCKSelected = true;
+                            scope.isOSSelected = false;
+
+                            if(scope.evaluationSelected && scope.isSummaryState){
+                                var temp = _.filter(serviceAreaViewScoreDataCollection,function(n){
+                                                  return n.SurveyType == 'TCK' && n.Id != 'TCK';
+                                            });
+                                scope.ticketSummaryData = temp;
+                            }
+                            scope.QuestionScoreData.QuestionText = "Tickets";
+                        }else{
+                            scope.isSESSelected = false;
+                            scope.isTCKSelected = false;
+                            scope.isOSSelected = false;
+                            if(!angular.isUndefined(scope.selectedAttributeScore)){
+                                getSesScoreData(scope.selectedAttributeScore);
+                                scope.QuestionScoreData.QuestionText = scope.selectedAttributeScore[0].QuestionText;
+                            }
+                        }
+                        scope.selectedAttributeQuestionId = selectedServiceAreaID;
+                        attributeScoreSummaryData.setSelectedServiceAreaId(selectedServiceAreaID);
+                        SetFrequencyColor();
+                    }
+                    scope.$on(Notify.COMPARATOR_TYPE_CHANGED, function () {
+                        if(angular.isUndefined(scope.attributeData) || scope.attributeData.length <= 0)
+                            return;
+
+                        scope.fullScorecardData= dataFactory.preparedFullScorecardDataCollection(serviceAreaViewScoreDataCollection);
+                        setSelectedServiceArea(selectedServiceAreaID);
+                    });
+                    scope.$on(Notify.COMPARATOR_COLOR_CHANGED, function () {
+                        if(angular.isUndefined(scope.attributeData) || scope.attributeData.length <= 0)
+                            return;
+
+                        SetFrequencyColor();
+                        scope.fullScorecardData= dataFactory.preparedFullScorecardDataCollection(serviceAreaViewScoreDataCollection);
+                        setSelectedServiceArea(selectedServiceAreaID);
+                    });
+
+                   function getSesScoreData(selectedAttributeScore){
+                        var ses = _.find(selectedAttributeScore,function(n){
+                            return n.QuestionId.indexOf('SES') >= 0;
+                        });
+                        if(ses){
+                            selectedAttributeScore.HasSES = true;
+                            selectedAttributeScore.Ses = ses;
+                        }else{
+                            selectedAttributeScore.HasSES = false;
+                            selectedAttributeScore.Ses = ses;
+                        }
+                    }
+
+                    function SetFrequencyColor(){
+                        scope.colorSet = moreSettingsFactory.GetSelectedColorSet();
+                        $('.negative-label').css({"background-color":scope.colorSet.FarFromTarget});
+                        $('.positive-label').css({"background-color":scope.colorSet.OnTarget});
+                    }
+                    function createEvaluationParameter(requestParam){
+                        var selectedSurveyType = GetSelectedServiceAreaSurveyType();
+
+                        requestParam.sessionId = dataFactory.DataInfo().sessionID;
+                        requestParam.customerId = dataFactory.DataInfo().customerID;
+                        requestParam.fromDate = dataFactory.DataInfo().fromDate;
+                        requestParam.toDate = dataFactory.DataInfo().toDate;
+                        requestParam.selectedAttributeIndex = scope.attributeIndex;
+                        requestParam.cAValues = scope.attributeValue;
+                        requestParam.surveyType = surveyTypeConverter(selectedSurveyType);
+
+                        return requestParam;
+                    }
+                },
+                templateUrl:'Views/Shared/Template/AttributeScoreSummaryTemplate.html'
+            };
+
+        }]);
+
+});

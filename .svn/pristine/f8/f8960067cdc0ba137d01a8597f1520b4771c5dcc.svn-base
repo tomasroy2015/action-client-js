@@ -1,0 +1,72 @@
+<link rel="stylesheet" href="Views/LeftMenu/LeftMenuTemplate.css"/>
+<!--<script src="//code.jquery.com/jquery-1.10.2.js"></script>-->
+<!--<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>-->
+<div ng-controller="leftMenuController">
+    <div class="dataset-container">
+        <div class="ac-collasped-panel" ng-click="dsIsCollapsed = !dsIsCollapsed">
+            <i aria-hidden="true"
+               ng-class="{'glyphicon glyphicon-chevron-right': dsIsCollapsed, 'glyphicon glyphicon-chevron-down': !dsIsCollapsed}"></i>
+            DATA SET
+        </div>
+        <div collapse="dsIsCollapsed">
+            <div class="btn btn-default">Data-may</div>
+        </div>
+    </div>
+
+    <action-data-filter-accordion data="categorizedAttributeColl"></action-data-filter-accordion>
+    <!--<div class="ac-collasped-panel" ng-click="isCollapsed = !isCollapsed">-->
+    <!--<i aria-hidden="true"-->
+    <!--ng-class="{'glyphicon glyphicon-chevron-right': isCollapsed, 'glyphicon glyphicon-chevron-down': !isCollapsed}"></i>-->
+    <!--DATA FILTERS-->
+    <!--</div>-->
+    <!--<div collapse="isCollapsed">-->
+    <!--<action-data-filter-accordion data="categorizedAttributeColl"></action-data-filter-accordion>-->
+    <!--</div>-->
+    <div class="service-areas">
+        <span>SCORES (%)</span>
+        <action-service-area id="generalSurvey" data="generalSurveyCollection"></action-service-area>
+        <action-service-area id="triggerSurvey" data="triggerSurveyCollection"></action-service-area>
+
+    </div>
+    <div class="main">
+        <ul class="question" id="selectable">
+            <li ng-repeat="q in generalSurveyCollection[1].Questions track by $index"
+                id="question-{{$index}}"
+                data-ng-click="questionSelection_Handler($index)"
+                onclick="questionSelection_Handler(this)"
+                class="questionListItem">
+                <div class="questionListItemDiv" id="div{{$index}}" onclick="divSelection_Handler(this)">
+                    <action-service-area-question score="45" question="q"></action-service-area-question>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        function questionSelection_Handler(ele) {
+            var id = "#" + ele.id;
+            $(id).addClass('selectedQuestionItem').siblings().removeClass('selectedQuestionItem');
+            updateQuestionItemsCSSClass(ele.id);
+        }
+        ;
+        function divSelection_Handler(ele) {
+            var id = "#" + ele.id;
+            $(id).addClass('selectedQuestionListItemDiv').removeClass('questionListItemDiv');
+        }
+        function updateQuestionItemsCSSClass(selectedId) {
+            var id1 = document.getElementById("selectable");
+            var questionPrefix = "question-";
+            var selectedQuestionNumber = selectedId.substr(questionPrefix.length);
+            // console.log("selected li id= "+selectedId );
+            var listItem = id1.getElementsByTagName("li");
+            for (var i = 0; i < listItem.length; i++) {
+                if (i != selectedQuestionNumber) {
+                    var innerDivId = "#div" + i;
+                    // console.log(innerDivId);
+                    $(innerDivId).addClass('questionListItemDiv').removeClass('selectedQuestionListItemDiv');
+                }
+            }
+            //console.log(listItem);
+        }
+    </script>
+
+</div>

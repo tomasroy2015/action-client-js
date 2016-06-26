@@ -1,0 +1,6 @@
+<div class="grid-tooltip" style="text-align: right;padding-right: 13px;">
+    <div class="ui-grid-cell-contents default-comments"
+         action-truncated-tool-tip tooptip-placement="bottom">
+        {{row.entity.Remarks}}
+    </div>
+</div>

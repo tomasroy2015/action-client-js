@@ -1,0 +1,6 @@
+<link rel="stylesheet" href="Views/Map/map.css"/>
+<div class="row" ng-controller="mapViewController">
+  <h2>{{ title }}</h2>
+    <div id="clickedCountry"></div>
+    <div id="map"></div>
+</div>

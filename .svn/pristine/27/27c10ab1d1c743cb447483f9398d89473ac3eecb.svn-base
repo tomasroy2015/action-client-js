@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/AttributeEvaluationSummaryTemplate.css">
+<div class="evaluation-summary-questionContainerDiv">
+    <span class="evaluation-summary-questionText evaluation-summary-questionLabelDiv">
+        {{question.QuestionText}}
+    </span>
+
+    <div class="evaluation-summary-questionText evaluation-summary-questionScoreDiv1">
+        <span > {{score}}</span>
+    </div>
+    <div class="canvasContainer">
+        <canvas class="evaluation-summary-questionScorebar" id="{{::canvasid}}" height="28" width="57">
+        </canvas>
+    </div>
+</div>

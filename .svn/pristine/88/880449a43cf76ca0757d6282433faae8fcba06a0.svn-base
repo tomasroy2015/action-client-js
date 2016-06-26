@@ -1,0 +1,141 @@
+"use strict";
+
+define(['application-configuration', 'dataFactory','comparatorFactory'], function (app) {
+
+    app.register.controller('fullScorecardController',
+        ['$scope', '$timeout', 'serviceAreaScoreData', 'dataFactory','comparatorFactory',
+        function ($scope, $timeout, serviceAreaScoreData, dataFactory,comparatorFactory) {
+
+            console.log('fullScorecardController>>>>>>');
+            $scope.generalSurveyData = {};
+            $scope.triggerSurveyData = {};
+            $timeout(function () {
+                initializeData();
+            }, 0);
+            //initializeData();
+            /*
+             $scope.$watch(function () {
+             return serviceAreaScoreData.GetGeneralSurveyCollection() || serviceAreaScoreData.GetTriggerSurveyCollection();
+             }, function (val) {
+             if (val.length !== undefined) {
+             var contentWidth = 0;
+             var generalSurveyCollection = _.filter(serviceAreaScoreData.GetGeneralSurveyCollection(), function (n) {
+             return n.SurveyType == "GEN";
+             });
+             var triggerSurveyCollection = _.filter(serviceAreaScoreData.GetTriggerSurveyCollection(), function (n) {
+             return n.Id !== "SES";
+             });
+             $scope.generalSurveyData = generalSurveyCollection;
+             $scope.triggerSurveyData = triggerSurveyCollection;
+
+             var gen = generalSurveyCollection.length;
+             var trig = serviceAreaScoreData.GetTriggerSurveyCollection().length;
+
+             if (gen >= trig) {
+             contentWidth = (298 * gen) + (15* (gen-1)) + 20;
+             } else {
+             contentWidth = (298 * trig) + (15* (gen-1)) + 20;
+             }
+
+             $('.general-survey-wrapper').css({width: contentWidth});
+             $('.trigger-survey-wrapper').css({width: contentWidth});
+             }
+
+             });
+             */
+
+
+            function initializeData() {
+                prepareServiceAreaScoreDataCollection(dataFactory.ServiceAreaScoreDataCollection());
+
+                var gen = $scope.generalSurveyData.length;
+                var trig = $scope.triggerSurveyData.length;
+                var contentWidth = 0;
+                if (gen >= trig) {
+                    contentWidth = (298 * gen) + (15 * (gen - 1)) + 20 + 'px';
+                } else {
+                    contentWidth = (298 * trig) + (15 * (trig - 1)) + 20 + 'px';
+                }
+
+                //$('div#general-survey-wrapper,div#trigger-survey-wrapper').css({
+                $('div.general-survey-wrapper,div.trigger-survey-wrapper').css({
+                    width: contentWidth.toString()
+                });
+            }
+
+            $scope.generalStyle = function () {
+                var gen = $scope.generalSurveyData.length;
+                var trig = $scope.triggerSurveyData.length;
+                var contentWidth = 0;
+                if (gen >= trig) {
+                    contentWidth = (298 * gen) + (15 * (gen - 1)) + 20 + 'px';
+                } else {
+                    contentWidth = (298 * trig) + (15 * (trig - 1)) + 20 + 'px';
+                }
+                return {width: contentWidth, color: 'red'};
+            };
+
+            /**
+             * Service area score data collection preparation
+             * @param data
+             */
+            function prepareServiceAreaScoreDataCollection(data) {
+                var serviceAreaCollection = data;
+                var generalSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                    return n.SurveyType == "GEN";
+                });
+
+                var triggerSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                    return n.SurveyType == "TCK" && n.Id !== 'SES';
+                });
+
+
+                /* prepare data with score comparator object */
+                var preparedGenSurvey = [],prepareTrigSurvey=[];
+                _.forEach(generalSurveyCollection, function (n, key) {
+                    preparedGenSurvey.push(prepareScoreComparatorObject(n));
+                });
+
+                _.forEach(triggerSurveyCollection, function (n, key) {
+                    prepareTrigSurvey.push(prepareScoreComparatorObject(n));
+                });
+              
+                $scope.generalSurveyData = _.sortByOrder(preparedGenSurvey, 'SortOrder', true);
+                $scope.triggerSurveyData = _.sortByOrder(prepareTrigSurvey, 'SortOrder', true);
+            }
+
+            /**
+             * prepare question object with score comparator object
+             * @param question
+             * @returns {*}
+             */
+            function prepareScoreComparatorObject(question) {
+                var groupObj = _.extend({}, question, {
+                    scoreComparator: {
+                        Score: question.Score,
+                        ComparatorValue: comparatorFactory.GetScoreItemComparator(question.Id),
+                        ComparatorColorCode: dataFactory.GetScoreColor(question.Score, comparatorFactory.GetScoreItemComparator(question.QuestionId))
+                    }
+                });
+
+                var QuestionScores = [];
+                _.forEach(question.QuestionScores, function (item, key) {
+                    var tmpQesObj = _.extend({}, item, {
+                        scoreComparator: {
+                            Score: item.Score,
+                            ComparatorValue: comparatorFactory.GetScoreItemComparator(item.QuestionId),
+                            ComparatorColorCode: dataFactory.GetScoreColor(item.Score, comparatorFactory.GetScoreItemComparator(item.QuestionId))
+                        }
+                    });
+                    QuestionScores.push(tmpQesObj);
+                });
+
+                //var resObj = _.assign({}, groupObj, {QuestionScores: QuestionScores});
+                //console.log(resObj);
+                return _.assign({}, groupObj, {QuestionScores: QuestionScores});
+            };
+
+        }]);
+
+});
+

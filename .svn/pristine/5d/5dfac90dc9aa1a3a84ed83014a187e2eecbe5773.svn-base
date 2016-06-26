@@ -1,0 +1,156 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    //app.register.filter('removeSpacesThenLowercase', function () {
+    //    return function (text) {
+    //        var str = text.replace(/\s+/g, '');
+    //        return str.toLowerCase();
+    //    };
+    //});
+
+    app.register.directive('actionDataFilterAccordion', ['$rootScope', 'leftMenuSlidingWindowEventNotifyFactory', '$timeout', function ($rootScope, leftMenuSlidingWindowEventNotifyFactory, $timeout) {
+
+        return {
+            restrict: 'AE',
+            scope: {
+                categorizedAttributeCollection: "=data",
+                attributeClicked: '&',
+                control: '='
+            },
+            link: function (scope, el, attrs) {
+                scope.internalControl = scope.control || {};
+                scope.isDataFilterWindowSlideIn = false;
+                var containerWidth;
+                var topPadding = 50;
+
+                scope.$watch('categorizedAttributeCollection', function (newValue) {
+                    if (!angular.isUndefined(newValue))
+                        return scope.renderView(newValue);
+                }, true);
+
+                scope.renderView = function (data) {
+                    scope.oneAtATime = true;
+                    scope.categorizedAttributeCollection = data;
+                };
+
+                scope.selectedListItem = function (event, data) {
+
+                    //var toSelectItem = '#' + event.currentTarget.id;
+                    var toSelectItem = event.currentTarget.id;
+                    var prevSelectedItems = $("div[id^='accordion-panel'] .df-selected").not('#' + toSelectItem);
+
+                    prevSelectedItems.removeClass('df-selected');
+
+                    $('#' + toSelectItem).toggleClass('df-selected');
+
+                    //$("div[id^='accordion-panel'] .applied-df-count").addClass('df-selected');
+
+
+                    //containerWidth = $('#dataFilterWindowContainer').width();
+                    var prevSelId = prevSelectedItems.attr('id');
+
+                    if (prevSelId !== undefined && prevSelId !== toSelectItem) {
+                        closeDataFilterSlidingWindow();
+                    }
+
+                    dataFilterWindowSliding();
+                    data.isDataFilterWindowOpen = scope.isDataFilterWindowSlideIn;
+                    event.data = data;
+                    scope.attributeClicked()(event);
+                };
+
+                scope.expandCollapsed = function ($event, isExpand) {
+                    //$event.preventDefault();
+                    //$event.stopPropagation();
+
+                    //$("div[id^='accordion-panel'] .df-selected").removeClass('df-selected');
+                    //closeDataFilterSlidingWindow();
+
+                    $timeout(function () {
+                        //if(scope.FilterCount === 0)
+                        $("div[id^='accordion-panel'] .df-selected").removeClass('df-selected');
+                        //$("div[id^='accordion-panel'] .df-selected").not('.applied-df-count').removeClass('df-selected');
+                        closeDataFilterSlidingWindow();
+                        //scope.internalControl.onCheckExpandCollapsedAccordion();
+                    }, 500);
+                    //scope.internalControl.onCheckExpandCollapsedAccordion();
+                };
+
+                function dataFilterWindowSliding() {
+                    containerWidth = $('#dataFilterWindowContainer').width();
+                    $('#dataFilterWindowContainer.slide-out').css('top', topPadding + 'px');
+                    scope.isDataFilterWindowSlideIn = !scope.isDataFilterWindowSlideIn;
+                    if (scope.isDataFilterWindowSlideIn) {
+                        $('#dataFilterWindowContainer.slide-out').animate({left: 253}, 500, "linear", function () {
+                        });
+                    } else {
+                        closeDataFilterSlidingWindow();
+                    }
+                }
+
+                $('#dataFilterWindowContainer .close-slide-in').on('click', function () {
+                    $("div[id^='accordion-panel'] .df-selected").removeClass('df-selected');
+                    //$("div[id^='accordion-panel'] .df-selected").not('.applied-df-count').removeClass('df-selected');
+                    closeDataFilterSlidingWindow();
+                });
+
+                function closeDataFilterSlidingWindow() {
+                    $('#dataFilterWindowContainer.slide-out').animate({left: -containerWidth - 253}, 500, "linear");
+                    scope.isDataFilterWindowSlideIn = false;
+                }
+
+                scope.internalControl.isDataFilterWindowOpen = function () {
+                    return scope.isDataFilterWindowSlideIn;
+                };
+                scope.internalControl.closeDataFilterWindowHandler = function () {
+                    $("div[id^='accordion-panel'] .df-selected").removeClass('df-selected');
+                    //$("div[id^='accordion-panel'] .df-selected").not('.applied-df-count').removeClass('df-selected');
+                    closeDataFilterSlidingWindow();
+                };
+
+                scope.onResetClickHandler = function () {
+                    scope.internalControl.onResetBtnClick();
+                };
+
+                scope.$watchCollection(function () {
+                    return (scope.internalControl.AppliedDataFilterCollection);
+                }, function (nVal) {
+                    scope.AppliedDataFilterCollection = nVal;
+                });
+
+                scope.FilterCount = function (index) {
+                    if (scope.AppliedDataFilterCollection && scope.AppliedDataFilterCollection.length > 0) {
+                        var itm = _.find(scope.AppliedDataFilterCollection, {Index: index});
+                        return itm ? itm.Ids.length : 0;
+                    } else {
+                        return 0;
+                    }
+                };
+
+                scope.FilterCount2 = function (index) {
+                    if (scope.AppliedDataFilterCollection && scope.AppliedDataFilterCollection.length > 0) {
+                        var itm = _.find(scope.AppliedDataFilterCollection, {Type: index});
+                        return itm ? itm.Ids.length : 0;
+                    } else {
+                        return 0;
+                    }
+                };
+
+                /**
+                 * @return {string}
+                 */
+                scope.DataFilterCollapsedLabel = function (type) {
+                    if (scope.AppliedDataFilterCollection && scope.AppliedDataFilterCollection.length > 0) {
+                        var itm = _.find(scope.AppliedDataFilterCollection, {Type: type});
+                        return itm ? itm.AttrLabel : '';
+                    }
+                    return '';
+                }
+            },
+            templateUrl: 'Views/DataFilter/AccordionPanelTemplate.html'
+        };
+
+    }]);
+
+});

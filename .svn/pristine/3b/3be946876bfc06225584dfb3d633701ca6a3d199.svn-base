@@ -1,0 +1,44 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.controller('attributeScoreSummaryController', ['$scope', '$rootScope','$timeout','Notify', 'dataFactory', 'comparatorFactory','moreSettingsFactory','attributeScoreSummaryData',
+        function ($scope, $rootScope,$timeout,Notify, dataFactory, comparatorFactory,moreSettingsFactory,attributeScoreSummaryData) {
+            $scope.$on(Notify.COMPARATOR_TYPE_CHANGED, function () {
+                if(angular.isUndefined($scope.attributeData) || $scope.attributeData.length <= 0)
+                    return;
+
+                $scope.attributeData = attributeScoreSummaryData.getAttributeScoreSummaryData($scope.attributeData);
+                $scope.fullScorecardData = dataFactory.preparedFullScorecardDataCollection($scope.attributeData);
+            });
+            $scope.$on(Notify.COMPARATOR_COLOR_CHANGED, function () {
+                if(angular.isUndefined($scope.attributeData) || $scope.attributeData.length <= 0)
+                    return;
+
+                $scope.attributeData = attributeScoreSummaryData.getAttributeScoreSummaryData($scope.attributeData);
+                $scope.fullScorecardData = dataFactory.preparedFullScorecardDataCollection($scope.attributeData);
+                SetFrequencyColor();
+            });
+
+            function SetFrequencyColor(){
+               var colorSet = moreSettingsFactory.GetSelectedColorSet();
+                $('.negative-label').css({"background-color":colorSet.FarFromTarget});
+                $('.positive-label').css({"background-color":colorSet.OnTarget});
+            }
+
+            $scope.$on(Notify.ATTRIBUTE_EVALUATION_DATA_READY, function (event) {
+                if(dataFactory.GetAttributeEvaluationDataCollection() != null){
+                    var evaluationData= dataFactory.GetAttributeEvaluationDataCollection();
+                    var attEvaluationData =  attributeScoreSummaryData.AttributeEvaluationData(evaluationData,attributeScoreSummaryData.getSelectedServiceAreaId());
+
+                    if(attributeScoreSummaryData.getSelectedView() == "map-view-attribute-summary"){
+                        $rootScope.$broadcast(Notify.ATTRIBUTE_EVALUATION_FROM_MAP_READY,{data:attEvaluationData});
+                    }
+                    else if(attributeScoreSummaryData.getSelectedView() == "list-view-attribute-summary"){
+                        $rootScope.$broadcast(Notify.ATTRIBUTE_EVALUATION_FROM_LIST_READY,{data:attEvaluationData});
+                    }
+                }
+            });
+        }]);
+
+});

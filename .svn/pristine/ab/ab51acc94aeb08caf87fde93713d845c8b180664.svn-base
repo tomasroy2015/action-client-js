@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="Views/DatasetAccordion/DatasetTemplate.css"/>
+
+<div class="container dataset-body-container">
+    <div id="dt-header">
+        <div class="content-heading">
+            <label id="content-heading" >Change dataset </label>
+            <div class="dataset-panel-arrow-container close-slide-in"><i class="fa fa-caret-left"></i></div>
+         </div>
+        <div style="margin-top:14px; ">
+            <label id="heading" >Select Client </label>
+            <select id="ddlClient"
+                    ng-init="dataset.selectedCustomer"
+                    ng-model="dataset.selectedCustomer"
+                    ng-options="item.CustomerName for item in dataset.customers"
+                    ng-change="dataset.customerChanged()"></select>
+        </div>
+    </div>
+    <div class="dataset-radiogroup-panel">
+        <label class="radio dataset-radio" for="select-monthtodate">
+            <input id="select-monthtodate" type="radio" name="dataset-group"
+                   value="MonthToDate" ng-model="dataset.selectedValue">Month To Date
+        </label>
+
+        <label class="radio dataset-radio" for="select-month">
+            <input id="select-month" type="radio" name="dataset-group"
+                   value="LastMonth" ng-model="dataset.selectedValue">Month
+        </label>
+        <select id="cboMonthSelect"
+                ng-init="dataset.selectedMonth"
+                ng-model="dataset.selectedMonth"
+                ng-options="month.Name for month in dataset.LastSixMonth"></select>
+
+        <label class="radio dataset-radio" for="select-quarter">
+            <input id="select-quarter" type="radio" name="dataset-group"
+                   value="LastQuarter" ng-model="dataset.selectedValue">Quarter
+        </label>
+        <select id="cboQuarterSelect"
+                ng-init="dataset.selectedQuarter"
+                ng-model="dataset.selectedQuarter"
+                ng-options="month.Name for month in dataset.QuarterColl"></select>
+
+        <label class="radio dataset-radio" for="select-daterange">
+            <input id="select-daterange" type="radio" name="dataset-group"
+                   value="DateRange" ng-model="dataset.selectedValue">Date Range
+        </label>
+
+        <div class="daterange-panel">
+            <div class="row custom-row">
+                <label for="inputFromDate" class="col-md-3 control-label">
+                    From:</label>
+                <div class="col-sm-9">
+                    <input type="date" id="inputFromDate" class="dataset-date-picker" ng-model="dataset.dtpValueFromDate" required>
+                </div>
+            </div>
+
+            <div class="row custom-row">
+                <label for="inputToDate" class="col-md-3 control-label">
+                    To:</label>
+                <div class="col-sm-9">
+                    <input type="date" id="inputToDate" class="dataset-date-picker" ng-model="dataset.dtpValueToDate" required>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-separator"/>
+    <div class="button-load-container">
+        <button id="btn-OK" type="submit" class="btn-load-ok" data-ng-click="dataset.changeDataSet()">
+            Load dataset
+        </button>
+    </div>
+</div>

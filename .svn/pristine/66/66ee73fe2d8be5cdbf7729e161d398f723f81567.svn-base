@@ -1,0 +1,10 @@
+define(['application-configuration', 'ajaxService'], function (app) {
+
+    app.register.service('datasetService', ['$http', 'ajaxService', function ($http, ajaxService) {
+        this.loadDataset = function (dataset, successFunction, errorFunction) {
+            //http://localhost:6424/dataset/getalldata
+            //http://192.168.255.40/actionhtml5/api/dataset/getalldata
+            ajaxService.AjaxGetWithData(dataset, "api/dataset/getalldata", successFunction, errorFunction);
+        };
+    }]);
+});

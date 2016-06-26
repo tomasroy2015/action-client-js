@@ -1,0 +1,77 @@
+"use strict";
+define(['application-configuration','accountFactory','lodash'], function (app) {
+    app.register.controller('customerSettingsController', ['$scope','$rootScope','$modalInstance','accountFactory','$timeout',
+        function ($scope,$rootScope,$modalInstance,accountFactory,$timeout) {
+            $scope.selectedView1=true;
+            $scope.selectedView2=false;
+            $scope.selectedCustomer = null;
+            $scope.currentuser = accountFactory.UserData();
+            $scope.sessionID = $scope.currentuser.SessionId;
+            var menuColl=[];
+            var giarteUserMenu={
+                "UserType":1,
+                "Menu":[
+                    {title:'GENERAL SETTINGS',clickHandlerIndex:1},
+                    {title:'USER ACCOUNTS',clickHandlerIndex:2}
+//                    {title:'COUNTRY MAPPING',clickHandler:'countryMapping_ClickHandler()'},
+//                    {title:'REGION MAPPING',clickHandler:'regionMapping_ClickHandler()'},
+//                    {title:'SITE CLUSTERING',clickHandler:'siteClustering_ClickHandler()'},
+//                    {title:'COMPARATOR MAPPING',clickHandler:'comparatorMapping_ClickHandler()'},
+//                    {title:'DATA FILTER SETTINGS',clickHandler:'datafilterSettings_ClickHandler()'},
+//                    {title:'SHORT CODE MAPPING',clickHandler:'shortCodeMapping_ClickHandler()'},
+//                    {title:'IP MAPPING',clickHandler:'ipMapping_ClickHandler()'}
+                ]
+            }
+
+            $scope.menuItem_eventHandler=function(menuIndex,event){
+                var ele=event.currentTarget;
+                $("#"+ele.id).siblings().addClass('btn-arrow-customer-settings-menu').removeClass('btn-arrow-customer-settings-menu-selected');
+                $("#"+ele.id).addClass('btn-arrow-customer-settings-menu-selected').removeClass('btn-arrow-customer-settings-menu');
+                switch(menuIndex){
+                    case 1:
+                        generalSettings_ClickHandler();
+                        break;
+                    case 2:
+                        userAccounts_ClickHandler();
+                        break;
+                }
+            }
+            menuColl.push(giarteUserMenu);
+            $scope.selectedUserSettingsMenu= _.filter(menuColl,function(item){
+                return item.UserType==$scope.currentuser.UserType
+
+            })[0];
+
+            $scope.setSelectedCustomer=function(customer){
+                $scope.selectedCustomer=customer;
+            }
+            function initSelectionMenu(){
+              var proxyEvent={
+                  currentTarget:{
+                      id:'customerSettingsMenu-0'
+                  }
+              }
+                $scope.menuItem_eventHandler(1,proxyEvent);
+            };
+
+
+            $scope.setSelectedCustomer($scope.currentuser.UserToCustomers[0]);
+            $scope.customerChanged = function(){
+                $scope.customerID = $scope.selectedCustomer.CustomerId;
+            };
+            $timeout(function(){
+                initSelectionMenu();
+            },100)
+            function generalSettings_ClickHandler(){
+                $scope.selectedView="general";
+            }
+            function userAccounts_ClickHandler(){
+                $scope.selectedView="user";
+            }
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+        }]);
+
+});
+

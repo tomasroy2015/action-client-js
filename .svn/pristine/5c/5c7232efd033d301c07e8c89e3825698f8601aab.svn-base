@@ -1,0 +1,51 @@
+<link rel="stylesheet" href="Views/CustomerSettings/RegionMapping/RegionMappingTemplate.css"/>
+<div class="region-mapping-container" ng-controller="regionMappingController">
+    <span class="template-header">
+        REGION MAPPING
+    </span>
+    <div class="table-container">
+        <table st-table="regionMappingCollection" st-safe-src="rowCollection"  id="smartTable" class="table">
+            <thead>
+                <tr>
+                    <th class="name-column" st-sort="Name" st-sort-default="regular">REGION<i st-sort="Name"/></span></th>
+                    <th class="latitude-column" st-sort="Latitude">LATITUDE<i st-sort="Latitude"></i></th>
+                    <th class="longitude-column" st-sort="Longitude">LONGITUDE<i st-sort="Longitude"></i></th>
+                    <th class="mapped-value-column">{{mappedColumn}}</th>
+                    <th class="operation-column"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="regionMapping in regionMappingCollection"
+                    ng-mouseleave="rowMouseOut_Handler(regionMapping)"
+                    ng-mouseover="rowHover_Handler(regionMapping)">
+                    <td class="name-column"><span>{{regionMapping.Name}}</span></td>
+                    <td class="latitude-column"><span>{{regionMapping.Latitude}}</span></td>
+                    <td class="longitude-column"><span>{{regionMapping.Longitude}}</span></td>
+                    <td class="mapped-value-column">
+                        <div class="mapped-value-item" ng-repeat="mapValue in regionMapping.RegionMappingDetails">
+                            <span style="font-size: 10px; background-color: #ddddde;">{{mapValue.MappedValue}}</span>
+                        </div>
+                    </td>
+                    <td class="operation-column">
+                        <button class="btn-edit" ng-hide="regionMapping.isEditDeleteHide"
+                                ng-click="editRegion(regionMapping)">Edit</button>
+                        <span ng-hide="regionMapping.isEditDeleteHide" class="fa fa-times"
+                              ng-click="deleteRegion(regionMapping)"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="footer-container-div">
+        <button class="left-align btn-add-region" ng-click="addRegion()"><i class="fa fa-plus-circle"/> <span>ADD REGION</span></button>
+    </div>
+    <action-confirmation-alert-dialog show='modalShown' message="message"
+                                      confirm-ok="confirmDelete()"
+                                      info='modalShown' width='262px' height='20%'>
+    </action-confirmation-alert-dialog>
+    <action-add-edit-region-mapping show="addEditModalShown" data="mappedData" selected-data="selectedData"
+                                     customer="selectedCustomer" ng-if="addEditModalShown"
+                                     window-close-listener="addEditWindowClose()" is-edit="isEditMode"
+                                     info='addEditModalShown' width='480px' >
+    </action-add-edit-region-mapping>
+</div>

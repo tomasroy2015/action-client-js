@@ -1,0 +1,55 @@
+@import "../Shared/SCSS/Colors";
+
+$service-area-between-gap : 10px;
+
+[id^=serviceArea-] {
+  padding-top : 2px;
+  .btn-group > .btn:first-child {
+    margin-left : 0;
+  }
+
+  .btn {
+    width         : 30px;
+    height        : 18px;
+    line-height   : 18px;
+    padding       : 0;
+    margin-bottom : 0;
+    margin-right  : $service-area-between-gap;
+    font-size     : 1em;
+    font-weight   : bold;
+    color         : $GIARTE_BLACK;
+    border        : 1px solid transparent;
+    border-radius : 0;
+    box-shadow    : none;
+  }
+
+  .btn-primary {
+    background-color : $GIARTE_DEEP_LIGHT_GRAY;
+    box-shadow       : none;
+    &:hover,
+    &:focus,
+    &:active,
+    .open .dropdown-toggle.btn-primary {
+      background-color : $GIARTE_LIGHT_GRAY;
+    }
+    &.active {
+      padding-top      : 1px;
+      background-color : $GIARTE_YELLOW;
+      border           : none;
+    }
+  }
+}
+
+[id^=serviceArea-] .btn:not(:last-child):after {
+  content       : "";
+  display       : inline-block;
+  position      : absolute;
+  color         : #000;
+  right         : -$service-area-between-gap;
+  width         : $service-area-between-gap;
+  border-bottom : 1px solid #000;
+  top           : 50%;
+}
+
+
+

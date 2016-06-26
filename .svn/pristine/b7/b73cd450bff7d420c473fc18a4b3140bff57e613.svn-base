@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="Views/Map/map.css"/>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <!-- Left Menu -->
+        <div class="col-md-3 left-menu">
+            <!--<div id="logoContainer" class="logo-container">-->
+                <!--<img class="logo" src="Content/images/dsm.png"/>-->
+            <!--</div>-->
+            <!--<action-left-menu></action-left-menu>-->
+            <div ng-include="'Views/LeftMenu/LeftMenuTemplate.html'"></div>
+        </div>
+        <!-- Right container -->
+        <div class="col-md-9 right-content">
+            <div class="container-fluid">
+                <!-- header content -->
+                <div class="row content-page-header">
+                    <action-header log-out-event="logoutMain()"></action-header>
+                </div>
+                <!-- main content -->
+                <div id="container" class="row content-main tab-content" >
+                    <div role="tabpanel" class="tab-pane" id="worldMap" ng-controller="mapViewController">
+                        <d3-map data="d3Data" selected-service-area-id="d3ServiceId" label="title" class="row-container"></d3-map>
+                        <!--<div ng-include="'Views/Map/MapView.html'" class="row-container"></div>-->
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="list">
+                        <div ng-include="'Views/List/ListViewTemplate.html'" class="row-container"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="sentiment">
+                        Sentiment..
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

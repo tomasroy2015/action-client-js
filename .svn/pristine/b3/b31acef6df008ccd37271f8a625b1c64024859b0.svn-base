@@ -1,0 +1,19 @@
+.evaluationSummaryContainer{
+  height: 450px;
+  width: 100%;
+  background-color: #dddddd;
+}
+.evaluationSummaryHeader{
+  width: 100%;
+  height: 18px;
+  background-color: #000000;
+  .close {
+    margin: 1px 5px 1px 0px;
+    opacity: 1;
+    background-color: white;
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+    font-size: 17px;
+  }
+}

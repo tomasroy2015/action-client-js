@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/ScoreBoxTemplate.css"/>
+<div class="service-area-container">
+    <span>SCORES (%)</span>
+    <action-service-area id="generalSurvey" item-click="onClickDir(selectedItem)"
+                         data="generalSurveyCollection"></action-service-area>
+    <div class="service-area-gap"></div>
+    <action-service-area id="triggerSurvey" item-click="onClickDir(selectedItem)"
+                         data="triggerSurveyCollection"></action-service-area>
+</div>
+<!-- Service area questions button section -->
+<div class="service-area-questions-container">
+    <ul class="question" id="selectabl">
+        <li ng-repeat="itemData in scoreDataCollection track by $index" id="question-{{$index}}" ng-click="onQuestionClick(itemData.QuestionId)"
+            ng-class="{selectedQuestionListItemDiv: itemData.QuestionId === selectedQuestionId }"
+            class="questionListItem" data-questionType="{{itemData.IsGroup && itemData.QuestionId != selectedQuestionId ? 'group' : ''}}">
+            <div class="questionListItemDiv" id="div-{{$index}}">
+                <action-service-area-question  data = "itemData" width="57" ></action-service-area-question>
+            </div>
+        </li>
+    </ul>
+</div>

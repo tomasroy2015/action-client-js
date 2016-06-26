@@ -1,0 +1,43 @@
+(function () {
+    "use strict";
+
+    angular.module(AppModule().MAIN_MODULE)
+        .controller('LoginController', LoginController);
+
+    LoginController.$inject = ['$location', '$routeParams', 'loginService'];
+
+    function LoginController($location, $routeParams, loginService) {
+        var vm = this,
+            path = '/';
+
+        //vm.email        = null;
+        //vm.password     = null;
+        vm.email = 'tanvirul@metatude.com';
+        vm.password = '1234';
+        vm.errorMessage = null;
+
+        vm.login = function () {
+            // alert(vm.email);
+            loginService.login(vm.email, vm.password).then(function (data) {
+                //$routeParams.redirect will have the route
+                //they were trying to go to initially
+                // alert($routeParams.redirect);
+                //debugger;
+                if (!data.Id) {
+                    vm.errorMessage = 'Unable to login';
+                    return;
+                }
+
+                // if (status.Status && $routeParams && $routeParams.redirect) {
+                //     path = path + $routeParams.redirect;
+                // }
+                if (data.Id) {
+                    $location.path('/layout');
+                }
+
+            });
+        };
+
+    }
+
+})();

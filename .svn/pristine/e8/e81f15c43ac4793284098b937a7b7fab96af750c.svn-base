@@ -1,0 +1,47 @@
+<div class="content white">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/Main">View by </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#/Main" class="dropdown-toggle" data-toggle="dropdown"><span>{{selectedAttribute}}</span> <b class="caret"></b></a>
+                    <ul class="dropdown-menu multi-column columns-2">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <ul class="multi-column-dropdown" ng-class="$index>1?'multi-column-dropdown-group-item-margin':'multi-column-dropdown'" ng-repeat="item in attrItemCollection track by $index" ng-if="$even">
+                                    <li><a href="#/Main#">{{item.groupName}}</a></li>
+                                    <li class="divider"></li>
+                                    <li ng-repeat="grpItem in item.grpItems" ng-click="attributeItem_clickHandler(grpItem.Label)">
+                                        <a href="#/Main">{{grpItem.Label}}({{grpItem.AttributeCount}})</a>
+                                    </li>
+                                    <!--
+                                    <li><a href="#/Main">Another action</a></li>
+                                    <li><a href="#/Main">Something else here that's extra long so we can see how it looks</a></li>
+-->
+                                </ul>
+                            </div>
+                             <div class="col-sm-6">
+                                 <ul class="multi-column-dropdown" ng-class="$index>2?'multi-column-dropdown-group-item-margin':'multi-column-dropdown'" ng-repeat="item in attrItemCollection" ng-if="$odd">
+                                     <li><a href="#/Main#">{{item.groupName}}</a></li>
+                                     <li class="divider"></li>
+                                     <li ng-repeat="grpItem in item.grpItems" ng-click="attributeItem_clickHandler(grpItem.Label)">
+                                         <a href="#/Main">{{grpItem.Label}}({{grpItem.AttributeCount}})</a>
+                                     </li>
+                                 </ul>
+                             </div>
+                        </div>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

@@ -1,0 +1,19 @@
+"use strict";
+
+define(['application-configuration', 'd3','topojson','eventDispatchService','d3Map'], function (app,d3,topojson,eventDispatchService,d3Map) {
+
+    app.register.controller('mapViewController', ['$document', '$scope','eventDispatchService', function ($document,$scope,eventDispatchService) {
+
+      //  $scope.title = "MapCtrl";
+        $scope.d3Data = [
+            {name: "Greg", score:98},
+        ];
+
+        //$scope.$on('logedOutEvent', function () {
+        //    $scope.message = eventDispatchService.message;
+        //    console.log($scope.message+' map view');
+        //});
+
+    }]);
+
+});

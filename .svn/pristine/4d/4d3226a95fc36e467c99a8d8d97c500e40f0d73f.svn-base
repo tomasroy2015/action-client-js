@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="app/components/datafilter/accordionPanel.css"/>
+<div ng-controller="AccordionPanelController as vm">
+<accordion close-others="vm.oneAtATime">
+    <!--<accordion-group id="accordion-panel" heading="{{group.title}}" ng-repeat="group in vm.groups">-->
+        <!--&lt;!&ndash;<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>&ndash;&gt;-->
+        <!--{{group.content}}-->
+    <!--</accordion-group>-->
+
+    <accordion-group id="accordion-panel" is-open="status.open" ng-repeat="group in vm.groups">
+        <accordion-heading>
+            {{group.title}}
+            <!--<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>-->
+            <i id="glypContainer" class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-minus-sign': status.open, 'glyphicon glyphicon-plus-sign': !status.open}"></i>
+        </accordion-heading>
+        <!--{{group.content}}-->
+        <div class="row" ng-repeat="content in group.contents">
+            <a href="" class="list-group-item">{{content.name}}</a>
+        </div>
+    </accordion-group>
+</accordion>
+    <!--<div id="reset-filter">-->
+        <!--<a id="btnReset" class="btn-reset" href="">Reset filters <img-->
+                <!--src="assets/img/reset-filter.png"> </a>-->
+    <!--</div>-->
+    <!--<div class="clearfix"></div>-->
+    <div id="reset-filter">
+        <button type="button" class="btn btn-default btn-sm btn-reset">
+            Reset filters  <img src="assets/img/reset-filter.png">
+            <!--Reset filters <span class="glyphicon glyphicon-remove-sign cross-sign" aria-hidden="true"></span>-->
+        </button>
+    </div>
+    <div class="clearfix"></div>
+</div>

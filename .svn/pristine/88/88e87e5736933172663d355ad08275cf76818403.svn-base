@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="Views/LeftMenu/LeftMenu.tpl.css"/>
+<link rel="stylesheet" href="Views/ServiceArea/Questions/ServiceAreaQuestionsList.css" >
+<!--<script src="//code.jquery.com/jquery-1.10.2.js"></script>-->
+<!--<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>-->
+<div ng-controller="leftMenuController">
+    <action-data-filter data="filterDataCollection"></action-data-filter>
+    <div class="service-areas">
+        <span>SCORES (%)</span>
+        <service-area id="generalSurvey" data="serviceAreaDataCollection.GeneralSurveyCollection"></service-area>
+        <service-area id="triggerSurvey" data="serviceAreaDataCollection.TriggerSurveyCollection"></service-area>
+
+    </div>
+    <div class="main">
+        <ul class="question" id="selectable">
+            <li ng-repeat="q in serviceAreaDataCollection.GeneralSurveyCollection[0].Questions"
+                data-ng-click="rowSelection_Handler(q)" class="questionListItem" >
+                        <div class="questionListItemDiv">
+                            <ac-service-area-question score="45" question="q"></ac-service-area-question>
+                        </div>
+            </li>
+        </ul>
+
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("#selectable").selectable();
+        });
+    </script>
+</div>

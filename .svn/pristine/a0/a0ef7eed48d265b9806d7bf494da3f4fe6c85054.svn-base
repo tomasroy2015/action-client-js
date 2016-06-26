@@ -1,0 +1,90 @@
+﻿define(['application-configuration', 'accountsService', 'alertsService','eventDispatchService'], function (app) {
+
+    app.register.controller('loginController', ['$scope', '$rootScope', 'accountsService', 'alertsService', '$location','eventDispatchService',
+        function ($scope, $rootScope, accountsService, alertsService, $location,eventDispatchService) {
+
+            $rootScope.closeAlert = alertsService.closeAlert;
+            $rootScope.alerts = [];
+            $scope.isInvalidInput = false;
+
+            $scope.initializeController = function () {
+
+                $scope.Email = "";
+                $scope.Password = "";
+
+                alertsService.RenderSuccessMessage("Please register if you do not have an account.");
+
+            }
+
+            $scope.login = function () {
+                $rootScope.IsloggedIn = false;
+                $scope.isInvalidInput = false;
+
+                var isInvalid =  $scope.validateInput();
+                if(isInvalid)
+                    return;
+
+                var user = $scope.createLoginCredentials();
+                accountsService.login(user, $scope.loginCompleted, $scope.loginError);
+            }
+
+            $scope.validateInput = function(){
+                if($scope.Email === "" || typeof $scope.Email === "undefined") {
+                    $scope.isInvalidInput= true;
+                }
+                if($scope.Password === "" || typeof $scope.Password === "undefined") {
+                    $scope.isInvalidInput= true;
+                }
+                return $scope.isInvalidInput;
+            }
+
+            $scope.loginCompleted = function (response) {
+                $rootScope.MenuItems = response.MenuItems;
+                $rootScope.UserData = response;
+
+                //$scope.$broadcast('logedInEvent', {message: 'User loged in successfully'})
+
+
+//                eventDispatchService.prepForBroadcast('User loged in successfully');
+
+
+                //window.location = "/layout";
+                window.location = "#/Dataset";
+            }
+
+            $scope.loginError = function (response) {
+
+                alertsService.RenderErrorMessage(response.ReturnMessage);
+
+                $scope.clearValidationErrors();
+                alertsService.SetValidationErrors($scope, response.ValidationErrors);
+
+            }
+
+            //Logout
+
+            //End Logout
+
+            $scope.clearValidationErrors = function () {
+
+                $scope.UserNameInputError = false;
+                $scope.PasswordInputError = false;
+
+            }
+
+            $scope.createLoginCredentials = function () {
+
+                var params = {
+                    Email   : $scope.Email,
+                    Password: $scope.Password
+                };
+
+                return params
+            }
+
+            //reset password
+            $scope.reset = function () {
+                window.location = "#/ResetPassword";
+            }
+        }]);
+});

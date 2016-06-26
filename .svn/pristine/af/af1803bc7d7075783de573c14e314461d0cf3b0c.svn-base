@@ -1,0 +1,36 @@
+define(['application-configuration', 'accountsService', 'alertsService'], function (app) {
+
+    app.register.controller('resetPasswordController', ['$scope', '$rootScope', 'accountFactory', 'alertsService', '$location','Notify',
+        function ($scope, $rootScope, accountFactory, alertsService, $location,Notify) {
+            $scope.Email="";
+            $scope.isInvalidInput= false;
+
+            $scope.sendEmail = function(){
+                $scope.isInvalidInput= false;
+
+                var isInvalid =  $scope.validateInput();
+                if(isInvalid)
+                    return;
+
+                var email = {
+                    Email   : $scope.Email
+                };
+                accountFactory.SendEmail(email);
+            };
+            $scope.validateInput = function(){
+                if($scope.Email === "" || typeof $scope.Email === "undefined") {
+                    $scope.isInvalidInput= true;
+                }
+                return $scope.isInvalidInput;
+            };
+            $scope.goBack = function(){
+                window.location = "#/";
+            };
+            $scope.$on(Notify.PASSWORD_EMAIL_SENT_SUCCESSFULLY, function(event){
+                alert("Email has been sent successfully.");
+            });
+            $scope.$on(Notify.PASSWORD_EMAIL_SENT_UNSUCCESSFULLY, function(event){
+                alert("Uh oh! Unable to send email.");
+            });
+        }]);
+});

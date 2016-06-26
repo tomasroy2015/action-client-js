@@ -1,0 +1,85 @@
+<link rel="stylesheet" href="Views/CustomerSettings/GeneralSettings/GeneralSettings.css"/>
+<div class="general-settings-container" ng-controller="generalSettingsController">
+    <span class="template-header">
+        GENERAL SETTINGS
+    </span>
+    <div>
+        <div class="component-container-div">
+            <div class="left-align">
+                <span>List view default attribute</span><br>
+                <select id="ddlAttribute"
+                        ng-model="listViewSelectedDefaultAttribute"
+                        ng-options="item.Label for item in customerGeneralSettings.CustomAttributes"
+                        class="attribute-drop-down"></select>
+            </div>
+            <div class="right-align right-align-div">
+                <span>Maximum user</span><br>
+                <input type = "text" ng-model="customerGeneralSettings.CustomerUserQuota" class="form-control text-input-normal">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="component-container-div">
+            <div class="left-align">
+                <span>Region mapped with</span><br>
+                <select class="drop-down"
+                        ng-model="selectedRegionMapp"
+                        ng-options="region.Label for region in regionMappedColl"
+                        ></select>
+            </div>
+            <div class="right-align right-align-div">
+                    <span>Maximum dataset</span><br>
+                    <input type = "text" ng-model="customerGeneralSettings.CustomerDatasetQuota" class="form-control text-input-normal">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="component-container-div">
+            <div class="left-align">
+                <span>NO VALUE selection(unassigned)</span><br>
+                <select class="drop-down"
+                        ng-model="noValueSelection"
+                        ng-options="noValue.Label for noValue in noValueColl"
+                        ></select>
+            </div>
+            <div class="right-align right-align-div">
+                <span>Listview threshold value</span><br>
+                <input type = "text" ng-model="customerGeneralSettings.DefaultListViewMinEvaluations" class="form-control text-input-normal">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="component-container-div" style="height: 45px">
+            <label for="translationChkBx" style="padding-right: 10px;">
+                <input type="checkbox" ng-change="translationChanged()" ng-model="customerGeneralSettings.HasTranslation" id="translationChkBx">
+                Translations
+            </label>
+            <label for="sentimentChkBx" >
+                <input type="checkbox" ng-disabled="!customerGeneralSettings.HasTranslation"
+                       ng-model="customerGeneralSettings.HasSentimentAnalysis" id="sentimentChkBx">
+                Sentiments
+            </label>
+        </div>
+        <div class="component-container-div" style="height: 50px">
+            <label for="doubleTargetChkBx" style="padding-right: 5px;">
+                <input type="checkbox" ng-model="customerGeneralSettings.HasDoubleTarget" id="doubleTargetChkBx">
+                Double Target
+            </label>
+            <select ng-if="customerGeneralSettings.HasDoubleTarget"class="double-target-drop-down"
+                    ng-model="doubleTarget"  ng-change="doubleTarget_change(doubleTarget)"
+                    ng-options="dTarget.Label for dTarget in doubleTargetColl">
+                    </select>
+            <select style="opacity: 0.5;" ng-if="!customerGeneralSettings.HasDoubleTarget"
+                    ng-disabled="!customerGeneralSettings.HasDoubleTarget" class="double-target-drop-down">
+                <option>
+                    None
+                </option>
+            </select>
+        </div>
+        <div class="component-container-div logo-url-container-div">
+            <span>Logo URL</span><br>
+            <input type = "text" ng-model="customerGeneralSettings.LogoURL" class="form-control text-input-large">
+        </div>
+        <div class="component-container-div footer-container-div">
+            <button class="btn btn-export left-align"> Export settings</button>
+            <button class="btn right-align" ng-click="saveSettings()"> Save</button>
+        </div>
+    </div>
+</div>

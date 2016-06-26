@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="Views/CustomerSettings/IPMapping/AddOrEditIpMappingDirectiveTemplate.css"/>
+<div class='ip-mapping-container' ng-show='show'>
+    <div class='ng-modal-overlay'></div>
+        <div class='ng-modal-dialog' ng-style='dialogStyle'>
+            <div class='ng-modal-dialog-content'>
+                <div class="dialog-header">
+                    <span class="modal-title">{{title}}</span>
+                    <i ng-click="hideModal()" class="fa fa-times-circle fa-lg cursor"></i>
+                </div>
+                <div class="element-parent-div">
+                    <div class="element-container-div">
+                        <div class="left-align inline-block">
+                            <span class="inline-block label-width">Location:</span>
+                            <input type = "text"
+                                   ng-model="data.Location"
+                                   required
+                                   class="form-control text-input-normal inline-block">
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="element-container-div">
+                        <div class="left-align">
+                            <span class="inline-block label-width">IP Address:</span>
+                            <input type = "text"
+                                   ng-model="data.IpAddress"
+                                   required
+                                   class="form-control text-input-normal inline-block">
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-btn-container-div" style="text-align: right">
+                <button class="btn"  ng-click='hideModal()'> Cancel</button>
+                <button class="btn" style="width: inherit" ng-click="confirmOperation()"> OK</button>
+            </div>
+
+        </div>
+</div>

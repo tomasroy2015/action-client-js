@@ -1,0 +1,235 @@
+@import '_Colors';
+@import '_Mixins';
+
+.modal{
+  overflow-y: hidden;
+  text-align: center;
+}
+
+.modal:before {
+  display: inline-block;
+  vertical-align: middle;
+  content: " ";
+  height: 100%;
+}
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.evaluationSummaryContainer{
+  height: 450px;
+  width: 100%;
+  background-color: #dddddd;
+}
+.evaluationSummaryHeader{
+  width: 100%;
+  height: 18px;
+  background-color: #000000;
+  color: white;
+  .close {
+    margin: 1px 5px 1px 0px;
+    opacity: 1;
+    background-color: white;
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+    font-size: 17px;
+  }
+}
+.btn.ac-btn-right-evaluation-summary {
+  height         : 18px;
+  font-size      : 0.9em;
+  position       : absolute;
+  left           : 350px;
+  background     : black;
+  color          : transparent;
+  padding-top    : 0;
+  padding-bottom : 0;
+  padding-left   : 5px;
+  border-radius  : 0;
+  box-shadow     : none;
+  width          : 50px;
+}
+.btn.ac-btn-left-evaluation-summary {
+  height         : 18px;
+  font-size      : 0.9em;
+  position       : absolute;
+  left           : 175px;
+  background     : black;
+  color          : transparent;
+  padding-top    : 0;
+  padding-bottom : 0;
+  padding-left   : 5px;
+  border-radius  : 0;
+  box-shadow     : none;
+  width          : 50px;
+}
+//.btn.ac-btn-full-scorecard {
+//  height         : $arrow-button-height;
+//  font-size      : 0.9em;
+//  position       : absolute;
+//  //right: 20px;
+//  left           : 90px;
+//  background     : #fff;
+//  color          : #000;
+//  padding-top    : 0;
+//  padding-bottom : 0;
+//  padding-left   : 5px;
+//  border-radius  : 0;
+//  box-shadow     : none;
+//  width          : 130px;
+//  &:hover {
+//    background : #ddddde;
+//    .circle-arrow-size-2x {
+//      @include rounded-arrow-visibility(hidden);
+//    }
+//    &:after {
+//      top : -1px;
+//      @include arrow-right($arrow-button-height/2, #ddddde, 101);
+//    }
+//  }
+//  &.active {
+//    background   : #fff000;
+//    //width        : 145px;
+//    //padding-left : 0;
+//    width        : 130px;
+//    padding-left : 5px;
+//    .circle-arrow-size-2x {
+//      @include rounded-arrow-visibility(hidden);
+//    }
+//    &:after {
+//      top : -1px;
+//      @include arrow-right($arrow-button-height/2, #fff000, 102);
+//    }
+//  }
+//  &:focus,
+//  &:active {
+//    -moz-outline-style    : none;
+//    -webkit-outline-style : none;
+//    outline               : none;
+//  }
+//}
+
+.circle-arrow-right-size-2x {
+  vertical-align : middle;
+  padding-left   : 10px;
+  font-size      : 1.5em;
+  color:  white;
+}
+.circle-arrow-left-size-2x {
+  vertical-align : middle;
+  padding-left   : 10px;
+  font-size      : 1.5em;
+  color:  white;
+}
+.span-evaluation-count-container{
+  position: absolute;
+  left: 250px
+}
+.headerContentContainer{
+  align-self: center;
+  width: 90%;
+  margin: auto;
+  color: white;
+}
+.questionListContainer{
+  width: 45%;
+  float: left;
+}
+.questionListHeader{
+  margin: 5px 0px 0px 10px;
+  font-size: 18px;
+  height: 25px;
+  width: 250px;
+  max-width: 250px;
+  overflow: hidden;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.questionListDetails {
+  background-color: white;
+  height: 385px;
+  margin: 5px 0px 5px 10px;
+}
+.evaluationSummaryContent{
+  width: 100%;
+  height: 95%;
+}
+
+.othersInfoContainer{
+  width: 50%;
+  float: right;
+  //margin: 5px 0px 5px 10px;
+  .divLabelContainer{
+    height: 20px;
+    margin: 5px 0px 0px 0px;
+  }
+}
+.otherInfoHeader{
+  height: 25px;
+  margin-top: 5px;
+}
+
+.regRemarksContainer{
+  background-color: white;
+  height: 80px;
+  margin-top: 5px;
+  font-size: 9px;
+  overflow: auto;
+}
+
+.additionalRemarksWrapper{
+  height: 100px;
+}
+
+.adiRemarksContainer{
+  background-color: white;
+  height: 80px;
+  font-size: 9px;
+  overflow: auto;
+}
+.attributeValueWrapper{
+  height: 185px;
+}
+.attributeValueContainer{
+  background-color: white;
+  height: 175px;
+}
+
+.headerLabel{
+  vertical-align: bottom;
+  float: left;
+}
+.translationDiv{
+  float: right;
+  .btn {
+    width         : 30px;
+    height        : 18px;
+    line-height   : 18px;
+    padding       : 0;
+    margin-bottom : 0;
+    margin-right  : 2px;
+    font-size     : 1em;
+    font-weight   : bold;
+    color         : black;
+    border        : 1px solid transparent;
+    border-radius : 0;
+    box-shadow    : none;
+  }
+
+  .btn-primary {
+    background-color : lightgrey;
+    box-shadow       : none;
+    &:hover,
+    &:focus,
+    &:active,
+
+    &.active {
+      padding-top      : 1px;
+      background-color : darkgray;
+      border           : none;
+    }
+  }
+}

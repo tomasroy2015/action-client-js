@@ -1,0 +1,42 @@
+define(['application-configuration', 'ajaxService'], function (app) {
+
+    app.register.service('dataService', ['$rootScope', '$http', 'ajaxService', function ($rootScope, $http, ajaxService) {
+        this.getAllData = function (dataset, successFunction, errorFunction) {
+            ajaxService.AjaxGetWithData(dataset, "data/getalldata", successFunction, errorFunction);
+        };
+        this.getAttributeData = function (dataset, successFunction, errorFunction) {
+            ajaxService.AjaxGetWithData(dataset, "data/getAttributeScoreData", successFunction, errorFunction);
+        };
+        this.getEvaluations = function (dataset, successFunction, errorFunction) {
+            ajaxService.AjaxGetWithData(dataset, "data/getEvaluations", successFunction, errorFunction);
+        };
+        this.applyDataFilter = function (dataset, successFunction, errorFunction) {
+            ajaxService.AjaxGetWithData(dataset, "data/applyDataFilter",  successFunction, errorFunction);
+        };
+        this.getSelectedServiceAreaAttributeCount = function (dataset, successFunction, errorFunction) {
+            ajaxService.AjaxGetWithData(dataset, "data/getSelectedServiceAreaAttributeCount",  successFunction, errorFunction);
+        };
+        this.getAttributeEvaluations = function (dataset, successFunction, errorFunction) {
+            ajaxService.AjaxGetWithData(dataset, "data/getAttributeEvaluations", successFunction, errorFunction);
+        };
+        this.createDimensionValueGroup = function (dataset, attributeRoute, successFunction, errorFunction) {
+            ajaxService.AjaxPostWithData(dataset, "customerSettings/createDimensionValueGroup" + attributeRoute,  successFunction, errorFunction);
+        };
+        this.deleteDimensionValueGroup = function (dataset, attributeRoute, successFunction, errorFunction) {
+            ajaxService.AjaxPostWithData(dataset, "customerSettings/deleteDimensionValueGroup" + attributeRoute,  successFunction, errorFunction);
+        };
+        this.updateGeneralSettings=function (customer, attributeRoute, successFunction, errorFunction) {
+            ajaxService.AjaxPostWithData(customer, "customerSettings/updateCustomerGeneralSettings" + attributeRoute,  successFunction, errorFunction);
+        };
+        this.getUsersByCustomer=function (customer, successFunction, errorFunction) {
+            ajaxService.AjaxGetWithData(customer, "user/getusersbycustomer", successFunction, errorFunction);
+        };
+        this.deleteUserAccount = function (user, successFunction, errorFunction) {
+            ajaxService.AjaxPostWithData(user, "customerSettings/deleteCustomerUser",  successFunction, errorFunction);
+        };
+        this.AddOrUpdateUser=function(user,successFunction, errorFunction){
+            ajaxService.AjaxPostWithData(user, "customerSettings/updateCustomerUser",  successFunction, errorFunction);
+        }
+
+    }]);
+});

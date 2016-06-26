@@ -1,0 +1,63 @@
+/**
+ * Created by Shahin on 7/28/2015.
+ */
+
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionEvaluationBtnDisabled', [function () {
+
+        return {
+            restrict: 'A',
+            link: function (scope, el, attrs) {
+                scope.$watch(attrs.actionEvaluationBtnDisabled, function (isDisable) {
+                    scope.isDisableState = isDisable;
+                    enableDisable();
+                });
+
+                function enableDisable() {
+                    if (scope.isDisableState) {
+                        el.css({
+                            'opacity': 0.4,
+                            '-webkit-touch-callout': 'none',
+                            '-webkit-user-select': 'none',
+                            '-khtml-user-select': 'none',
+                            '-moz-user-select': 'none',
+                            '-ms-user-select': 'none',
+                            'user-select': 'none',
+                            'cursor': 'default'
+                        });
+                        el.addClass('disabled');
+                    } else {
+                        el.css({
+                            'opacity': '',
+                            '-webkit-touch-callout': '',
+                            '-webkit-user-select': '',
+                            '-khtml-user-select': '',
+                            '-moz-user-select': '',
+                            '-ms-user-select': '',
+                            'user-select': '',
+                            'cursor': 'pointer'
+                        });
+                        el.removeClass('disabled');
+                    }
+
+                    el.on('click', function (event) {
+                        //event.preventDefault();
+                        return !scope.isDisableState;
+                    });
+
+                    //el.bind("mouseover", function(e) {
+                    //    return false;
+                    //});
+                    //el.bind("mouseout", function(e) {
+                    //    return false;
+                    //});
+                }
+            }
+        };
+
+    }]);
+
+});

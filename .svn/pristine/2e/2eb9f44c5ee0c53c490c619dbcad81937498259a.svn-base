@@ -1,0 +1,447 @@
+"use strict";
+
+define(['application-configuration', 'alertsService', 'dataFactory', 'comparatorFactory', 'datasetSelectionFactory', 'leftMenuSlidingWindowEventNotifyFactory','moreSettingsFactory','serviceAreaScoreData'], function (app) {
+
+    app.register.controller('leftMenuController', ['$scope', 'alertsService', 'dataFactory', 'appSettings', 'Notify', 'ComparatorType', 'comparatorFactory', 'datasetSelectionFactory', 'leftMenuSlidingWindowEventNotifyFactory','moreSettingsFactory','serviceAreaScoreData',
+        function ($scope, alertsService, dataFactory, appSettings, Notify, ComparatorType, comparatorFactory, datasetSelectionFactory, leftMenuSlidingWindowEventNotifyFactory,moreSettingsFactory,serviceAreaScoreData) {
+
+            $scope.leftMenuSlidingWindowEventNotify = leftMenuSlidingWindowEventNotifyFactory;
+            loadInitialData();
+
+            function loadInitialData() {
+                var startDate = dataFactory.DataInfo().fromDate.toLocaleDateString();
+                var endDate = dataFactory.DataInfo().toDate.toLocaleDateString();
+
+                $scope.logoUrl = dataFactory.CustomerGeneralSettings().LogoURL;
+                $scope.comparatorSettings = comparatorFactory;
+                $scope.moreSettings = moreSettingsFactory;
+                $scope.datasetName = datasetSelectionFactory.selectedValue.toLowerCase();
+                $scope.datasetDaterange = startDate + '-' + endDate;
+                prepareDataFilterAttributeCollection(dataFactory.CustomAttributeCollection());
+                prepareServiceAreaCollection(dataFactory.ServiceAreaCollection());
+                prepareServiceAreaScoreDataCollection(dataFactory.ServiceAreaScoreDataCollection());
+            }
+
+            /* Notification for Dataset changed event */
+            $scope.$on(Notify.DATASET_CHANGED, function () {
+                //closeDatasetWindow();
+                $scope.logoUrl = dataFactory.CustomerGeneralSettings().LogoURL;
+
+                var fromDate = datasetSelectionFactory.FromDate.toLocaleDateString();
+                var toDate = datasetSelectionFactory.ToDate.toLocaleDateString();
+                $scope.comparatorSettings = comparatorFactory;
+                $scope.datasetName = datasetSelectionFactory.selectedValue.toLowerCase();
+                $scope.datasetDaterange = fromDate + '-' + toDate;
+
+            });
+
+            $scope.itemClicked = function (selectedItem) {
+                console.log('test click');
+                dataFactory.ServiceAreaChanged(selectedItem);
+                //factory class data changed
+                if (selectedItem.Id == "OS") {
+                    prepareServiceAreaScoreDataCollection(dataFactory.ServiceAreaScoreDataCollection());
+                } else {
+                    prepareServiceAreaScoreDataCollectionOnClick(dataFactory.ServiceAreaScoreDataCollection(), selectedItem);
+                }
+            }
+            /**
+             * Service area preparation
+             * @param data
+             */
+            function prepareServiceAreaCollection(data) {
+                var serviceAreaCollection = data;
+                var generalSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                    return n.SurveyType == "NOG" || n.SurveyType == "GEN";
+                });
+
+                var triggerSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                    return n.SurveyType == "TCK";
+                });
+
+                $scope.generalSurveyCollection = _.sortByOrder(generalSurveyCollection, 'SortOrder', true);
+                $scope.triggerSurveyCollection = _.sortByOrder(triggerSurveyCollection, 'SortOrder', true);
+                serviceAreaScoreData.SetGeneralSurveyCollection($scope.generalSurveyCollection);
+                serviceAreaScoreData.SetTriggerSurveyCollection($scope.triggerSurveyCollection);
+            }
+
+            /**
+             * Custom attributes preparation
+             * @param data
+             */
+            function prepareDataFilterAttributeCollection(data) {
+
+                var customAttributeCollection = data;
+
+                /* Grouping filter collection */
+                var categoryType = [];
+                var preparedCategorizedAttributeColl = _.groupBy(customAttributeCollection, function (item) {
+                    //categoryType.push({name: item.Type});
+                    var key = {};
+                    if (item.Type === 0) {
+                        key = 'GEOGRAPHY';
+                        if (!_.findKey(categoryType, {name: key})) {
+                            categoryType.push({name: key, type: item.Type});
+                        }
+                        return key;
+                    }
+                    else if (item.Type === 1) {
+                        key = 'ORGANIZATION';
+                        if (!_.findKey(categoryType, {name: key})) {
+                            categoryType.push({name: key, type: item.Type});
+                        }
+                        return key;
+                    }
+                    else if (item.Type === 2) {
+                        key = 'TICKETS';
+                        if (!_.findKey(categoryType, {name: key})) {
+                            categoryType.push({name: key, type: item.Type});
+                        }
+                        return key;
+                    }
+                    else if (item.Type === 3) {
+                        key = 'OTHER';
+                        if (!_.findKey(categoryType, {name: key})) {
+                            categoryType.push({name: key, type: item.Type});
+                        }
+                        return key;
+                    }
+
+                    //if (item.Type === 0) return 'GEOGRAPHY';
+                    //else if (item.Type === 1) return 'ORGANIZATION';
+                    //else if (item.Type === 2) return 'TICKETS';
+                    //else if (item.Type === 3) return "OTHER";
+                });
+
+                /* Sorting grouped filter collection */
+                _.forEach(preparedCategorizedAttributeColl, function (n, key) {
+                    //groupedFilterColl[key] = _.sortByOrder(n, 'DisplayOrder', true);
+                    var sortedColl = _.sortByOrder(n, 'DisplayOrder', true);
+                    var catType = _.findKey(categoryType, {name: key});
+                    preparedCategorizedAttributeColl[key] = _.assign({}, {
+                        type: catType,
+                        name: key,
+                        items: sortedColl,
+                        isExpand: false
+                    });
+                });
+
+                $scope.categorizedAttributeColl = _.sortByOrder(preparedCategorizedAttributeColl, 'type', true);
+            }
+
+            function prepareServiceAreaScoreDataCollection(data) {
+                var serviceAreaScoreDataCollection = data;
+                var combinedQuestionList = [];
+                var ticketQuestionList = [];
+                var generalScoreDataCollection = _.filter(serviceAreaScoreDataCollection, function (n) {
+                    return n.SurveyType == "NOG" || n.SurveyType == "GEN";
+                });
+                var ticketScoreDataCollection = _.filter(serviceAreaScoreDataCollection, function (n) {
+                    return n.Id == "TCK" || n.Id == "SES";
+                });
+                var indexCount = 0;
+                combinedQuestionList[indexCount++] = _.assign({}, {
+                    QuestionId: generalScoreDataCollection[0].Id,
+                    QuestionText: generalScoreDataCollection[0].Name,
+                    Score: generalScoreDataCollection[0].Score,
+                    TotalResponse: generalScoreDataCollection[0].TotalResponse,
+                    PositiveResponse: generalScoreDataCollection[0].PositiveResponse,
+                    NegativeResponse: generalScoreDataCollection[0].NegativeResponse,
+                    Comparator: generalScoreDataCollection[0].Comparator,
+                    DoubleTargetComparator: generalScoreDataCollection[0].DoubleTargetComparator,
+                    IncludeInGroupScore: false,
+                    QuestionType: appSettings.QUESTION_TYPE_GROUP
+                });
+
+                //$scope.generalScoreDataCollection = _.sortByOrder(generalScoreDataCollection, 'SortOrder', true);
+                //$scope.ticketScoreDataCollection = _.sortByOrder(ticketScoreDataCollection, 'SortOrder', true);
+
+                _.forEach(generalScoreDataCollection[0].QuestionScores, function (n, key) {
+                    var temp = _.assign({}, {QuestionType: appSettings.QUESTION_TYPE_REGULAR}, n);
+                    combinedQuestionList.push(temp);
+                    indexCount++;
+                });
+
+                combinedQuestionList[indexCount++] = _.assign({}, {
+                    QuestionId: ticketScoreDataCollection[0].Id,
+                    QuestionText: ticketScoreDataCollection[0].Name,
+                    Score: ticketScoreDataCollection[0].Score,
+                    TotalResponse: ticketScoreDataCollection[0].TotalResponse,
+                    PositiveResponse: ticketScoreDataCollection[0].PositiveResponse,
+                    NegativeResponse: ticketScoreDataCollection[0].NegativeResponse,
+                    Comparator: ticketScoreDataCollection[0].Comparator,
+                    DoubleTargetComparator: ticketScoreDataCollection[0].DoubleTargetComparator,
+                    IncludeInGroupScore: false,
+                    QuestionType: appSettings.QUESTION_TYPE_GROUP
+                });
+                _.forEach(ticketScoreDataCollection[0].QuestionScores, function (n, key) {
+                    var temp = _.assign({}, {QuestionType: appSettings.QUESTION_TYPE_REGULAR}, n);
+                    combinedQuestionList.push(temp);
+                    indexCount++;
+                });
+                //$scope.ticketScoreDataCollection = ticketQuestionList;
+                $scope.combinedScoreDataCollection = combinedQuestionList;
+            }
+
+            function prepareServiceAreaScoreDataCollectionOnClick(data, item) {
+                var serviceAreaScoreDataCollection = data;
+                var combinedQuestionList = [];
+
+                var scoreDataCollection = _.filter(serviceAreaScoreDataCollection, function (n) {
+                    return n.Id == item.Id;
+                });
+
+                _.forEach(scoreDataCollection[0].QuestionScores, function (n, key) {
+                    var temp = _.assign({}, {QuestionType: appSettings.QUESTION_TYPE_REGULAR}, n);
+                    combinedQuestionList.push(temp);
+                });
+
+                $scope.combinedScoreDataCollection = combinedQuestionList;
+            }
+
+            /* Datafilter expand/collapse functionality */
+            $scope.isdatafilterCollapsed = true;
+
+            $scope.expandCollapsedDataFilterPanel = function () {
+                $scope.isdatafilterCollapsed = !$scope.isdatafilterCollapsed;
+                _.forEach($scope.categorizedAttributeColl, function (item, key) {
+                    item.isExpand = false;
+                });
+            };
+            /* dataset selection section
+             ======================================================*/
+            $scope.datasetIsCollapsed = true;
+            $scope.datasetSelected = false;
+
+            $scope.datasetSelectionExapansion = function () {
+                $scope.datasetIsCollapsed = !$scope.datasetIsCollapsed;
+                if ($scope.datasetSelected) {
+                    $('#dataset-selection').addClass('dataset-selection').removeClass('dataset-selection-selected');
+                    $scope.datasetSelected = false;
+                }
+            };
+
+            var datasetPanelWidth;
+            $scope.datasetSelected_Handler = function () {
+                $scope.datasetSelected = !$scope.datasetSelected;
+                var topPadding = 45;
+                datasetPanelWidth = $('#datsetContainer').width();
+
+                $('#datsetContainer.slide-out').css('top', topPadding + 'px');
+
+                if ($scope.datasetSelected) {
+                    $('#dataset-selection').addClass('dataset-selection-selected').removeClass('dataset-selection');
+                    $('#datsetContainer.slide-out').animate({left: 253}, 500, "linear");
+
+                } else {
+                    $('#dataset-selection').addClass('dataset-selection').removeClass('dataset-selection-selected');
+                    $('#datsetContainer.slide-out').animate({left: -253}, 500, "linear");
+
+                }
+            };
+            $("#datsetContainer .close-slide-in").click(function () {
+                $scope.datasetSelected = false;
+                $('#dataset-selection').addClass('dataset-selection').removeClass('dataset-selection-selected');
+                $('#datsetContainer.slide-out').animate({left: - datasetPanelWidth - 253}, 500, "linear");
+            });
+
+            /* Full scorecard button selection handler
+             ======================================================*/
+            var isFullScorecardWindowSlideIn = false;
+            var containerWidth;
+            $(".ac-btn-full-scorecard").click(function (e) {
+                var topPadding = 50;
+                containerWidth = $('#fullScorecardWindowContainer').width();
+                console.log(containerWidth);
+
+                $('#fullScorecardWindowContainer.slide-out').css('top', topPadding + 'px');
+
+                isFullScorecardWindowSlideIn = !isFullScorecardWindowSlideIn;
+                if (isFullScorecardWindowSlideIn) {
+
+                    $('#fullScorecardWindowContainer.slide-out').animate({left: 253}, 500, "linear");
+                }
+                else {
+                    $('#fullScorecardWindowContainer.slide-out').animate({left: -containerWidth - 253}, 500, "linear");
+                }
+            });
+
+            $("#fullScorecardWindowContainer .close-slide-in").click(function () {
+                isFullScorecardWindowSlideIn = false;
+                $('.full-scorecard-btn-container .ac-btn-full-scorecard').removeClass('active');
+                $('#fullScorecardWindowContainer.slide-out').animate({left: -containerWidth - 253}, 500, "linear");
+            });
+
+
+            /* Evaluation button selection handler
+             ======================================================*/
+            $scope.evaluationIsCollapsed = true;
+            $scope.evaluationBtnSelected = false;
+
+            $scope.evaluationSectionExapansion = function () {
+                $scope.evaluationIsCollapsed = !$scope.evaluationIsCollapsed;
+                if ($scope.evaluationBtnSelected) {
+                    $('#btn-evaluation').addClass('btn-arrow-left-menu').removeClass('btn-arrow-left-menu-selected');
+                    $scope.evaluationBtnSelected = false;
+                }
+            };
+
+            $scope.evaluationBtn_Handler = function () {
+                $scope.evaluationBtnSelected = !$scope.evaluationBtnSelected;
+                if ($scope.evaluationBtnSelected) {
+                    $('#btn-evaluation').addClass('btn-arrow-left-menu-selected').removeClass('btn-arrow-left-menu');
+                } else {
+                    $('#btn-evaluation').addClass('btn-arrow-left-menu').removeClass('btn-arrow-left-menu-selected');
+
+                }
+
+                //if ($scope.eventNofify.getDatasetLoadEvent()) {
+                //    console.log('ok dispatch');
+                //    $scope.eventNofify.setDatasetLoadEvent(false)
+                //}
+            }
+
+            /* Setting button selection section
+             ======================================================*/
+            $scope.settingsIsCollapsed = true;
+            $scope.compareWithBtnSelected = false;
+
+            $scope.settingsSectionExapansion = function () {
+                $scope.settingsIsCollapsed = !$scope.settingsIsCollapsed;
+                if ($scope.compareWithBtnSelected) {
+                    $('#btn-compare-with').addClass('btn-arrow-left-menu').removeClass('btn-arrow-left-menu-selected');
+                    $scope.compareWithBtnSelected = false;
+                }
+            };
+
+            var compareBtnEvent;
+            var compareContainerWidth;
+            $scope.compareWithBtn_Handler = function (e) {
+                $scope.compareWithBtnSelected = !$scope.compareWithBtnSelected;
+                compareBtnEvent = e;
+                var topPadding = e.pageY - 215 - 160;
+                /* position - component height - offset */
+                compareContainerWidth = $('#compareWithSettingsContainer').width();
+                $('#compareWithSettingsContainer.slide-out').css('top', topPadding + 'px');
+
+                if ($scope.compareWithBtnSelected) {
+                    $('#btn-compare-with').addClass('btn-arrow-left-menu-selected').removeClass('btn-arrow-left-menu');
+//                $('#compareWithSettingsContainer').addClass('settings-float-right').removeClass('settings-float-left');
+                    $('#compareWithSettingsContainer.slide-out').animate({left: 253}, 500, "linear");
+
+                } else {
+                    $('#btn-compare-with').addClass('btn-arrow-left-menu').removeClass('btn-arrow-left-menu-selected');
+//                $('#compareWithSettingsContainer').addClass('settings-float-left').removeClass('settings-float-right');
+                    $('#compareWithSettingsContainer.slide-out').animate({left: -253}, 500, "linear");
+
+                }
+            }
+
+            $("#compareWithSettingsContainer .close-slide-in").click(function () {
+                $scope.compareWithBtnSelected = false;
+                $('#btn-compare-with').addClass('btn-arrow-left-menu').removeClass('btn-arrow-left-menu-selected');
+                $('#compareWithSettingsContainer.slide-out').animate({left: -compareContainerWidth - 253}, 500, "linear");
+            });
+
+            /* Evaluation button selection handler
+             ======================================================*/
+            $scope.logsPanelIsCollapsed = true;
+            $scope.activityLogBtnSelected = false;
+
+            $scope.activityLogSectionExapansion = function () {
+                $scope.logsPanelIsCollapsed = !$scope.logsPanelIsCollapsed;
+                if ($scope.activityLogBtnSelected) {
+                    $('#btn-activity-log').addClass('btn-arrow-left-menu').removeClass('btn-arrow-left-menu-selected');
+                    $scope.activityLogBtnSelected = false;
+                }
+            };
+
+            $scope.activityLogBtn_Handler = function () {
+                $scope.activityLogBtnSelected = !$scope.activityLogBtnSelected;
+                if ($scope.activityLogBtnSelected) {
+                    $('#btn-activity-log').addClass('btn-arrow-left-menu-selected').removeClass('btn-arrow-left-menu');
+                } else {
+                    $('#btn-activity-log').addClass('btn-arrow-left-menu').removeClass('btn-arrow-left-menu-selected');
+                }
+            }
+
+            /*More Setting button selection section
+             ======================================================*/
+            $scope.moreSettingsIsCollapsed = true;
+            $scope.moreSettingsBtnSelected = false;
+
+            $scope.moreSettingsSectionExapansion = function () {
+                $scope.moreSettingsIsCollapsed = !$scope.moreSettingsIsCollapsed;
+                if ($scope.moreSettingsBtnSelected) {
+                    $scope.moreSettingsBtnSelected = false;
+                }
+            };
+
+            var moreSettingsBtnEvent;
+            var moreSettingsWidth;
+            $scope.moreSettingsBtn_Handler = function (e) {
+                $scope.moreSettingsBtnSelected = !$scope.moreSettingsBtnSelected;
+                moreSettingsBtnEvent = e;
+                var topPadding = e.pageY - 215 - 185;
+                /* position - component height - offset */
+                moreSettingsWidth = $('#compareWithSettingsContainer').width();
+                $('#moreSettingsContainer.slide-out').css('top', topPadding + 'px');
+
+                if ($scope.moreSettingsBtnSelected) {
+                    $('#moreSettingsContainer.slide-out').animate({left: 253}, 500, "linear");
+
+                } else {
+                    $('#moreSettingsContainer.slide-out').animate({left: -253}, 500, "linear");
+
+                }
+            }
+
+            $("#moreSettingsContainer .close-slide-in").click(function () {
+                $scope.moreSettingsBtnSelected = false;
+                $('.more-settings-btn-container .btn-more-settings').removeClass('active');
+                $('#moreSettingsContainer.slide-out').animate({left: - moreSettingsWidth - 253}, 500, "linear");
+            });
+            /* Close the sliding window section
+             ======================================================*/
+            function closeDatasetWindow() {
+                $scope.datasetSelected_Handler();
+            };
+
+            function closeCompareSettingsWindow(evt) {
+                $scope.compareWithBtn_Handler(evt);
+            };
+
+            function closeMoreSettingsWindow(evt) {
+                $scope.moreSettingsBtn_Handler(evt);
+                $scope.moreSettingsBtnSelected = false;
+                $('.more-settings-btn-container .btn-more-settings').removeClass('active');
+            };
+
+            $scope.$watch(function () {
+                return $scope.leftMenuSlidingWindowEventNotify.getDatasetLoadEvent() || $scope.leftMenuSlidingWindowEventNotify.getCompareSettingsOkBtnEvent() || $scope.leftMenuSlidingWindowEventNotify.getMoreSettingsOkBtnEvent();
+            }, function (val) {
+                if ($scope.leftMenuSlidingWindowEventNotify.getDatasetLoadEvent()) {
+                    closeDatasetWindow();
+                    $scope.leftMenuSlidingWindowEventNotify.setDatasetLoadEvent(false);
+                } else if ($scope.leftMenuSlidingWindowEventNotify.getCompareSettingsOkBtnEvent()) {
+                    closeCompareSettingsWindow(compareBtnEvent);
+                    $scope.leftMenuSlidingWindowEventNotify.setCompareSettingsOkBtnEvent(false);
+                }
+                else if($scope.leftMenuSlidingWindowEventNotify.getMoreSettingsOkBtnEvent()){
+                    closeMoreSettingsWindow(moreSettingsBtnEvent);
+                    $scope.leftMenuSlidingWindowEventNotify.setMoreSettingsOkBtnEvent(false);
+                }
+            });
+
+            /* Service area score item click Handler
+             ======================================================*/
+            $scope.serviceAreaScoreItemClick = function (evt) {
+                var curItem = '#' + evt.currentTarget.id;
+                $(curItem).addClass('selectedQuestionItem').siblings().removeClass('selectedQuestionItem');
+                var innerDiv = "#" + evt.currentTarget.firstElementChild.id;
+                $(innerDiv).addClass('selectedQuestionListItemDiv');
+                var prevSlected_li = $("#selectabl > li > div[id^='div-'].selectedQuestionListItemDiv").not(innerDiv);
+                prevSlected_li.removeClass('selectedQuestionListItemDiv').addClass('questionListItemDiv');
+            };
+        }]);
+});

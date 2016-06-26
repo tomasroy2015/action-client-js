@@ -1,0 +1,125 @@
+define(['application-configuration'], function (app) {
+    app.register.factory('CreateViewDataFactory', [function () {
+
+        var ServiceAreaViewData = function () {
+            this.Id = "";
+            this.Name = ";";
+            this.SurveyType = "";
+            this.SortOrder = 0;
+            this.NoOfRespondent = 0;
+            this.Score = NaN;
+            this.Comparator = NaN;
+            this.ScoreColor="#65B32E";
+            this.Items = [];
+        };
+        var QuestionScoreViewData = function(){
+            this.QuestionId="";
+            this.QuestionText = "";
+            this.NoOfRespondent=0;
+            this.Score = NaN;
+            this.Comparator = NaN;
+            this.ScoreColor="#65B32E";
+            this.IsGroup=false;
+        };
+        var CountryViewScoreData = function(){
+            this.Id = "";
+            this.CountryKey = "";
+            this.DisplayName = "";
+            this.Score = NaN;
+            this.Comparator = NaN;
+            this.CountryColor = "";
+            this.MappedCountryValues = null;
+            this.ServiceAreaScoreDataCollection = null;
+        };
+
+        var AttributeScoreData = function(){
+            this.AttributeIndex = -1;
+            this.ScoreDataCollection = null;
+        };
+        AttributeScoreData.prototype.IsAttributeScoreDataNull = function(){
+            var self = this;
+            if (!self.ScoreDataCollection)
+                return true;
+            return false;
+        };
+        var EvaluationData = function(){
+            this.SurveyType = "";
+            this.EvaluationCollection = null;
+        };
+        var DataFilterViewData = function (serviceAreaId, data) {
+            this.ServiceAreaId = serviceAreaId;
+            this.Id = data.Id;
+            this.Name = data.Name;
+            this.Score = 0;
+            this.Respondent = 0;
+            this.IsGroup = false;
+            this.IsChild = false;
+            if (data.IsGroup && data.GroupItemsScoreDataCollection && data.GroupItemsScoreDataCollection.length > 0) {
+                this.IsGroup = true;
+            }
+            var tmp = findItem(serviceAreaId, data);
+            if (tmp) {
+                this.Score = tmp.Score;
+                this.Respondent = tmp.Respondent;
+            }
+
+            this.ServiceAreaScoreDataCollection = data.ServiceAreaScoreDataCollection;
+        };
+
+        function findItem(serviceAreaId, data) {
+            if (data.ServiceAreaScoreDataCollection) {
+                var item = _.find(data.ServiceAreaScoreDataCollection, function (n) {
+                    return n.Id === serviceAreaId;
+                });
+                return item;
+            }
+        }
+
+        DataFilterViewData.prototype.SelectedServiceAreaScoreData = function(serviceAreaId){
+            if(this.ServiceAreaScoreDataCollection && this.ServiceAreaScoreDataCollection.length> 0){
+                var foundItem = _.find(this.ServiceAreaScoreDataCollection, function (n) {
+                    return n.Id === serviceAreaId;
+                });
+
+                this.Score = 0;
+                this.Respondent = 0;
+                if(foundItem){
+                    this.Score = foundItem.Score;
+                    this.Respondent = foundItem.Respondent;
+                }
+            }
+        };
+
+
+        //DataFilterViewData.prototype.Data = function(){
+        //    if(this.OriginalData.ServiceAreaScoreDataCollection) {
+        //        var item = _.find(this.OriginalData.ServiceAreaScoreDataCollection, function (n) {
+        //            return n.Id === this.Id;
+        //        });
+        //        return {Score: item.Score, Respondent:item.Respondent};
+        //    }
+        //};
+
+        return {
+            ServiceAreaViewData: function () {
+                return new ServiceAreaViewData();
+            },
+            QuestionScoreViewData: function() {
+                return new QuestionScoreViewData();
+            },
+            CountryViewScoreData: function() {
+                return new CountryViewScoreData();
+            },
+            AttributeScoreData: function() {
+                return new AttributeScoreData();
+            },
+            EvaluationData: function() {
+                return new EvaluationData();
+            },
+            DataFilterViewData: function (serviceAreaId, data) {
+                return new DataFilterViewData(serviceAreaId, data);
+            }
+        };
+
+    }]);
+});

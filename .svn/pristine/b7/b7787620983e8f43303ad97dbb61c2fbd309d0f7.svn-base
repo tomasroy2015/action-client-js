@@ -1,0 +1,284 @@
+.ng-modal-container{
+    font-family: "AkkuratStd-Regular", "Segoe UI Light";
+}
+.ng-modal-container .ng-modal-overlay {
+    /* A dark translucent div that covers the whole screen */
+    position:absolute;
+    z-index:9999;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:#ddddde;
+    opacity: 0.8;
+}
+.ng-modal-container .ng-modal-dialog {
+    /* A centered div above the overlay with a box shadow. */
+    z-index:10000;
+    position: absolute;
+    width: 50%; /* Default */
+    height: 65%;
+    /* Center the dialog */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 4px 4px 80px #000;
+}
+.ng-modal-container .ng-modal-dialog-content {
+    padding:0px;
+    text-align: left;
+}
+.ng-modal-container .cursor{
+    cursor: pointer;
+}
+.ng-modal-container .fa-lg{
+    font-size: 19px;
+}
+.ng-modal-container .ng-modal-close {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 120%;
+    display: inline-block;
+    font-weight: bold;
+    font-family: 'arial', 'sans-serif';
+}
+.ng-modal-container .confirm-btn-container-div{
+    padding-top: 12px;
+    padding-left: 30px;
+    margin-right: 13px;
+    text-align: center;
+    padding-bottom: 40px;
+}
+.ng-modal-container .dialog-header{
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    min-height: 16.428571429px;
+    background-color: #000000;
+    color: white;
+    padding-top: 15px;
+    padding-right: 0px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    /* border-bottom: 1px solid #e5e5e5; */
+    height: 60px;
+    display: inline-block;
+    width: 100%;
+}
+.ng-modal-container .modal-title{
+    font-size: 16px;
+    font-weight: bold;
+    width: 90%;
+    display: inline-block;
+}
+.ng-modal-container .element-parent-div{
+    padding: 18px;
+    position: relative;
+    display: flex;
+}
+.ng-modal-container .element-parent-div .country-label-div{
+    width: 190px;
+}
+.ng-modal-container .element-parent-div .country-values{
+    margin-left: 18px;
+    /*width: 210px;*/
+    /*height: 220px;    */
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list{
+    border: 1px solid #555759;
+    width: 244px;
+    height: 230px;
+}
+.ng-modal-container .element-parent-div .country-values .search-container{
+    display: flex;
+    margin-top: 8px;
+}
+.ng-modal-container .element-parent-div .country-values .search-container .advanced-search{
+    padding-top: 2px;
+    margin-top: 4px;
+    cursor: pointer;
+    width: 48%;
+    height: 20px;
+    text-align: center;
+    font-size: 11px;
+}
+
+.ng-modal-container .element-parent-div .country-values .search-container .advanced-search:hover{
+    background-color: #555759;
+    color: #fff;
+}
+.ng-modal-container .element-parent-div .country-values .search-container .search-indicator{
+    width: 14px;
+    height: 14px;
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list>table{
+    width: 100%;
+    height: 100%;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list>table>tbody{
+    height: 100%;
+    max-height: 228px;
+    width: 242px;
+    max-width: 242px;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list>table>tbody>tr{
+    border: none;
+    background-color: #FFFFFF;
+    height: 24px !important;
+    display: inline-block;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list>table>tbody>tr:hover{
+    cursor: pointer;
+    background-color: #ddddde;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list>table>tbody>tr>td{
+    /*padding: 2px;*/
+    border: none;
+    font-size: 11px;
+    /*padding-left: 8px;*/
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+.ng-modal-container .ng-modal-dialog .county-value-list .fa{
+
+}
+.ng-modal-container .ng-modal-dialog .county-value-list .fa.fa-times {
+    font-size: 12px;
+    width: 14px;
+    height: 14px;
+    padding-top: 1px;
+    text-align: center;
+    font-weight: normal;
+}
+.ng-modal-container .ng-modal-dialog .county-value-list .fa.fa-times:hover {
+    cursor: pointer;
+    border-radius: 50%;
+    background: #555759 !important;
+    color: #ffffff;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list>table>tbody>tr>td.check-column{
+    color: #000;
+    padding-left: 10px;
+    cursor: pointer;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list>table>tbody>tr>td.label-predefined-column{
+    vertical-align: middle;
+    min-width: 94px;
+    max-width: 94px;
+    padding-left: 4px;
+    padding-top: 5px;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list>table>tbody>tr>td.label-unmapped-column{
+    vertical-align: middle;
+    min-width: 94px;
+    max-width: 190px;
+    padding-left: 4px;
+    padding-top: 5px;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list .operation-column {
+    width: 100px;
+    margin-left: 0px;
+    vertical-align: middle;
+    padding-top: 5px;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list>table>tbody>tr.add-predefined-btn{
+    border-top: 1px;
+    border-bottom: 1px;
+    background-color: #e9e9e9;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list>table>tbody>tr.add-predefined-btn:hover{
+    background-color: #bdbdbd;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list>table>tbody>tr>td.predefined-column{
+    vertical-align: middle;
+    padding-left: 4px;
+    font-weight: bold;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list>table>tbody>tr>td.predefined-add-column{
+     color: #000;
+     padding-left: 10px;
+ }
+.ng-modal-container .element-parent-div .country-values .county-value-list>table>tbody>tr>td.predefined-add-column .fa.fa-plus-circle{
+     font-size: 18px;
+}
+.ng-modal-container .element-parent-div .country-values .county-value-list>table>tbody>tr>td.check-column .check-mapvalue{
+
+}
+.ng-modal-dialog-content .element-container-div{
+    height: 35px;
+    width: 190px;
+    margin-bottom: 10px;
+}
+.ng-modal-dialog-content label{
+    vertical-align: top;
+}
+.ng-modal-dialog-content label> input[type="checkbox"] {
+    margin: 0;
+}
+.ng-modal-dialog-content .inline-block{
+    display: inline-block;
+}
+.ng-modal-dialog-content .label-width{
+    width: 110px;
+}
+
+.ng-modal-dialog-content .text-input-normal{
+    width: 200px;
+    height: 20px;
+    border-radius: 0px;
+    font-size: 12px;
+    padding: 2px 2px 0px 4px;
+    color: #000;
+}
+.ng-modal-dialog-content .drop-down{
+    width: 200px;
+}
+
+.ng-modal-container .btn{
+    height: 22px;
+    border: none;
+    border-radius: 0;
+    background: #878787 !important;
+    margin-left: -3px;
+    padding-top: 2px;
+    color: white;
+    width: 65px;
+    margin-right: 10px;
+}
+.ng-modal-container .left-align{
+    float: left;
+}
+.ng-modal-container .right-align{
+    float: right;
+}
+.ng-modal-container .clear{
+    clear: both;
+}
+#confirm-delete-container .ng-modal-overlay
+{
+    z-index: 10000;
+}
+#confirm-delete-container .dialog-header{
+    background-color: #fff;
+    color: #000;
+}
+.input-validation
+{
+    border-style:solid;
+    border-width: 1px;
+    border-color: #ff0000;
+}
+.error{
+    color: #ff0000;
+    margin-left: 70px;
+}

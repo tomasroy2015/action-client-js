@@ -1,0 +1,561 @@
+/* Variables
+======================================================*/
+
+$gap-between-container: 15px;
+$arrow-button-height: 22px;
+$hover-effect-opacity: 0.7;
+
+/* Mixins
+======================================================*/
+@mixin arrow-right($arrow-width: 10px,$arrow-color:#c6c6c6, $zindex:10) {
+  content: "";
+  position: absolute;
+  right: -$arrow-width;
+  border-top: $arrow-width solid transparent;
+  border-bottom: $arrow-width solid transparent;
+  border-left: $arrow-width solid $arrow-color;
+  z-index: $zindex;
+}
+
+@mixin rounded-arrow-visibility($visible:visible) {
+  visibility: $visible;
+}
+
+/* Containers
+======================================================*/
+.left-menu-main-container {
+  color: #000;
+}
+.expand-collapse-label{
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+div > i{
+  padding-right: 3px;
+}
+
+/* Logo section
+======================================================*/
+.logo-container {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 25px;
+  height: 60px;
+}
+
+img.logo {
+  width: 233px;
+  height: 60px;
+  margin: 0 auto;
+}
+
+.dataset-container,
+.data-filter-accordion-container {
+  margin-bottom: $gap-between-container;
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.data-filter-accordion-container{
+  margin-bottom:10px;
+}
+/* Dataset selection section
+======================================================*/
+.ds-collasped-panel-bottom-border{
+  border-bottom: 1px solid #000;
+  margin-bottom: 2px;
+}
+.dataset-selection {
+  height: 30px;
+  position: relative;
+  line-height: 30px;
+  text-align: left;
+  padding-left: 10px;
+  color: #000;
+  background: #c6c6c6;
+  width: 200px;
+  &:hover {
+    background: rgba(#c6c6c6, 0.4);
+    &:before {
+      border-color: transparent transparent transparent rgba(#c6c6c6, 0.4);
+    }
+    &:after {
+      border-color: transparent transparent transparent #fff;
+    }
+  }
+  &:after,
+  &:before {
+    content: "";
+    display: inline-block;
+    border-width: 15.5px;
+    border-style: solid;
+    width: 0px;
+    height: 0px;
+    left: 100%;
+    top: 0;
+    position: absolute;
+    z-index: 1;
+  }
+  &:after {
+    border-color: transparent transparent transparent #c6c6c6;
+  }
+  &:before {
+    border-width: 15.5px;
+    display: block;
+    border-color: transparent transparent transparent #c6c6c6;
+    z-index: 2;
+    top: 0px;
+  }
+}
+
+/* Dataset selection selected section
+======================================================*/
+.dataset-selection-selected {
+  height: 30px;
+  position: relative;
+  line-height: 30px;
+  text-align: left;
+  padding-left: 10px;
+  color: #000;
+  background: #fff000;
+  width: 98%;
+  &:hover {
+    background: #fff000;
+    &:before {
+      border-color: transparent transparent transparent #fff000;
+    }
+    &:after {
+      border-color: transparent transparent transparent #fff000;
+    }
+  }
+  &:after,
+  &:before {
+    content: "";
+    display: inline-block;
+    border-width: 15.5px;
+    border-style: solid;
+    width: 0px;
+    height: 0px;
+    left: 100%;
+    top: 0;
+    position: absolute;
+    z-index: 1;
+  }
+  &:after {
+    border-color: transparent transparent transparent #fff000;
+  }
+  &:before {
+    border-width: 15.5px;
+    display: block;
+    border-color: transparent transparent transparent #fff000;
+    z-index: 2;
+    top: 0px;
+  }
+}
+
+/* Service area section
+======================================================*/
+.service-area-container {
+  font-size: 0.9em;
+  padding-top: 5px;
+  span {
+    padding-left: 2px;
+    font-weight: bold;
+    color: #000;
+  }
+  .service-area-gap{
+    padding-top: 5px;
+  }
+}
+
+.nav-tabs > li > a {
+  height: 32px;
+  margin-right: 2px;
+  line-height: 1.42857143;
+  border: none;
+  border-radius: 0;
+  background-color: #ddddde;
+  color: #000;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+  color: #000;
+  cursor: default;
+  background-color: #fff;
+  border: none !important;
+  border-bottom-color: transparent !important;
+}
+
+/* Full scorecard button section
+======================================================*/
+.full-scorecard-btn-container {
+  margin-top: $gap-between-container;
+  margin-bottom: $gap-between-container;
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  right: 0;
+  .btn.ac-btn-full-scorecard {
+    height: $arrow-button-height;
+    font-size: 0.9em;
+    position: absolute;
+    //right: 20px;
+    left: 90px;
+    background: #fff;
+    color: #000;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 5px;
+    border-radius: 0;
+    box-shadow: none;
+    width: 130px;
+    &:hover {
+      background: #ddddde;
+      .circle-arrow-size-2x {
+        @include rounded-arrow-visibility(hidden);
+      }
+      &:after {
+        top: -1px;
+        @include arrow-right($arrow-button-height/2, #ddddde, 101);
+      }
+    }
+    &.active {
+      background: #fff000;
+      width: 145px;
+      padding-left: 0;
+      .circle-arrow-size-2x {
+        @include rounded-arrow-visibility(hidden);
+      }
+      &:after {
+        top: -1px;
+        @include arrow-right($arrow-button-height/2, #fff000, 102);
+      }
+    }
+    &:focus,
+    &:active {
+      -moz-outline-style: none;
+      -webkit-outline-style: none;
+      outline: none;
+    }
+  }
+}
+
+.circle-arrow-size-2x {
+  vertical-align: middle;
+  padding-left: 10px;
+  font-size: 1.5em;
+}
+
+/* Evaluation button Section
+======================================================*/
+.left-menu-btn-container {
+  margin-top: $gap-between-container;
+  margin-bottom: $gap-between-container;
+  color: #000;
+  cursor: pointer;
+  //border-bottom: 1px solid red;
+}
+.collapsible-panel-container {
+  border-bottom: 1px solid #000;
+  margin-bottom: 2px;
+}
+
+.collapsible-panel-container-for-df{
+  border-bottom: 1px solid #000;
+  //transition: border-bottom 2s;
+}
+
+/* Custom button section
+======================================================*/
+.btn-arrow-left-menu {
+  height: $arrow-button-height;
+  line-height: $arrow-button-height;
+  position: relative;
+  text-align: left;
+  padding-left: 5px;
+  color: #000;
+  background: #c6c6c6;
+  width: 200px;
+  &:hover {
+    background: rgba(#c6c6c6, $hover-effect-opacity);
+    &:after {
+      border-left: 11px solid rgba(#c6c6c6, $hover-effect-opacity);
+    }
+  }
+  &:after {
+    @include arrow-right($arrow-button-height/2, #c6c6c6, 100);
+  }
+}
+
+/* btn-arrow selected state section*/
+.btn-arrow-left-menu-selected {
+  height: $arrow-button-height;
+  line-height: $arrow-button-height;
+  position: relative;
+  text-align: left;
+  padding-left: 5px;
+  color: #000;
+  background: #fff000;
+  width: 95%;
+  &:hover {
+    background: #fff000;
+  }
+  &:after {
+    @include arrow-right($arrow-button-height/2, #fff000, 103);
+  }
+}
+
+/* Settings section
+======================================================*/
+@mixin setttins-label-font-size{
+  font-size: 0.95em;
+  line-height: 1em;
+  margin-bottom: 0;
+  font-weight: normal;
+}
+
+.compare-with-container{
+  margin-top: 5px;
+  label#lblCompareWith{
+    @include setttins-label-font-size;
+    margin-bottom: 7px;
+  }
+}
+.threshold-container{
+  margin-top: 12px;
+  vertical-align: middle;
+  .checkbox{
+    height: 15px;
+    line-height: 2em;
+    margin-top: 0;
+    margin-left: 5px;
+  }
+  label#lblThreshold{
+    @include setttins-label-font-size;
+  }
+}
+
+.more-settings-btn-container {
+  position: relative;
+  height: 20px;
+  line-height: 20px;
+  right: 0;
+  .btn.btn-more-settings {
+    height: $arrow-button-height;
+    font-size: 0.9em;
+    position: absolute;
+    left: 114px;
+    background: #fff;
+    color: #000;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 5px;
+    border-radius: 0;
+    box-shadow: none;
+    width: 100px;
+    &:hover {
+      background: #ddddde;
+      .circle-arrow-size-2x {
+        @include rounded-arrow-visibility(hidden);
+      }
+      &:after {
+        top: -1px;
+        @include arrow-right($arrow-button-height/2, #ddddde, 101);
+      }
+    }
+    &.active {
+      background: #fff000;
+      width: 119px;
+      padding-left: 0;
+      .circle-arrow-size-2x {
+        @include rounded-arrow-visibility(hidden);
+      }
+      &:after {
+        top: -1px;
+        @include arrow-right($arrow-button-height/2, #fff000, 102);
+      }
+    }
+    &:focus,
+    &:active {
+      -moz-outline-style: none;
+      outline-style: none;
+      outline: none;
+    }
+  }
+}
+
+
+//.left-dataset-container{
+//  top:48px;
+//  display: none;
+//  position: fixed;
+//}
+
+//.compare-settings-panel {
+//  display: none;
+//  position: fixed;
+//  top: 250px;
+//}
+//.hide-compare-settings {
+//  display: none;
+//  left: 0px; }
+
+.settings-float-right {
+  -webkit-animation-duration:.3s;
+  -moz-animation-duration:.3s;
+  -o-animation-duration:.3s;
+  animation-duration:.3s;
+  -webkit-animation-name:settings-float-right;
+  -moz-animation-name:settings-float-right;
+  -o-animation-name:settings-float-right;
+  animation-name:settings-float-right;
+  -webkit-animation-iteration-count:1;
+  -moz-animation-iteration-count:1;
+  -o-animation-iteration-count:1;
+  animation-iteration-count:1;
+  -webkit-animation-timing-function:ease-out;
+  -moz-animation-timing-function:ease-out;
+  -o-animation-timing-function:ease-out;
+  animation-timing-function:ease-out;
+  -webkit-animation-fill-mode:forwards;
+  -moz-animation-fill-mode:forwards;
+  -o-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+  display: block;
+}
+@-webkit-keyframes settings-float-right {
+  0% {
+    left:0px;
+  }
+  25% {
+    left:50px;
+  }
+  50% {
+    left:100px;
+  }
+  75% {
+    left:200px;
+  }
+  100% {
+    left:254px;
+  }
+}
+@-o-keyframes settings-float-right {
+  0% {
+    left:0px;
+  }
+  25% {
+    left:50px;
+  }
+  50% {
+    left:100px;
+  }
+  75% {
+    left:200px;
+  }
+  100% {
+    left:254px;
+  }
+}
+@keyframes settings-float-right {
+  0% {
+    left:0px;
+  }
+  25% {
+    left:50px;
+  }
+  50% {
+    left:100px;
+  }
+  75% {
+    left:200px;
+  }
+  100% {
+    left:254px;
+  }
+}
+
+.settings-float-left {
+  position: fixed;
+  -webkit-animation-duration:.3s;
+  -moz-animation-duration:.3s;
+  -o-animation-duration:.3s;
+  animation-duration:.3s;
+  -webkit-animation-name:settings-float-left;
+  -moz-animation-name:settings-float-left;
+  -o-animation-name:settings-float-left;
+  animation-name:settings-float-left;
+  -webkit-animation-iteration-count:1;
+  -moz-animation-iteration-count:1;
+  -o-animation-iteration-count:1;
+  animation-iteration-count:1;
+  -webkit-animation-timing-function:ease-in;
+  -moz-animation-timing-function:ease-in;
+  -o-animation-timing-function:ease-in;
+  animation-timing-function:ease-in;
+  -webkit-animation-fill-mode:backwards;
+  -moz-animation-fill-mode:backwards;
+  -o-animation-fill-mode:backwards;
+  animation-fill-mode:backwards;
+}
+@-webkit-keyframes settings-float-left {
+  0% {
+    left:254px;
+  }
+  25% {
+    left:200px;
+  }
+  50% {
+    left:100px;
+  }
+  75% {
+    left:50px;
+  }
+  100% {
+    left:50px;
+  }
+}
+@keyframes settings-float-left {
+  0% {
+    left:254px;
+  }
+  25% {
+    left:200px;
+  }
+  50% {
+    left:100px;
+  }
+  75% {
+    left:50px;
+  }
+  100% {
+    left:50px;
+  }
+}
+@-o-keyframes settings-float-left {
+  0% {
+    left:254px;
+  }
+  25% {
+    left:200px;
+  }
+  50% {
+    left:100px;
+  }
+  75% {
+    left:50px;
+  }
+  100% {
+    left:50px;
+  }
+}
+/* Activity log section
+======================================================*/
+
+
+
+

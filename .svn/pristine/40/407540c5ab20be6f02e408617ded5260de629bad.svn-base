@@ -1,0 +1,82 @@
+<link rel="stylesheet" href="Views/CustomerSettings/UserAccountSettings/AddOrEditUserDirectiveTemplate.css"/>
+<div class='ng-modal-container' ng-show='show'>
+    <div class='ng-modal-overlay'></div>
+    <form class = "form-horizontal" role = "form" name = "userForm" novalidate>
+      <div class='ng-modal-dialog' ng-style='dialogStyle'>
+        <div class='ng-modal-dialog-content'>
+            <div class="dialog-header">
+                <span class="modal-title">{{title}}</span>
+                <i ng-click="hideModal()" class="fa fa-times-circle fa-lg cursor"></i>
+            </div>
+            <div class="element-parent-div">
+                <div class="element-container-div">
+                    <div class="left-align inline-block">
+                        <span class="inline-block label-width">Name:</span>
+                        <input type = "text" ng-model="user.UserFullName" name="name"
+                               ng-class="{ 'input-validation' : userForm.name.$invalid && isInvalidInput}"
+                               class="form-control text-input-normal inline-block" required>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="element-container-div">
+                    <div class="left-align">
+                        <span class="inline-block label-width">Email:</span>
+                        <input type = "email"  ng-disabled="isEditMode" ng-model="user.UserId"
+                               name="email"  ng-class="{ 'input-validation' : (userForm.email.$invalid && isInvalidInput) || userForm.email.$error.email}"
+                               class="form-control text-input-normal inline-block" required>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="element-container-div">
+                    <div class="left-align">
+                        <span class="inline-block label-width">User type:</span>
+                        <select class="drop-down inline-block"
+                                id="ddlUserType"
+                                ng-init="setUserType(user)"
+                                ng-model="selectedUserType"
+                                ng-options="item.type for item in userType"
+                                ng-change="userTypeChange(selectedUserType)"></select>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <!--ng-class="{invisiable: !isUserCreateModifyAllow}"-->
+                <div style="height: 30px" ng-show="isUserCreateModifyAllow" >
+                    <label for="allowCreateUserChkBx"  style="padding-right: 10px;">
+                        <input type="checkbox" id="allowCreateUserChkBx" ng-model="user.IsUserCreationAllowed">
+                        Allow to create customer user account
+                    </label>
+                </div>
+                <div  style="height: 30px" ng-show="isUserCreateModifyAllow">
+                    <label for="allowToModifyChkBx" style="padding-right: 10px;">
+                        <input type="checkbox"  ng-model="user.IsCustomerSettingsAllowed" id="allowToModifyChkBx">
+                        Allow to modify customer settings
+                    </label>
+                </div>
+                <div style="height: 30px" ng-show="isSentimentVisiable">
+                    <label for="allowSentimentChkBx" style="padding-right: 10px;">
+                        <input type="checkbox" id="allowSentimentChkBx"
+                               ng-click="sentimentSelectionChange(user)" ng-model="user.IsSentimentAllowed">
+                        Allow to view sentiment
+                    </label>
+                </div>
+                <div  style="height: 45px" ng-show="isSentimentDetailsVisiable">
+                    <label for="allowSentimentDetailsChkBx" style="padding-right: 10px;">
+                        <input type="checkbox"  ng-model="user.IsSentimentDetailsAllowed"
+                               id="allowSentimentDetailsChkBx" ng-disabled="isSentimentDetailsDisable">
+                        Allow to view sentiment details
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-btn-container-div" style="text-align: right">
+            <button class="btn" style="float: left;width: inherit;"  ng-click='resetPassword()' ng-show="isEditMode"> Reset password</button>
+            <button class="btn"  ng-click='hideModal()'> Cancel</button>
+            <button class="btn" style="width: inherit" ng-click="confirmOperation()"> Ok</button>
+        </div>
+
+      </div>
+    </form>
+    <!--<div class='ng-modal-close' ng-click='hideModal()'>X</div>-->
+</div>
+
+</div>

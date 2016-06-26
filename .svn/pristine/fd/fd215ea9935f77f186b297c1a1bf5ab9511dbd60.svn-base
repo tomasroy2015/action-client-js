@@ -1,0 +1,72 @@
+/**
+ * Created by syedur on 7/9/2015.
+ */
+"use restrict;"
+
+define(['application-configuration'], function(app){
+    app.register.directive('actionEvaluationSummary',[function(){
+        return{
+            restrict: 'AE',
+            scope:{
+                data: '=',
+                currentRespondentId: '=',
+                selectedServiceAreaName:'=',
+                hasTranslation:'=',
+                closeEvaluationSummary:'&'
+            },
+
+            templateUrl:"Views/Shared/Template/Evaluation/EvaluationSummaryTemplate.html",
+            link: function(scope, el, attr){
+
+                scope.currentIndex = _.findIndex(scope.data, function(item){
+                   return  item.entity.RespondentId == scope.currentRespondentId;
+                });
+
+                getCurrentEvaluationData();
+
+                scope.cancelButtonClicked = function(event){
+                    scope.closeEvaluationSummary(event);
+                };
+
+                scope.backButtonClicked = function(){
+                    if(scope.currentIndex > 0) {
+                        scope.currentIndex--;
+                        getCurrentEvaluationData();
+                    }
+                    stopPropagation(event);
+                };
+
+                scope.forwardButtonClicked = function(){
+                    if(scope.currentIndex < scope.data.length - 1) {
+                        scope.currentIndex++;
+                        getCurrentEvaluationData();
+                    }
+                    stopPropagation(event);
+                };
+                scope.originalRemarksClicked =  function(event){
+                    scope.RegularRemarks = scope.currentEvaluation.Remarks;
+                    scope.AdditionalRemarks = scope.currentEvaluation.RemarksAdd;
+                    stopPropagation(event);
+                };
+
+                scope.englishRemarksClicked = function(event){
+                    scope.RegularRemarks = scope.currentEvaluation.RemarksEng;
+                    scope.AdditionalRemarks = scope.currentEvaluation.RemarksAddEng;
+                    stopPropagation(event);
+                };
+
+                function getCurrentEvaluationData(){
+                    scope.currentEvaluation = scope.data[scope.currentIndex].entity;
+                    scope.questionList = scope.currentEvaluation.Answers;
+                    scope.RegularRemarks = scope.currentEvaluation.Remarks;
+                    scope.AdditionalRemarks = scope.currentEvaluation.RemarksAdd;
+                };
+
+                function stopPropagation(event){
+                    event.preventDefault();
+                    event.stopPropagation();
+                };
+            }
+        }
+    }]);
+});

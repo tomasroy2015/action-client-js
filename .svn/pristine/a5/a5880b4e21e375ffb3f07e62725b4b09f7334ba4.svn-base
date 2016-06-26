@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="Views/CustomerSettings/UserAccountSettings/UserAccountSettingsTemplate.css"/>
+<div class="user-account-settings-container" ng-controller="userAccountSettingsController">
+    <span class="template-header">
+        USER ACCOUNTS
+    </span>
+    <div class="table-container">
+        <table st-table="userAccountColl"  id="smartTable" class="table">
+            <thead>
+            <tr>
+                <th class="email-column" st-sort="UserId" st-sort-default="reverse">EMAIL<i st-sort="UserId"/></span></th>
+                <th class="name-column" st-sort="UserFullName">NAME<i st-sort="UserFullName"></i></th>
+                <th style="width: 204px;" st-sort="Acc">ACC TYPE <i st-sort="Acc"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="user in userAccountColl"
+                ng-mouseleave="rowMouseOut_Handler(user)"
+                ng-mouseover="rowHover_Handler(user)">
+                <td class="email-column"><span>{{user.UserId}}</span></td>
+                <td class="name-column"><span>{{user.UserFullName}}</span></td>
+                <td>
+                    <span style="width: 130px;display: inline-block;">{{user.Acc}}</span>
+                    <button class="btn-edit" ng-class="{invisiable:user.isEditDeleteHide}">Edit</button>
+                    <span ng-class="{invisiable:user.isEditDeleteHide}" class="fa fa-times"
+                          ng-mouseleave="deleteIcon_mouseleaveHandler($event)"
+                          ng-mouseover="deleteIcon_mouseoverHandler($event)"></span>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="footer-container-div">
+        <button class="btn left-align"> Add user</button>
+        <button class="btn right-align" style="width: inherit"> Export</button>
+    </div>
+</div>

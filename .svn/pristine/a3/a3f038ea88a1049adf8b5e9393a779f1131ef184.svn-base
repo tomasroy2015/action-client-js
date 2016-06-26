@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="Views/CustomerSettings/CustomerSettings.css"/>
+<div class="customer-settings-container">
+    <div class="modal-header">
+        <span class="modal-title">Customer Settings</span>
+        <i ng-click="cancel()" class="fa fa-times-circle fa-lg cursor"></i>
+    </div>
+    <div class="modal-body">
+        <div class="top-content">
+            <div class="image-container">
+              <img class="auto-fit-img" ng-src="{{logo}}" alt="logo">
+            </div>
+            <div class="client-selection cursor">
+                <label style="padding-right: 20px !important;">Client: </label>
+                <select id="customerSettings_ddlClient"
+                        ng-show="currentuser.UserType==1"
+                        name="customerSettings_ddlClient"
+                        ng-init="setSelectedCustomer(currentuser.UserToCustomers[0])"
+                        ng-model="selectedCustomer"
+                        ng-options="item.CustomerName for item in currentuser.UserToCustomers"
+                        ng-change="customerChanged(selectedCustomer)"></select>
+                <label ng-hide="currentuser.UserType==1">{{selectedCustomer.CustomerName}}</label>
+            </div>
+        </div>
+    </div>
+    <div class="main-content" ng-switch on="selectedView">
+        <div ng-switch-when="general">
+         <div ng-include="'Views/CustomerSettings/GeneralSettings/GeneralSettingsTemplate.html'"/>
+        </div>
+        <div ng-switch-when="user">
+            <div ng-include="'Views/CustomerSettings/UserAccountSettings/UserAccountSettingsTemplate.html'"/>
+        </div>
+        <div ng-switch-when="country">
+            <div ng-include="'Views/CustomerSettings/CountryMapping/CountryMappingTemplate.html'"/>
+        </div>
+        <div ng-switch-when="region">
+            <div ng-include="'Views/CustomerSettings/RegionMapping/RegionMappingTemplate.html'"/>
+        </div>
+        <div ng-switch-when="site">
+            <div ng-include="'Views/CustomerSettings/SiteClustering/SiteClusteringTemplate.html'"/>
+        </div>
+        <div ng-switch-when="comparator">
+            <div ng-include="'Views/CustomerSettings/ComparatorMapping/ComparatorMappingTemplate.html'"/>
+        </div>
+        <div ng-switch-when="datafilter">
+            <div ng-include="'Views/CustomerSettings/DataFilterSettings/DataFilterSettingsTemplate.html'"/>
+        </div>
+        <div ng-switch-when="shortcode">
+            <div ng-include="'Views/CustomerSettings/ShortCodeMapping/ShortCodeMappingTemplate.html'"/>
+        </div>
+        <div ng-switch-when="ip">
+            <div ng-include="'Views/CustomerSettings/IPMapping/IPMappingTemplate.html'"/>
+        </div>
+    </div>
+        <div class="menu-left-content cursor">
+            <ul>
+                <li id="customerSettingsMenu-{{$index}}" class="btn-arrow-customer-settings-menu" ng-click="menuItem_eventHandler(menuItem.menuIndex,$event)"
+                    ng-repeat="menuItem in selectedUserSettingsMenu">
+                    <span>{{menuItem.title}}</span><br/>
+                </li>
+                <!--<li>-->
+                    <!--<a ng-click="customerSettings_ClickHandler()">Customer Settings</a><br/>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    <div class="clearingdiv"></div>
+    <!--<div class="modal-footer">-->
+        <!--<!--<button class="btn btn-primary" ng-click="ok()">OK</button>-->
+        <!--<!--<button class="btn btn-warning" ng-click="cancel()">Cancel</button>-->
+        <!--Footer content-->
+    <!--</div>-->
+</div>

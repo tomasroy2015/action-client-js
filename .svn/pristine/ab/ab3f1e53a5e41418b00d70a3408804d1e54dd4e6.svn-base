@@ -1,0 +1,8 @@
+<div class="grid-tooltip" style="text-align: right;padding-right: 13px;">
+    <div class="ui-grid-cell-contents both-comments-cell-template-remarks-div">
+        <span>{{row.entity.BothEvaluationData.Remarks}}</span>
+    </div>
+    <div  class="ui-grid-cell-contents both-comments-cell-template-remarksEng-div">
+        <span>{{row.entity.BothEvaluationData.RemarksEng}}</span>
+    </div>
+</div>

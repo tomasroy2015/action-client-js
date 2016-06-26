@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/OSEvaluationSummaryTemplate.css"/>
+<div class="overall-summary-container">
+    <p>n</p>
+    <div class="overall-frequency-container">
+       <ul class="overall-frequency-bars">
+           <li class="overall-frequency-list-bar">
+               <span>{{selectedAttributeScore.frequency1.Frequency}}</span>
+               <div id="bar1" class="os-frequency-bar" style="background-color: red;"></div>
+               <span>1</span>
+           </li>
+           <li class="overall-frequency-list-bar">
+               <span>{{selectedAttributeScore.frequency2.Frequency}}</span>
+               <div id="bar2" class="os-frequency-bar" style="background-color: red;"></div>
+               <span>2</span>
+           </li>
+           <li class="overall-frequency-list-bar">
+               <span>{{selectedAttributeScore.frequency3.Frequency}}</span>
+               <div id="bar3" class="os-frequency-bar" style="background-color: red;"></div>
+               <span>3</span>
+           </li>
+           <li class="overall-frequency-list-bar">
+               <span>{{selectedAttributeScore.frequency4.Frequency}}</span>
+               <div id="bar4" class="os-frequency-bar" style="background-color: red;"></div>
+               <span>4</span>
+           </li>
+           <li class="overall-frequency-list-bar">
+               <span>{{selectedAttributeScore.frequency5.Frequency}}</span>
+               <div  id="bar5" class="os-frequency-bar" style="background-color: red;"></div>
+               <span>5</span>
+           </li>
+           <li class="overall-frequency-list-bar">
+               <span>{{selectedAttributeScore.frequency6.Frequency}}</span>
+               <div id="bar6" class="os-frequency-bar" style="background-color: orange;"></div>
+               <span>6</span>
+           </li>
+           <li class="overall-frequency-list-bar">
+               <span>{{selectedAttributeScore.frequency7.Frequency}}</span>
+               <div  id="bar7"class="os-frequency-bar" style="background-color: #65B32E;"></div>
+               <span>7</span>
+           </li>
+           <li class="overall-frequency-list-bar">
+               <span>{{selectedAttributeScore.frequency8.Frequency}}</span>
+               <div id="bar8" class="os-frequency-bar" style="background-color: #65B32E;">
+               </div><span>8</span>
+           </li>
+           <li class="overall-frequency-list-bar">
+               <span>{{selectedAttributeScore.frequency9.Frequency}}</span>
+               <div id="bar9" class="os-frequency-bar" style="background-color: #65B32E;"></div>
+               <span>9</span>
+           </li>
+           <li class="overall-frequency-list-bar">
+               <span>{{selectedAttributeScore.frequency10.Frequency}}</span>
+               <div id="bar10" class="os-frequency-bar" style="background-color: #65B32E;"></div>
+               <span>10</span>
+           </li>
+       </ul>
+    </div>
+</div>
+<!--<div class="overall-summary-bar-container">-->
+    <!--<div class="overall-scorebar-container">-->
+        <!--<span>Overall satisfaction</span>-->
+    <!--</div>-->
+<!--</div>-->

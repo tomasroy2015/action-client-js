@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="Views/Shared/CSS/LoadingOverlayTemplate.css"/>
+<!-- Begin page content -->
+<div class = "container"  ng-cloak>
+    <div class = "page-header" >
+        <div class = "panel panel-default">
+            <div class = "panel-heading">
+                {{title}}
+                <img src = "Content/images/giarte-logo.png" alt = "Giarte" class = "logo"/>
+                <div class = "clearfix"></div>
+            </div>
+            <!-- panel-heading -->
+
+            <div class = "panel-body">
+                <div class="show-loading">
+                    <img id="loading" src="Content/images/itsat-loading.png" class="make-rotation" />
+                </div>
+            </div>
+        </div>
+        <!-- panel panel-default -->
+    </div>
+    <!-- page-header -->
+</div> <!-- container -->
+
+<!-- Footer Panel -->
+<footer class = "footer">
+    <div class = "container">
+        <div class = "url-container">
+            <a href = "http://giarte.com/itsat/" class = "footer-giarte-url">
+                <div class = "url-font-size">Visit Giarte.com/ITsat for more information</div>
+            </a>
+        </div>
+        <div class = "right-arrow-container">
+            <div class = "arrow-circle-container">
+                <svg width = "15" height = "15" style = "margin: 0 auto;">
+                    <path d = "M 7.5 0 Q 14 1 15 7.5 Q 14 14 7.5 15 Q 1 14 0 7.5 Q 1 1 7.5 0" fill = "#fff"/>
+                </svg>
+            </div>
+        </div>
+        <!-- right-arrow-container-->
+
+        <div class = "arrow-container">
+            <svg height = "8" width = "8" style = "padding-left: -10px">
+                <path d = "M 0 0 L 8 3.5 L 0 7 L 0 0z" fill = "#555759"/>
+            </svg>
+        </div>
+        <!-- arrow-container -->
+    </div>
+    <!-- container -->
+</footer> <!-- footer -->

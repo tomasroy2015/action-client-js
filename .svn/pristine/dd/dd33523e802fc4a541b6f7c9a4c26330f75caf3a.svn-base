@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="Views/DataFilter/AccordionPanelTemplate.css"/>
+<!--<div class="ac-collasped-panel" ng-click="isCollapsed = !isCollapsed">-->
+<!--<div class="ac-collasped-panel" ng-click="isCollapsedPanel()">-->
+<div class="ac-collasped-panel" ng-click="expandCollapsedPanel()">
+    <i aria-hidden="true"
+       ng-class="{'glyphicon glyphicon-chevron-right': isCollapsed, 'glyphicon glyphicon-chevron-down': !isCollapsed}"></i>
+    DATA FILTERS
+</div>
+<div collapse="isCollapsed">
+    <accordion close-others="oneAtATime">
+        <accordion-group id="accordion-panel" is-open="catgory.isExpand" ng-repeat="catgory in categorizedAttributeCollection">
+            <accordion-heading>
+                {{catgory.name}}
+                <i id="glypContainer" class="pull-right glyphicon"
+                   ng-class="{'glyphicon glyphicon-minus-sign': catgory.isExpand, 'glyphicon glyphicon-plus-sign': !catgory.isExpand}"></i>
+            </accordion-heading>
+            <div class="row" ng-repeat="item in catgory.items">
+                <a href="" class="list-group-item">{{item.Label}}&nbsp;{{'('+item.AttributeCount+')'}}</a>
+            </div>
+        </accordion-group>
+    </accordion>
+
+    <div class="reset-filter">
+        <button type="button" class="btn btn-default btn-sm btn-reset">
+            Reset filters <img src="Content/images/reset-filter.png">
+        </button>
+    </div>
+    <div class="clearfix"></div>
+</div>

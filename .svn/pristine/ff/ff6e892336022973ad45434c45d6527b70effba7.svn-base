@@ -1,0 +1,55 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <!-- Left Menu -->
+        <div class="col-md-3 left-menu">
+            <div ng-include="'Views/LeftMenu/LeftMenuTemplate.html'" class="left-menu-main-wrapper"></div>
+            <div class="btn-fold" ng-click="onBtnFoldClickHandler()"><i class="fa fa-caret-left btn-fold-icon"></i></div>
+        </div>
+        <!-- Right container -->
+        <div class="col-md-9 right-content">
+            <div class="container-fluid">
+                <!-- header content -->
+                <div class="row content-page-header">
+                    <action-header log-out-event="logoutMain()"></action-header>
+                </div>
+                <!-- main content -->
+                <div id="container" class="row content-main tab-content">
+                    <div role="tabpanel" class="tab-pane view-container" id="worldMap">
+                        <div ng-include="'Views/Map/MapView.html'" class="view-container"></div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane view-container" id="list">
+                        <div ng-if="active" ng-include="'Views/List/ListViewTemplate.html'"
+                             class="view-container"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="sentiment">
+                        Sentiment..
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="component-container">
+        <div id="dataFilterWindowContainer" class="data-filter-window-container slide-out">
+            <action-data-filter-view selected-attribute="dataFilterFactory.GetSelectedAttribute().Label"></action-data-filter-view>
+        </div>
+        <div id="fullScorecardWindowContainer" class="full-scorecard-window-container slide-out">
+            <action-full-scorecard-view></action-full-scorecard-view>
+        </div>
+        <!--Target sliding panel-->
+        <div id="compareWithSettingsContainer" class="compare-settings-panel slide-out">
+            <div ng-include="'Views/LeftMenuSettings/CompareWithSettingsTemplate.html'"></div>
+        </div>
+
+        <div id="datsetContainer" class="left-dataset-container slide-out">
+            <action-data-set-accordion data="selectedDataset"></action-data-set-accordion>
+        </div>
+        <div id="moreSettingsContainer" class="more-settings-container slide-out">
+            <div ng-include="'Views/LeftMenuSettings/MoreSettingsTemplate.html'"></div>
+        </div>
+        <div id="leftMenuEvaluationContainer" class="left-menu-evaluation-container slide-out">
+            <div id="leftMenuEvaluationWindow" ng-if="isEvaluationWindowActive" ng-include="'Views/LeftMenu/Evaluation/EvaluationTemplate.html'"></div>
+        </div>
+    </div>
+</div>

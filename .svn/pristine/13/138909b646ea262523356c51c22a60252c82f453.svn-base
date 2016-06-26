@@ -1,0 +1,102 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/EvaluationSummaryTemplate.css"/>
+
+<div class="evaluationSummaryContainer">
+    <div class="evaluationSummaryHeader">
+        <button type="button" class="btn ac-btn-left-evaluation-summary" data-toggle="button" ng-click="backButtonClicked($event)">
+            <i class="fa fa-play-circle fa-rotate-180 circle-arrow-left-size-2x"></i>
+        </button>
+        <span class="span-evaluation-count-container">Evaluation {{currentIndex+1}}/{{data.length}}</span>
+        <button type="button" class="btn ac-btn-right-evaluation-summary" data-toggle="button" ng-click="forwardButtonClicked($event)">
+            <i class="fa fa-play-circle circle-arrow-right-size-2x"></i>
+        </button>
+        <button type="button" class="close" ng-click="cancelButtonClicked($event)">×</button>
+    </div>
+    <div class="evaluationSummaryContent">
+        <div class="questionListContainer">
+            <div class="questionListHeader">
+                {{selectedServiceAreaName | uppercase}}
+            </div>
+            <div class="questionListDetails">
+                <table st-table="questionList" st-safe-src="rowCollection" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th >Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="question in questionList">
+                            <td>{{question.QuestionText}}</td>
+                            <td>{{question.Value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="othersInfoContainer">
+            <div class="otherInfoHeader">
+                <div class="headerLabel">
+                    {{AdditionalRemarks == 'null' ? "COMMENTS" : "COMMENTS1"}}
+                </div>
+                <div class="translationDiv" ng-if="hasTranslation">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn" ng-click="originalRemarksClicked($event)" ng-class="{'btn-primary': selectedLanguage === 'ORG'}">
+                            <input type="radio" name="original" id="original" autocomplete="off"
+                                   value="ORG"> ORG
+                        </label>
+                        <label class="btn " ng-click="englishRemarksClicked($event)" ng-class="{'btn-primary': selectedLanguage === 'ENG'}">
+                            <input type="radio" name="original" id="english" autocomplete="off"
+                                   value="ENG"> ENG
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="regRemarksContainer">
+                {{RegularRemarks}}
+            </div>
+            <div class="additionalRemarksWrapper" ng-if="AdditionalRemarks != 'null'">
+                <div class="divLabelContainer">
+                    COMMENTS2
+                </div>
+                <div class="adiRemarksContainer" >
+                    {{AdditionalRemarks}}
+                </div>
+            </div>
+            <div class="attributeValueWrapper">
+                <div class="divLabelContainer">
+                    Information
+                </div>
+                <div class="attributeValueContainer">
+                    <div class="columnLeft">
+                        <ul class="attributeList">
+                            <li ng-repeat="item in firstAttrCollection">
+                                <div class="attributeItemWrapper">
+                                    <div class="attributeLabel">
+                                        {{item.Label}}
+                                    </div>
+                                    <div class="attributeValue">
+                                        {{ currentAttributeValues[item.Index].Value === "" ? "-" : currentAttributeValues[item.Index].Value}}
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="columnRight">
+                        <ul class="attributeList">
+                            <li ng-repeat="item in secoundAttrCollection">
+                                <div class="attributeItemWrapper">
+                                    <div class="attributeLabel">
+                                        {{item.Label}}
+                                    </div>
+                                    <div class="attributeValue">
+                                        {{ currentAttributeValues[item.Index].Value === "" ? "-" : currentAttributeValues[item.Index].Value}}
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

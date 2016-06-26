@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="favicon.ico">
+    <script data-main="main.js" src="bower_components/requirejs/require.js"></script>
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="bower_components/normalize.css/normalize.css"/>
+    <link rel="stylesheet"
+          href="https://rawgit.com/angular-ui/ui-grid.info/gh-pages/release/ui-grid-unstable.css"/>
+    <link href="Content/css/angular-block-ui.css" rel="stylesheet" />
+    <link href="Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="Content/css/Application.css" rel="stylesheet" />
+    <link href="Content/css/SortableGrid.css" rel="stylesheet" />
+    <!--[if IE]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!--<link rel="stylesheet" href="Views/List/ngtable/ng-table.css"/>-->
+    <!--<link rel="stylesheet" href="Views/Accounts/LoginTemplate.css"/>-->
+    <!--<link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css"/>-->
+    <!--<link rel="stylesheet" href="Content/css/selectize.default-custom.css">-->
+</head>
+                                               
+<body  ng-controller="indexController"  ng-init="initializeController()"  ng-cloak>
+
+    <!--<div class="navbar navbar-inverse navbar-fixed-top" >-->
+        <!--<div class="container">-->
+            <!--<div class="navbar-collapse collapse" id="MainMenu" ng-show="displayContent" style="visibility:hidden">-->
+                <!--<ul class="nav navbar-nav" ng-repeat="menuItem in MenuItems | filter:{Module: 'Main'}">-->
+                    <!--<li><a href="{{menuItem.Route}}">{{menuItem.Description}}</a></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div style="margin: 75px 50px 50px 50px" ng-view></div>-->
+
+    <div id="view-container" class="container-fluid" data-ng-view>
+    </div>
+
+</body>
+
+</html>

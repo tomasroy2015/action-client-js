@@ -1,0 +1,13 @@
+<!--<link rel="stylesheet" href="Views/Shared/SCSS/ServiceAreaScoreItemTemplate.css"/>-->
+<!--<div class="questionContainerDiv"  data-questionType="{{question.QuestionType}}">-->
+<div class="questionContainerDiv">
+    <!--<div class="questionText questionLabelDiv" tooltip-popup-delay='1000' tooltip-trigger="mouseenter"-->
+         <!--tooltip-placement="top" tooltip="{{data.QuestionText}}">-->
+    <div class="questionText questionLabelDiv" action-truncated-tool-tip>
+        {{data.QuestionText}}
+    </div>
+    <div class="scoreContainer">
+        <action-customizable-score-bar data="data" width="width"
+                                       show-comparator="false"></action-customizable-score-bar>
+    </div>
+</div>

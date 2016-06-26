@@ -1,0 +1,80 @@
+<!--<div class="container">
+    <div class="panel-body">
+        <form method="post">
+                <b>Select Dataset Type:</b> <br/>
+                <input type="checkbox" name="chkMonthToDate" />Month To Date <br />
+                <input type="checkbox" name="chkLastMonth"  />Last Month<br />
+                <input type="checkbox" name="chkLastQuarter" />Last Quarter<br />
+                <input type="checkbox" name="chkDateRange"  />Date Range<br />
+                <input type="submit" value="Submit now" />
+        </form>
+    </div>
+</div>-->
+<div class = "container" ng-cloak>
+    <div class = "page-header">
+        <div class = "panel panel-default">
+            <div class = "panel-heading">
+                <!--<span class="glyphicon glyphicon-lock"></span> Login</div>-->
+                Select Dataset
+                <img src = "Content/images/giarte-logo.png" alt = "Giarte" class = "logo"/>
+
+                <div class = "clearfix"></div>
+            </div>
+            <!-- panel-heading -->
+
+            <div class = "panel-body">
+                <div>
+                    <label id = "heading" class = "content-heading">Select customer: </label>
+                    <select class="combo-position" ng-init="selectedCustomer = currentuser.UserToCustomers[0]"
+                            ng-model="selectedCustomer" ng-options="item.CustomerName for item in currentuser.UserToCustomers" ng-change="customerChanged()"></select>
+                </div>
+                <form class = "form-horizontal" role = "form" name ='datasetForm' novalidate>
+                    <div class = "form-group checkbox-panel">
+                        <input type="radio" name="group" ng-model="selectedValue" value="MonthToDate" /> Month To Date
+                         <br />
+                        <input type="radio" name="group" ng-model="selectedValue" value="LastMonth"/> Last Month
+                         <br />
+                        <input type="radio" name="group" ng-model="selectedValue" value="LastQuarter"/> Last Quarter
+                         <br />
+                        <input type="radio" name="group" ng-model="selectedValue"  value="DateRange"/> Date Range
+                        <br /><br />
+
+                        <div id="datePanel">
+                            <div class = "form-group">
+                                <label for = "inputFromDate" class = "col-md-3 control-label">
+                                    From Date:</label>
+
+                                <div class = "col-sm-9">
+                                    <input type = "date" id = "inputFromDate" ng-model="dtpValueFromDate" required>
+                                </div>
+                            </div>
+                            <div class = "form-group">
+                                <label for = "inputToDate" class = "col-md-3 control-label">
+                                    To Date:</label>
+
+                                <div class = "col-sm-9">
+                                    <input type = "date"  id = "inputToDate" ng-model="dtpValueToDate" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class = "form-group last">
+                        <div class = "col-sm-2 col-sm-offset-5">
+                            <button type = "submit" class = "btn btn-success btn-sm"
+                                    data-ng-click = "getCustomerDataset()">
+
+                                Load Dataset
+                            </button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <!-- panel panel-default -->
+    </div>
+    <!-- page-header -->
+</div> <!-- container -->

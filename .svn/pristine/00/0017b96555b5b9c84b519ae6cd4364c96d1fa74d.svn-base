@@ -1,0 +1,98 @@
+<link rel="stylesheet" href="Views/Shared/CSS/AttributeScoreSummary.css"/>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="close_summary()">&times;</button>
+            <div id="btn-back-summary" ng-show="isDetailsState" class="btn-back-summary"
+                 ng-click="backToSummary_click_Handler()">
+                BACK TO SUMMARY<i class="fa fa-arrow-circle-left left-arrow-circle"/>
+            </div>
+            <h4 class="modal-title" id="myModalLabel">
+                <img src="{{titleImage}}"/>
+                {{summaryTitle}}
+            </h4>
+            <div class="row button-bar">
+                <div class="btn btn-success" ng-click="scorecard_selected()">SCORECARD</div>
+                <div class="btn btn-success" ng-click="evaluation_selected()">EVALUATIONS</div>
+                <!--<div class="btn btn-success">SENTIMENT</div>-->
+                <div id="selected-summary-arrow" class="selected-summary-arrow">
+                    <i class="fa fa-caret-up"></i>
+                </div>
+            </div>
+        </div>
+        <div class="modal-body show-by-animation">
+            <div id="summary-service-area-container" class="summary-service-area-container">
+                <action-service-area id="generalSurvey" item-click="scoreBar_Clicked(selectedItem)"
+                                     data="generalSurveyCollection"></action-service-area>
+                <div class="summary-service-area-gap"></div>
+                <action-service-area id="triggerSurvey" item-click="scoreBar_Clicked(selectedItem)"
+                                     data="triggerSurveyCollection"></action-service-area>
+            </div>
+            <div id="summary-container" class="summary-container" >
+                <div id="scorecard-summary" ng-show="scorecardSelected && isSummaryState">
+                    <ul class="attribute-question" id="score-summary-question">
+                        <li ng-repeat="q in selectedAttributeScore.QuestionScores track by $index"
+                            id="attribute-question-{{$index}}" data-ng-click="questionItemClick($event)"
+                            data-questionType="{{q.QuestionType}}" class="attribute-questionListItem">
+                            <div class="attribute-questionListItemDiv" id="div-attribute-{{$index}}">
+                                <action-attribute-score-box score="q.Score" question="q"></action-attribute-score-box>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div id="evaluation-summary" class="evaluation-summary"  ng-show="evaluationSelected && isSummaryState">
+                    <div class="service-area-label">
+                        <p class="label-text">{{selectedAttributeScore.Name}}</p>
+                    </div>
+                    <div id="evaluation-except-os-summary" ng-show="evaluationSelected && isSummaryState && !isOSSelected">
+                        <nav class="score-frequency-header">
+                            <span class="frequency-label">Score frequency per question</span>
+                            <div class="negative-label">1</div>
+                            <div class="negative-label">2</div>
+                            <div class="positive-label">3</div>
+                            <div class="positive-label">4</div>
+                            <span class="header-percentage">%</span>
+                        </nav>
+                        <ul class="evaluation-summary-question" id="evaluation-summary-question">
+                            <li ng-repeat="q in selectedAttributeScore.QuestionScores track by $index"
+                                data-questionType="{{q.QuestionType}}" class="evaluation-summary-questionListItem">
+                                <div class="evaluation-summary-questionListItemDiv">
+                                    <action-attribute-evaluation-summary index="$index+1" score="q.Score" question="q"></action-attribute-evaluation-summary>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="overallEvaluationSummary" ng-show="evaluationSelected && isSummaryState && evaluationSelected && isOSSelected">
+                        <span>Score frequency</span>
+                        <action-overall-evaluation-summary selected-attribute-score="selectedAttributeScore"></action-overall-evaluation-summary>
+                        <div class="overall-summary-bar-container">
+                            <div class="overall-scorebar-container">
+                                <span>Overall satisfaction</span>
+                            </div>
+                            <div class="overall-score-div">
+                                <span>{{selectedAttributeScore.ShortCode}}</span>
+                                <action-customizable-score-bar class="customized-bar-position" width="70" is-os-score="true"
+                                                               score-comparator="selectedAttributeScore.osScoreComparator.scoreComparator"></action-customizable-score-bar>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="fullScoreCard" class="fullScorecard-main-container show-by-animation" ng-show="scorecardSelected && isDetailsState">
+                <action-full-scorecard class="full-scorecard-content-container" full-scorecard-data="fullScorecardData" ng-if="scorecardSelected && isDetailsState">
+                </action-full-scorecard>
+            </div>
+        </div>
+
+        <div id="btn-view-details" class="btn-view-details show-by-animation" ng-click="viewDetails_click_Handler()">
+            <i class="fa fa-arrow-circle-right right-arrow-circle"/>VIEW DETAILS
+        </div>
+        <div id="modal-footer" class="modal-footer show-by-animation">
+             <span>Respondents({{selectedAttributeScore.Respondent}})</span>
+            <div id="btn-view-evaluations" class="btn-view-evaluations" ng-click="viewEvaluation_click_Handler()">
+                <i class="fa fa-arrow-circle-right right-arrow-circle"/>VIEW EVALUATIONS
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+"use strict";
+
+define(['application-configuration', 'alertsService', 'bootstrap', 'leftMenuController', 'headerController', 'accountFactory', 'datasetSelectionFactory', 'dataFactory', 'comparatorFactory','leftMenuSlidingWindowEventNotifyFactory','moreSettingsFactory','dataFilterFactory'], function (app) {
+
+    app.register.controller('actionRootController', ['$scope', '$rootScope', 'alertsService', 'accountFactory', 'Notify', 'datasetSelectionFactory', 'dataFactory', 'ComparatorType', 'comparatorFactory', 'leftMenuSlidingWindowEventNotifyFactory','moreSettingsFactory','serviceAreaScoreData','dataFilterFactory',
+        function ($scope, $rootScope, alertsService, accountFactory, Notify, datasetSelectionFactory, dataFactory, ComparatorType, comparatorFactory, leftMenuSlidingWindowEventNotifyFactory,moreSettingsFactory,serviceAreaScoreData,dataFilterFactory) {
+            $rootScope.applicationModule = "MainLayout";
+            //$scope.IsFullscoreCardLoad = serviceAreaScoreData.GetGeneralSurveyCollection().length > 0;
+            loadInitialData();
+
+            function loadInitialData() {
+                $scope.active = false;
+                $scope.selectedDataset = datasetSelectionFactory;
+                $scope.selectedComparator = ComparatorType.Target;
+                $scope.dataFilterFactory = dataFilterFactory;
+            };
+
+            $scope.logoutMain = function () {
+                $rootScope.IsloggedOut = false;
+                $rootScope.loadTitle = "Log out";
+                var user = accountFactory.UserData();
+                accountFactory.LogOut(user);
+            };
+
+            $scope.$on(Notify.LOGOUT_SUCCESSFUL, function (event) {
+                window.location = "#/";
+                $rootScope.isNeedToShowLoading = false;
+            });
+
+            $scope.$on("listviewActive", function (event) {
+                $scope.active = true;
+            });
+
+            $scope.compareSettingOkBtnClick = function () {
+                leftMenuSlidingWindowEventNotifyFactory.setCompareSettingsOkBtnEvent(true);
+            };
+
+            $scope.moreSettingOkBtnClick = function () {
+                leftMenuSlidingWindowEventNotifyFactory.setMoreSettingsOkBtnEvent(true);
+            };
+        }]);
+
+});

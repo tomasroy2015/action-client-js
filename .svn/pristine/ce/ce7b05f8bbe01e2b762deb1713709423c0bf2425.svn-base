@@ -1,0 +1,69 @@
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="col-md-3 left-menu">
+            <!--<h1>Nav</h1>-->
+
+            <!--<div style="border: 1px solid #ff0000;height: 100px" ng-include="'app/components/datafilter/AccordionPanel.html'"></div>-->
+            <!--<accordion>-->
+                <!--<accordion-group  ng-repeat="group in vm.groups">-->
+                    <!--{{vm.group.content}}-->
+                <!--</accordion-group>-->
+            <!--</accordion>-->
+            <!--<div ng-repeat="group in vm.groups"> {{group.content}}</div>-->
+
+            <!--<accordion close-others="oneAtATime">-->
+                <!--<accordion-group heading="{{group.title}}" ng-repeat="group in vm.groups">-->
+                    <!--{{group.content}}-->
+                <!--</accordion-group>-->
+            <!--</accordion>-->
+
+            <!--<div ng-include="'app/components/datafilter/accordionDiv.html'"></div>-->
+            <div id="logo">
+                <img class="logo" src="Content/images/dsm.png"/>
+            </div>
+
+            <div ng-include="'Views/DataFilter/AccordionPanel.html'"></div>
+
+            <div id="generalSurveyServiceArea" class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" value="GEN"> SAT
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="option2" autocomplete="off" value="WRK"> WRK
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="option3" autocomplete="off" value="BAP"> BAP
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="option4" autocomplete="off" value="T&I"> T&I
+                </label>
+            </div>
+
+        </div>
+        <div class="col-md-9 right-content">
+            <div class="container-fluid">
+                <div class="row content-page-header">
+                    <div class="row tab-container">
+                        <action-tabset>
+                            <action-tab title="Map" template-url="Views/List/ListView.html"></action-tab>
+                            <action-tab title="List" template-url="Views/Map/MapView.html"></action-tab>
+                            <action-tab title="Sentiment" template-url="Views/Sentiment/SentimentView.html"></action-tab>
+                        </action-tabset>
+                    </div>
+
+                    <!-- Logout btn -->
+                    <div id="logout">
+                        <button type="submit" class="btn btn-success btn-sm" data-ng-click="logoutMain()">Log out</button>
+                    </div>
+
+                </div>
+                <div  class="row content-main">
+                    <div>
+                        <!--Main contents here....-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

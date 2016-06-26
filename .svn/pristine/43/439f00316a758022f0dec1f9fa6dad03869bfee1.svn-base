@@ -1,0 +1,115 @@
+/* All external import files
+======================================================*/
+div.service-area-questions-container {
+  margin-right: 0px;
+  width: 229px;
+  /*question item width in left panel.total background width of a item*/
+  margin-top: 10px;
+  padding-left: 3px; }
+
+/*Question hover arrow style  */
+ul.question {
+  display: table;
+  width: 100%;
+  /*94% need to check from this line */
+  padding: 0px;
+  margin: 0px;
+  position: relative; }
+  ul.question li.questionListItem {
+    display: block;
+    height: 25px;
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    border: 1px solid transparent; }
+  ul.question .questionListItemDiv {
+    position: relative;
+    line-height: 25px;
+    /* equal to the list item's height */
+    height: 100%;
+    width: 225px; }
+    ul.question .questionListItemDiv:not(.selectedQuestionListItemDiv):hover {
+      background-color: #ddddde;
+      cursor: pointer; }
+      ul.question .questionListItemDiv:not(.selectedQuestionListItemDiv):hover:after {
+        top: 0;
+        content: "";
+        position: absolute;
+        right: -12.5px;
+        border-top: 12.5px solid transparent;
+        border-bottom: 12.5px solid transparent;
+        border-left: 12.5px solid #ddddde;
+        z-index: 100;
+        right: -11.5px; }
+
+/*start*/
+.selectedQuestionListItemDiv {
+  background-color: #FFED00;
+  position: relative;
+  line-height: 25px;
+  /* equal to the list item's height */
+  height: 100%;
+  width: 225px; }
+  .selectedQuestionListItemDiv:after {
+    top: 0;
+    content: "";
+    position: absolute;
+    right: -12.5px;
+    border-top: 12.5px solid transparent;
+    border-bottom: 12.5px solid transparent;
+    border-left: 12.5px solid #FFED00;
+    z-index: 100;
+    right: -11.5px; }
+
+/*list item style*/
+.questionContainerDiv {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  float: left;
+  height: 25px;
+  font-size: 11px; }
+
+.questionLabelDiv {
+  text-align: left;
+  margin-top: 0px;
+  width: 134px;
+  float: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  top: 0;
+  margin-right: 3px;
+  padding-left: 4px; }
+
+.questionScoreDiv1 {
+  margin-top: 0px;
+  width: 30px;
+  display: inline-block;
+  float: left;
+  top: 0;
+  font-weight: bold; }
+
+.canvasContainer {
+  height: 28px; }
+
+.questionScorebar {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: auto;
+  display: block;
+  float: left;
+  top: 5px; }
+
+.questionText {
+  color: #000000; }
+
+ul li {
+  list-style: none; }
+
+/* Shahin new design May 24-2015 */
+
+/*# sourceMappingURL=ServiceAreaScoreItemTemplate.css.map */

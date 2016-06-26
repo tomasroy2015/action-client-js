@@ -1,0 +1,559 @@
+"use strict";
+
+define(['application-configuration', 'd3','topojson','dataFactory','CreateViewDataFactory', 'comparatorFactory'], function (app,d3,topojson) {
+
+    app.register.controller('mapViewController', ['$document','$rootScope','$scope','$timeout','$compile', 'dataFactory','Notify','CreateViewDataFactory','comparatorFactory','serviceAreaScoreData', 'fullScorecardDataFactory', 'attributeScoreSummaryData', 'blockUI',
+        function ($document,$rootScope,$scope,$timeout, $compile, dataFactory,Notify,CreateViewDataFactory,comparatorFactory,serviceAreaScoreData, fullScorecardDataFactory, attributeScoreSummaryData, blockUI) {
+
+        var countryViewScoreDataCollection = [];
+        var selectedServiceAreaId = "", selectedQuestionId = "";
+        var selectedServiceAreaName = "", selectedQuestionName = "";
+        var clickTimer = null;
+        var isDoubleClickEvent = false;
+        var isMouseOver = true;
+        var selectedCountryId = "";
+        var transitionDelay = 1000;
+        var zoom = null;
+        var width = 0, height = 0;
+
+        $scope.fromView = "mapview";
+        $scope.countryPopUp = {};
+        $scope.isNeedToShowMapSummary=false;
+        $scope.evaluationDataCollection = [];
+
+        initializeCountryViewData();
+
+        $scope.$on(Notify.ATTRIBUTE_EVALUATION_FROM_MAP_READY, function (event,response) {
+            if(angular.isUndefined(response)) return;
+            $scope.evaluationDataCollection = response.data;
+        });
+        $scope.$on(Notify.SERVICE_AREA_CHANGED, function () {
+            selectedServiceAreaId = dataFactory.SelectedServiceAreaId();
+            selectedServiceAreaName = getSelectedServiceAreaName(selectedServiceAreaId);
+            selectedQuestionName = "";
+            updateSelectedServiceAreaScoreData();
+            updateMapView();
+        });
+        $scope.$on(Notify.SERVICE_AREA_QUESTION_CHANGED, function () {
+            selectedQuestionId = dataFactory.GetSelectedQuestion().ID;
+            var selectedQuestion = dataFactory.GetSelectedQuestion();
+            if(selectedQuestion.IncludeInGroupScore) {
+                selectedQuestionName = selectedQuestion.Text;
+            }else{
+                selectedQuestionName = "\\ " + selectedQuestion.Text;
+            }
+
+            updateSelectedQuestionScoreData();
+            updateMapView();
+        });
+
+        $scope.$on(Notify.DATASET_CHANGED, function () {
+            initializeCountryViewData();
+            updateMapView();
+        });
+        $scope.$on(Notify.DATA_READY, function () {
+            initializeCountryViewData();
+            updateMapView();
+            if(dataFactory.IsResetFilterOrView()){
+                reset();
+            }
+        });
+        $scope.$on(Notify.DATA_FILTER_APPLIED, function () {
+            initializeCountryViewData();
+            updateMapView();
+        });
+        $scope.$on(Notify.COMPARATOR_TYPE_CHANGED, function () {
+            updateSelectedServiceAreaScoreData();
+            $scope.d3Data = countryViewScoreDataCollection;
+            updateMapView();
+        });
+        $scope.$on(Notify.COMPARATOR_COLOR_CHANGED, function () {
+            updateSelectedServiceAreaScoreData();
+            $scope.d3Data = countryViewScoreDataCollection;
+            updateMapView();
+        });
+        $scope.$on(Notify.LEFT_MENU_FOLD_BUTTON_CLICK, function(){
+            if($scope.d3Data.length == 1) {
+                var countryId = $scope.d3Data[0].CountryKey;
+                var countryData = countries.filter(function (d) {
+                    return d.properties.NAME === countryId;
+                });
+                fitToSpecificCountryRegion(countryData);
+            }else {
+                fitToSpecificCountryRegion(countries);
+            }
+        });
+        $scope.summaryPopupCloseHandler = function(events){
+            var element = document.getElementById("map-view-summary");
+            if (element) {
+                angular.element(element).remove();
+            }
+            $scope.isNeedToShowMapSummary = false;
+        };
+        //Private Methods
+        function fitToSpecificCountryRegion(countryData){
+            var containerWidth = document.getElementById('mapContainer').offsetWidth,
+                containerHeight = document.getElementById('mapContainer').offsetHeight;
+            //if (active.node() === this) return reset();
+            //active.classed("active", false);
+            //active = d3.select(this).classed("active", true);
+            var bounds;
+            if(countryData.length == 1) {
+                bounds = path.bounds(countryData[0]);
+            }else{
+                var maxX = 0, minX = containerWidth, maxY = 0, minY = containerHeight;
+                for(var i = 0; i < countryData.length; i++){
+                    var countryPart = path.bounds(countryData[i]);
+                    if(countryPart[0][0] < minX){
+                        minX = countryPart[0][0];
+                    }
+                    if(countryPart[1][0] > maxX) {
+                        maxX = countryPart[1][0];
+                    }
+                    if(countryPart[0][1] < minY){
+                        minY = countryPart[0][1];
+                    }
+                    if(countryPart[1][1] > maxY) {
+                        maxY = countryPart[1][1];
+                    }
+                }
+                bounds = [[minX, minY],[maxX, maxY]];
+            }
+            var dx = bounds[1][0] - bounds[0][0],
+                dy = bounds[1][1] - bounds[0][1],
+                x = (bounds[0][0] + bounds[1][0]) / 2,
+                y = (bounds[0][1] + bounds[1][1]) / 2,
+                scale = Math.min(containerWidth / dx, containerHeight / dy),
+                translate = [containerWidth / 2 - scale * x, containerHeight / 2 - scale * y];
+            svg.call(zoom).on(".zoom", null);
+            svg.transition()
+                .duration(transitionDelay)
+                .call(zoom.translate(translate).scale(scale).event);
+            setTimeout(function(){
+                svg.call(zoom).on(".zoom", onZoom);
+            }, transitionDelay + 500);
+        }
+        function onZoom() {
+
+            var translate = d3.event.translate;
+            var scale = d3.event.scale;
+
+            var h = height/4;
+
+            if(isReSetting){
+                isReSetting = false;
+                svg.transition()
+                    .duration(transitionDelay)
+                    .call(zoom.translate([0,0]).scale(1).event);
+                return;
+            }
+
+            translate[0] = Math.min(
+                (width/height)  * (scale - 1),
+                Math.max( width * (1 - scale), translate[0] )
+            );
+
+            translate[1] = Math.min(
+                h * (scale - 1) + h * scale,
+                Math.max(height  * (1 - scale) - h * scale, translate[1])
+            );
+
+            //zoom.translate(translate);
+            //g.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+            //
+            ////adjust the country hover stroke width based on zoom level
+            //d3.selectAll(".feature").style("stroke-width", 1.5 / scale);
+
+            g.style("stroke-width", 1.5 / d3.event.scale + "px");
+            g.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+        }
+        function reset() {
+            if($scope.d3Data.length == 1) {
+                var countryId = $scope.d3Data[0].CountryKey;
+                var countryData = countries.filter(function (d) {
+                    return d.properties.NAME === countryId;
+                });
+                fitToSpecificCountryRegion(countryData);
+            }else {
+                if(selectedCountryId.length > 0 || zoom.scale() > 1) {
+                    selectedCountryId = "";
+                    //active.classed("active", false);
+                    //active = d3.select(null);
+                    isReSetting = true;
+                    //g.transition()
+                    //    .duration(750)
+                    //    .attr("transform", "");
+                    svg.call(zoom).on(".zoom", null);
+                    svg.transition()
+                        .duration(transitionDelay)
+                        .call(zoom.translate([0,0]).scale(1).event);
+                    setTimeout(function(){
+                        svg.call(zoom).on(".zoom", onZoom);
+                    }, transitionDelay + 500);
+                }else{
+                    svg.call(zoom).on(".zoom", null);
+                }
+            }
+        }
+        function onCountryClick(selectedCountry){
+            setTimeout(function() {
+                if (!isDoubleClickEvent) {
+                    clickHandler(selectedCountry);
+                    isDoubleClickEvent = false;
+                    isMouseOver = false;
+                }
+            }, 400);
+        };
+        function clickHandler(selectedCountry){
+            var selectedCountryViewScoreData = _.find(countryViewScoreDataCollection, function(n){
+                return n.CountryKey == selectedCountry.properties.NAME;
+            });
+            if(selectedCountryViewScoreData){
+                $scope.$apply(function(){
+                    $scope.fromView = "mapview";
+                    selectedCountryViewScoreData.Name = selectedCountryViewScoreData.DisplayName;
+                    $scope.attributeData = selectedCountryViewScoreData;
+                    $scope.attributeIndex = 4;
+                    $scope.isNeedToShowMapSummary=true;
+                    //angular.element(document.getElementById('mapViewContainer')).append($compile("<div id='map-view-summary' ng-show='isNeedToShowMapSummary' class='show-popup open-popup-animation'>" +
+                    //    "<action-attribute-score-summary id='map-view-attribute-summary' evaluation-data-collection='evaluationDataCollection'" +
+                    //    "from-view='fromView' attribute-index='attributeIndex' attribute-value='attributeValue'" +
+                    //    "control='countryPopUp' attribute-data='attributeData' close-summary-popup='summaryPopupCloseHandler($event)'></action-attribute-score-summary></div>")($scope));
+
+                    $scope.countryPopUp.openSummaryView(selectedCountryViewScoreData);
+                });
+            }
+        }
+        function initializeCountryViewData(){
+            countryViewScoreDataCollection.length = 0;
+            selectedServiceAreaId = dataFactory.SelectedServiceAreaId();
+
+            prepareCountryViewDataCollection(dataFactory.CountryaScoreDataCollection());
+            updateSelectedServiceAreaScoreData();
+            $scope.d3Data = countryViewScoreDataCollection;
+            selectedServiceAreaName = _.find(dataFactory.ServiceAreaCollection(),function(n){
+                return n.Id == selectedServiceAreaId;
+            }).Name;
+
+        }
+
+        function prepareCountryViewDataCollection(cCollection){
+            for ( var i=0; i<cCollection.length; i++){
+                var viewData = CreateViewDataFactory.CountryViewScoreData();
+                viewData.Id =cCollection[i].Country.Id;
+                viewData.CountryKey = cCollection[i].Country.Countrykey;
+                viewData.DisplayName = cCollection[i].Country.Displayname;
+                viewData.Score = NaN;
+                viewData.Comparator = NaN;
+                viewData.CountryColor = "#736F6E";
+                viewData.MappedCountryValues = cCollection[i].Country.MappedCountryValues;
+                viewData.ServiceAreaScoreDataCollection = cCollection[i].ServiceAreaScoreDataCollection;
+
+                countryViewScoreDataCollection.push(viewData);
+            }
+        }
+
+        function updateSelectedServiceAreaScoreData(){
+            for (var i=0; i<countryViewScoreDataCollection.length; i++){
+                var countryData = countryViewScoreDataCollection[i];
+                if(countryData.ServiceAreaScoreDataCollection && countryData.ServiceAreaScoreDataCollection.length > 0){
+                    var selectedScoreItems = _.filter(countryData.ServiceAreaScoreDataCollection, function(n){
+                        return n.Id == selectedServiceAreaId
+                    });
+                    if(selectedScoreItems.length > 0){
+                        countryData.Score = selectedScoreItems[0].Score;
+                        countryData.Comparator = comparatorFactory.GetScoreItemComparator(selectedServiceAreaId);
+                        countryData.DoubleTarget = comparatorFactory.GetDoubleTarget(selectedServiceAreaId);
+                        countryData.CountryColor = dataFactory.GetScoreColor(countryData.Score, countryData.Comparator, selectedServiceAreaId === 'OS');
+                        countryData.Respondent = selectedScoreItems[0].Respondent;
+                    }
+                    else{
+                        countryData.Score = NaN;
+                        countryData.Comparator = comparatorFactory.GetScoreItemComparator(selectedServiceAreaId);
+                        countryData.DoubleTarget = comparatorFactory.GetDoubleTarget(selectedServiceAreaId);
+                        countryData.CountryColor = dataFactory.GetScoreColor(countryData.Score, countryData.Comparator, selectedServiceAreaId === 'OS');
+                        countryData.Respondent = 0;
+                    }
+                }
+            }
+        }
+        function updateSelectedQuestionScoreData(){
+            for (var i=0; i<countryViewScoreDataCollection.length; i++){
+                var countryData = countryViewScoreDataCollection[i];
+                if(countryData.ServiceAreaScoreDataCollection && countryData.ServiceAreaScoreDataCollection.length > 0){
+                    var selectedScoreItems = _.filter(countryData.ServiceAreaScoreDataCollection, function(n){
+                        return n.Id == selectedServiceAreaId
+                    });
+                    if(selectedScoreItems.length > 0){
+                        if(selectedQuestionId.indexOf('_SES') >= 0) {
+                            countryData.Score = selectedScoreItems[0].Ses.Score;
+                            countryData.Comparator = comparatorFactory.GetScoreItemComparator(selectedQuestionId);
+                            countryData.DoubleTarget = comparatorFactory.GetDoubleTarget(selectedQuestionId);
+                            countryData.CountryColor = dataFactory.GetScoreColor(countryData.Score, countryData.Comparator, false);
+                        }else{
+                            var selectedQuestion = _.filter(selectedScoreItems[0].QuestionScores, function (n) {
+                                return n.QuestionId == selectedQuestionId
+                            });
+                            if (selectedQuestion.length > 0) {
+                                countryData.Score = selectedQuestion[0].Score;
+                                countryData.Comparator = comparatorFactory.GetScoreItemComparator(selectedQuestionId);
+                                countryData.DoubleTarget = comparatorFactory.GetDoubleTarget(selectedQuestionId);
+                                countryData.CountryColor = dataFactory.GetScoreColor(countryData.Score, countryData.Comparator, false);
+                            }
+                            else {
+                                countryData.Score = NaN;
+                                countryData.Comparator = comparatorFactory.GetScoreItemComparator(selectedQuestionId);
+                                countryData.DoubleTarget = comparatorFactory.GetDoubleTarget(selectedQuestionId);
+                                countryData.CountryColor = dataFactory.GetScoreColor(countryData.Score, countryData.Comparator, false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        var getSelectedServiceAreaName = function(serviceAreaId){
+           return _.find(dataFactory.ServiceAreaCollection(),function(n){
+             return n.Id == serviceAreaId;
+          }).Name;
+        };
+
+        //d3 map stuffs start here
+        var countries, projection, path, svg, g,
+            active = d3.select(null),
+            isReSetting =false,
+            tooltip = d3.select("#container").append("div").attr("class", "map-tooltip tooltip hidden");
+
+        // on window resize, re-render d3 canvas
+        window.onresize = function() {
+            return $scope.$apply();
+        };
+
+        $scope.$watch(function(){
+                return angular.element(window)[0].innerWidth;
+            }, function(){
+                return $scope.render($scope.d3Data);
+            }
+        );
+
+        var updateMapView = function()
+        {
+            if(!angular.isUndefined(g)) {
+                g.selectAll(".feature").transition()
+                    .duration(700)
+                    .style("fill", setCountryFillColor);
+            }
+        };
+
+        //Set country color based on score and comparator
+        var setCountryFillColor = function(d){
+            var countryData = getCountryData(d.properties.NAME);
+            if(countryData)
+                return   countryData.CountryColor;
+            else
+                return  "#ccc";//Inactive country color
+        };
+
+        var getCountryData = function(countryKey){
+            return _.find($scope.d3Data, function(n){
+                return n.CountryKey == countryKey;
+            });
+        };
+        // define render function
+        $scope.render = function(data){
+            blockUI.start();
+            $timeout(function(){
+                width = document.getElementById('mapContainer').offsetWidth;
+                height = document.getElementById('mapContainer').offsetHeight;
+
+                if((height && height <= 0) || (width &&  width <= 0)){
+                    height = 600;
+                    width = 900;
+                }
+                d3.select("#mapContainer").select('svg').remove();
+
+                zoom = d3.behavior.zoom()
+                    .scaleExtent([1, 60])//How far a map can be zoomed
+                    .on("zoom", onZoom);
+                setup(width,height);
+
+                d3.json("Views/Map/Data/world_countries.json", function(error, world) {
+                    countries = topojson.feature(world, world.objects.world_countries).features;
+                    draw();
+                });
+                updateMapView();
+                blockUI.stop();
+            }, 2000);
+            function setup(width,height){
+
+                projection = d3.geo.mercator()
+                    .translate([width/2, height/1.75])
+                    //.scale( Math.min(width, height) / 1.5 / Math.PI);
+                    .scale( 150);
+
+                path = d3.geo.path().projection(projection);
+
+                svg = d3.select("#mapContainer").append("svg")
+                    .attr("width", "100%")
+                    .attr("height", "100%")
+                    .call(zoom)
+
+                svg.append("rect")
+                    .attr("class", "background")
+                    .attr("width", "100%")
+                    .attr("height", "100%")
+                    .on("dblclick", reset);
+
+                g = svg.append("g");
+            }
+
+
+            function draw() {
+                var country = g.selectAll(".country").data(countries);
+                country.enter().insert("path")
+                    .attr("class", "feature")
+                    .attr("d", path)
+                    .on("dblclick", onDoubleClick)
+                    .on("click", onCountryClick)
+                    .attr("id", function(d) { return d.properties.NAME; })
+                    .attr("title", function(d) { return d.properties.NAME; })
+                    .style("fill", setCountryFillColor);
+                if($scope.d3Data.length == 1) {
+                    var countryId = $scope.d3Data[0].CountryKey;
+                    var countryData = countries.filter(function (d) {
+                        return d.properties.NAME === countryId;
+                    });
+                    fitToSpecificCountryRegion(countryData);
+                }
+
+                //offsets for tooltips
+                var offsetL = document.getElementById('container').offsetLeft+20;
+                var offsetT = document.getElementById('container').offsetTop+10;
+
+                //tooltips
+                country
+                    .on("mouseover", function(d,i) {
+                        var countryData = getCountryData(d.properties.NAME);
+                        var questionLabel = selectedQuestionName.length > 0 ? selectedQuestionName.toUpperCase() : selectedServiceAreaName.toUpperCase();
+                        if(countryData != null && countryData != 'undefined') {
+                            var mouse = d3.mouse(svg.node()).map(function (d) {
+                                return parseInt(d);
+                            });
+                            var left = 0, top = 0;
+                            if(mouse[0] + 222 > width){
+                                left = mouse[0] - 230;
+                            }else{
+                                left = mouse[0] + offsetL;
+                            }
+                            if(mouse[1] + 50 > height){
+                                top = mouse[1] - 20;
+                            }else{
+                                top = mouse[1] + offsetT;
+                            }
+                            $scope.scoreBarData = {
+                                Score: countryData.Score,
+                                Comparator: countryData.Comparator,
+                                ScoreColor: countryData.CountryColor,
+                                QuestionId:selectedServiceAreaId,
+                                DoubleTarget: countryData.DoubleTarget
+                            };
+                            $scope.isComparatorEnable = "true";
+
+
+                            var tooltipStr = "<div class='tip-header'>" +
+                                "<div class='regionNameContainer'>" + countryData.DisplayName.toUpperCase() + "</div>" +
+                                "<div class='serviceAreaContainer'>" + questionLabel + "</div>" +
+                                "<div id='tooltip-score-bar'></div></div>";
+                                //"<div id='tooltip-score-bar'><svg  height='30' width='200'>";
+                            //var scoreBarWidth = 0;
+                            //if(countryData.Score >= 0) {
+                            //    var scoreText = '';
+                            //    if(selectedServiceAreaId !== 'OS'){
+                            //        scoreText = countryData.Score + '%';
+                            //        scoreBarWidth = countryData.Score;
+                            //    }else{
+                            //        scoreText = countryData.Score;
+                            //        scoreBarWidth = countryData.Score * 10;
+                            //    }
+                            //    tooltipStr += "<svg  x='0' y='0' width='50' height='30' ><text x='50%' y='50%'  style='fill: white; font-size: 16px' text-anchor='middle' dominant-baseline='central'>" + scoreText + "</text></svg>";
+                            //}
+                            //tooltipStr += "<rect x='50' y='10' width='100' height='7' style='fill:gray'></rect>" +
+                            //    "<rect x='50' y='10' width='"+ scoreBarWidth +"' height='7' style='fill:" + countryData.CountryColor + "'></rect>";
+                            //if(countryData.Comparator >= 0) {
+                            //    var comparatorPosition = 50;
+                            //    if(selectedServiceAreaId !== 'OS'){
+                            //        comparatorPosition += countryData.Comparator;
+                            //    }else{
+                            //        comparatorPosition +=  Math.round(countryData.Comparator * 10);
+                            //    }
+                            //    //if(scoreBarWidth < comparatorPosition){
+                            //    //    var shortageColorStartPos = 50 +scoreBarWidth;
+                            //    //    var testWidth = comparatorPosition - scoreBarWidth;
+                            //    //    tooltipStr += "<rect x='" + shortageColorStartPos + "' y='10' width='"+ testWidth +"' height='7' style='fill:" + countryData.CountryColor + " fill-opacity:" + 0.4 +"></rect>";
+                            //    //}
+                            //    tooltipStr += "<rect x='" + comparatorPosition +  "' y='7' width='3' height='13' style='fill:#fff'></rect>";
+                            //}
+                            //if(countryData.DoubleTarget >= 0){
+                            //    var dtPosition = 50;
+                            //    if(selectedServiceAreaId !== 'OS'){
+                            //        dtPosition += countryData.DoubleTarget;
+                            //    }else{
+                            //        dtPosition +=  Math.round(countryData.DoubleTarget * 10);
+                            //    }
+                            //    tooltipStr += "<rect x='" + dtPosition +  "' y='7' width='3' height='13' style='fill:#ccc'></rect>";
+                            //}
+                            //if(countryData.Comparator >= 0){
+                            //    tooltipStr += "<text x='162' y='20' style='fill: white; font-size: 16px' text-anchor='start'>" + countryData.Comparator + "</text>";
+                            //}
+                            //tooltipStr += "</svg> </div></div>";
+
+                            if(countryData.Respondent > 0) {
+                                tooltipStr += "<div class='footer'>Based on " + countryData.Respondent + " respondent(s)</div>";
+                            }else{
+                                tooltipStr += "<div class='footer'>No respondent</div>";
+                            }
+
+                            isMouseOver = true;
+                            tooltip.classed("hidden", false)
+                                .attr("style", "left:" + left + "px;top:" + top + "px;")
+                                .html(tooltipStr);
+                            angular.element(document.getElementById('tooltip-score-bar')).append( $compile("<action-customizable-score-bar data='scoreBarData' width='100' show-comparator='{{isComparatorEnable}}'></action-customizable-score-bar>")($scope));
+                        }
+                    })
+                    .on("mouseout",  function(d,i) {
+                        tooltip.classed("hidden", true);
+                    });
+
+            }
+
+            function redraw() {
+                width = document.getElementById('container').offsetWidth;
+                height = width / 2;
+                d3.select('svg').remove();
+                setup(width,height);
+                draw(topo);
+            }
+
+            function onDoubleClick(selectedCountry) {
+                isDoubleClickEvent = true;
+                isMouseOver = false;
+                if ($scope.d3Data.length > 1) {
+                    if(selectedCountryId === selectedCountry.properties.NAME){
+                        reset();
+                    }else {
+                        selectedCountryId = selectedCountry.properties.NAME;
+                        var countryData = _.filter(countries, function (n) {
+                            return n.properties.NAME == selectedCountry.properties.NAME;
+                        });
+                        fitToSpecificCountryRegion(countryData);
+                    }
+                }
+
+                setTimeout(function() {
+                    isDoubleClickEvent = false;
+                },500);
+            }
+        };
+
+    }]);
+
+});

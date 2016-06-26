@@ -1,0 +1,9 @@
+<div style="width: 100%;height: 300px; background-color: red" ng-controller="evaluationController">
+    <div class="evaluation-ui-grid-container">
+        <!--<div id="evaluationGrid" class="ui-grid" -->
+             <!--external-scopes="gridScope" ui-grid="uiGridConfig" ui-grid-auto-resize>-->
+        <service-area-evaluatoins></service-area-evaluatoins>
+        </div>
+    </div>
+</div>
+</div>

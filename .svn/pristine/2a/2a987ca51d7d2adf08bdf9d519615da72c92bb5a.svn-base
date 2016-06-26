@@ -1,0 +1,128 @@
+
+<link rel="stylesheet" href="Views/Shared/Module/ngtable/ng-table.css"/>
+<link rel="stylesheet" href="Views/List/ListViewTemplate.css"/>
+<div class="lisview-container" id="parentDiv" ng-controller="listViewController">
+    <div class="row row-container" >
+        <div class="table-responsive vscrollbar">
+            <div>
+                <view-by-attribute attr-item-collection="attributeItemColl" selected-attribute="defaultAttr"></view-by-attribute>
+            </div>
+            <!--
+            <table ng-table="tableParams" class="table" id="tbl">
+                <tr ng-repeat="user in $data">
+                    <td data-title="'Name'" sortable="'name'">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img style="float: left;width:20px;height: 24px;margin-right: 10px;"
+                                     src="Content/images/geo-attribute-default-icon.png"/>
+                                <span id="name">{{user.name}}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-title="'Score'" sortable="'score.score'">
+                        <scorebar score="user.score.score"></scorebar>
+                    </td>
+                    <td data-title="'Questions'">
+                        <ul ng-repeat="q in user.questionScores" style="display: inline;padding: 0px;margin: 0px">
+                            <li class="horizontal">
+                                <questionscore score="q.score"></questionscore>
+                            </li>
+                        </ul>
+                    </td>
+                    <td data-title="'Evaluations'" sortable="'age'" style="height: 45px">
+                       <evaluation-speech-bubble evaluation-count="user.age"></evaluation-speech-bubble>
+                    </td>
+                </tr>
+            </table>-->
+            <table ng-table="tableParams" class="table ng-table" id="tbl">
+            <thead>
+            <tr>
+                <th class="sortable" ng-class="{
+                        'sort-asc':tableParams.isSortBy('name','asc'),
+                        'sort-desc':tableParams.isSortBy('name','desc')}"
+                    ng-click="tableParams.sorting({'name':tableParams.isSortBy('name','asc')?'desc':'asc'})">
+                    <div ng-if="!template" ng-show="!template" class="ng-scope ng-binding">NAME</div>
+                </th>
+                <th class="sortable" ng-class="{
+                        'sort-asc':tableParams.isSortBy('score.score','asc'),
+                        'sort-desc':tableParams.isSortBy('score.score','desc')}"
+                    ng-click="tableParams.sorting({'score.score':tableParams.isSortBy('score.score','asc')?'desc':'asc'})">
+                    <div>SCORE</div>
+                </th>
+
+                <!--
+                    <th ng-repeat="questionType in $data[0].questionScores" style="float: none; width: 100px;"
+                        class="sortable" ng-class="{
+                            'sort-asc':tableParams.isSortBy(questionType.questionType,'asc'),
+                            'sort-desc':tableParams.isSortBy(questionTyp.questionType,'desc')}"
+                        ng-click="tableParams.sorting({questionType.questionType,tableParams.isSortBy(questionType.questionType,'asc')?'desc':'asc'})">
+                        <div>{{questionType.questionType}}
+                        </div>
+                    </th>-->
+                <th>
+                    <div>QUESTIONS</div>
+                </th>
+                <th ng-repeat="column in columns"
+                    class="sortable" ng-class="{
+                    'sort-asc': tableParams.isSortBy(column.questionType, 'asc'),
+                    'sort-desc': tableParams.isSortBy(column.questionType, 'desc')
+                  }"
+                    ng-click="tableParams.sorting(column.questionType, tableParams.isSortBy(column.questionType, 'asc') ? 'desc' : 'asc')">
+                    <div>{{column.questionType}}</div>
+                </th>
+                <th class="sortable" ng-class="{
+                        'sort-asc':tableParams.isSortBy('age','asc'),
+                        'sort-desc':tableParams.isSortBy('age','desc')}"
+                    ng-click="tableParams.sorting({'age':tableParams.isSortBy('age','asc')?'desc':'asc'})">
+                    <div>EVALUATIONS</div>
+                </th>
+            </thead>
+            <tbody ng-repeat="user in $data">
+            <tr data-ng-click="rowSelection_Handler(user)">
+                <td  sortable="'name'">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img style="float: left;width:20px;height: 24px;margin-right: 10px;"
+                                 src="Content/images/geo-attribute-default-icon.png"/>
+                            <span id="name">{{user.name}}</span>
+                        </div>
+                    </div>
+                </td>
+                <td  sortable="'score.score'">
+                    <scorebar score="user.score.score"></scorebar>
+                </td>
+                <td>
+                    <ul ng-repeat="q in user.questionScores" style="display: inline;padding: 0px;margin: 0px">
+                        <li class="horizontal">
+                            <questionscore score="q.score"></questionscore>
+                        </li>
+                    </ul>
+                </td>
+
+                <td ng-repeat="q in user.questionScores">
+                    <ul style="display: inline;padding: 3px;">
+                        <li class="horizontal">
+                            <questionscore score="q.score"></questionscore>
+                        </li>
+                    </ul>
+                </td>
+                <td sortable="'age'" style="height: 45px">
+                    <evaluation-speech-bubble evaluation-count="user.age"></evaluation-speech-bubble>
+                </td>
+            </tr>
+            </tbody>
+            </table>
+                <!--<script type="text/ng-template" id="custom/pager">
+
+                        <ul style=" list-style: none;" class="pager ng-cloak">
+                            <div style="padding: 0;margin: 0;float: right;">
+                                <li style="display: inline;padding-right: 3px;padding-left: 3px" ng-repeat="page in pages track by $index" ng-show="$index>0 && $index<pages.length-1">
+                                    <a  ng-click="params.page(page.number)" href=""> {{$index}}</a>
+                                </li>
+                            </div>
+                        </ul>
+                </script>-->
+        </div>
+    </div>
+
+</div>

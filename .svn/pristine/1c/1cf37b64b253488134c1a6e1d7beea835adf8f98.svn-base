@@ -1,0 +1,179 @@
+"use strict";
+
+define(['application-configuration','alertsService','dataFactory','ng-table'], function (app) {
+
+    app.register.controller('listViewController', ['$scope','$rootScope','alertsService','dataFactory',
+        '$filter', 'ngTableParams','$window',
+        function ($scope,$rootScope,alertsService,dataFactory,$filter,ngTableParams,$window) {
+            console.log('Loading ListViewController');
+            var userData = $rootScope.UserData;
+            var selectedServiceArea = 'WS'
+            $scope.attributeItemColl;
+            $scope.dataSuccess = false;
+            $scope.selectedServiceAreaScoreDataColl;
+            loadServiceAreaData();
+            var minGridItemOffset = 17;
+            var gridHeightOffset = 955;
+            function loadServiceAreaData(){
+
+                successfullyGetData()
+            }
+            function successfullyGetData() {
+
+                var coll = dataFactory.CustomAttributeCollection();
+                $scope.selectedServiceAreaScoreDataColl = dataFactory.AttributeScoreDataCollection();
+                console.log("data length"+$scope.selectedServiceAreaScoreDataColl.length);
+                /*$scope.columns = [];
+
+                 for (var i = 0; i < $scope.selectedServiceAreaScoreDataColl.length; i++) {
+                 var item = $scope.selectedServiceAreaScoreDataColl[i];
+                 for (var j = 0; j < item.QuestionScores.length; j++) {
+                 var innerItem = item.QuestionScores[j];
+
+                 $scope.columns.push(innerItem);
+                 }
+                 break;
+                 }*/
+
+                var sortedColl = coll.sort(strDes);
+                function strDes(a, b) {
+                    //compare different type item
+                    if(a.Type < b.Type) return -1;
+
+                    //compare same type item by display order
+                    else if(a.Type == b.Type){
+                        if (a.DisplayOrder< b.DisplayOrder) return -1;
+                        else
+                            return 1;
+                    }
+                    //a.Type>b.Type
+                    else return 1;
+                }
+                var finalColl=[];
+                var itemObj={groupName:null,grpItems:[]};
+                //var isNewGroupAppear = true;
+                var grpGeography="Geography";
+                var grpOrganization="Organization";
+                var grpTicket="Ticket";
+                var grpOthers="Others";
+
+                for(var index=0;index<sortedColl.length;index++)
+                {
+                    var item = sortedColl[index];
+                    if(isNewGroupAppear(itemObj.groupName,item))
+                    {
+                        if(index>0)
+                            finalColl.push(itemObj);
+
+                        itemObj={groupName:null,grpItems:[]};
+                        if(item.Type==0)
+                            itemObj.groupName=grpGeography;
+                        else if(item.Type==1)
+                            itemObj.groupName=grpOrganization;
+                        else if(item.Type==2)
+                            itemObj.groupName=grpTicket;
+                        else if(item.Type==3)
+                            itemObj.groupName=grpOthers;
+                    }
+                    itemObj.grpItems.push(item);
+                    if((sortedColl.length==1)||(index==sortedColl.length-2))
+                        finalColl.push(itemObj);
+                }
+                $scope.attributeItemColl = finalColl;
+                $scope.dataSuccess = true;
+                $scope.defaultAttr = "Country";
+
+                function isNewGroupAppear(currentGrpName,item){
+                    if(
+                        ((currentGrpName==grpGeography) && (item.Type ==0))||
+                        ((currentGrpName==grpOrganization) && (item.Type ==1))||
+                        ((currentGrpName==grpTicket) && (item.Type ==2))||
+                        ((currentGrpName==grpOthers) && (item.Type ==3))
+                        )
+                        return false;
+                    else
+                        return true;
+
+                }
+                //bind data in listview
+                setListView();
+                //$scope.tableParams.reload();
+            }
+            function setListView(){
+                $scope.tableParams = new ngTableParams({
+                    sorting:{
+                        Name:'asc'
+                    },
+
+                    page:1,
+                    count:(minGridItemOffset * Math.floor($window.innerHeight)) / gridHeightOffset,
+                    data:$scope.selectedServiceAreaScoreDataColl
+
+                },{
+                    total:$scope.selectedServiceAreaScoreDataColl.length,
+                    getData:function($defer,params){
+
+                        var orderedData =params.sorting()?
+                            $filter('orderBy')($scope.selectedServiceAreaScoreDataColl,params.orderBy()):$scope.selectedServiceAreaScoreDataColl;
+                        var sortObj = params.$params.sorting;
+                        var sortingProperty = Object.getOwnPropertyNames(sortObj);
+                        var prop = sortingProperty[0];
+                        var sortingOrder = sortObj[prop];
+                        $defer.resolve( orderedData.slice((params.page()-1)* params.count(),params.page()*params.count()));
+                        params.total( orderedData.length);
+                    }
+
+                });
+            }
+            //this line render grid data
+            $scope.tableParams.$params.count = (minGridItemOffset * Math.floor($window.innerHeight)) / gridHeightOffset;
+
+            //grid row click handler
+            $scope.rowSelection_Handler = function(data){
+               // $scope.selectedItem = data;
+                console.log(data.name);
+            };
+
+            //get screen height
+            // console.log("window height: "+$window.innerHeight);
+
+
+
+
+//            $scope.tableParams = new ngTableParams({
+//                sorting:{
+//                    name:'asc'
+//                },
+//               // show default page number page
+//                page: 1,
+//                // number of item show  per page
+//                count: (minGridItemOffset * Math.floor($window.innerHeight)) / gridHeightOffset
+//            }
+//                ,{
+//                total: $scope.myValues.length,
+//                getData: function($defer, params) {
+//
+//                    $scope.myValues = params.sorting() ?
+//                        $filter('orderBy')($scope.myValues, params.orderBy()) :$scope.myValues;
+//
+//                    /*this code need to get sorting column information such as sorting property name and sorting order. */
+//                    var obj = params.$params.sorting;
+//                    var sortingProperty = Object.getOwnPropertyNames(obj);
+//                    var prop = sortingProperty[0];
+//                    var sortingOrder = obj[prop];//value should be 'asc'/'desc';
+//                    //paging code
+//                    //$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+//
+//                    //remove paging
+//                    //params.settings({ counts: [] });
+//
+//                    //bind collection without paging with grid
+//                    //$defer.resolve( $scope.myValues);
+//                    params.total($scope.myValues.length);
+//                    //bing with paging
+//                    $defer.resolve($scope.myValues.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+//                }
+//            })
+        }]);
+
+});

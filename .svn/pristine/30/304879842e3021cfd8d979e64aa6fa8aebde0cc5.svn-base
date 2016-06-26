@@ -1,0 +1,190 @@
+
+define(['application-configuration','datasetService','alertsService','eventDispatchService','accountsService'], function (app) {
+    app.register.controller('datasetController', ['$scope', '$rootScope','datasetService','alertsService','eventDispatchService','accountsService',
+        function ($scope,$rootScope,datasetService,alertsService, eventDispatchService,accountsService) {
+            $rootScope.closeAlert = alertsService.closeAlert;
+            $rootScope.alerts = [];
+
+            //april 18-2015
+            $scope.customer = {};
+            $scope.selectedValue = null;
+            $scope.currentuser = null;
+            $scope.FromDate =null;
+            $scope.ToDate = null;
+            $scope.dtpValueFromDate = null;
+            $scope.dtpValueToDate = null;
+            $scope.customerID = null;
+            $scope.selectedCustomer = null;
+            $scope.sessionID = null;
+            $scope.currentuser = $rootScope.UserData;
+            $scope.sessionID = $scope.currentuser.SessionId;
+
+            $scope.selectedValue = "MonthToDate";
+                //aril 18
+            $scope.LastSixMonth = [
+                {Name:'April - 2015'},
+                {Name:'March - 2015'},
+                {Name:'February - 2015'},
+                {Name:'January - 2015'},
+                {Name:'December - 2014'},
+                {Name:'November - 2014'}
+            ];
+
+            $scope.QuaterColl = [
+                {Name:'2nd Quarter - 2015'},
+                {Name:'1st Quarter - 2015'},
+                {Name:'4th Quarter - 2014'},
+                {Name:'3rd Quarter - 2014'}
+            ];
+
+            $scope.getCustomerDataset = function () {
+                $rootScope.IsDatasetLoaded = false;
+                $scope.customerID = $scope.selectedCustomer.CustomerId;
+
+                if(!$scope.isInputValidated())
+                 return;
+
+                var dataset = $scope.createParameter();
+
+                datasetService.loadDataset(dataset,$scope.loadDatasetCompleted, $scope.datasetLoadError);
+
+            };
+
+            $scope.loadDatasetCompleted = function (response) {
+                $rootScope.IsDatasetLoaded = true;
+                $rootScope.Dataset = response;
+
+                window.location = "#/Main";
+            };
+
+            $scope.datasetLoadError = function (response) {
+
+                alertsService.RenderErrorMessage(response.ReturnMessage);
+
+                $scope.clearValidationErrors();
+                alertsService.SetValidationErrors($scope, response.ValidationErrors);
+
+            };
+            $scope.customerChanged = function(){
+                $scope.customerID = $scope.selectedCustomer.CustomerId;
+            }
+            $scope.isInputValidated = function()
+            {
+                var newDate = new Date();
+                var firstDate;
+                var lastDate;
+                var isValid = true;
+
+                isValid =  $scope.isValidInput();
+
+                if(!isValid)
+                    return isValid;
+                else {
+                    switch ($scope.selectedValue) {
+                        case "MonthToDate":
+                            //First date of current month
+                            firstDate = new Date(newDate.getFullYear(), newDate.getMonth(), 1);
+
+                            //Yesterday date
+                            lastDate = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate() - 1);
+
+                            $scope.FromDate = firstDate;
+                            $scope.ToDate = lastDate;
+                            break;
+                        case "LastMonth":
+                            newDate = new Date();
+                            //First date of previous month
+                            firstDate = new Date(newDate.getFullYear(), newDate.getMonth() - 1, 1);
+                            //last date of previous month
+                            lastDate = new Date((new Date(firstDate.getFullYear(), firstDate.getMonth() + 1, 1)) - 1);
+
+                            $scope.FromDate = firstDate;
+                            $scope.ToDate = lastDate;
+                            break;
+                        case "LastQuarter":
+                            //first date of a year
+                            firstDate = new Date(new Date().getFullYear(), 0, 1);
+                            //last quarter date of a year
+                            lastDate = new Date(new Date().getFullYear(), 2, 31);
+
+                            $scope.FromDate = firstDate;
+                            $scope.ToDate = lastDate;
+                            break;
+                        case "DateRange":
+                            isValid = $scope.isValidDaterange();
+
+                            if (!isValid)
+                                return isValid;
+                            $scope.FromDate = $scope.dtpValueFromDate;
+                            $scope.ToDate = $scope.dtpValueToDate;
+                            break;
+                        default:
+                            $scope.FromDate = null;
+                            $scope.ToDate = null;
+                            break;
+                    }
+                }
+                return isValid
+            };
+
+            $scope.createParameter = function(){
+                var params = {
+                     sessionID: $scope.sessionID,
+                    customerID: $scope.customerID,
+                      fromDate: $scope.FromDate,
+                        toDate: $scope.ToDate
+                };
+
+                return params;
+            };
+
+            $scope.isValidInput = function(){
+                var isValid = true;
+                if( $scope.selectedValue === null)
+                {
+                    alert("Please select a criteria ");
+                    isValid = false;
+                    return isValid;
+                }
+                return isValid
+            };
+
+            $scope.isValidDaterange = function(){
+                var isValid = true;
+
+                if($scope.dtpValueFromDate === null || $scope.dtpValueToDate === null) {
+                    alert("Please select a daterange");
+                    isValid = false;
+                    return isValid;
+                }
+                if(typeof $scope.dtpValueFromDate === "undefined" || typeof $scope.dtpValueToDate === "undefined") {
+                    alert("Please select a valid daterange");
+                    isValid = false;
+                    return isValid;
+                }
+                if($scope.dtpValueFromDate >  $scope.dtpValueToDate) {
+                    alert("Please select a valid daterange");
+                    isValid = false;
+                    return isValid;
+                }
+
+                return isValid
+            };
+
+
+            /* log out */
+            $scope.logoutMain = function () {
+                $rootScope.IsloggedOut = false;
+                var user = $rootScope.UserData;
+                accountsService.logout2(user, $scope.logoutCompleted, $scope.logoutError);
+            };
+
+            $scope.logoutCompleted = function (response) {
+                window.location = "#/";
+            };
+
+            $scope.logoutError = function (response) {
+                alertsService.RenderErrorMessage(response.ReturnMessage);
+            };
+        }]);
+});

@@ -1,0 +1,15 @@
+﻿<link rel="stylesheet" href="Views/Shared/SCSS/ServiceAreaEvaluationsTemplate.css"/>
+<div class="evaluationContainer">
+    <div class="headerContainer">
+        <div class="labelContainer">
+            Evaluation
+        </div>
+        <div class="filterContainer">
+            <input type="text">
+        </div>
+        <div class="translationContainer">
+
+        </div>
+    </div>
+    <div class="dataContainer">Evaluations</div>
+</div>

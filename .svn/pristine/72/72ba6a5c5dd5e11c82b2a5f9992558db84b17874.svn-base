@@ -1,0 +1,152 @@
+/* All external import files
+======================================================*/
+@import '_Colors';
+@import '_Mixins';
+
+$score-item-height:40px;
+$calculate-right:11px;
+
+ul.evaluation-summary-question {
+  display: inline-block;
+  width: 255px;
+  position: relative;
+  height: 196px;
+  overflow-y: auto;
+  border-top: 1px solid #d3d3d3;
+  font-family: "AkkuratStd-Regular";
+  padding: 0px;
+//  border-bottom: 1px solid #d3d3d3;
+  font-family: "AkkuratStd-Regular";
+  font:"akkuratstd-regular";
+  vertical-align: bottom;
+
+  li.evaluation-summary-questionListItem {
+    position: relative;
+//    padding: px;
+//    font-size: 8px;
+    text-align: right;
+    border-bottom: 1px solid #d3d3d3;
+    vertical-align: bottom;
+    display: inline-block;
+
+    .evaluation-summary-questionListItemDiv{
+      position: relative;
+      text-align: left;
+
+      .evaluation-summary-questionContainerDiv {
+//        font-size: 10px;
+
+        ul.score-frequency-list-container{
+          position: relative;
+          width: 238px;
+          display: inline-block;
+          height: 38px;
+          margin: 0;
+          padding-left: 8px;
+          list-style: none;
+          bottom: 0px;;
+
+          li.score-frequency-listItem{
+            position: relative;
+            vertical-align: bottom;
+            display: inline-block;
+            text-align: center;
+            margin-bottom: -20px;
+
+            .question-index{
+              font-size: 16px;
+              font-weight: bold;
+              text-align: left;
+              margin-left: -8px;
+            }
+
+            .negative-frequency-bar{
+              background-color : $GIARTE_RED;
+              display          : block;
+              width: 16px;
+              max-height: 35px;
+              margin-right: 2px;
+            }
+
+            .positive-frequency-bar{
+              background-color : $GIARTE_GREEN;
+              display          : block;
+              width: 16px;
+              max-height: 35px;
+              margin-right: 2px;
+            }
+
+            .evaluation-summary-questionText {
+              color : $GIARTE_BLACK;
+            }
+
+            .evaluation-summary-questionLabelDiv {
+              text-align: left;
+              word-wrap: break-word;
+              width: 112px;
+              margin-left: 3px;
+              font-size: 9.9px;
+            }
+            .freq-ques-score{
+              margin-left: 3px;
+              font-size: 11px;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+
+.evaluation-summary-questionScoreDiv1 {
+  width: 30px;
+  display: inline-block;
+  float: right;
+  font-weight: bold;
+  padding-top: 5px;
+}
+
+.evaluation-canvasContainer {
+  height : 28px;
+}
+
+.evaluation-summary-questionScorebar {
+  background-color : #ff0000;
+  padding-left     : 0;
+  padding-right    : 0;
+  margin-left      : 2px;
+  margin-right     : auto;
+  display          : block;
+  float            : left;
+  top              : 5px
+}
+
+
+.score-frequency-container{
+  display: flex;
+  padding: 5px;
+  text-align: center;
+}
+.score-frequency-container  .negative-label {
+  margin-right: 2px;
+  /* padding-top: 5px; */
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background: #ff0000;
+}
+.score-frequency-container  .positive-label {
+  margin-right: 2px;
+  /* padding-top: 5px; */
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background: #008000;
+}

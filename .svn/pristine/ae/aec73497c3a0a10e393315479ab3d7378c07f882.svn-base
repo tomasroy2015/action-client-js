@@ -1,0 +1,747 @@
+"use strict";
+
+define(['application-configuration','alertsService','dataFactory','accountFactory','lodash','ng-table',
+    'comparatorFactory','moreSettingsFactory','serviceAreaScoreData','fullScorecardDataFactory','ui-grid-unstable','ViewByAttributeDataFactory'], function (app) {
+
+    app.register.controller('listViewController', ['$scope', '$rootScope','$timeout', 'alertsService', 'dataFactory', 'accountFactory',
+        '$filter', 'ngTableParams', '$window', 'Notify', 'datasetSelectionFactory', 'comparatorFactory',
+        'moreSettingsFactory', 'serviceAreaScoreData', 'fullScorecardDataFactory', 'attributeScoreSummaryData',
+        'uiGridConstants','uiGridTreeViewConstants','ViewByAttributeDataFactory', function ($scope, $rootScope,$timeout, alertsService, dataFactory, accountFactory, $filter, ngTableParams, $window, Notify, datasetSelectionFactory, comparatorFactory, moreSettingsFactory, serviceAreaScoreData,
+                                              fullScorecardDataFactory, attributeScoreSummaryData, uiGridConstants,uiGridTreeViewConstants,ViewByAttributeDataFactory) {
+            var selectedServiceAreaId = "", selectedQuestionId ="";
+            $scope.attributeItemColl;
+            $scope.dataSuccess = false;
+            $scope.IsOSSelected = false;
+            $scope.IsSESSelected = false;
+            $scope.IsTCKSelected = false;
+            $scope.selectedServiceAreaScoreDataColl;
+            var mainSelectedServiceAreaScoreDataColl;
+            $scope.defaultAttr = "";
+            $scope.attributeData = {};
+            $scope.selectedAttributeScore = {};
+            $scope.generalSurveyCollection = {};
+            $scope.triggerSurveyCollection = {};
+            $scope.summaryTitle = "";
+            $scope.titleImage = "";
+            $scope.fromView = "listview";
+            $scope.attributeIndex = -1;
+            $scope.attributeValue = [];
+            $scope.fullScorecardData = {};
+            var selectedAttribute;
+            $scope.defaultImgSrc;
+            $scope.hoverImgSrc;
+            $scope.isExpandable = false;
+            $scope.columnSortOrder = "";
+            $scope.selectedColumnName;
+            $scope.columnsGrd=[];
+            $scope.minEvaluation = 0;
+            $scope.listItemIconSrc="";
+
+            /*list Font-Awesome declaration*/
+            var orgIcon="fa fa-users fa-2x";
+            var geoIcon="fa fa-globe fa-2x";
+            var tckIcon="fa fa-exclamation-triangle fa-2x";
+            var otherIcon="fa fa-dot-circle-o fa-2x";
+
+            $scope.gridScope = {
+                rowHover: function (row) {
+                    //row.isSelected ? row.isSelected = false : row.isSelected = true;
+                    //console.log("inside row hover...");
+                    //$scope.listItemIconSrc = $scope.hoverImgSrc;
+                },
+                rowHoverOut: function (row) {
+                   // $scope.listItemIconSrc = $scope.defaultImgSrc;
+                   // console.log("inside row hoverOut...");
+                },
+                rowClick: function (row,rowRenderIndex) {
+                    $scope.rowSelection_Handler(row.entity);
+                    console.log("grid click");
+                },
+                getIndex:function (name,entity){
+                   var data = entity.ServiceAreaScoreDataCollection[0].QuestionScores;
+                   for(var i=0;i<data.length;i++)
+                   {
+                       if(data[i].QuestionId==name)
+                           return i;
+                   }
+                },
+
+                isCollapseable:function(row){
+
+                  var result= ( ( $scope.gridApi.grid.options.showTreeExpandNoChildren && row.treeLevel > -1 )
+                      || ( row.treeNode.children && row.treeNode.children.length > 0 ) )
+                      && row.treeNode.state === 'expanded';
+                    //console.log("-"+result);
+                    return result;
+                },
+                isExpandable:function(row){
+
+                    var result= ( ( $scope.gridApi.grid.options.showTreeExpandNoChildren && row.treeLevel > -1 )
+                        || ( row.treeNode.children && row.treeNode.children.length > 0 ) )
+                        && row.treeNode.state === 'collapsed';
+                    //console.log("+"+result);
+                    return result;
+                },
+                getGrpItemCountTxt:function(item){
+                    if(item){
+                        if(item.GrpItemsScoreDataColl)
+                        {
+                            return "("+item.GrpItemsScoreDataColl.length+")";
+                        }
+                        else
+                        return "";
+                    }
+                    else{
+                        return "";
+                    }
+                }
+            }
+
+            $scope.uiGridConfig = {
+                rowHeight: 40,
+                enableSorting: true,
+                rowSelectionHeader: false,
+                enableFullRowSelection: true,
+                enableRowSelection: false,
+                multiSelect: false,
+                showTreeExpandNoChildren: false,
+                treeRowHeaderBaseWidth:40,
+                showTreeRowHeader:false,
+                onRegisterApi: function (gridApi) {
+                    $scope.gridApi = gridApi;
+                    $scope.gridApi.grid.options.enableHorizontalScrollbar=0;
+                    $scope.gridApi.core.on.sortChanged($scope, function (grid, sort) {
+                        $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                        $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.EDIT);
+                    });
+                    $scope.gridApi.grid.registerRowsProcessor( $scope.evaluationFilter, 200);
+                },
+                //columnDefs: $scope.columnsGrd,
+                //data: gridData,
+                rowTemplate: 'Views/ngUIGrid/GridRowTemplate.html'
+            };
+            /*sorting algoithm for grid*/
+            function sortByNameAsc(item1, item2) {
+                console.log("inside sort name function : sort order :" + $scope.columnSortOrder);
+                var name1 = item1.toLocaleLowerCase();
+                var name2 = item2.toLocaleLowerCase();
+
+                if (name1 < name2)
+                    return -1;
+                else if (name1 > name2)
+                    return 1;
+                else
+                    return 0;
+
+            }
+
+            function sortByRespondentAsc(item1, item2) {
+                var respondent1 = item1;
+                var respondent2 = item2;
+
+                if (respondent1 < respondent2)
+                    return -1;
+                else if (respondent1 > respondent2)
+                    return 1;
+                else
+                    return 0;
+
+            }
+
+            function sortByScoreBarScore(scoreComparator1, scoreComparator2) {
+                var score1 = scoreComparator1.Score;
+                var score2 = scoreComparator2.Score;
+
+                if ($scope.columnSortOrder == "asc") {
+                    if (isNaN(score1))
+                        score1 = 1000;
+                    if (isNaN(score2))
+                        score2 = 1000;
+                }
+                else {
+                    if (isNaN(score1))
+                        score1 = -1000;
+                    if (isNaN(score2))
+                        score2 = -1000;
+                }
+                if (score1 < score2)
+                    return -1;
+                else if (score1 > score2)
+                    return 1;
+                else
+                    return 0;
+            }
+            function sortByIndividualServiceAreaScore(item1, item2) {
+                var selectedQuestionIndex ;
+                for(var i=0;i<item1.length;i++)
+                {
+                    if(item1[i].QuestionId==$scope.selectedColumnName)
+                    {
+                        selectedQuestionIndex = i;
+                        break;
+                    }
+                }
+                var questionScore1 = item1[selectedQuestionIndex].Score;
+                var questionScore2 = item2[selectedQuestionIndex].Score;
+                if ($scope.columnSortOrder == "asc") {
+                    if (isNaN(questionScore1))
+                        questionScore1 = 1000;
+                    if (isNaN(questionScore2))
+                        questionScore2 = 1000;
+                }
+                else {
+                    if (isNaN(questionScore1))
+                        questionScore1 = -1000;
+                    if (isNaN(questionScore2))
+                        questionScore2 = -1000;
+                }
+
+                if (questionScore1 < questionScore2)
+                    return -1;
+                else if (questionScore1 > questionScore2)
+                    return 1;
+                else
+                    return 0;
+
+            }
+            selectedAttribute = getDefaultSelectedAttribute();
+            ViewByAttributeDataFactory.prepareViewByAttributeData();
+            $scope.attributeItemColl = ViewByAttributeDataFactory.getPreparedViewByAttributeData();
+            $scope.defaultAttr = selectedAttribute.Label;
+            prepareSelectedAttributeServiceAreaData();
+            setListViewMinEvaluations();
+            function getDefaultSelectedAttribute() {
+                var customerGeneralSettings = dataFactory.CustomerGeneralSettings();
+                var customAttributeCollection = dataFactory.CustomAttributeCollection();
+                var listViewDefaultAttribute = dataFactory.GetListViewDeafultAttribute();
+                //var defaultListViewAttributeIndex = customerGeneralSettings.DefaultListViewAttributeIndex;
+                var defaultListViewAttributeLabel = _.result(_.findWhere(customAttributeCollection, {'Index': listViewDefaultAttribute.Index}), 'Label');
+
+                return {
+                    Label: defaultListViewAttributeLabel,
+                    Index: listViewDefaultAttribute.Index,
+                    Type: listViewDefaultAttribute.Type
+                }
+            }
+
+            function setListItemIcon(type) {
+                switch (type) {
+                    case 0:
+                        //grpGeo
+                        $scope.defaultImgSrc = geoIcon;
+                        //$scope.hoverImgSrc = "Content/images/listview/geo-attribute-hover-icon.png";
+                        break;
+
+                    case 1:
+                        //grpOrganization
+                        $scope.defaultImgSrc = orgIcon;
+                       // $scope.hoverImgSrc = "Content/images/listview/organization-attribute-hover-icon.png";
+                        break;
+                    case 2:
+                        //grpTicket
+                        $scope.defaultImgSrc = tckIcon;
+                       // $scope.hoverImgSrc = "Content/images/listview/triggered-attribute-hover-icon.png";
+                        break;
+                    case 3:
+                        //grpOthers
+                        $scope.defaultImgSrc = otherIcon;
+                        //$scope.hoverImgSrc = "Content/images/listview/client-specific-attribute-hover-icon.png";
+                        break;
+                }
+            }
+            function setListViewMinEvaluations() {
+                var customAttributeCollection = dataFactory.CustomerGeneralSettings();
+                $scope.minEvaluation = customAttributeCollection.DefaultListViewMinEvaluations;
+            }
+
+            $scope.groupItemClick = function (item, $index, $event) {
+                var tbodyId = "#tbody-" + $index;
+                $(tbodyId + ' tr.toggleRow').toggle();
+                $scope.isExpandable = !$scope.isExpandable;
+                $event.preventDefault();
+                $event.stopPropagation();
+
+            }
+            $scope.onCheckBoxChange = function () {
+
+                $scope.isExpandable = !$scope.isExpandable;
+                if($scope.isExpandable)
+                    $scope.gridApi.treeBase.expandAllRows();
+                else
+                    $scope.gridApi.treeBase.collapseAllRows();
+            };
+            $scope.toggleRow = function(row ){
+                //$scope.gridApi.treeBase.toggleRowTreeState($scope.gridApi.grid.renderContainers.body.visibleRowCache[rowNum]);
+                $scope.gridApi.treeBase.toggleRowTreeState(row);
+            };
+            $scope.applyFilterEnterKeyPressHandler = function (keyEvent) {
+                var PRESS_ENTER_BUTTON = 13;
+                if (keyEvent.which === PRESS_ENTER_BUTTON) {
+                    $scope.gridApi.grid.refresh();
+                }
+            }
+
+            $scope.resetFilterClickHandler = function () {
+                $scope.minEvaluation = 0;
+                $scope.gridApi.grid.refresh();
+            }
+
+            $scope.applyFilterClickHandler = function () {
+                $scope.gridApi.grid.refresh();
+
+            }
+            $scope.evaluationFilter = function( renderableRows ){
+                var minEvaluation = parseInt($scope.minEvaluation);
+                if(isNaN(minEvaluation))
+                    minEvaluation = 0;
+                renderableRows.forEach( function( row ) {
+
+                    row.visible = row.entity.ServiceAreaScoreDataCollection[0].Respondent >= minEvaluation || row.entity.IsChildItem
+
+                });
+                return renderableRows;
+            };
+
+            function applyFilterByMinEvaluation(minEvaluation) {
+                var filterColl = mainSelectedServiceAreaScoreDataColl.filter(filterByMinEvaluation);
+
+                function filterByMinEvaluation(value) {
+                    return value.ServiceAreaScoreDataCollection[0].Respondent >= minEvaluation;
+                }
+
+                $scope.selectedServiceAreaScoreDataColl = filterColl;
+                //console.log("mail coll length: "+mainSelectedServiceAreaScoreDataColl.length+" filter coll:"+$scope.selectedServiceAreaScoreDataColl.length);
+                setListView();
+            }
+            $scope.$on(Notify.DATA_READY, function () {
+                ViewByAttributeDataFactory.prepareViewByAttributeData();
+                prepareSelectedAttributeServiceAreaData();
+            });
+
+            $scope.$on(Notify.DATASET_CHANGED, function (event) {
+                ViewByAttributeDataFactory.prepareViewByAttributeData();
+                prepareSelectedAttributeServiceAreaData();
+            });
+
+            $scope.$on(Notify.SERVICE_AREA_CHANGED, function (event, response) {
+                $scope.selectedServiceArea = dataFactory.GetSelectedServiceArea();
+                selectedServiceAreaId = $scope.selectedServiceArea.Id;
+                selectedQuestionId = dataFactory.GetSelectedQuestion() ? dataFactory.GetSelectedQuestion().ID : "";
+                handlerListViewData();
+            });
+            $scope.$on(Notify.SERVICE_AREA_QUESTION_CHANGED, function (event, response) {
+                selectedQuestionId = dataFactory.GetSelectedQuestion() ? dataFactory.GetSelectedQuestion().ID : "";
+                handlerListViewData();
+            });
+            function handlerListViewData(){
+                var attDataCollection = dataFactory.GetAtributeScoreDataCollection();
+
+
+                var query = _.filter(attDataCollection, function (n) {
+                    return n.AttributeIndex == selectedAttribute.Index;
+                })
+
+                if (query[0].IsAttributeScoreDataNull()) {
+                    prepareSelectedAttributeServiceAreaData();
+                }
+                else {
+                    loadServiceAreaData(query[0].ScoreDataCollection);
+                }
+
+            };
+            $scope.$on(Notify.COMPARATOR_TYPE_CHANGED, function (event) {
+                updateListViewData();
+
+            });
+            $scope.$on(Notify.COMPARATOR_COLOR_CHANGED, function (event) {
+                updateListViewData();
+            });
+
+            var updateListViewData = function(){
+                var attDataCollection = dataFactory.GetAtributeScoreDataCollection();
+
+                var query = _.filter(attDataCollection, function (n) {
+                    return n.AttributeIndex == selectedAttribute.Index;
+                })
+
+                if (!query[0].IsAttributeScoreDataNull()) {
+                    loadServiceAreaData(query[0].ScoreDataCollection);
+                }
+            };
+
+            $scope.$on(Notify.ATTRIBUTE_DATA_READY, function (event) {
+                $scope.selectedServiceArea = dataFactory.GetSelectedServiceArea();
+
+                selectedServiceAreaId = $scope.selectedServiceArea.Id;
+                selectedQuestionId = dataFactory.GetSelectedQuestion() ? dataFactory.GetSelectedQuestion().ID : "";
+
+                var attDataCollection = dataFactory.GetAtributeScoreDataCollection();
+
+                var query = _.filter(attDataCollection, function (n) {
+                    return n.AttributeIndex == selectedAttribute.Index;
+                })
+                if (query && query.length > 0) {
+                    loadServiceAreaData(query[0].ScoreDataCollection);
+                }
+            });
+
+
+            function loadServiceAreaData(serviceAreaScoreDataColl) {
+                prepareServiceAreaData(serviceAreaScoreDataColl);
+                //bind data in listview
+                setListView();
+
+            }
+
+            function prepareSelectedAttributeServiceAreaData() {
+                var requestParam = attributeRequestParam(selectedAttribute);
+                dataFactory.GetSelectedAttributeScoreData(requestParam);
+            }
+
+            /*attribute change event listener */
+            $scope.serviceAreaAttributeItemChangeListener = function (attr) {
+                selectedAttribute = {Label: attr.Label, Index: attr.Index, Type: attr.Type};
+                var attDataCollection = dataFactory.GetAtributeScoreDataCollection();
+                var query = _.filter(attDataCollection, function (n) {
+                    return n.AttributeIndex == attr.Index;
+                })
+                if (query && query.length > 0) {
+                    var attScoreData = query[0];
+
+                    if (attScoreData.IsAttributeScoreDataNull()) {
+                        prepareSelectedAttributeServiceAreaData();
+                    }
+                    else {
+                        loadServiceAreaData(attScoreData.ScoreDataCollection);
+                    }
+
+                }
+                else {
+                    prepareSelectedAttributeServiceAreaData();
+                }
+            };
+            function attributeRequestParam(attr) {
+                var applicationDataInfo = dataFactory.DataInfo();
+                var selectedSurveyType = dataFactory.GetSelectedServiceAreaSurveyType();
+
+                return{
+                    sessionID: applicationDataInfo.sessionID,
+                    customerID: applicationDataInfo.customerID,
+                    fromDate: applicationDataInfo.fromDate,
+                    toDate: applicationDataInfo.toDate,
+                    attributeIndex: attr.Index,
+                    surveyType: selectedSurveyType
+                }
+            };
+
+
+           function prepareServiceAreaData(serviceAreaScoreDataColl) {
+
+                $scope.selectedServiceAreaScoreDataColl = getSelectedServiceAreaData(serviceAreaScoreDataColl);
+                $scope.IsOSSelected = (selectedServiceAreaId == "OS") ? true : false;
+                $scope.IsSESSelected = (selectedServiceAreaId == "SES") ? true : false;
+                $scope.IsTCKSelected = (selectedServiceAreaId == "TCK") ? true : false;
+
+                //console.log("OS: " + $scope.IsOSSelected + " SES: " + $scope.IsSESSelected + " TCK: " + $scope.IsTCKSelected);
+                function getSelectedServiceAreaData(attributeScoreDataColl) {
+
+                    var listViewServiceAreaItemColl = [];
+                    for (var i = 0; i < attributeScoreDataColl.length; i++) {
+                        //here need to filter main collection by selected service area collection.
+                        var serviceAreaColl = attributeScoreDataColl[i].ServiceAreaScoreDataCollection;
+                        for (var j = 0; j < serviceAreaColl.length; j++) {
+                            var serviceAreaItem = serviceAreaColl[j];
+                            //console.log("selected service area id: "+selectedServiceAreaId+" service data id: "+serviceAreaItem.Id);
+                            if (serviceAreaItem.Id == selectedServiceAreaId && serviceAreaItem.Respondent > 0) {
+                                var scoreComparatorValue = comparatorFactory.GetScoreItemComparator(serviceAreaItem.Id);
+                                var listViewServiceAreaItem = {
+                                    Id: attributeScoreDataColl[i].Id,
+                                    Name: attributeScoreDataColl[i].Name,
+                                    AttributeData: attributeScoreDataColl[i],
+                                    ScoreComparator: {
+                                        Score: serviceAreaItem.Score,
+                                        ComparatorValue: scoreComparatorValue,
+                                        ComparatorColorCode: dataFactory.GetScoreColor(serviceAreaItem.Score, scoreComparatorValue)
+                                    },
+                                    ColorSettings: moreSettingsFactory.GetSelectedColorSet(),
+                                    ServiceAreaScoreDataCollection: [],
+                                    IsOSSelected: false,
+                                    IsChildItem:false
+                                };
+
+                                for (var qIndex = 0; qIndex < serviceAreaItem.QuestionScores.length; qIndex++) {
+                                    var item = serviceAreaItem.QuestionScores[qIndex];
+                                    // var colorSettings = moreSettingsFactory.GetSelectedColorSet();
+                                    var comparatorValue = comparatorFactory.GetScoreItemComparator(item.QuestionId);
+                                    var comparatorColor = dataFactory.GetScoreColor(item.Score, comparatorValue);
+                                    var scoreComparatorColor = {ScoreComparatorValue: comparatorValue, ColorCode: comparatorColor};
+                                    //add new property ScoreSettings
+                                    serviceAreaItem.QuestionScores[qIndex].ScoreComparatorColor = scoreComparatorColor;
+                                    // var item2 = serviceAreaItem.QuestionScores[qIndex];
+                                    if(selectedQuestionId == item.QuestionId){
+                                        listViewServiceAreaItem.ScoreComparator = {
+                                            Score: item.Score,
+                                            ComparatorValue: comparatorValue,
+                                            ComparatorColorCode: comparatorColor
+                                        }
+                                    }
+                                }
+                                listViewServiceAreaItem.IsOSSelected = (serviceAreaItem.Id == "OS") ? true : false;
+                                listViewServiceAreaItem.ServiceAreaScoreDataCollection.push(serviceAreaItem);
+
+                                //Defining the tree level
+                                listViewServiceAreaItem.$$treeLevel = 0;
+                                listViewServiceAreaItemColl.push(listViewServiceAreaItem);
+
+                                /*list group data prepare*/
+                                if (attributeScoreDataColl[i].hasOwnProperty("IsGroup")) {
+                                    var childItemColl = [];
+                                    var grpColl = attributeScoreDataColl[i].GroupItemsScoreDataCollection;
+                                    for (var cIndex = 0; cIndex < grpColl.length; cIndex++) {
+                                        var cServiceAreaColl = grpColl[cIndex].ServiceAreaScoreDataCollection;
+                                        for (var cIndex2 = 0; cIndex2 < cServiceAreaColl.length; cIndex2++) {
+                                            var cServiceAreaItem = cServiceAreaColl[cIndex2];
+                                            if (cServiceAreaItem.Id == selectedServiceAreaId) {
+                                                var cScoreComparatorValue = comparatorFactory.GetScoreItemComparator(cServiceAreaItem.Id);
+                                                var cListViewServiceAreaItem = {
+                                                    Id: grpColl[cIndex].Id,
+                                                    Name: grpColl[cIndex].Name,
+                                                    AttributeData: grpColl[cIndex],
+                                                    ScoreComparator: {
+                                                        Score: cServiceAreaItem.Score,
+                                                        ComparatorValue: cScoreComparatorValue,
+                                                        ComparatorColorCode: dataFactory.GetScoreColor(cServiceAreaItem.Score, cScoreComparatorValue)
+                                                    },
+                                                    ColorSettings: moreSettingsFactory.GetSelectedColorSet(),
+                                                    ServiceAreaScoreDataCollection: [],
+                                                    IsOSSelected: false,
+                                                    IsChildItem:true
+                                                };
+                                                for (var cqIndex = 0; cqIndex < cServiceAreaItem.QuestionScores.length; cqIndex++) {
+                                                    var cItem = cServiceAreaItem.QuestionScores[cqIndex];
+
+                                                    var comparatorValue = comparatorFactory.GetScoreItemComparator(cItem.QuestionId);
+                                                    var comparatorColor = dataFactory.GetScoreColor(cItem.Score, cScoreComparatorValue);
+                                                    var scoreComparatorColor = {ScoreComparatorValue: comparatorValue, ColorCode: comparatorColor};
+                                                    //add new property ScoreSettings
+                                                    cServiceAreaItem.QuestionScores[cqIndex].ScoreComparatorColor = scoreComparatorColor;
+                                                    // var item2 = serviceAreaItem.QuestionScores[qIndex];
+                                                }
+                                                cListViewServiceAreaItem.IsOSSelected = (cServiceAreaItem.Id == "OS") ? true : false;
+                                                cListViewServiceAreaItem.ServiceAreaScoreDataCollection.push(cServiceAreaItem);
+                                                childItemColl.push(cListViewServiceAreaItem);
+
+                                                //Adding the child as a free item in the grid.
+                                                //Tree level will handle this
+                                                listViewServiceAreaItemColl.push(cListViewServiceAreaItem);
+                                                break;
+
+                                            }
+                                        }
+                                        listViewServiceAreaItem.GrpItemsScoreDataColl = childItemColl;
+                                        listViewServiceAreaItem.IsGroup = true;
+                                    }
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                    $scope.selectedServiceAreaScoreDataColl = listViewServiceAreaItemColl;
+                    return listViewServiceAreaItemColl;
+                };
+
+            }
+
+            function setListView() {
+                setNG_Ui_Grid();
+               // console.log("list view data source length:" + $scope.selectedServiceAreaScoreDataColl.length);
+                setListItemIcon(selectedAttribute.Type);
+                $scope.listItemIconSrc = $scope.defaultImgSrc;
+            }
+            function setNG_Ui_Grid() {
+              setResetGridColumn();
+              $scope.uiGridConfig.data = $scope.selectedServiceAreaScoreDataColl;
+              $scope.gridApi.grid.refresh();
+            }
+            function isIndividualServiceAreaColumnShowInGrid(){
+                return (($scope.IsOSSelected || $scope.IsSESSelected || $scope.IsTCKSelected) && !($scope.selectedServiceAreaScoreDataColl[0] === null))
+            }
+
+            function setResetGridColumn(){
+                while($scope.columnsGrd && $scope.columnsGrd.length > 0) {
+                    $scope.columnsGrd.pop();
+                }
+                var respondentGridColumn= {
+                    field: 'ServiceAreaScoreDataCollection[0].Respondent',
+                    displayName: 'EVALUATIONS',
+                    enableSorting: true,
+                   // width:120,
+                    headerCellTemplate: 'Views/ngUIGrid/HeaderTemplates/EvaluationColumnHeaderTemplate.html',
+                    cellTemplate: 'Views/ngUIGrid/CellTemplates/EvaluationColumnCellTemplate.html',
+                    sortingAlgorithm: sortByRespondentAsc,
+                    sort: {
+                        direction: uiGridConstants.DESC,
+                        priority: 0
+                    },
+                    headerCellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                        $scope.columnSortOrder = "";
+                        if (col.sort.direction) {
+                            $scope.columnSortOrder = col.sort.direction;
+
+                        }
+                    }
+                };
+                var nameGridColumn={
+                    field: 'Name',
+                    displayName:'Name',
+                    cellTemplate: 'Views/ngUIGrid/CellTemplates/NameColumnCellTemplate.html',
+                    headerCellTemplate: 'Views/ngUIGrid/HeaderTemplates/HeaderTemplate.html',
+                    sortingAlgorithm: sortByNameAsc,
+                    headerCellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                        if (col.sort.direction) {
+                            $scope.columnSortOrder = "";
+                            $scope.columnSortOrder = col.sort.direction;
+
+                        }
+                    }
+                }
+                var scoreGridColumn={
+                    field: 'ScoreComparator',
+                    displayName:  $scope.IsSESSelected?'IT SERVICE EFFORT SCORE':'Score',
+                    //width:200,
+                    headerCellTemplate: 'Views/ngUIGrid/HeaderTemplates/HeaderTemplate.html',
+                    cellTemplate: 'Views/ngUIGrid/CellTemplates/ScoreColumnCellTemplate.html',
+                    sortingAlgorithm: sortByScoreBarScore,
+                    headerCellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                        if (col.sort.direction) {
+                            $scope.columnSortOrder = "";
+                            $scope.columnSortOrder = col.sort.direction;
+
+                        }
+                    }
+                }
+                if(isIndividualServiceAreaColumnShowInGrid())
+                {
+                    if($scope.IsTCKSelected)
+                    {
+                        nameGridColumn.width="40%";
+                        //respondentGridColumn.width=240;
+                    }
+                    else{
+                        respondentGridColumn.width=140;
+                        scoreGridColumn.width=220;
+                    }
+                }
+                else{
+                    nameGridColumn.width="25%";
+                    respondentGridColumn.width=125;
+                    scoreGridColumn.width=200;
+                }
+
+                $scope.columnsGrd.push(nameGridColumn);
+                if(!$scope.IsTCKSelected)
+                    $scope.columnsGrd.push(scoreGridColumn);
+
+
+                if (isIndividualServiceAreaColumnShowInGrid())
+                {
+                    var selectedServiceAreaItem = $scope.selectedServiceAreaScoreDataColl[0];
+                    var questions = selectedServiceAreaItem.ServiceAreaScoreDataCollection[0].QuestionScores;
+                    for(var i=0;i<questions.length;i++)
+                    {
+                        var columnName= questions[i].QuestionId;
+                        var column={
+                            field: 'ServiceAreaScoreDataCollection[0].QuestionScores',
+                            displayName: columnName,
+                            width:50,
+                            cellTemplate:'Views/ngUIGrid/CellTemplates/IndividualServiceAreaQuestionScore.html',
+                            headerCellTemplate: 'Views/ngUIGrid/HeaderTemplates/HeaderTemplate.html',
+                            sortingAlgorithm: sortByIndividualServiceAreaScore,
+                            headerCellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                                if (col.sort.direction) {
+                                    $scope.columnSortOrder = "";
+                                    $scope.selectedColumnName="";
+                                    $scope.columnSortOrder = col.sort.direction;
+                                    $scope.selectedColumnName = col.displayName;
+                                    //console.log("inside header CellClass name, sort order :"+ $scope.columnSortOrder );
+                                }
+                            }};
+                        $scope.columnsGrd.push(column);
+                    }
+                }
+                else {
+                    var column = {
+                        name:'ServiceAreaQuestionColumn',
+                        field: 'ServiceAreaScoreDataCollection[0].QuestionScores',
+                        displayName: 'QUESTIONS',
+                        //cellTemplate: 'Views/ngUIGrid/CellTemplates/ServiceAreaQuestionsScoreColumnCellTemplate.html',
+                        cellTemplate:'<div class="grid-tooltip"> <div class="ui-grid-cell-contents">'+
+                        '<div style="width: 100% !important;">'+
+                        '<ul ng-repeat="q in row.entity.ServiceAreaScoreDataCollection[0].QuestionScores"'+
+                        'style="display: inline;padding: 0px;margin: 0px">'+
+                        '<li class="horizontal"><action-question-score question-item="q"></action-question-score>'+
+                        ' </li></ul></div></div></div>',
+                        headerCellTemplate: 'Views/ngUIGrid/HeaderTemplates/HeaderTemplate.html',
+                        enableSorting: false
+                    };
+                    $scope.columnsGrd.push(column);
+                }
+                $scope.columnsGrd.push(respondentGridColumn);
+                $scope.uiGridConfig.columnDefs = $scope.columnsGrd;
+            }
+            //grid row click handler
+            $scope.rowSelection_Handler = function (data) {
+                $timeout(function () {
+                    $scope.fromView = "listview";
+                    $scope.isNeedToShowSummary = true;
+
+                    var attValues = [];
+                    if(!angular.isUndefined(data.GrpItemsScoreDataColl)){
+                        _.forEach(data.GrpItemsScoreDataColl,function(grpItem){
+                            attValues.push(grpItem.Name);
+                        });
+                    }else{
+                        attValues.push(data.Name);
+                    }
+
+                    var attData = data.AttributeData.ServiceAreaScoreDataCollection;
+                    $scope.attributeData = attributeScoreSummaryData.getAttributeScoreSummaryData(attData);
+                    $scope.selectedAttributeScore = attributeScoreSummaryData.getSelectedAttributeScoreSummaryData($scope.attributeData);
+                    $scope.attributeIndex = selectedAttribute.Index;
+                    $scope.attributeValue = attValues;
+                    $scope.summaryTitle = data.Name.toUpperCase();
+                    $scope.titleImage = $scope.listItemIconSrc;
+                    $scope.generalSurveyCollection = serviceAreaScoreData.GetGeneralSurveyCollection();
+                    $scope.triggerSurveyCollection = serviceAreaScoreData.GetTriggerSurveyCollection();
+                    $scope.fullScorecardData = dataFactory.preparedFullScorecardDataCollection(attData);
+                    $rootScope.$broadcast(Notify.ATTRIBUTE_SUMMARY_OPENED_FROM_LIST, $scope.selectedAttributeScore);
+                });
+            };
+
+            $scope.onViewByAttributeClicked = function(){
+                var requestData = attributeRequestParam(selectedAttribute);
+                requestData.selectedServiceId = selectedServiceAreaId;
+                dataFactory.LoadSelectedServiceAreaAttributeCount(requestData)
+            };
+            $scope.$on(Notify.SERVICE_AREA_ATTRIBUTE_COUNT_DATA_READY, function (event) {
+                var attList = ViewByAttributeDataFactory.getPreparedViewByAttributeData();
+                var sAttributeCount =  dataFactory.GetSelectedServiceAreaAttributeCount()
+               // attList[0].Items[0].AttributeCount = 999;
+
+                _.forEach(attList, function(n,key){
+                    _.forEach(n.Items, function (p,key){
+                        var countItem = _.find(sAttributeCount, function (m){
+                           return m.Index == p.Index;
+                        });
+                        p.AttributeCount = countItem ? countItem.Count:0;
+                    })
+                });
+                $timeout(function (){
+                    $scope.attributeItemColl = attList;
+                    $scope.dataSuccess = true;
+                    $scope.defaultAttr = selectedAttribute.Label;
+                },0);
+            });
+        }])
+});

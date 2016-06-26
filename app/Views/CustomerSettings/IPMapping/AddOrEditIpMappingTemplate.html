@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="Views/CustomerSettings/IPMapping/AddOrEditIpMappingDirectiveTemplate.css"/>
+<div class='ip-mapping-container' ng-show='show'>
+    <div class='ng-modal-overlay'></div>
+    <form class = "form-horizontal" role = "form" name = "ipForm" novalidate>
+        <div class='ng-modal-dialog' ng-style='dialogStyle'>
+            <div class='ng-modal-dialog-content'>
+                <div class="dialog-header">
+                    <span class="modal-title">{{title}}</span>
+                    <i ng-click="hideModal()" class="fa fa-times-circle fa-lg cursor"></i>
+                </div>
+                <div class="element-parent-div">
+                    <div class="element-container-div">
+                        <div class="left-align inline-block">
+                            <span class="inline-block label-width">Location:</span>
+                            <input type = "text" name="Location" ng-model="Location"
+                                   ng-class="{'input-validation' : (ipForm.Location.$error.required && isOkClicked)}"
+                                   class="form-control text-input-normal inline-block" required>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="element-container-div">
+                        <div class="left-align">
+                            <span class="inline-block label-width">IP Address:</span>
+                            <input type = "text" name="IpAddress"
+                                   ng-model="IpAddress"
+                                   ng-class="{ 'input-validation' : (ipForm.IpAddress.$error.required || invalidIp ) && isOkClicked}"
+                                   ng-change="onlyNumbersInput()"
+                                   class="form-control text-input-normal inline-block" required>
+                            <span style="color: #ff0000;font-size: 11px" ng-show="isOkClicked && invalidIp"> {{invalidText}}</span>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-btn-container-div" style="text-align: right">
+                <button class="btn"  ng-click='hideModal()'> Cancel</button>
+                <button class="btn" style="width: inherit" ng-click="confirmOperation()"> OK</button>
+            </div>
+        </div>
+    </form>
+</div>

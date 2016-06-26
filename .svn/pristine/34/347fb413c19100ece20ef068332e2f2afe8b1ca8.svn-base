@@ -1,0 +1,73 @@
+"use strict";
+
+define(['application-configuration', 'alertsService', 'dataFactory','ViewDataFactory', 'datasetSelectionFactory', 'leftMenuSlidingWindowEventNotifyFactory'], function (app) {
+
+    app.register.controller('serviceAreaScoreBoxController', ['$scope', 'alertsService', 'dataFactory','ViewDataFactory', 'appSettings', 'Notify', 'ComparatorType', 'comparatorFactory', 'datasetSelectionFactory', 'leftMenuSlidingWindowEventNotifyFactory',
+        function ($scope, alertsService, dataFactory,ViewDataFactory, appSettings, Notify, ComparatorType, comparatorFactory, datasetSelectionFactory, leftMenuSlidingWindowEventNotifyFactory) {
+
+            $scope.leftMenuSlidingWindowEventNotify = leftMenuSlidingWindowEventNotifyFactory;
+            initializeData();
+
+            //$timeout(function () {
+            //    initializeData();
+            //}, 0);
+
+            function initializeData() {
+                prepareDefaultData();
+            }
+            function prepareDefaultData() {
+                var generalServiceArea = ViewDataFactory.getServiceAreaDataById('OS');
+                var triggeredServiceArea = ViewDataFactory.getServiceAreaDataById('TCK');
+
+                $scope.generalSurveyCollection = generalServiceArea;//_.sortByOrder(generalSurveyCollection, 'SortOrder', true);
+                $scope.triggerSurveyCollection = triggeredServiceArea;
+
+                prepareDefaultScoreDataCollection(generalServiceArea, triggeredServiceArea);
+            }
+
+
+            $scope.onServiceAreaClicked = function (selectedId) {
+                //console.log('test click' + selectedItem);
+                dataFactory.ServiceAreaChanged(selectedId);
+
+                if (selectedId === "OS") {
+                    prepareDefaultData();
+                } else {
+                    prepareScoreDataCollectionOnClick(selectedId);
+                }
+            }
+
+            /**
+             * This method combine group data of General and Triggered
+             *
+             * @param generalData, triggerData
+             */
+            function prepareDefaultScoreDataCollection(generalData, triggerData) {
+                var generalScoreData = generalData;
+                var triggerScoreData = triggerData;
+                var combinedQuestionList = [];
+
+                _.forEach(generalScoreData, function (n, key) {
+                    var temp = _.assign({}, n);
+                    combinedQuestionList.push(temp);
+                });
+
+                _.forEach(triggerScoreData, function (n, key) {
+                    var temp = _.assign({}, n);
+                    combinedQuestionList.push(temp);
+                });
+
+                $scope.combinedScoreDataCollection = combinedQuestionList;
+            }
+
+            function prepareScoreDataCollectionOnClick(serviceAreaId) {
+                var scoreDataCollection = ViewDataFactory.getServiceAreaDataById(serviceAreaId);
+                var combinedQuestionList = [];
+                _.forEach(scoreDataCollection, function(n, key){
+                    var temp = _.assign({}, n);
+                    combinedQuestionList.push(temp);
+                });
+                $scope.combinedScoreDataCollection = combinedQuestionList;
+            }
+        }]);
+});

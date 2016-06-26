@@ -1,0 +1,261 @@
+.ng-modal-container{
+
+}
+.ng-modal-container .ng-modal-overlay {
+    /* A dark translucent div that covers the whole screen */
+    position:absolute;
+    z-index:9999;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:#ddddde;
+    opacity: 0.8;
+}
+.ng-modal-container .ng-modal-dialog {
+    /* A centered div above the overlay with a box shadow. */
+    z-index:10000;
+    position: absolute;
+    width: 50%; /* Default */
+    height: 65%;
+    /* Center the dialog */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 4px 4px 80px #000;
+}
+.ng-modal-container .ng-modal-dialog-content {
+    padding:0px;
+    text-align: left;
+}
+.ng-modal-container .cursor{
+    cursor: pointer;
+}
+.ng-modal-container .fa-lg{
+    font-size: 19px;
+}
+.ng-modal-container .ng-modal-close {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 120%;
+    display: inline-block;
+    font-weight: bold;
+    font-family: 'arial', 'sans-serif';
+}
+.ng-modal-container .confirm-btn-container-div{
+    padding-top: 12px;
+    padding-left: 30px;
+    margin-right: 13px;
+    text-align: center;
+    padding-bottom: 40px;
+}
+.ng-modal-container .dialog-header{
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    min-height: 16.428571429px;
+    background-color: #000000;
+    color: white;
+    padding-top: 15px;
+    padding-right: 0px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    /* border-bottom: 1px solid #e5e5e5; */
+    height: 60px;
+    display: inline-block;
+    width: 100%;
+}
+.ng-modal-container .modal-title{
+    font-size: 16px;
+    font-weight: bold;
+    width: 90%;
+    display: inline-block;
+}
+.ng-modal-container .element-parent-div{
+    padding: 18px;
+    position: relative;
+    display: flex;
+}
+.ng-modal-container .element-parent-div .region-label-div{
+    width: 210px;
+    font-size: 11.5px;
+}
+.ng-modal-container .element-parent-div .region-values{
+    margin-left: 18px;
+    font-size: 11.5px;
+    /*width: 210px;*/
+    /*height: 220px;    */
+}
+.ng-modal-container .element-parent-div .region-values .region-value-list{
+    border: 1px solid #555759;
+    width: 225px;
+    height: 230px;
+}
+
+.ng-modal-container .element-parent-div .region-values .search-container{
+    display: flex;
+    margin-top: 8px;
+}
+.ng-modal-container .element-parent-div .region-values .search-container .advanced-search{
+    padding-top: 2px;
+    margin-top: 4px;
+    cursor: pointer;
+    width: 52%;
+    height: 20px;
+    text-align: center;
+    font-size: 11px;
+}
+.ng-modal-container .element-parent-div .region-values .search-container .advanced-search:hover{
+    background-color: #555759;
+    color: #fff;
+}
+.ng-modal-container .element-parent-div .region-values .search-container .search-indicator{
+    width: 14px;
+    height: 14px;
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+.ng-modal-container .element-parent-div .region-values .region-value-list>table{
+    width: 100%;
+    height: 100%;
+}
+.ng-modal-container .element-parent-div .region-values .region-value-list>table>tbody{
+    height: 100%;
+    max-height: 228px;
+    width: 222px;
+    max-width: 222px;
+}
+.ng-modal-container .element-parent-div .region-values .region-value-list>table>tbody>tr{
+    border: none;
+}
+.ng-modal-container .element-parent-div .region-values .region-value-list>table>tbody>tr:hover{
+    cursor: pointer;
+}
+.ng-modal-container .element-parent-div .region-values .region-value-list>table>tbody>tr>td{
+    padding: 2px;
+    border-top: transparent;
+    border-bottom: 0px solid #fff;
+    font-size: 11px;
+    padding-left: 5px;
+    /*overflow: hidden;*/
+    /*white-space: nowrap;*/
+    /*text-overflow: ellipsis;*/
+}
+.ng-modal-container .element-parent-div .region-values .region-value-list>table>tbody>tr>td.check-column{
+    color: #000;
+    padding-left: 8px;
+    width: 12%;
+}
+.ng-modal-container .element-parent-div .region-values .region-value-list>table>tbody>tr>td.label-column{
+    vertical-align: middle;
+    /* padding-left: 4px; */
+    padding-top: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 110%;
+    max-width: 110%;
+}
+.ng-modal-container .element-parent-div .region-values .region-value-list .operation-column {
+    width: 125px;
+}
+.ng-modal-container .element-parent-div .region-values .region-value-list>table>tbody>tr>td.check-column .check-mapvalue{
+
+}
+.ng-modal-dialog-content .element-container-div{
+    height: 35px;
+    width: 190px;
+    margin-bottom: 10px;
+}
+.ng-modal-dialog-content label{
+    vertical-align: top;
+}
+.ng-modal-dialog-content label> input[type="checkbox"] {
+    margin: 0;
+}
+.ng-modal-dialog-content .inline-block{
+    display: inline-block;
+}
+.ng-modal-dialog-content .label-width{
+    width: 200px;
+}
+
+.ng-modal-dialog-content .text-input-normal{
+    width: 200px;
+    height: 20px;
+    border-radius: 0px;
+    font-size: 12px;
+    padding: 2px 2px 0px 4px;
+    color: #000;
+}
+.ng-modal-dialog-content .drop-down{
+    width: 200px;
+}
+
+.ng-modal-container .btn{
+    height: 22px;
+    border: none;
+    border-radius: 0;
+    background: #878787 !important;
+    margin-left: -3px;
+    padding-top: 2px;
+    color: white;
+    width: 65px;
+    margin-right: 10px;
+}
+.ng-modal-container .left-align{
+    float: left;
+}
+.ng-modal-container .element-container-div .left-align .latlon-label{
+    border-bottom: 1px solid #000;
+    margin-top: 5px;
+}
+.ng-modal-container .element-container-div .left-align .latlon-input-container{
+    display: flex;
+    margin-top: 3px;
+}
+.ng-modal-container .element-container-div .left-align .latlon-input-container .latlon-input-div{
+    display: flex;
+}
+.ng-modal-container .element-container-div .left-align .latlon-input-container .latlon-input-div .latlon-drop-down{
+    width: 38px;
+    margin-left: 2px;
+}
+.ng-modal-container .element-container-div .left-align .latlon-input-container .form-control.latlon-text{
+    display: flex;
+    height: 22px;
+    border-radius: 0px;
+    text-align: left;
+    width: 35px;
+    margin-left: 4px;
+    margin-right: 4px;
+    padding: 2px 2px 0px 4px;
+    font-size: 12px;
+    color: #000;
+}
+.ng-modal-container .element-container-div .left-align .latlon-input-container .latlon-input-div .latlon-input-label{
+    padding-top: 3px;
+    font-size: 11px;
+}
+.ng-modal-container .right-align{
+    float: right;
+}
+.ng-modal-container .clear{
+    clear: both;
+}
+.input-validation
+{
+    border-style:solid;
+    border-width: 1px;
+    border-color: #ff0000;
+}
+.error{
+    color: #ff0000;
+    margin-left: 70px;
+}

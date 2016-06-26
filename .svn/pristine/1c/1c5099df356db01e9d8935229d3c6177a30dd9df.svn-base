@@ -1,0 +1,63 @@
+﻿
+@font-face {
+    font-family: SourceSansProRegular;
+    src: url(../../../App/content/font/SourceSansPro-Regular.otf);
+}
+body {
+    background: #ffed00;
+    font-family: SourceSansProRegular;
+}
+
+.container-fluid {
+    width: 100%;
+    height: 100%;
+    padding-left: 80px;
+    padding-top: 80px;
+    padding-right: 80px;
+}
+
+a {
+    font-weight: bold;
+}
+
+ a:link    {color:inherit; background-color:transparent; text-decoration:none}
+ a:visited {color:inherit; background-color:transparent; text-decoration:none}
+ a:hover   {color:inherit; background-color:transparent; text-decoration:none}
+ a:active  {color:inherit; background-color:transparent; text-decoration:none}
+
+.label-insight{
+    
+    font-weight: bold;
+    font-size: 63px;
+    padding: 0px;
+    margin: 0px;
+    line-height: 63px;
+    text-transform: uppercase;
+
+}
+.insight-legend {
+    text-transform: uppercase
+}
+.content {
+    display: block;
+    padding-top: 30px;
+    margin: auto;
+}
+.giarte-link {
+    font-weight: bold;
+}
+.previous-version {
+    padding-top: 10px;
+}
+.previous-version .header {
+    font-weight: bold;
+}
+.regards {
+    padding-top: 40px;
+}
+
+.page-footer {
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 30px;
+}

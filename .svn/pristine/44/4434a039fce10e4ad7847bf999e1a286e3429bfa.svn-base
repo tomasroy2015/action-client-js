@@ -1,0 +1,420 @@
+"use strict";
+
+define(['application-configuration','ng-table'], function (app) {
+
+    app.register.controller('listViewController', ['$scope','$filter', 'ngTableParams',
+        function ($scope,$filter,ngTableParams) {
+            console.log('Loading ListViewController');
+            $scope.myValues = [
+                {
+                    name: "Moroni", age: 5000,
+                    score:{targetScore: 70, score: 90},
+                    questionScores:[
+                        {
+                            questionType:'WRK',
+                            score:80
+                        },
+                        {
+                            questionType:'BAP',
+                            score:90
+                        },
+                        {
+                            questionType:'T&I',
+                            score:100
+                        },
+                        {
+                            questionType:'ADD',
+                            score:40
+                        }]
+                },
+                {
+                    name: "Tiancum", age: 43,
+                    score:{targetScore: 70,score: 40},
+                    questionScores:[
+                        {
+                            questionType:'WRK',
+                            score:50
+                        },
+                        {
+                            questionType:'BAP',
+                            score:60
+                        },
+                        {
+                            questionType:'T&I',
+                            score:30
+                        },
+                        {
+                            questionType:'ADD',
+                            score:66
+                        }]
+                },
+                {
+                    name: "Jacob", age: 27,
+                    score:{targetScore: 70,score: 70},
+                    questionScores:[
+                        {
+                            questionType:'WRK',
+                            score:80
+                        },
+                        {
+                            questionType:'BAP',
+                            score:90
+                        },
+                        {
+                            questionType:'T&I',
+                            score:100
+                        },
+                        {
+                            questionType:'ADD',
+                            score:40
+                        }]
+                },
+                {
+                    name: "Nephi", age: 29,
+                    score:{targetScore: 70,score: 100},
+                    questionScores:[
+                        {
+                            questionType:'WRK',
+                            score:80
+                        },
+                        {
+                            questionType:'BAP',
+                            score:90
+                        },
+                        {
+                            questionType:'T&I',
+                            score:100
+                        },
+                        {
+                            questionType:'ADD',
+                            score:40
+                        }]
+                },
+                {
+                    name: "Enos", age: 34,
+                    score:{targetScore: 70,score: 60},
+                    questionScores:[
+                        {
+                            questionType:'WRK',
+                            score:80
+                        },
+                        {
+                            questionType:'BAP',
+                            score:90
+                        },
+                        {
+                            questionType:'T&I',
+                            score:100
+                        },
+                        {
+                            questionType:'ADD',
+                            score:40
+                        }]
+                },
+                {
+                    name: "Tiancum", age: 43,
+                    score:{targetScore: 70,score: 90},
+                    questionScores:[
+                        {
+                            questionType:'WRK',
+                            score:80
+                        },
+                        {
+                            questionType:'BAP',
+                            score:90
+                        },
+                        {
+                            questionType:'T&I',
+                            score:100
+                        },
+                        {
+                            questionType:'ADD',
+                            score:40
+                        }]
+                },
+                {
+                    name: "Jacob", age: 27,
+                    score: {targetScore: 70, score: 77},
+                    questionScores:[
+                        {
+                            questionType:'WRK',
+                            score:80
+                        },
+                        {
+                            questionType:'BAP',
+                            score:90
+                        },
+                        {
+                            questionType:'T&I',
+                            score:100
+                        },
+                        {
+                            questionType:'ADD',
+                            score:40
+                        }]
+                },
+                {
+                    name: "Nephi", age: 29,
+                    score: {targetScore: 70,score: 80},
+                    questionScores:[
+                        {
+                            questionType:'WRK',
+                            score:80
+                        },
+                        {
+                            questionType:'BAP',
+                            score:90
+                        },
+                        {
+                            questionType:'T&I',
+                            score:100
+                        },
+                        {
+                            questionType:'ADD',
+                            score:40
+                        }]
+                },
+                {
+                    name: "Enos", age: 34,
+                    score:{targetScore: 70,score: 50},
+                    questionScores:[
+                        {
+                            questionType:'WRK',
+                            score:80
+                        },
+                        {
+                            questionType:'BAP',
+                            score:90
+                        },
+                        {
+                            questionType:'T&I',
+                            score:100
+                        },
+                        {
+                            questionType:'ADD',
+                            score:40
+                        }]
+                },
+                {
+                    name: "Tiancumttttttttttttttttttttttttttttttttttttttttttttttttttt", age: 43,
+                    score: {targetScore: 70, score: 20},
+                    questionScores:[
+                        {
+                            questionType:'WRK',
+                            score:80
+                        },
+                        {
+                            questionType:'BAP',
+                            score:90
+                        },
+                        {
+                            questionType:'T&I',
+                            score:100
+                        },
+                        {
+                            questionType:'ADD',
+                            score:40
+                        }]
+                },
+                {
+                    name: "Jacob", age: 27,
+                    score: {targetScore: 70, score: 80},
+                    questionScores:[
+                        {
+                            questionType:'WRK',
+                            score:80
+                        },
+                        {
+                            questionType:'BAP',
+                            score:90
+                        },
+                        {
+                            questionType:'T&I',
+                            score:100
+                        },
+                        {
+                            questionType:'ADD',
+                            score:40
+                        }]
+                },
+                {
+                    name: "Nephi", age: 29,
+                    score: {targetScore: 70, score: 12},
+                    questionScores:[
+                        {
+                            questionType:'WRK',
+                            score:80
+                        },
+                        {
+                            questionType:'BAP',
+                            score:90
+                        },
+                        {
+                            questionType:'T&I',
+                            score:100
+                        },
+                        {
+                            questionType:'ADD',
+                            score:40
+                        }]
+                }
+                //,
+                //{
+                //    name: "Enos", age: 34,
+                //    score: {targetScore: 70, score: 96},
+                //    questionScores:[
+                //        {
+                //            questionType:'WRK',
+                //            score:80
+                //        },
+                //        {
+                //            questionType:'BAP',
+                //            score:90
+                //        },
+                //        {
+                //            questionType:'T&I',
+                //            score:100
+                //        },
+                //        {
+                //            questionType:'ADD',
+                //            score:40
+                //        }]
+                //},
+                //{
+                //    name: "Tiancum", age: 43,
+                //    score: {targetScore: 70, score: 80},
+                //    questionScores:[
+                //        {
+                //            questionType:'WRK',
+                //            score:80
+                //        },
+                //        {
+                //            questionType:'BAP',
+                //            score:90
+                //        },
+                //        {
+                //            questionType:'T&I',
+                //            score:100
+                //        },
+                //        {
+                //            questionType:'ADD',
+                //            score:40
+                //        }]
+                //},
+                //{
+                //    name: "Jacob", age: 27,
+                //    score: {targetScore: 70, score: 32},
+                //    questionScores:[
+                //        {
+                //            questionType:'WRK',
+                //            score:80
+                //        },
+                //        {
+                //            questionType:'BAP',
+                //            score:90
+                //        },
+                //        {
+                //            questionType:'T&I',
+                //            score:100
+                //        },
+                //        {
+                //            questionType:'ADD',
+                //            score:40
+                //        }]
+                //},
+                //{
+                //    name: "Nephi", age: 29,
+                //    score: {targetScore: 70, score: 54},
+                //    questionScores:[
+                //        {
+                //            questionType:'WRK',
+                //            score:80
+                //        },
+                //        {
+                //            questionType:'BAP',
+                //            score:90
+                //        },
+                //        {
+                //            questionType:'T&I',
+                //            score:100
+                //        },
+                //        {
+                //            questionType:'ADD',
+                //            score:40
+                //        }]
+                //},
+                //{
+                //    name: "Enos", age: 34,
+                //    score: {targetScore:70,score:85},
+                //    questionScores:[
+                //        {
+                //            questionType:'WRK',
+                //            score:80
+                //        },
+                //        {
+                //            questionType:'BAP',
+                //            score:90
+                //        },
+                //        {
+                //            questionType:'T&I',
+                //            score:100
+                //        },
+                //        {
+                //            questionType:'ADD',
+                //            score:40
+                //        }]
+                //}
+            ];
+
+            //grid row click handler
+            $scope.rowSelection_Handler = function(data){
+
+                console.log(data.name);
+            };
+
+
+
+            $scope.columns = [];
+
+
+            for (var i = 0; i < $scope.myValues.length; i++) {
+
+                var item = $scope.myValues[i];
+                for (var j = 0; j < item.questionScores.length; j++) {
+                    var innerItem = item.questionScores[j];
+
+                    $scope.columns.push(innerItem);
+                    //console.log(innerItem.questionType+"\n");
+                }
+                break;
+            }
+
+            $scope.tableParams = new ngTableParams({
+                sorting:{
+                    name:'asc'
+                }
+            },{
+                getData: function($defer, params) {
+
+                    $scope.myValues = params.sorting() ?
+                        $filter('orderBy')($scope.myValues, params.orderBy()) :$scope.myValues;
+
+                    $defer.resolve( $scope.myValues);
+                    params.settings({ counts: [] });
+
+                    /*this code need to get sorting column information such as sorting property name and sorting order. */
+                     var obj = params.$params.sorting;
+                     var sortingProperty = Object.getOwnPropertyNames(obj);
+                     var prop = sortingProperty[0];
+                     var sortingOrder = obj[prop];//value should be 'asc'/'desc';
+
+                    //paging code
+                    //$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                }
+            })
+
+
+
+    }]);
+
+});

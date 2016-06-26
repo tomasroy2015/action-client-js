@@ -1,0 +1,38 @@
+(function () {
+    'use strict';
+
+    angular.module(AppModule().MAIN_MODULE).factory('loginService' , loginFactory);
+
+    loginFactory.$inject = ['$http' , 'appSettings'];
+
+    function prepareMethodUrl(appSettings) {
+        var serviceBase  = appSettings.apiUrl;
+        var loginApiCtrl = 'userdao';
+        var method       = 'login';
+        var separator    = '/';
+        return serviceBase + loginApiCtrl + separator + method;
+    }
+
+    function loginFactory($http , appSettings) {
+        var apiMethodUrl = prepareMethodUrl(appSettings);
+        return {
+            login : function (email , password) {
+                //return $http.post(serviceBase + loginApiCtrl + '/' + 'login' , JSON.stringify({
+                //    Email    : email ,
+                //    Password : password
+                //}))
+
+                var params = {
+                    Email    : email ,
+                    Password : password
+                };
+                return $http.get(apiMethodUrl , {params : params})
+                    .then(function (results) {
+                        var loggedIn = results.data;
+                        return loggedIn;
+                    });
+            }
+        }
+    }
+
+})();

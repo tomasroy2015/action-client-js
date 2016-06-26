@@ -1,0 +1,14 @@
+<div class="grid-tooltip" style="text-align: right;">
+    <div class="ui-grid-cell-contents">
+        <div style="width: 100% !important;padding-top: 24px;">
+            <ul style="display: inline;padding: 0px;margin: 0px">
+                <li class="horizontalAlign" ng-repeat="q in row.entity.BothEvaluationData.Answers"
+                    action-popover-title="{{q.ServiceAreaName}}" action-toggle="popover"
+                    data-placement="top"
+                    data-content="{{q.QuestionText}}" data-trigger="hover">
+                    <action-evaluation-answer-scores service-area-name="q.ServiceAreaName" question-text="q.QuestionText" question-id="q.QuestionId" value="q.Value"></action-evaluation-answer-scores>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

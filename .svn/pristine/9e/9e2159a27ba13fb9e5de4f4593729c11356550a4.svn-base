@@ -1,0 +1,492 @@
+define(['application-configuration', 'dataService','lodash','AttributeScoreData', 'moreSettingsFactory','EvaluationData', 'QuestionScoreViewData', 'CreateViewDataFactory'], function (app) {
+
+    app.register.factory('dataFactory', ['$rootScope', '$http', 'dataService','Notify','AttributeScoreData', 'ComparatorType','moreSettingsFactory','EvaluationData','QuestionScoreViewData', 'CreateViewDataFactory',
+        function ($rootScope, $http, dataService,Notify,AttributeScoreData,ComparatorType,moreSettingsFactory,EvaluationData, QuestionScoreViewData, CreateViewDataFactory) {
+
+        var dataset = null,
+            isDatasetLoaded = false,
+            dataInfo = {},
+            serviceAreaCollection = null,
+            customAttributeCollection = null,
+            serviceAreaScoreDataCollection = null,
+            selectedServiceArea = null,
+            selectedQuestion = null,
+            attributeScoreDataCollection = [],
+            selectedServiceAreaAttributeCountCollection = [],
+            evaluationDataCollection = [],
+            colorSettings = null,
+            customerGeneralSettings = null,
+            selectedAttributeIndex = 1,
+            comparatorCollection = null,
+            countryScoreDataCollection = null,
+            selectedServiceAreaAttributeCounte = null,
+            selectedComparatorType = ComparatorType.Target,
+            attributeEvaluations = null,
+            selectedSurveyType = "";
+            scoreComparatorThreshold = 5;
+        var serviceAreaViewScoreDataCollection = null,
+            scoreBoxServiceScoreDataCollection = null,
+            scoreBoxServiceGroupScoreData = [];
+
+
+        var listViewSelectedAttribute = {
+            Index:0,
+            Type:1
+        };
+
+         var onGetAllData = function(response){
+            intializeData();
+            isDatasetLoaded = true;
+            serviceAreaCollection = response.ServiceAreaCollection;
+            //selectedServiceArea = serviceAreaCollection[1];
+             setDefaultServiceArea();
+            customAttributeCollection = response.CustomAttributeCollection;
+            serviceAreaScoreDataCollection = response.ServiceAreaScoreDataCollection;
+            colorSettings = response.Settings.ColorSettings;
+            customerGeneralSettings = response.Settings.CustomerGeneralSettings;
+            countryScoreDataCollection = response.CountryScoreDataCollection;
+            comparatorCollection = response.ComparatorCollection;
+
+             setListViewDefaultAttribute();
+             //Update color
+             moreSettingsFactory.SetColorSet(colorSettings[0].OnTarget,colorSettings[0].CloseToTarget, colorSettings[0].FarFromTarget);
+
+             serviceAreaViewScoreDataCollection = prepareServiceAreaScoreDataCollection(serviceAreaScoreDataCollection);
+             scoreBoxServiceScoreDataCollection = prepareServiceAreaData();
+             prepareOSorTCKDataCollection();
+
+            $rootScope.$broadcast(Notify.DATA_READY);
+        };
+
+            function setListViewDefaultAttribute(){
+              var selectedAttribute = _.filter(customAttributeCollection, function(n){
+                 return n.Index == customerGeneralSettings.DefaultListViewAttributeIndex
+              });
+                if(selectedAttribute && selectedAttribute.length > 0)
+                {
+                    listViewSelectedAttribute.Index = selectedAttribute[0].Index;
+                    listViewSelectedAttribute.Type = selectedAttribute[0].Type;
+                }
+            }
+            function setDefaultServiceArea(){
+              var generalOs = _.filter(serviceAreaCollection,function(n){
+                  return n.Id == "OS"
+              });
+                if(generalOs && generalOs.length > 0){
+                    selectedServiceArea = generalOs[0];
+                }
+                else{
+                    var tickets = _.filter(serviceAreaCollection,function(n){
+                        return n.Id == "TCK" || n.Id == "SES"
+                    });
+                    if(tickets && tickets.length > 0)
+                    selectedServiceArea = tickets[0];
+                }
+
+            }
+        var onGetChangedDataSet = function(response){
+            intializeData();
+            serviceAreaCollection = response.ServiceAreaCollection;
+            //selectedServiceArea = serviceAreaCollection[1];
+            setDefaultServiceArea();
+            customAttributeCollection = response.CustomAttributeCollection;
+            serviceAreaScoreDataCollection = response.ServiceAreaScoreDataCollection;
+            colorSettings = response.Settings.ColorSettings;
+            customerGeneralSettings = response.Settings.CustomerGeneralSettings;
+            countryScoreDataCollection = response.CountryScoreDataCollection;
+            comparatorCollection = response.ComparatorCollection;
+            setListViewDefaultAttribute();
+            //Updating color set
+            moreSettingsFactory.SetColorSet(colorSettings[0].OnTarget,colorSettings[0].CloseToTarget, colorSettings[0].FarFromTarget);
+
+            serviceAreaViewScoreDataCollection = prepareServiceAreaScoreDataCollection(serviceAreaScoreDataCollection);
+            scoreBoxServiceScoreDataCollection = prepareServiceAreaData();
+            prepareOSorTCKDataCollection();
+
+            $rootScope.$broadcast(Notify.DATASET_CHANGED);
+        };
+        function intializeData(){
+            isDatasetLoaded = true;
+            attributeScoreDataCollection.length = 0;//Reseting the array collection items
+            evaluationDataCollection.length = 0;
+            selectedServiceAreaAttributeCountCollection.length = 0;
+            serviceAreaCollection = null;
+            customAttributeCollection = null;
+            serviceAreaScoreDataCollection = null;
+            colorSettings = null;
+            customerGeneralSettings = null;
+            countryScoreDataCollection = null;
+            comparatorCollection = null;
+            serviceAreaViewScoreDataCollection = null;
+            scoreBoxServiceScoreDataCollection = null;
+            scoreBoxServiceGroupScoreData.length =0;
+        }
+        var errorFunction = function(response){
+            //Error handling goes here.
+            window.alert("Error in loading DataSet");
+            $rootScope.isNeedToShowLoading = false;
+            //window.location = "#/Main";
+        };
+
+
+
+        var onGetSelectedAttributeScoreData = function(response){
+
+            var query = _.filter(attributeScoreDataCollection, function (n) {
+                return n.AttributeIndex == selectedAttributeIndex;
+            });
+            if(query && query.length > 0){
+                query[0].ScoreDataCollection = response;
+            }
+            else{
+                var attScoreData = new AttributeScoreData();
+                attScoreData.AttributeIndex = selectedAttributeIndex;
+                attScoreData.ScoreDataCollection = response;
+
+                attributeScoreDataCollection.push(attScoreData);
+            }
+
+            $rootScope.$broadcast(Notify.ATTRIBUTE_DATA_READY);
+        };
+
+            var onGetEvaluations = function(response){
+                var evaluationData = new EvaluationData();
+                evaluationData.SurveyType = selectedSurveyType;
+                evaluationData.EvaluationCollection = response;
+                evaluationDataCollection.push(evaluationData);
+                $rootScope.$broadcast(Notify.EVALUATION_DATA_READY);
+            };
+            var onGetSelectedServiceAreaAttributeCount = function(response){
+                selectedServiceAreaAttributeCountCollection = response;
+                $rootScope.$broadcast(Notify.SERVICE_AREA_ATTRIBUTE_COUNT_DATA_READY,response);
+            };
+            var onApplyDataFilterSuccess = function(response){
+                console.log(response.Success);
+
+            };
+
+
+
+            function prepareServiceAreaScoreDataCollection(data) {
+                var tmpPreparedData = {};
+                tmpPreparedData.generalSurveyData = {};
+                tmpPreparedData.triggerSurveyData = {};
+                tmpPreparedData.generalSurveyHeaderData = {};
+                tmpPreparedData.triggerSurveyHeaderData = {};
+
+
+                var generalSurveyCollection = _.filter(data, function (n) {
+                    return n.SurveyType === "GEN";
+                });
+
+                var triggerSurveyCollection = _.filter(data, function (n) {
+                    return n.SurveyType === "TCK" && n.Id !== 'SES' && n.Id !== 'TCK';
+                });
+
+                /* prepare data with score comparator object */
+                var preparedGenSurvey = [], prepareTrigSurvey = [], resultGen = [], resultTrig = [];
+
+
+                if (generalSurveyCollection && generalSurveyCollection.length > 0) {
+                    var tmpGenData = _.sortByOrder(generalSurveyCollection, 'SortOrder', true);
+                    _.forEach(tmpGenData, function (n, key) {
+                        //var serviceAreaViewData = ServiceAreaViewData.GetServiceAreaViewData(n.Id,prepareCollectionObject(n));
+                        var oServiceAreaViewData = CreateViewDataFactory.ServiceAreaViewData();
+                        oServiceAreaViewData.Id = n.Id;
+                        oServiceAreaViewData.Items = prepareCollectionObject(n);
+                        preparedGenSurvey.push(oServiceAreaViewData);
+                    });
+
+                    tmpPreparedData.generalSurveyData = preparedGenSurvey;
+                    tmpPreparedData.generalSurveyHeaderData = prepareSurveyHeaderData('GEN', 'OVERALL SATISFACTION', data);
+                }
+                if (triggerSurveyCollection && triggerSurveyCollection.length > 0) {
+                    var tmpTrigData = _.sortByOrder(prepareTrigSurvey, 'SortOrder', true);
+                    _.forEach(triggerSurveyCollection, function (n, key) {
+                        //prepareTrigSurvey[n.Id] = prepareCollectionObject(n);
+                        var oServiceAreaViewData = CreateViewDataFactory.ServiceAreaViewData();
+                        oServiceAreaViewData.Id = n.Id;
+                        oServiceAreaViewData.Items = prepareCollectionObject(n);
+                        prepareTrigSurvey.push(oServiceAreaViewData);
+                    });
+
+                    tmpPreparedData.triggerSurveyData = prepareTrigSurvey;
+                    tmpPreparedData.triggerSurveyHeaderData = prepareSurveyHeaderData('TCK', 'IT SERVICE EFFORT SCORE', data);
+                }
+                return tmpPreparedData;
+            }
+
+            /**
+             * prepare question object with score comparator object
+             * @param question
+             * @returns {*}
+             */
+            function prepareCollectionObject(question) {
+                var questionScoreViewData = [];
+
+                var groupQuestionScoreViewData = prepareGroupQuestionScoreViewData(question);
+                questionScoreViewData.push(groupQuestionScoreViewData);
+
+                _.forEach(question.QuestionScores, function (item, key) {
+                    var tmpQesObj = prepareQuestionScoreViewData(item);
+                    questionScoreViewData.push(tmpQesObj);
+                });
+                return questionScoreViewData;
+            }
+
+            function prepareGroupQuestionScoreViewData(question) {
+                var questionScoreViewData = new QuestionScoreViewData();
+                questionScoreViewData.QuestionId = question.Id;
+                questionScoreViewData.QuestionText = question.Name;
+                questionScoreViewData.NoOfRespondent = question.Respondent;
+                questionScoreViewData.Score = question.Score;
+                questionScoreViewData.Comparator = getScoreItemComparator(question.Id);
+                questionScoreViewData.ScoreColor = getScoreColor(question.Score, questionScoreViewData.Comparator);
+                questionScoreViewData.IsGroup = true;
+                return questionScoreViewData;
+            }
+
+            function prepareQuestionScoreViewData(question) {
+                var questionScoreViewData = new QuestionScoreViewData();
+                questionScoreViewData.QuestionId = question.QuestionId;
+                questionScoreViewData.QuestionText = question.QuestionText;
+                questionScoreViewData.NoOfRespondent = question.TotalResponse;
+                questionScoreViewData.Score = question.Score;
+                questionScoreViewData.Comparator = getScoreItemComparator(question.QuestionId);
+                questionScoreViewData.ScoreColor = getScoreColor(question.Score, questionScoreViewData.Comparator);
+                return questionScoreViewData;
+            }
+
+
+            /**
+             * Prepare header data for survey
+             * @param surveyType
+             * @param title
+             * @param serviceAreaCollection
+             * @returns {{scoreComparator: {Score: *, ComparatorValue: *, ComparatorColorCode: *}, surveyType: string, title: *}}
+             */
+            function prepareSurveyHeaderData(surveyType, title, dataCollection) {
+                var surveyTypeTitle = "", isOSScore = false;
+                var tmpCollection = {};
+                if (surveyType === "GEN") {
+                    isOSScore = true;
+                    surveyTypeTitle = "GENERAL SURVEYS";
+                    tmpCollection = _.filter(dataCollection, function (n) {
+                        return n.Id === 'OS';
+                    });
+                } else if (surveyType === "TCK") {
+                    isOSScore = false;
+                    surveyTypeTitle = "TICKETS";
+                    tmpCollection = _.filter(dataCollection, function (n) {
+                        return n.Id === 'TCK' || n.Id === 'SES';
+                    });
+                }
+                return {
+                    comparatorData: prepareGroupQuestionScoreViewData(tmpCollection[0]),
+                    surveyType: surveyTypeTitle,
+                    title: title,
+                    isOSScore: isOSScore,
+                    noOfRespondent: tmpCollection[0].Respondent
+                };
+            }
+
+            function prepareServiceAreaData() {
+                if (serviceAreaViewScoreDataCollection.generalSurveyData && serviceAreaViewScoreDataCollection.generalSurveyData.length > 0 && serviceAreaViewScoreDataCollection.triggerSurveyData && serviceAreaViewScoreDataCollection.triggerSurveyData.length > 0) {
+                    var gen = serviceAreaViewScoreDataCollection.generalSurveyData;
+                    var tck = serviceAreaViewScoreDataCollection.triggerSurveyData;
+                 return  gen.concat(tck);
+                } else if (serviceAreaViewScoreDataCollection.generalSurveyData && serviceAreaViewScoreDataCollection.generalSurveyData.length > 0) {
+                    return serviceAreaViewScoreDataCollection.generalSurveyData;
+                } else if (serviceAreaViewScoreDataCollection.triggerSurveyData && serviceAreaViewScoreDataCollection.triggerSurveyData.length > 0) {
+                    return serviceAreaViewScoreDataCollection.triggerSurveyData;
+                }
+            }
+
+            function prepareOSorTCKDataCollection() {
+                var tmpFilterColl = _.filter(serviceAreaScoreDataCollection, function (data) {
+                    return data.Id === 'OS' || data.Id === 'TCK' || data.Id === 'SES';
+                });
+
+                if (tmpFilterColl && tmpFilterColl.length > 0) {
+                    _.forEach(tmpFilterColl, function (n) {
+                        var oServiceAreaViewData = CreateViewDataFactory.ServiceAreaViewData();
+                        oServiceAreaViewData.Id = n.Id;
+                        oServiceAreaViewData.Items = prepareCollectionObject(n);
+                        scoreBoxServiceGroupScoreData.push(oServiceAreaViewData);
+                    });
+                }
+            }
+
+            function getScoreItemComparator(scoreItem){
+                var selectedComparator= _.filter(comparatorCollection,function(n){
+                    return n.Id === scoreItem && n.Type === selectedComparatorType;
+                });
+
+                if( selectedComparator[0] === undefined || selectedComparator[0].Value  === undefined) {
+                    return NaN;
+                } else {
+                    return selectedComparator[0].Value;
+                }
+            }
+            function getScoreColor(score, comparator) {
+
+                if (isNaN(score))
+                    return "#555759";//Dark gray when no score
+
+                if (isNaN(comparator) || score >= comparator)
+                    return moreSettingsFactory.GetSelectedColorSet().OnTarget;
+                else if ((score + scoreComparatorThreshold) >= comparator)
+                    return moreSettingsFactory.GetSelectedColorSet().CloseToTarget;
+                else
+                    return moreSettingsFactory.GetSelectedColorSet().FarFromTarget;
+            }
+
+            var onGetAttributeEvaluations = function(response){
+                attributeEvaluations = response;
+                $rootScope.$broadcast(Notify.ATTRIBUTE_EVALUATION_DATA_READY);
+            };
+        //all public methods and properties exposed by this factory
+        return {
+            LoadDataSet : function (dataset) {
+                dataInfo = dataset;
+                return dataService.getAllData(dataset, onGetAllData, errorFunction);
+            },
+            ChangeDataSet : function (dataset) {
+                dataInfo = dataset;
+                return dataService.getAllData(dataset, onGetChangedDataSet, errorFunction);
+            },
+            ApplyDataFilter : function (data,attributeRoute) {
+                return dataService.setDataFilter(data, attributeRoute,  onApplyDataFilterSuccess, errorFunction);
+            },
+            GetSelectedAttributeScoreData : function(requestParameter){
+                selectedAttributeIndex = requestParameter.attributeIndex;
+                return dataService.getAttributeData(requestParameter, onGetSelectedAttributeScoreData, errorFunction);
+            },
+
+            GetEvaluations : function(requestParameter){
+                selectedSurveyType = requestParameter.surveyType;
+                return dataService.getEvaluations(requestParameter, onGetEvaluations, errorFunction);
+            },
+            LoadSelectedServiceAreaAttributeCount : function(requestParameter){
+                selectedSurveyType = requestParameter.surveyType;
+                return dataService.getSelectedServiceAreaAttributeCount(requestParameter, onGetSelectedServiceAreaAttributeCount, errorFunction);
+            },
+            GetSelectedServiceAreaAttributeCount : function(){
+                return selectedServiceAreaAttributeCountCollection;
+            },
+            DataInfo : function(){
+                return dataInfo;
+            },
+            ServiceAreaChanged : function(serviceAreaId){
+                selectedServiceArea = _.find(serviceAreaCollection,function(n){
+                    return n.Id == serviceAreaId
+                });
+                selectedQuestion = null;
+                $rootScope.$broadcast(Notify.SERVICE_AREA_CHANGED,selectedServiceArea.Id);
+            },
+            ServiceAreaQuestionChanged : function(questionId){
+
+                selectedQuestion = _.find(selectedServiceArea.Questions,function(n){
+                    return n.ID == questionId
+                });
+                $rootScope.$broadcast(Notify.SERVICE_AREA_QUESTION_CHANGED,selectedQuestion.ID);
+            },
+            ServiceAreaCollection : function(){
+                return serviceAreaCollection;
+            },
+            CustomAttributeCollection: function(){
+                return customAttributeCollection;
+            },
+            ServiceAreaScoreDataCollection : function (){
+                return serviceAreaScoreDataCollection;
+            },
+            CountryaScoreDataCollection : function (){
+                return countryScoreDataCollection;
+            },
+            SelectedServiceAreaId : function(){
+                return selectedServiceArea.Id;
+            },
+            GetSelectedServiceAreaSurveyType:function(){
+                return _.result(_.findWhere(serviceAreaCollection,{'Id':selectedServiceArea.Id}),'SurveyType');
+            },
+
+            GetAtributeScoreDataCollection: function(){
+                return attributeScoreDataCollection;
+            },
+            GetEvaluationDataCollection: function(){
+                return evaluationDataCollection;
+            },
+            GetSelectedServiceArea : function(){
+                return selectedServiceArea;
+            },
+            GetSelectedQuestion : function(){
+                return selectedQuestion;
+            },
+            CustomerGeneralSettings:function(){
+                return customerGeneralSettings;
+            },
+            UpdateCompartorType : function(comparatorType){
+                selectedComparatorType = comparatorType;
+                $rootScope.$broadcast(Notify.COMPARATOR_TYPE_CHANGED,comparatorType);
+            },
+            SelectedComparatorType:function(){
+                return selectedComparatorType;
+            },
+            GetScoreColor : function(score, comparator){
+                return getScoreColor(score,comparator);
+
+            },
+            ComparatorCollection:function(){
+                return comparatorCollection;
+            },
+            GetColorSettings:function(){
+                return colorSettings;
+            },
+            GetListViewSelectedAttribute: function(){
+                return listViewSelectedAttribute;
+            },
+            SetListViewSelectedAttribute: function(attribute){
+                listViewSelectedAttribute.Index = attribute.Index;
+                listViewSelectedAttribute.Type = attribute.Type;
+            },
+            GetAttributeEvaluations:function(requestParam){
+                return dataService.getAttributeEvaluations(requestParam,onGetAttributeEvaluations,errorFunction);
+            },
+            GetAttributeEvaluationDataCollection:function(){
+                return attributeEvaluations;
+            },
+            UpdateComparatorType: function (comparatorType) {
+                selectedComparatorType = parseInt(comparatorType);
+            },
+            preparedServiceAreaScoreDataCollection: function () {
+                serviceAreaViewScoreDataCollection = null;
+                scoreBoxServiceScoreDataCollection = null;
+                scoreBoxServiceGroupScoreData.length =0;
+
+                serviceAreaViewScoreDataCollection = prepareServiceAreaScoreDataCollection(serviceAreaScoreDataCollection);
+                scoreBoxServiceScoreDataCollection = prepareServiceAreaData();
+                prepareOSorTCKDataCollection();
+            },
+            preparedFullScorecardDataCollection: function (data) {
+                return prepareServiceAreaScoreDataCollection(data);
+            },
+            getPreparedServiceAreaScoreDataCollection: function () {
+                return serviceAreaViewScoreDataCollection;
+            },
+            getServiceAreaDataById: function (Id) {
+                var tmp;
+                tmp = _.result(_.find(scoreBoxServiceScoreDataCollection, function (n) {
+                    return n.Id === Id;
+                }), "Items");
+
+                if (tmp === undefined) {
+                    tmp = _.result(_.find(scoreBoxServiceGroupScoreData, function (n) {
+                        return n.Id === Id;
+                    }), "Items");
+                }
+                return tmp;
+            }
+        };
+
+    }]);
+});

@@ -1,0 +1,16 @@
+define(['application-configuration'], function (app) {
+    app.register.factory('CreateViewDataFactory', [function () {
+
+        var ServiceAreaViewData = function(){
+            this.Id="";
+            this.Items = [];
+        };
+
+        return {
+            ServiceAreaViewData: function(){
+                return new ServiceAreaViewData();
+            }
+        };
+
+    }]);
+});

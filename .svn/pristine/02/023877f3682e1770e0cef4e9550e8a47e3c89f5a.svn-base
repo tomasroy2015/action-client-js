@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="Views/DataFilter/AccordionPanelTemplate.css"/>
+<!--<div class="ac-collasped-panel" ng-click="isCollapsed = !isCollapsed">-->
+<!--<div class="ac-collasped-panel" ng-click="isCollapsedPanel()">-->
+
+<div class="accordion-panel-container">
+    <accordion close-others="oneAtATime">
+        <accordion-group id="{{'accordion-panel-' + catgory.name|lowercase}}" is-open="catgory.isExpand" ng-repeat="catgory in categorizedAttributeCollection" >
+            <accordion-heading>
+                <div ng-click="expandCollapsed($event,catgory.isExpand)" data-ng-disabled="true">
+                {{catgory.name}}
+                <i id="glypContainer" class="pull-right"
+                   ng-class="{'fa fa-minus-circle': catgory.isExpand, 'fa fa-plus-circle': !catgory.isExpand}"></i>
+                </div>
+            </accordion-heading>
+            <div class="row" id="{{catgory.name +'-'+ item.Label + '-list-group-item-container'|removeSpacesThenLowercase}}" ng-repeat="item in catgory.items">
+                <a href="" id="{{ catgory.name +'-'+ item.Label + '-list-group-item'|removeSpacesThenLowercase}}" class="list-group-item" ng-click="selectedListItem($event,item)">
+                    {{item.Label}}&nbsp;{{'('+item.AttributeCount+')'}}</a>
+            </div>
+        </accordion-group>
+    </accordion>
+
+    <div class="reset-filter">
+        <button type="button" class="btn btn-default btn-sm btn-reset" ng-click="onResetClickHandler()">
+            Reset filters <img src="Content/images/reset-filter.png">
+        </button>
+    </div>
+    <div class="clearfix"></div>
+</div>

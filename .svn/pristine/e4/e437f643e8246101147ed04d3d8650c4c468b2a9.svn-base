@@ -1,0 +1,10 @@
+<action-score-box
+        ng-controller="serviceAreaScoreBoxController"
+        general-survey-collection="generalSurveyCollection"
+        trigger-survey-collection="triggerSurveyCollection"
+        score-data-collection="combinedScoreDataCollection"
+        score-bar-width="57"
+        selected-question-id="OS"
+        on-tab-item-click="onServiceAreaClicked(selectedId)"
+        on-question-item-click="onQuestionItemClick(selectedId)">
+</action-score-box>

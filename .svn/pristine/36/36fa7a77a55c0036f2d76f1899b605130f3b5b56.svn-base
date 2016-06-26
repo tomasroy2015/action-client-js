@@ -1,0 +1,141 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/EvaluationSummaryTemplate.css"/>
+
+<div class="evaluationSummaryContainer">
+    <div class="evaluationSummaryHeader">
+        <i class="fa fa-play-circle fa-rotate-180 circle-arrow-left" ng-click="backButtonClicked($event)"></i>
+        <span class="span-evaluation-count-container">Evaluation {{currentIndex+1}}/{{data.length}}</span>
+        <i class="fa fa-play-circle circle-arrow-right" ng-click="forwardButtonClicked($event)"></i>
+        <i class="fa fa-times-circle btn-close-evaluation-summary" ng-click="cancelButtonClicked($event)"></i>
+    </div>
+    <div class="evaluationSummaryContent">
+        <div class="questionListContainer">
+            <div class="questionListHeader">
+                {{selectedServiceAreaName | uppercase}}
+            </div>
+            <div class="questionListDetails">
+                <table st-table="questionList" st-safe-src="rowCollection" class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="evaluationSummaryQuestionHeader">
+                                    QUESTION
+
+                                </div>
+                            </th>
+                            <th>
+                                <div class="evaluationSummaryScoreHeader">
+                                    SCORE
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="question in questionList track by $index" ng-if="question.QuestionId.indexOf('_SES') < 0">
+                            <td>
+                                <div class="evaluationSummaryDataContainer">
+                                    <div class="questionNumber">{{$index + 1}}</div>
+                                    <div class="questionText">{{question.QuestionText}}</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="evaluationSummaryScoreBoxContainer">
+                                    <action-evaluation-answer-scores question-id="question.QuestionId" value="question.Value" height="18" width="20"></action-evaluation-answer-scores>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="question in questionList " ng-if="question.QuestionId.indexOf('_SES') >= 0">
+                            <td><div class="evaluationSummaryDataContainer">IT Service Effort Score</div></td>
+                            <td><div class="evaluationSummaryScoreBoxContainer"></div></td>
+                        </tr>
+                        <tr ng-repeat="question in questionList " ng-if="question.QuestionId.indexOf('_SES') >= 0">
+                            <td><div class="evaluationSummaryDataContainer">{{question.QuestionText}}</div></td>
+                            <td><div class="evaluationSummaryScoreBoxContainer"><action-evaluation-answer-scores  question-id="question.QuestionId"  value="question.Value" height="18" width="20"></action-evaluation-answer-scores></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="othersInfoContainer">
+            <div class="regularRemarksHeader">
+                <div class="headerLabel">
+                    {{remarksInfo.Remarks.length > 0 ? remarksInfo.Remarks : remarksInfo.RemarksAdd}}
+                </div>
+                <div class="translationDiv" ng-if="hasTranslation">
+                    <div class="tabs">
+                        <div ng-if="isRemarksLangSame" class="equal-circle regular-remarks-equality">=</div>
+                        <div class="tab">
+                            <input type="radio" name="regular" id="engRegular" value="ENG" ng-model="scopeData.selectedLanguageForRegularRemarks"> </input>
+                            <label for="engRegular" ng-class="{'selected': scopeData.selectedLanguageForRegularRemarks === 'ENG'}">ENG</label>
+                         </div>
+                        <div class="tab">
+                            <input type="radio" name="regular" id="orgRegular" value="ORG" ng-model="scopeData.selectedLanguageForRegularRemarks" > </input>
+                            <label for="orgRegular" ng-class="{'selected': scopeData.selectedLanguageForRegularRemarks === 'ORG'}">ORG</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="regRemarksContainer" ng-class="{'onlyRegularRemarks': remarksInfo.Remarks.length <= 0 || remarksInfo.RemarksAdd.length <= 0 }">
+                {{remarksInfo.Remarks.length > 0 ? scopeData.selectedLanguageForRegularRemarks === 'ENG' ? RegularRemarksEng : RegularRemarksOrg  : scopeData.selectedLanguageForRegularRemarks === 'ENG' ? AdditionalRemarksEng : AdditionalRemarksOrg }}
+            </div>
+            <div class="additionalRemarksWrapper" ng-if="remarksInfo.Remarks.length > 0 && remarksInfo.RemarksAdd.length > 0">
+                <div class="additionalRemarksHeader">
+                    <div class="regularRemarksContainer">
+                        {{remarksInfo.RemarksAdd}}
+                    </div>
+                    <div class="translationDiv" ng-if="hasTranslation">
+                        <div class="tabs">
+                            <div class="tab">
+                                <input type="radio" name="regular" id="engAdditional" value="ENG" ng-model="scopeData.selectedLanguageForAdditionalRemarks"> </input>
+                                <label for="engAdditional" ng-class="{'selected': scopeData.selectedLanguageForAdditionalRemarks === 'ENG'}">ENG</label>
+                            </div>
+                            <div class="tab">
+
+                                <input type="radio" name="regular" id="orgAdditional" value="ORG" ng-model="scopeData.selectedLanguageForAdditionalRemarks" > </input>
+                                <label for="orgAdditional" ng-class="{'selected': scopeData.selectedLanguageForAdditionalRemarks === 'ORG'}">ORG</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="adiRemarksContainer" >
+                    {{scopeData.selectedLanguageForAdditionalRemarks === 'ENG' ? AdditionalRemarksEng : AdditionalRemarksOrg}}
+                </div>
+            </div>
+            <div class="attributeValueWrapper">
+                <div class="divLabelContainer">
+                    Information
+                </div>
+                <div class="attributeValueContainer">
+                    <div class="columnLeft">
+                        <ul class="attributeList">
+                            <li ng-repeat="item in firstAttrCollection">
+                                <div class="attributeItemWrapper">
+                                    <div class="attributeLabel">
+                                        {{item.Label}}
+                                    </div>
+                                    <div class="attributeValue truncatedText">
+                                        {{ currentAttributeValues[item.Index].Value === "" ? "-" : currentAttributeValues[item.Index].Value}}
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="columnRight">
+                        <ul class="attributeList">
+                            <li ng-repeat="item in secoundAttrCollection">
+                                <div class="attributeItemWrapper">
+                                    <div class="attributeLabel">
+                                        {{item.Label}}
+                                    </div>
+                                    <div class="attributeValue truncatedText">
+                                        {{ currentAttributeValues[item.Index].Value === "" ? "-" : currentAttributeValues[item.Index].Value}}
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

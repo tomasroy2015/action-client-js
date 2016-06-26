@@ -1,0 +1,77 @@
+.comparator-mapping-container{
+    width: 100%;height: 400px;
+}
+.comparator-mapping-container .template-header{
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+.comparator-mapping-container .table-container{
+    padding-top: 25px;
+}
+.comparator-mapping-container .table{
+    width: 95%;
+    display: table;
+}
+.comparator-mapping-container .table>thead,
+.comparator-mapping-container .table>tbody{
+    float: left;width: 100%;
+}
+.comparator-mapping-container .table>tbody{
+    overflow: auto;
+    height: 365px;
+    /*background-color: aliceblue;*/
+}
+.comparator-mapping-container .table>thead>tr{
+    text-transform: uppercase;
+}
+.comparator-mapping-container .table>thead>tr>th{
+    padding: 0px;
+    padding-left: 4px;
+}
+.comparator-mapping-container .table>tbody>tr>td{
+    padding: 2px;
+    border-top: transparent;
+    border-bottom:1px solid #000000;
+    font-size: 11px;
+    padding-left: 8px;
+    overflow: hidden; white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.comparator-mapping-container .comparatorGrpRow{
+    background-color: black;
+    color: white;
+}
+.comparator-mapping-container .service-area-column{
+    width: 165px;
+}
+.comparator-mapping-container .target-column{
+    width: 73px;
+}
+.comparator-mapping-container .lower-limit-column{
+    width: 99px;
+}
+.comparator-mapping-container .median-column{
+    width:73px ;
+}
+.comparator-mapping-container .upper-limit{
+    width: 80px;
+}
+.comparator-mapping-container .footer-container-div{
+    padding-top: 10px;
+    padding-left: 12px;
+    border-top: 1px solid;
+    width: 95%;
+}
+.comparator-mapping-container .btn{
+    height: 22px;
+    border: none;
+    border-radius: 0;
+    background: #878787 !important;
+    margin-left: -3px;
+    padding-top: 2px;
+    color: white;
+    width: 58px;
+    float: right;
+}

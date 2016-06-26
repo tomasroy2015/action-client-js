@@ -1,0 +1,11 @@
+<div class="ui-grid-footer-panel"
+     style="height: 1px;
+  border-bottom-color: #000000;
+  border-bottom-style: solid;
+  border-bottom-width: 1px; ">
+    <div class="ui-grid-footer ui-grid-footer-viewport">
+        <div>
+
+        </div>
+    </div>
+</div>

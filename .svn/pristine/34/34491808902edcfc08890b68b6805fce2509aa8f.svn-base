@@ -1,0 +1,114 @@
+<link rel="stylesheet" href="Views/LeftMenuSettings/MoreSettings.css"/>
+<div id="more-settings-container" class="container more-settings-container" ng-controller="moreSettingsController">
+    <div class="page-header moresettings-page-header">
+        <p>More settings</p>
+        <div class="more-settings-arrow-container close-slide-in" ng-click="moreSettingSliding_Handler()"><i class="fa fa-caret-left"></i></div>
+    </div>
+    <div class="more-settings-body">
+        <div id="respondentContainer" class="more-settings-panel-container">
+            <label class="more-settings-common-label" >
+                Minimum number of respondent
+            </label>
+            <div id="respondent-value" class="moresettings-value-container">
+                <form name="responseForm">
+                    <div class="row">
+                        <label class="row respondent-label" for="txtPerSite">
+                            Per site
+                            <input  id="txtPerSite" name="site" type="text" ng-model="minSiteRespondent"
+                                    ng-class="{ 'respondent-text-validation' : responseForm.site.$error.required}"
+                                    ng-click="respondentCountryChange_Handler(minCountryRespondent)" required>
+                        </label>
+                     </div>
+                     <div class="row">
+                        <label class="row respondent-label" for="txtPerCountry">
+                            Per Country
+                            <input id="txtPerCountry" name="country" type="text"  ng-model="minCountryRespondent"
+                                   ng-class="{ 'respondent-text-validation' : responseForm.country.$error.required}"
+                                   ng-click="respondentSiteChange_Handler(minSiteRespondent)" required>
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="zoomLevelContainer" class="more-settings-panel-container">
+            <label class="more-settings-common-label" >
+                       Default zoom level
+            </label>
+            <div  class="moresettings-value-container">
+                <div class="moresettings-radio-group">
+                    <label class="radio moresettings-radio" for="automaticLevel">
+                        <input id="automaticLevel" type="radio" name="zoomLevelGroup" value="1"
+                               ng-click="updateZoomLevel(selectedZoomLevel)"  ng-model="selectedZoomLevel">Automatic(all sites)
+                    </label>
+                    <label class="radio moresettings-radio" for="worldViewType">
+                        <input id="worldViewType" type="radio" name="zoomLevelGroup"
+                               ng-click="updateZoomLevel(selectedZoomLevel)" value="2"  ng-model="selectedZoomLevel">World view
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div id="colorSetContainer" class="color-settings-panel-container">
+            <label class="more-settings-common-label" >
+                         Color set<br>
+            </label>
+            <div  class="color-set-container">
+                <div class="moresettings-radio-group">
+                    <!--<ul class="colorset-ul">-->
+                        <!--<li ng-repeat="colorSet in colorSettings" class="color-coll-li">-->
+                            <!--<label class="radio moresettings-radio" for="colorSetInput">-->
+                                <!--<input id="colorSetInput" type="radio" name="colorSetGroup"-->
+                                       <!--ng-model="selectedColorSet" ng-init="selectedColorSet = colorSettings[0]"-->
+                                       <!--ng-checked="colorSettings[0]"-->
+                                       <!--ng-change="updateColorSet(colorSet)">{{colorSet.Label}}-->
+                                  <!--<div class="row color-coll-div">-->
+                                      <!--<action-color-set color-set="colorSet"></action-color-set>-->
+                                  <!--</div>-->
+                            <!--</label>-->
+                            <!--&lt;!&ndash;<action-color-set color-set="colorSet"&ndash;&gt;-->
+                                              <!--&lt;!&ndash;set-more-color-set="setColorSet(colorSet)"></action-color-set>&ndash;&gt;-->
+                        <!--</li>-->
+                    <!--</ul>-->
+
+                    <label class="radio moresettings-radio" for="colosetStandard">
+                        <input id="colosetStandard" type="radio" name="colorSetGroup" checked="true"
+                               ng-click="updateColorSet(colorSettings[0])">Standard
+                        <div class="color-group-panel">
+                            <action-color-set color-set="colorSettings[0]"></action-color-set>
+                        </div>
+                    </label>
+
+                    <label class="radio moresettings-radio" for="colosetHighContrast">
+                        <input id="colosetHighContrast" type="radio" name="colorSetGroup"
+                               ng-click="updateColorSet(colorSettings[1])" >High contrast
+                        <div class="color-group-panel">
+                            <action-color-set color-set="colorSettings[1]"></action-color-set>
+                        </div>
+                    </label>
+
+                    <label class="radio moresettings-radio" for="colosetBlind1">
+                        <input id="colosetBlind1" type="radio" name="colorSetGroup"
+                               ng-click="updateColorSet(colorSettings[2])" >Color blind 1
+                        <div class="color-group-panel">
+                            <action-color-set color-set="colorSettings[2]"></action-color-set>
+                        </div>
+                    </label>
+
+                    <label class="radio moresettings-radio" for="colosetBlind2">
+                        <input id="colosetBlind2" type="radio" name="colorSetGroup"
+                               ng-click="updateColorSet(colorSettings[3])" >Color blind 2
+                        <div class="color-group-panel">
+                            <action-color-set color-set="colorSettings[3]"></action-color-set>
+                        </div>
+                    </label>
+
+                </div>
+            </div>
+        </div>
+        <div class="moresettings-button-container">
+            <button id="btn-OK" type="submit" class="btn-moresettings-ok"
+                    ng-click="moreSettingSliding_Handler()">
+                OK
+            </button>
+        </div>
+    </div>
+</div>

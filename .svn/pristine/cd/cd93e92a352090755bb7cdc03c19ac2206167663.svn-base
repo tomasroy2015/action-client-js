@@ -1,0 +1,54 @@
+.overall-summary-container {
+  font-size: 10px;
+  font-family: "AkkuratStd-Regular", "Segoe UI Light";
+  color: #000000;
+  height: 160px;
+  margin: 8px;
+  vertical-align: bottom;
+  position: relative; }
+  .overall-summary-container p {
+    margin: 8px 0 0 -2px; }
+  .overall-summary-container .overall-frequency-container {
+    border-left: 2px solid #d3d3d3;
+    border-bottom: 2px solid #d3d3d3;
+    height: 100%;
+    position: relative; }
+    .overall-summary-container .overall-frequency-container ul.overall-frequency-bars {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      position: absolute;
+      bottom: 0px; }
+      .overall-summary-container .overall-frequency-container ul.overall-frequency-bars li.overall-frequency-list-bar {
+        display: inline-block;
+        vertical-align: bottom;
+        text-align: center;
+        margin-bottom: -20px; }
+        .overall-summary-container .overall-frequency-container ul.overall-frequency-bars li.overall-frequency-list-bar .os-frequency-bar {
+          width: 16px;
+          display: block;
+          margin-bottom: 6px;
+          margin-left: 5px;
+          max-height: 155px; }
+  .overall-summary-container .score-frequency-scale {
+    display: flex;
+    padding-left: 5px;
+    text-align: center; }
+
+.overall-summary-bar-container {
+  font-size: 11px;
+  font-family: "AkkuratStd-Regular", "Segoe UI Light";
+  color: #000000;
+  margin: 40px 0px 0px 8px;
+  height: 55px; }
+  .overall-summary-bar-container .overall-scorebar-container {
+    font-size: 12px;
+    border-bottom: 2px solid #d3d3d3;
+    font-weight: bold; }
+  .overall-summary-bar-container .overall-score-div {
+    display: inline-flex;
+    margin-top: 4px; }
+    .overall-summary-bar-container .overall-score-div .customized-bar-position {
+      margin: -5px 0px 0px 92px; }
+
+/*# sourceMappingURL=OSEvaluationSummaryTemplate.css.map */

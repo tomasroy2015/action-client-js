@@ -1,0 +1,15 @@
+define(['application-configuration'], function (app) {
+    app.register.factory('QuestionScoreViewData', ['$rootScope', '$http', function ($rootScope, $http) {
+
+        var QuestionScoreViewData = function(){
+            this.QuestionId=""
+            this.QuestionText = "";
+            this.Score = NaN;
+            this.Comparator = NaN;
+            this.ScoreColor="#65B32E";
+            this.IsGroup=false;
+        };
+
+        return QuestionScoreViewData;
+    }]);
+});

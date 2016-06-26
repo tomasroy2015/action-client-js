@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="Views/Shared/CSS/DateRangeSelectionTemplate.css"/>
+<div class='ng-modal-container search-container' ng-show='show'>
+    <div class='ng-modal-overlay search-overlay'></div>
+    <form class = "form-horizontal" role = "form" name = "dateRangeForm" novalidate>
+        <div class='ng-modal-dialog search-dialog' ng-style='dialogStyle'>
+            <div class='ng-modal-dialog-content search-dialog-content'>
+                <div class="dialog-header search-header">
+                    <span class="modal-title">{{title}}</span>
+                    <i ng-click='hideModal()' class="fa fa-times-circle fa-lg cursor"></i>
+                </div>
+                <div class="element-parent-div">
+                    <div class="element-container-div">
+                        <div><span class="inline-block label-width">From date:</span></div>
+                        <div>
+                            <input type="date" name="inputFromDate" id="inputFromDate" ng-model="fromDate" width="150px"
+                                   ng-class="{'input-validation' : (dateRangeForm.inputFromDate.$error.required && dateRangeForm.inputFromDate.$invalid && isOkClicked && isInvalidFromDate)}" required>
+                        </div>
+                    </div>
+                    <div class="element-container-div">
+                        <div><span class="inline-block label-width">To date:</span></div>
+                        <div>
+                            <input type="date" name="inputToDate" id="inputToDate" ng-model="toDate" width="150px"
+                                   ng-class="{'input-validation' : (dateRangeForm.inputToDate.$error.required && dateRangeForm.inputToDate.$invalid && isOkClicked && isInvalidToDate)}" required>
+                        </div>
+                        <span ng-show="(isToDateSmall && isOkClicked)"
+                              class="show-error">To date is smaller than From date</span>
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-btn-container-div">
+                <!--<button class="btn"  ng-click='hideModal()'> Cancel</button>-->
+                <button class="btn" style="width: inherit" ng-click="okClicked()"> OK</button>
+            </div>
+        </div>
+    </form>
+</div>

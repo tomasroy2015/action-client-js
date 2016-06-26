@@ -1,0 +1,43 @@
+﻿(function () {
+    'use strict';
+    angular.module(AppModule().MAIN_MODULE)
+        .config(
+        function ($routeProvider, $locationProvider) {
+            var viewBase = '/app/components/';
+
+            $routeProvider
+                .when('/', {
+                    controller  : 'MainLayoutController',
+                    templateUrl : 'app/shared/layout/mainlayout.html',
+                    css         : 'app/shared/layout/mainlayout.css',
+                    controllerAs: 'vm'
+
+                    //controller   : 'LoginController' ,
+                    //templateUrl  : 'app/components/login/login.html' ,
+                    //css          : 'app/components/login/login.css' ,
+                    //controllerAs : 'vm'
+                })
+                .when('/login', {
+                    controller  : 'LoginController',
+                    templateUrl : 'app/components/login/login.html',
+                    css         : 'app/components/login/login.css',
+                    controllerAs: 'vm'
+                })
+                .when('/partial', {
+                    templateUrl: '/app/components/login/partial.html'
+                })
+                .when('/layout', {
+                    templateUrl: 'app/shared/layout/mainlayout.html',
+                    css        : 'app/shared/layout/mainlayout.css'
+                })
+                .otherwise({
+                    redirectTo: '/login'
+                });
+
+            $locationProvider.html5Mode({
+                enabled    : true,
+                requireBase: false
+            });
+        }
+    );
+})();

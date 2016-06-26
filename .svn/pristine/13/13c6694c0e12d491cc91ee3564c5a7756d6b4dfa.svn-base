@@ -1,0 +1,9 @@
+@mixin right-arrow($arrow-width: 10px,$arrow-color:#c6c6c6, $zindex:10) {
+  content: "";
+  position: absolute;
+  right: -$arrow-width;
+  border-top: $arrow-width solid transparent;
+  border-bottom: $arrow-width solid transparent;
+  border-left: $arrow-width solid $arrow-color;
+  z-index: $zindex;
+}

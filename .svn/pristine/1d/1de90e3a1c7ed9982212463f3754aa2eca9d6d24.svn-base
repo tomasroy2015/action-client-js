@@ -1,0 +1,6 @@
+.tab-container {
+    height       : 32px;
+    position     : absolute;
+    bottom       : 0;
+    padding-left : 70px;
+}

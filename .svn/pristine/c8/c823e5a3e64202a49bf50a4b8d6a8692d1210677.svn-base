@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/ScoreBoxTemplate.css"/>
+<div class="service-area-container">
+    <span>SCORES (%)</span>
+    <action-service-area id="generalSurvey" item-click="onClickDir(selectedItem)"
+                         data="generalSurveyCollection" selected-service-area-id="selectedServiceAreaId"></action-service-area>
+    <div class="service-area-gap"></div>
+    <action-service-area id="triggerSurvey" item-click="onClickDir(selectedItem)"
+                         data="triggerSurveyCollection" selected-service-area-id="selectedServiceAreaId"></action-service-area>
+</div>
+<!-- Service area questions button section -->
+<div class="service-area-questions-container">
+    <ul class="question">
+        <li ng-repeat="itemData in scoreDataCollection track by $index" id="question-{{$index}}" ng-click="onQuestionClick(itemData)"
+            ng-class="{'topGroupContainer': itemData.QuestionId == 'OS' || itemData.QuestionId == 'TCK' || itemData.QuestionId == 'SES', 'bottomGroupContainer': itemData.QuestionId == 'TCK' || itemData.QuestionId == 'SES'}"
+            class="questionListItemWrapper">
+            <div ng-if="itemData.QuestionId.indexOf('_SES') >= 0" class="SESHeaderContainer">
+                <div class="SESHeaderContent">
+                    IT Service Effort Score
+                </div>
+            </div>
+            <div class="questionListItemDiv" id="div-{{$index}}"
+                 ng-class="{'selectedQuestionListItemDiv': itemData.QuestionId === selectedQuestionId, 'summaryItemContainer': (itemData.QuestionId === 'OS' || itemData.QuestionId == 'TCK' || itemData.QuestionId == 'SES')}" >
+                <action-service-area-question  data = "itemData" width="57" ></action-service-area-question>
+            </div>
+            <div class="selectedQuestionListItemArrow" ng-if="itemData.QuestionId === selectedQuestionId"></div>
+        </li>
+    </ul>
+</div>

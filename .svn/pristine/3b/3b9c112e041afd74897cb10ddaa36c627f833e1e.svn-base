@@ -1,0 +1,81 @@
+.evaluation-ui-grid-container .ui-grid-row:nth-child(odd):hover .ui-grid-cell{background:#ddddde !important;cursor: pointer !important;}
+.evaluation-ui-grid-container .ui-grid-row:nth-child(even):hover .ui-grid-cell{background:#ddddde !important;cursor: pointer !important;}
+
+.evaluation-ui-grid-container .ui-grid-row:nth-child(odd) .ui-grid-cell{background:#ffffff !important}
+.evaluation-ui-grid-container .ui-grid-row:nth-child(even) .ui-grid-cell{background:#ffffff !important}
+
+.evaluation-ui-grid-container .ui-grid{border: 0 !important;}
+.evaluation-ui-grid-container .ui-grid-top-panel {
+    position: relative;
+    overflow: hidden;
+    font-weight: bold;
+    background: transparent !important;
+}
+.evaluation-ui-grid-container .ui-grid-header {
+    border-bottom: 1px solid !important;
+    border-bottom-color: #000000 !important;
+    box-sizing: border-box;
+    overflow: hidden !important;width: auto !important;
+}
+.evaluation-ui-grid-container .ui-grid-cell {
+    overflow: hidden;
+    float: left;
+    background-color: inherit;
+    border-right: 0 !important;
+    border-bottom: 1px solid !important;
+    border-bottom-color: #000000 !important;
+    box-sizing: border-box;
+
+}
+.evaluation-ui-grid-container .ui-grid-header-cell {
+    position: relative;
+    box-sizing: border-box;
+    border-color: transparent !important;
+    background-color: transparent !important;
+    border-right: 0px !important;
+    /*border-bottom: 1px solid !important;*/
+    /*border-bottom-color: #000000 !important;*/
+    display: table-cell;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 0;
+    height: 75px;
+    padding-top: 15px;
+}
+.evaluation-ui-grid-container .ui-grid-cell-contents {
+    padding: 5px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    white-space: nowrap;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 100%;
+    text-align: left;
+    margin-left: 3px;
+}
+.evaluation-ui-grid-container .ui-grid-viewport {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+.evaluation-ui-grid-container .ui-grid-pinned-container .ui-grid-viewport {
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+}
+
+.evaluation-ui-grid-container .header-label-bottom-border{
+    border-bottom: 1px solid !important;
+    border-bottom-color: #000000 !important;
+}
+.evaluation-ui-grid-container .header-label{
+    display: inline-block;
+    /* line-height: 1.5em; */
+    padding-bottom: 8px;
+}
+
+
+

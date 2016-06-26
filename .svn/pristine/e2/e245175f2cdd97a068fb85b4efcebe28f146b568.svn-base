@@ -1,0 +1,172 @@
+/* line 3, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+.logo-container {
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  height: 60px; }
+
+/* line 10, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+img.logo {
+  width: 233px;
+  height: 60px;
+  margin: 0 auto; }
+
+/* line 16, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+.dataset-container, .data-filter-accordion-container {
+  margin-bottom: 15px; }
+
+/* line 20, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+.service-area-container {
+  padding-top: 10px; }
+  /* line 22, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+  .service-area-container span {
+    padding-left: 5px;
+    font-weight: bold;
+    color: #000; }
+
+/* line 29, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+.nav-tabs > li > a {
+  height: 32px;
+  margin-right: 2px;
+  line-height: 1.42857143;
+  border: none;
+  border-radius: 0;
+  background-color: #ddddde;
+  color: #000; }
+
+/* line 39, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+  color: #000;
+  cursor: default;
+  background-color: #fff;
+  border: none !important;
+  border-bottom-color: transparent !important; }
+
+/* line 47, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+.ac-collasped-panel, .ds-collasped-panel {
+  font-size: 0.9em;
+  color: #000;
+  border-bottom: 1px solid;
+  margin-bottom: 5px;
+  cursor: pointer; }
+
+/* Left menu dataset seletion
+======================================================*/
+/* line 57, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+.dataset-selection {
+  height: 30px;
+  position: relative;
+  line-height: 30px;
+  text-align: left;
+  padding-left: 10px;
+  color: #000;
+  background: #c6c6c6;
+  width: 200px; }
+  /* line 66, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+  .dataset-selection:hover {
+    background: rgba(198, 198, 198, 0.4); }
+    /* line 69, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+    .dataset-selection:hover:before {
+      border-color: transparent transparent transparent rgba(198, 198, 198, 0.4); }
+    /* line 72, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+    .dataset-selection:hover:after {
+      border-color: transparent transparent transparent #fff; }
+  /* line 76, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+  .dataset-selection:after, .dataset-selection:before {
+    content: "";
+    display: inline-block;
+    border-width: 15.5px;
+    border-style: solid;
+    width: 0px;
+    height: 0px;
+    left: 100%;
+    top: 0;
+    position: absolute;
+    z-index: 1; }
+  /* line 88, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+  .dataset-selection:after {
+    border-color: transparent transparent transparent #c6c6c6; }
+  /* line 92, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+  .dataset-selection:before {
+    border-width: 15.5px;
+    display: block;
+    border-color: transparent transparent transparent #c6c6c6;
+    z-index: 2;
+    top: 0px; }
+
+/* Left menu dataset selected section
+======================================================*/
+/* line 120, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+.dataset-selection-selected {
+  height: 30px;
+  position: relative;
+  line-height: 30px;
+  text-align: left;
+  padding-left: 10px;
+  color: #000;
+  background: #fff000;
+  width: 98%; }
+  /* line 129, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+  .dataset-selection-selected:hover {
+    background: #fff000; }
+    /* line 132, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+    .dataset-selection-selected:hover:before {
+      border-color: transparent transparent transparent #fff000; }
+    /* line 135, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+    .dataset-selection-selected:hover:after {
+      border-color: transparent transparent transparent #fff000; }
+  /* line 139, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+  .dataset-selection-selected:after, .dataset-selection-selected:before {
+    content: "";
+    display: inline-block;
+    border-width: 15.5px;
+    border-style: solid;
+    width: 0px;
+    height: 0px;
+    left: 100%;
+    top: 0;
+    position: absolute;
+    z-index: 1; }
+  /* line 151, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+  .dataset-selection-selected:after {
+    border-color: transparent transparent transparent #fff000; }
+  /* line 155, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+  .dataset-selection-selected:before {
+    border-width: 15.5px;
+    display: block;
+    border-color: transparent transparent transparent #fff000;
+    z-index: 2;
+    top: 0px; }
+
+/* line 164, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+.full-scorecard-btn-container {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  right: 0; }
+  /* line 171, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+  .full-scorecard-btn-container .btn.ac-btn-full-scorecard {
+    height: 26px;
+    font-size: 0.9em;
+    position: absolute;
+    right: 2px;
+    background: #fff;
+    color: #000; }
+    /* line 178, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+    .full-scorecard-btn-container .btn.ac-btn-full-scorecard.active {
+      background: #fff000; }
+    /* line 181, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+    .full-scorecard-btn-container .btn.ac-btn-full-scorecard:focus, .full-scorecard-btn-container .btn.ac-btn-full-scorecard:active {
+      -moz-outline-style: none;
+      outline-style: none;
+      outline: none; }
+
+/* line 197, D:/Developement/action-client.js/app/Views/LeftMenu/LeftMenuTemplate.scss */
+.circle-arrow-size-2x {
+  vertical-align: middle;
+  padding-left: 10px;
+  font-size: 1.5em; }
+
+/*# sourceMappingURL=LeftMenuTemplate.css.map */

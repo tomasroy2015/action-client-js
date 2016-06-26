@@ -1,0 +1,31 @@
+
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionScoreBox', [function () {
+        return {
+            restrict: 'AE',
+            scope:{
+                generalSurveyCollection:'=',
+                triggerSurveyCollection:'=',
+                scoreDataCollection:'=',
+                scoreBarWidth:'=',
+                selectedQuestionId:'=',
+                onTabItemClick:'&',
+                onQuestionItemClick:'&'
+            },
+            link:function (scope, el, attrs) {
+                scope.onClickDir = function(selectedItem){
+                    scope.onTabItemClick({selectedId:selectedItem});
+                };
+
+                scope.onQuestionClick = function(selectedId){
+                  scope.onQuestionItemClick({selectedId:selectedId})
+                };
+            },
+            templateUrl: 'Views/Shared/Template/ScoreBoxTemplate.html'
+        };
+    }]);
+
+});

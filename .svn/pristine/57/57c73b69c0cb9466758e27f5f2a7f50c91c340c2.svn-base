@@ -1,0 +1,33 @@
+"use strict";
+define(['application-configuration','accountFactory'], function (app) {
+    app.register.controller('customerSettingsController', ['$scope','$rootScope','$modalInstance','accountFactory',
+        function ($scope,$rootScope,$modalInstance,accountFactory) {
+            $scope.selectedView1=true;
+            $scope.selectedView2=false;
+            $scope.selectedCustomer = null;
+            $scope.currentuser = accountFactory.UserData();
+            $scope.sessionID = $scope.currentuser.SessionId;
+            $scope.setSelectedCustomer=function(customer){
+                $scope.selectedCustomer=customer;
+            }
+            $scope.customerChanged = function(){
+                $scope.customerID = $scope.selectedCustomer.CustomerId;
+            };
+            $scope.general_ClickHandler=function(){
+                $scope.selectedView1=false;
+                $scope.selectedView2=true;
+            }
+            $scope.customerSettings_ClickHandler=function(){
+                $scope.selectedView1=true;
+                $scope.selectedView2=false;
+            }
+            $scope.ok = function () {
+                $modalInstance.close($scope.selected.item);
+            };
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+        }]);
+
+});
+

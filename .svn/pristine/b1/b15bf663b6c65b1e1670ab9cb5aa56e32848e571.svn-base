@@ -1,0 +1,35 @@
+﻿<!--if use pentaho plz comment out this 2 tag-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--For Pentaho;if use plz uncomment-->
+<!--<html xmlns:xf="http://www.w3.org/2002/xforms">-->
+<head>
+    <title>ITsat Action</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <script data-main="main.js" src="bower_components/requirejs/require.js"></script>
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="bower_components/normalize-css/normalize.css"/>
+    <link rel="stylesheet" href="Scripts/ui-grid/ui-grid-unstable.css"/>
+    <link href="Content/css/angular-block-ui.css" rel="stylesheet"/>
+    <link href="Content/css/bootstrap.css" rel="stylesheet"/>
+    <link href="Content/css/Application.css" rel="stylesheet"/>
+    <link href="Content/css/SortableGrid.css" rel="stylesheet"/>
+    <!--[if IE]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- For Pentaho Do not Modify;if use plz uncomment -->
+    <!--{xform-header}-->
+</head>
+
+<body ng-controller="indexController" ng-init="initializeDataSetController()" ng-cloak="">
+<!--For Pentaho if use plz uncomment form-->
+<!--<form id="ng-view-form-wrapper">-->
+<div id="view-container" class="container-fluid" data-ng-view=""></div>
+<!--For Pentaho if use plz uncomment-->
+<!--<div id="token-container" style="display: none;">{tokenlist}</div>-->
+<!--</form>-->
+</body>
+
+</html>

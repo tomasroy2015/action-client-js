@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="Views/CustomerSettings/DataFilterSettings/DataFilterSettingsTemplate.css"/>
+<div class="data-filter-settings-container" ng-controller="dataFilterSettingsController">
+     <span class="template-header">
+        data filter settings
+    </span>
+    <div class="table-container">
+        <table st-table="displayColl" st-safe-src="rowViewCollection"  id="smartTable" class="table">
+            <thead>
+            <tr>
+                <th class="data-filter-title-column">title</th>
+                <th class="attribute-column">attribute column</th>
+                <th class="edit-delete-column"></th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td>* default attribute,could not be deleted</td>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr ng-repeat="item in displayColl" ng-class="{comparatorGrpRow:item.isGrpType}"
+                ng-mouseleave="rowMouseOut_Handler(item)"
+                ng-mouseover="rowHover_Handler(item)">
+                <td class="data-filter-title-column"><span>{{item.Label}}</span></td>
+                <td class="attribute-column" style="padding-left: 15px">
+                    <div ng-hide="item.isGrpType">
+                        <span>{{item.AttributeName}}</span><span ng-show="item.IsDefault"> *</span>
+                    </div>
+                </td>
+                <td class="edit-delete-column">
+                    <button class="btn-edit" ng-class="{invisiable:item.isEditHide}"
+                            ng-click="editDataFilterSettings_ClickHandler(item)"
+                            ng-hide="item.isGrpType"
+                            >Edit</button>
+                    <span ng-class="{invisiable: item.isDeleteHide}" class="btn-delete fa fa-times"
+                          ng-hide="item.isGrpType || item.IsDefault"
+                          ng-click="deleteDataFilterSettings_ClickHandler(item)"
+                          ng-mouseleave="deleteIcon_mouseleaveHandler($event)"
+                          ng-mouseover="deleteIcon_mouseoverHandler($event)"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="footer-container-div">
+            <button class="btn-add-user" ng-click="addDataFilter()"><i class="fa fa-plus-circle"/>
+                <span> ADD DATA FILTER</span>
+            </button>
+        </div>
+    </div>
+    <action-confirmation-alert-dialog show='modalShown' message="message"
+                                      confirm-ok="confirmDataFilterDelete()"
+                                      info='modalShown' width='262px' height='16%'>
+    </action-confirmation-alert-dialog>
+    <action-add-or-edit-data-filter show="addOrEditModalShown" data="data" customer="modalCustomer" ng-if="addOrEditModalShown" window-close-listener="dataFilterAddEditWindowClose()"
+                             info='addOrEditModalShown' width='400px' >
+    </action-add-or-edit-data-filter>
+</div>

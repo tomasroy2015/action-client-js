@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="Views/CustomerSettings/CountryMapping/CountryMappingTemplate.css"/>
+<div class="country-mapping-container" ng-controller="countryMappingController">
+    <span class="template-header">
+        COUNTRY MAPPING
+    </span>
+    <div class="table-container">
+        <table st-table="countryMappingCollection" st-safe-src="rowCollection"  id="smartTable" class="table">
+            <thead>
+                <tr>
+                    <th class="country-column" st-sort="CountryName" st-sort-default="reverse">COUNTRY<i st-sort="CountryName"/></span></th>
+                    <th class="display-label-column" st-sort="Displayname">DISPLAY LABEL<i st-sort="Displayname"></i></th>
+                    <th class="mapped-value-column" st-sort="MappedCountryValues[0]">MAPPED VALUE <i st-sort="MappedCountryValues[0]"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="countryMapping in countryMappingCollection">
+                    <td class="country-column"><span>{{countryMapping.CountryName}}</span></td>
+                    <td class="display-label-column"><span>{{countryMapping.Displayname}}</span></td>
+                    <td class="mapped-value-column">
+                        <span class="mapped-value-text">{{countryMapping.MappedCountryValues[0]}}</span>
+                        <!--<button class="btn-edit" ng-class="{invisible:countryMapping.isEditDeleteHide}">Edit</button>-->
+                        <!--<span ng-class="{invisible:countryMapping.isEditDeleteHide}" class="fa fa-times"></span>-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="footer-container-div">
+        <!--<button class="left-align btn-add-user" ng-click="addUser()"><i class="fa fa-plus-circle"/> <span>ADD USER</span></button>-->
+    </div>
+</div>

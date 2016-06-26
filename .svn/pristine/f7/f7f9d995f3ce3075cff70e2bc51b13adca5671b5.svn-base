@@ -1,0 +1,100 @@
+﻿/// <reference path="Scripts/ui-bootstrap-tpls-0.11.0.js" />
+/// <reference path="Scripts/ui-bootstrap-tpls-0.11.0.js" />
+/// <reference path="Scripts/ui-bootstrap-tpls-0.11.0.js" />
+require.config({
+
+    baseUrl: "",
+    // alias libraries paths
+    paths: {
+        'application-configuration': 'Scripts/application-configuration',
+        'angular': 'bower_components/angular/angular',
+        'angular-route': 'bower_components/angular-route/angular-route',
+        'angularAMD': 'Scripts/angularAMD',
+        'ui-bootstrap': 'Scripts/ui-bootstrap-0.12.1',
+        'jquery': 'bower_components/jquery/dist/jquery.min',
+        'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
+        'd3': 'bower_components/d3/d3',
+        'blockUI': 'Scripts/angular-block-ui',
+        'ngload': 'Scripts/ngload',
+        'angular-sanitize': 'Scripts/angular-sanitize',
+        'bt-slider':"bower_components/seiyria-bootstrap-slider/js/bootstrap-slider",
+        'bt-ng-slider':'bower_components/angular-bootstrap-slider/slider',
+
+        /* All service reference here*/
+        'mainService': 'services/mainServices',
+        'ajaxService': 'services/ajaxServices',
+        'alertsService': 'Services/AlertsServices',
+        'accountsService': 'services/accountsServices',
+        'dataService':'services/dataService',
+        /* End service reference*/
+
+        /* All factories reference here*/
+        'dataFactory':'Factories/dataFactory',
+        'accountFactory':'Factories/AccountFactory',
+        'AttributeScoreData':'Factories/AttributeScoreData',
+        'comparatorFactory':'Factories/ComparatorFactory',
+        'moreSettingsFactory':'Factories/moreSettingsFactory',
+        "leftMenuSlidingWindowEventNotifyFactory":'Factories/LeftMenuSlidingWindowEventNotifyFactory',
+        'CountryViewScoreData':'Factories/CountryViewScoreData',
+        /* End factories reference*/
+
+
+        'angular-css':'bower_components/angular-css/angular-css.min',
+        'topojson':'bower_components/topojson/topojson',
+        'd3Map':'Views/Map/MapDirective',
+        'loginController':'Views/Accounts/LoginController',
+        'mapViewController':'Views/Map/MapViewController',
+        'listViewController' : 'Views/List/ListViewController',
+        'sentimentViewController' : 'Views/Sentiment/SentimentViewController',
+        'map':'Views/Map/map',
+        'ng-table': 'Views/Shared/Module/ngtable/ng-table',
+        'questionscoreDirective': 'Views/List/QuestionScoresDirective',
+        'scorebarDirective': 'Views/Shared/Directive/ScoreBarDirective',
+        'evaluationSpeechBubbleDirective': 'Views/Shared/Directive/EvaluationSpeechBubbleDirective',
+        'headerDirective': 'Views/Header/HeaderDirective',
+        'dataFilterDirective': 'Views/DataFilter/DataFilterAccordionDirective',
+        'serviceAreaDirective': 'Views/Shared/Directive/ServiceAreaTabBarDirective',
+        'leftMenuController': 'Views/LeftMenu/LeftMenuController',
+        'headerController': 'Views/Header/HeaderController',
+        'serviceAreaQuestionsDirective': 'Views/Shared/Directive/ServiceAreaScoreItemDirective',
+        'viewByAttributeDirective':'Views/List/ViewByAttributeDirective',
+        'loadingOverlayDirective':'Views/Shared/Directive/LoadingOverlayDirective',
+        'lodash':'bower_components/lodash/lodash.min',
+        'datasetSelectionFactory':'Factories/DatasetSelectionFactory',
+        'datasetDirective':'Views/DatasetAccordion/DatasetDirective',
+        'actionRootController':'Views/MainLayout/ActionRootController',
+        'compareWithSettingsDirective':'Views/LeftMenuSettings/CompareWithSettingsDirective',
+        'fullScorcard':'Views/FullScorecard/FullScorecardDirective',
+        'moreSettingsDirective':'Views/LeftMenuSettings/MoreSettingsDirective',
+        'attributeScoreSummaryDirective':'Views/Shared/Directive/AttributeScoreSummaryDirective',
+        'colorSetDirective':'Views/LeftMenuSettings/ColorSetDirective'
+    },
+
+    // Add angular modules that does not support AMD out of the box, put it in a shim
+    shim: {
+        'angularAMD': ['angular'],
+        'angular-route': ['angular'],
+        'blockUI': ['angular'],
+        'angular-sanitize': ['angular'],
+        'ui-bootstrap': ['angular'],
+        'angular-css' : ['angular'],
+        topojson:{exports:'topojson'},
+        'map':['d3','topojson'],
+         angular: { exports: 'angular'},
+        'ng-table': ['angular','jquery'],
+        'questionscore':['angular'],
+        'scorebar':['angular'],
+        'evaluationSpeechBubble':['angular'],
+        'd3Map':['angular','topojson','d3'],
+        'headerDirective':['angular'],
+        'bootstrap':['jquery'],
+        'bt-ng-slider':['bt-slider','angular'],
+        'actionRootController':['accountFactory','compareWithSettingsDirective','moreSettingsDirective','colorSetDirective'],
+        'loginController':['loadingOverlayDirective','accountFactory'],
+        'leftMenuController':['dataFilterDirective','serviceAreaDirective', 'serviceAreaQuestionsDirective','lodash','datasetDirective','compareWithSettingsDirective','fullScorcard','moreSettingsDirective'],
+        'headerController' : ['headerDirective','mapViewController','listViewController','sentimentViewController'],
+        'listViewController':['questionscoreDirective','alertsService','scorebarDirective','evaluationSpeechBubbleDirective','viewByAttributeDirective','attributeScoreSummaryDirective']
+       },
+    // kick start application
+    deps: ['application-configuration']
+});

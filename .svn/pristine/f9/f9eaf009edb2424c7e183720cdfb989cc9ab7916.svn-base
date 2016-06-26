@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="Views/Map/map.css"/>
+<div id="container"  class="mapview-container" ng-controller="mapViewController">
+    <d3-map data="d3Data" selected-service-area-id="d3ServiceId" on-click="onCountryClick" label="title" ></d3-map>
+    <div id="map-view-summary" ng-show="isNeedToShowSummary">
+        <action-attribute-score-summary id="attribute-score-summary" attribute-data="attributeData"
+                                        is-map-view-summary="true"
+                                        selected-attribute-score="selectedAttributeScore"
+                                        general-survey-collection="generalSurveyCollection"
+                                        trigger-survey-collection="triggerSurveyCollection"
+                                        full-scorecard-data="fullScorecardData"
+                                        summary-title="summaryTitle"></action-attribute-score-summary>
+    </div>
+</div>
+

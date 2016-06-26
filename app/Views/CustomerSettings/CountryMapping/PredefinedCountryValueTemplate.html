@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="Views/CustomerSettings/CountryMapping/AddPredefinedCountryValueTemplate.css"/>
+<div class='ng-modal-container predefined-container' ng-show='show'>
+    <div class='ng-modal-overlay predefined-overlay' ng-click='hideModal()'></div>
+    <form class = "form-horizontal" role = "form" name = "countryValueForm" novalidate>
+        <div class='ng-modal-dialog predefined-dialog' ng-style='dialogStyle'>
+            <div class='ng-modal-dialog-content predefined-dialog-content'>
+                <div class="dialog-header predefined-header">
+                    <span class="modal-title">Add value</span>
+                    <i ng-click='hideModal()' class="fa fa-times-circle fa-lg cursor"></i>
+                </div>
+                <div class="element-parent-div">
+                    <div><span class="inline-block label-width">Country value:</span></div>
+                    <div>
+                        <input type = "text" name="name" ng-model="CountryValue"
+                               ng-class="{ 'input-validation' : (countryValueForm.name.$error.required || countryValueForm.name.$invalid) && isOkbtnClicked}"
+                               class="form-control text-input-normal inline-block" required>
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-btn-container-div">
+                <button class="btn"  ng-click='hideModal()'> Cancel</button>
+                <button class="btn" style="width: inherit" ng-click="addPredefinedValue()"> OK</button>
+            </div>
+        </div>
+    </form>
+</div>

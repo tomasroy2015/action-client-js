@@ -1,0 +1,20 @@
+<link rel="stylesheet" href="Views/DataFilter/DataFilterView.css"/>
+<div id="dataFilterContainer" class="data-filter-container">
+    <!-- Right side closing arrow -->
+    <div class="left-arrow-container close-slide-in">
+        <i class="fa fa-caret-left"></i>
+    </div>
+
+    <div class="datfilter-header-wrapper">
+        <label class="datafilter-title">Select {{selectedAttribute}}(s)</label>
+    </div>
+    <!-- body contents -->
+    <div class="grid-wrapper" ng-controller="dataFilterController">
+        <div id="grid1" ui-grid="gridOptions" class="grid" ui-grid-auto-resize ui-grid-selection></div>
+    </div>
+    <div class="datfilter-footer-wrapper">
+        <div class="btn-wrapper">
+            <button class="btn-apply">Apply</button>
+        </div>
+    </div>
+</div>

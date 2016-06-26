@@ -1,0 +1,213 @@
+/* All external import files
+======================================================*/
+/* Variables
+======================================================*/
+/* Accordion panel heading section
+======================================================*/
+[id^='accordion-panel'].panel-default.panel {
+  margin-bottom: -5px;
+  background-color: #FFFFFF;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: none;
+}
+[id^='accordion-panel'].panel-default.panel:last-child {
+  margin-bottom: 0;
+  background-color: #FFFFFF;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-bottom: 1px solid #000000;
+}
+[id^='accordion-panel'].panel-default .panel-collapse .panel-body {
+  padding: 0 !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  border-top: none;
+}
+[id^='accordion-panel'].panel-default .panel-heading {
+  padding: 3px 15px;
+  cursor: pointer;
+  background: transparent;
+  border-top: 1px solid #000000;
+  border-bottom: none;
+  border-radius: 0;
+}
+[id^='accordion-panel'].panel-default .panel-heading .panel-title {
+  margin-left: -12px;
+  margin-top: 2px;
+  padding: 2px 0;
+}
+[id^='accordion-panel'].panel-default .panel-heading .panel-title > a:focus, [id^='accordion-panel'].panel-default .panel-heading .panel-title > a:active {
+  -moz-outline-style: none;
+  -webkit-outline-style: none;
+  outline: none;
+}
+[id^='accordion-panel'].panel-default .panel-heading .panel-title > a > div {
+  font-size: 0.9em;
+}
+[id^='accordion-panel'].panel-default .panel-heading .panel-title > a > i {
+  vertical-align: middle;
+  top: 4px;
+}
+[id^='accordion-panel'].panel-default a.accordion-toggle {
+  color: #000000;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#glypContainer {
+  position: relative;
+  font-size: 1.6em;
+  right: -17px;
+  top: -2px;
+}
+
+/* Data filter items section
+======================================================*/
+a.list-group-item {
+  width: 222px;
+  height: 20px;
+  padding: 3px 8px;
+  color: #000000;
+  background: #C6C6C6;
+  margin: 2px 0;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+a.list-group-item:first-child {
+  border: none;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+a.list-group-item:last-child {
+  margin-bottom: 8px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+a.list-group-item:hover {
+  color: #000000;
+  text-decoration: none;
+  background-color: #ddddde;
+}
+a.list-group-item:hover:after {
+  top: 0;
+  content: "";
+  position: absolute;
+  right: -10px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #ddddde;
+  z-index: 100;
+}
+a.list-group-item:focus {
+  -moz-outline-style: none;
+  -webkit-outline-style: none;
+  outline: none;
+  background: #C6C6C6;
+}
+a.list-group-item:focus:after {
+  top: 0;
+  content: "";
+  position: absolute;
+  right: -10px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #C6C6C6;
+  z-index: 100;
+}
+a.list-group-item:after {
+  top: 0;
+  content: "";
+  position: absolute;
+  right: -10px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #C6C6C6;
+  z-index: 2000;
+}
+a.list-group-item.df-selected {
+  background: #FFED00;
+}
+a.list-group-item.df-selected:after {
+  top: 0;
+  content: "";
+  position: absolute;
+  right: -10px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #FFED00;
+  z-index: 100;
+}
+a.list-group-item:active {
+  -moz-outline-style: none;
+  -webkit-outline-style: none;
+  outline: none;
+}
+
+/* Reset filter button section
+======================================================*/
+.reset-filter {
+  position: relative;
+  height: 32px;
+}
+.reset-filter > .btn-default {
+  text-shadow: none;
+  border-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  position: absolute;
+  right: 0;
+  margin-top: 10px;
+}
+.reset-filter:hover {
+  cursor: default;
+}
+
+.btn-reset {
+  font-size: 0.9em;
+  text-align: center;
+  padding: 2px 3px;
+  text-decoration: none;
+  color: #000000;
+  background: transparent;
+}
+.btn-reset img {
+  padding-left: 5px;
+}
+.btn-reset:focus {
+  -moz-outline-style: none;
+  -webkit-outline-style: none;
+  outline: none;
+  background: transparent;
+}
+.btn-reset:active, .btn-reset:hover {
+  background: #ddddde;
+}
+
+.reset-cross-icon {
+  font-size: 1.5em;
+  top: -1px;
+  position: relative;
+  vertical-align: middle;
+  left: 2px;
+  padding-left: 5px;
+}
+
+.df-badge {
+  height: 16px;
+  min-width: 16px;
+  line-height: 16px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0;
+  border-radius: 8px;
+  top: -1px;
+  position: relative;
+  font-size: 0.9em;
+  left: -20px;
+}
+
+/*# sourceMappingURL=AccordionPanelTemplate.css.map */

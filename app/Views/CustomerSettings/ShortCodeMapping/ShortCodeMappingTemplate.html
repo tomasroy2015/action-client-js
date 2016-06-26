@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="Views/CustomerSettings/ShortCodeMapping/ShortCodeMappingTemplate.css"/>
+<!--<div style="width: 100%;height: 400px">-->
+<!--This is user comparator mapping template-->
+<!--</div>-->
+<div class="shortcode-mapping-container" ng-controller="shortCodeMappingController">
+    <span class="template-header">
+        SHORT CODE MAPPING
+    </span>
+    <div class="table-container">
+        <table st-table="displayColl" st-safe-src="rowViewCollection"  id="smartTable" class="table">
+            <thead>
+                <tr>
+                    <th class="service-area-column">Service area</th>
+                    <th class="short-code-column">Abbreviated form</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in displayColl"
+                    ng-class="{'shortCodeGrpRow':item.isGrpType,'item-hover':!item.isGrpType}"
+                    ng-mouseleave="rowMouseOut_Handler(item)"
+                    ng-mouseover="rowHover_Handler(item)">
+                    <td class="service-area-column"><span>{{item.DisplayLabel}}</span></td>
+                    <td class="short-code-column" style="padding-left: 30px">
+                        <span ng-hide="item.isGrpType">{{item.ShortCode}}</span>
+                    </td>
+                    <td>
+                        <button class="btn-edit" ng-class="{'invisible':item.isGrpType || item.isEditDeleteHide}"
+                                ng-click="edit_ClickHandler(item)">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="footer-container-div">
+            <!--<button class="btn" ng-click="saveShortCodeMapping()"> Save</button>-->
+        </div>
+        <action-edit-short-code-mapping show="editModalShown" data="mappedData"
+                                        customer="selectedCustomer" ng-if="editModalShown"
+                                        window-close-listener="editWindowClose()"
+                                        info='editModalShown' width='400px' >
+        </action-edit-short-code-mapping>
+    </div>
+
+</div>

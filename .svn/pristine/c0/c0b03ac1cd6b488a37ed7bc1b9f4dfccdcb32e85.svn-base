@@ -1,0 +1,116 @@
+<link rel="stylesheet" href="bower_components/seiyria-bootstrap-slider/css/bootstrap-slider.css"/>
+<link rel="stylesheet" href="Views/LeftMenuSettings/CompareWithSettings.css"/>
+<div id="compare-settings-container" class="container compare-settings-container">
+    <div class="page-header target-page-header">
+          <p>Compare values with</p>
+    </div>
+    <div class="compare-settings-body">
+        <div id="targetContainer"  class="common-target-style">
+            <label class="radio target-radio" for="target">
+                <input id="target" type="radio" name="targetGroup"
+                       value="1" ng-model="selectedComparator" ng-init="initComparator()"
+                       ng-click="updateComparator(selectedComparator)">Target<br>
+                <span>[Company] target score</span>
+            </label>
+        </div>
+        <div id="averageContainer" class="common-target-style">
+            <label class="radio target-radio" for="average">
+                <input id="average" type="radio" name="targetGroup"
+                       value="5" ng-model="selectedComparator"
+                       ng-click="updateComparator(selectedComparator)">Average(of the dataset)
+            </label>
+
+        </div>
+        <div id="benchMarkContainer" class="benchmark-container">
+            <label class="radio target-radio" for="benchmark">
+                <input id="benchmark" type="radio" name="targetGroup"
+                       value="4" ng-model="selectedComparator"
+                       ng-click="updateComparator(selectedComparator)">Benchmark<br>
+                <span>Benchmark values for your industry</span>
+            </label>
+            <div id="benchmark-value" class="benchmark-value-container">
+                <div class="benchmark-radio-group">
+                    <label class="radio target-radio" for="lowerLimit">
+                        <input id="lowerLimit" type="radio" name="benchmarkGroup"
+                               value="4" ng-model="selectedComparator"
+                               ng-click="updateComparator(selectedComparator)">Lower limit
+                    </label>
+                    <label class="radio target-radio" for="median">
+                        <input id="median" type="radio" name="benchmarkGroup"
+                               value="2" ng-model="selectedComparator"
+                               ng-click="updateComparator(selectedComparator)">Median
+                    </label>
+                    <label class="radio target-radio" for="upperLimit">
+                        <input id="upperLimit" type="radio" name="benchmarkGroup"
+                               value="3" ng-model="selectedComparator"
+                               ng-click="updateComparator(selectedComparator)">Upper limit
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div id="double-target" class="common-target-style">
+            <label class="checkbox target-checkbox" for="doubleTarget">
+                <input id="doubleTarget" type="checkbox" name="doubleGroup"
+                       value="Double target" ng-model="isDoubleTargetSelected"
+                        ng-click="doubleTargetSelection()">Double Target
+            </label>
+            <!--<input id="doubleTarget" type="checkbox" name="benchmarkGroup"/>-->
+            <!--<label for="doubleTarget"><span>Double Target</span></label>-->
+        </div>
+        <div id="custom-value" class="custom-value-container">
+            <label class="radio target-radio" for="customValue">
+                <input id="customValue" type="radio" name="targetGroup"
+                       value="6" ng-model="selectedComparator"
+                       ng-click="updateComparator(selectedComparator)">Custom value
+            </label>
+            <slider id="custom-slider" ng-model="customValue" min="compareSettingsCustomValue.min"
+                    step="compareSettingsCustomValue.step" max="compareSettingsCustomValue.max"
+                    value="compareSettingsCustomValue.value">
+            </slider>
+            <!--<div id="custom-slider" ng-model="customValue" min="compareSettingsCustomValue.min"-->
+                 <!--step="compareSettingsCustomValue.step" max="compareSettingsCustomValue.max"-->
+                 <!--value="compareSettingsCustomValue.value"-->
+                 <!--slider-tooltip="compareSettingsCustomValue.hide"-->
+                 <!--class="ng-isolate-scope ng-valid ng-dirty ng-valid-parse">-->
+                <!--<div class="slider slider-horizontal" id="slider-horizontal">-->
+                    <!--<div class="slider-track">-->
+                        <!--<div class="slider-track-low" style="left: 0px; width: 0%;"/>-->
+                        <!--<div class="slider-selection" style="left: 0%; width: 48.8888888888889%;"/>-->
+                        <!--<div class="slider-track-high" style="right: 0px; width: 51.1111111111111%;"/>-->
+                        <!--<div class="slider-handle min-slider-handle round" tabindex="0" style="left: 48.8888888888889%;"/>-->
+                        <!--<div class="slider-handle max-slider-handle round hide" tabindex="0" style="left: 0%;"/>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<input class="slider-input" type="text" value="54" data="value: '54'" style="display: none;">-->
+            <!--</div>-->
+
+        </div>
+
+        <div class="target-button-container">
+            <button id="btn-OK" type="submit" class="btn btn-success btn-sm btn-target-ok">
+                OK
+            </button>
+        </div>
+
+    </div>
+    <!--<script type="text/javascript">-->
+        <!--$("#btn-OK").click(function () {-->
+            <!--console.log("clicked...");-->
+            <!--// Set the effect type-->
+<!--//            var effect = 'slide';-->
+<!--//-->
+<!--//            // Set the options for the effect type chosen-->
+<!--//            var slideTo = { direction: 'left' };-->
+<!--//-->
+<!--//            // Set the duration (default: 200 milliseconds)-->
+<!--//            var duration = 200;-->
+<!--//            $('#compareWithSettings').addClass('compare-settings-container settings-float-down');-->
+            <!--$('#compare-settings-container').toggle("slow");-->
+<!--//            $('#compare-settings-container').css('position','fixed');-->
+<!--//            $('#compare-settings-container').css('display','none');-->
+<!--//            $('#compare-settings-container').css('left','0px');-->
+
+        <!--});-->
+    <!--</script>-->
+
+</div>

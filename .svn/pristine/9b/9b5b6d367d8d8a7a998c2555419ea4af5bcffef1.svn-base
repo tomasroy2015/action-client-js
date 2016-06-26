@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/ScorecardTemplate.css"/>
+<div class="scorecard-main-wrapper">
+    <ul id='SA-1' class="ac-list-group scorecard-container">
+        <div class="header-container">
+            <div class="main-title-container">
+                <span class="main-title">{{data.Name}}</span>
+                <div class="header-scorebar">
+                    <action-customizable-score-bar width="70" is-os-score="false"
+                                                   score-comparator="data.scoreComparator"></action-customizable-score-bar>
+                </div>
+            </div>
+            <div class="sub-title-container">
+                <span class="sub-title">60 evaluations</span>
+            </div>
+        </div>
+        <li class="ac-list-group-item" ng-repeat="question in data.QuestionScores">
+            <div class="question-wrapper">
+                <!--<div ng-show="(_.indexOf(_.get(question.QuestionId),'_SES') > -1)">IT Service Effort Score</div>-->
+                <div class="ses-question-title"  ng-if="question.QuestionId.indexOf('_SES') > -1">IT Service Effort Score</div>
+                <span class="question-text" ng-hide="question.QuestionId.indexOf('_SES') > -1">{{question.QuestionText}}</span>
+                <span class="question-text" ng-if="question.QuestionId.indexOf('_SES') > -1">SES</span>
+
+                <div class="ac-list-group-item-scorebar">
+                    <action-customizable-score-bar width="70" is-os-score="false"
+                                                   score-comparator="question.scoreComparator"></action-customizable-score-bar>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

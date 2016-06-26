@@ -1,0 +1,100 @@
+/**
+ * Created by syedur on 7/9/2015.
+ */
+"use restrict;"
+
+define(['application-configuration'], function(app){
+    app.register.directive('actionEvaluationSummary',[function(){
+        return{
+            restrict: 'AE',
+            scope:{
+                data: '=',
+                currentRespondentId: '=',
+                selectedServiceAreaName:'=',
+                selectedServiceAreaType:'=',
+                hasTranslation:'=',
+                customAttributeCollection:'=',
+                remarksInfo:'=',
+                selectedLanguageIndex:'=',
+                closeEvaluationSummary:'&'
+            },
+
+            templateUrl:"Views/Shared/Template/Evaluation/EvaluationSummaryTemplate.html",
+            link: function(scope, el, attr){
+
+                scope.currentIndex = _.findIndex(scope.data, function(item){
+                   return  item.entity.RespondentId == scope.currentRespondentId;
+                });
+
+                scope.scopeData = {};
+                scope.width = 22;
+                scope.height = 18;
+                scope.scopeData.selectedLanguageForAdditionalRemarks = scope.scopeData.selectedLanguageForRegularRemarks = scope.selectedLanguageIndex === 1 ? 'ORG' : 'ENG';
+                getCurrentEvaluationData();
+                prepareAttributeCollection();
+
+                scope.getRegularRemarks = function(){
+                    return scope.selectedLanguageForRegularRemarks;
+                }
+
+                scope.cancelButtonClicked = function(event){
+                    scope.closeEvaluationSummary(event);
+                };
+
+                scope.backButtonClicked = function(event){
+                    if(scope.currentIndex > 0) {
+                        scope.currentIndex--;
+                        getCurrentEvaluationData();
+                    }
+                    stopPropagation(event);
+                };
+
+                scope.forwardButtonClicked = function(event){
+                    if(scope.currentIndex < scope.data.length - 1) {
+                        scope.currentIndex++;
+                        getCurrentEvaluationData();
+                    }
+                    stopPropagation(event);
+                };
+                
+                scope.filterExpression = function(e) {
+                    return e.QuestionId.indexOf('_SES') < 0;
+                };
+                function getCurrentEvaluationData(){
+                    scope.currentEvaluation = scope.data[scope.currentIndex].entity;
+                    scope.questionList = scope.currentEvaluation.Answers;
+                    scope.RegularRemarksOrg = scope.currentEvaluation.Remarks;
+                    scope.RegularRemarksEng = scope.currentEvaluation.RemarksEng;
+                    scope.AdditionalRemarksOrg = scope.currentEvaluation.RemarksAdd;
+                    scope.AdditionalRemarksEng = scope.currentEvaluation.RemarksAddEng;
+                    scope.currentAttributeValues = _.sortByOrder(scope.currentEvaluation.AttributeValues, 'Index', true);
+                };
+
+                function stopPropagation(event){
+                    event.preventDefault();
+                    event.stopPropagation();
+                };
+
+                function prepareAttributeCollection(){
+                    if(scope.selectedServiceAreaType == 'NOG' || scope.selectedServiceAreaType == 'GEN') {
+                        scope.firstAttrCollection = _.select(scope.customAttributeCollection, function (item) {
+                            return item.Type == 1 || item.Type == 3;
+                        });
+
+                        scope.secoundAttrCollection = _.select(scope.customAttributeCollection, function (item) {
+                            return item.Type == 0;
+                        });
+                    }else{
+                        scope.firstAttrCollection = _.select(scope.customAttributeCollection, function (item) {
+                            return item.Type == 2;
+                        });
+
+                        scope.secoundAttrCollection = _.select(scope.customAttributeCollection, function (item) {
+                            return item.Type != 2;
+                        });
+                    }
+                };
+            }
+        }
+    }]);
+});

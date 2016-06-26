@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="Views/Map/map.css"/>
+<div id="mapViewContainer"  class="map-view-container" ng-controller="mapViewController">
+    <div id="mapContainer" class="map-container"></div>
+    <!--<d3-map data="d3Data" selected-service-area-id="d3ServiceId" on-click="onCountryClick" label="title" ></d3-map>-->
+    <!--<div id="map-view-summary" ng-show="isNeedToShowMapSummary">-->
+        <!--<action-attribute-score-summary id="map-view-attribute-summary"-->
+                                        <!--evaluation-data-collection="evaluationDataCollection"-->
+                                        <!--from-view="fromView" attribute-index="attributeIndex" attribute-value="attributeValue"-->
+                                        <!--control="countryPopUp" close-summary-popup="summaryPopupCloseHandler($event)"></action-attribute-score-summary>-->
+    <!--</div>-->
+    <!--<div class="left-menu-evaluation-container slide-out">-->
+        <!--<div id="map-view-summary" ng-if="isNeedToShowMapSummary" ng-include="'Views/Shared/Template/SummaryPopupTemplate.html'">-->
+        <!--</div>-->
+    <!--</div>-->
+</div>
+

@@ -1,0 +1,53 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionCheckbox', [function () {
+        return {
+            restrict: 'E',
+            scope: {
+                initialChecked: '=checked',
+                label: '@'
+            },
+            templateUrl: 'Views/Shared/Template/CustomCheckboxTemplate.html',
+            link: function (scope, el, attr) {
+                scope.$watch(function(scope) {return scope.initialChecked}, function (newValue,oldValue) {
+                    scope.isCheckedState = newValue || false;
+                });
+                //scope.onCheckboxLabelHover = function(){
+                //    if(!scope.isCheckedState) {
+                //        angular.element('.action-checkbox').css({background: '#ddddde'});
+                //    }
+                //};
+                //
+                //scope.onCheckboxLabelMouseOut = function () {
+                //    angular.element('.action-checkbox').css({background:'#fff'});
+                //}
+
+                //$(function() {
+                //    $('.action-checkbox-label').hover(function() {
+                //        $('.action-checkbox').css('background-color', '#ddddde');
+                //    }, function() {
+                //        // on mouseout, reset the background colour
+                //        $('.action-checkbox').css('background-color', '');
+                //    });
+                //});
+
+                angular.element(document).ready(function () {
+                    angular.element('.action-checkbox-label').hover(function () {
+                        //angular.element('.action-checkbox').css('background-color', '#ddddde');
+                        angular.element('.action-checkbox').addClass('action-checkbox-hover');
+                    }, function () {
+                        // on mouseout, reset the background colour
+                        //angular.element('.action-checkbox').css('background-color', '');
+                        angular.element('.action-checkbox').removeClass('action-checkbox-hover');
+                    });
+                });
+
+
+            }
+        };
+    }]);
+
+});
+

@@ -1,0 +1,56 @@
+"use strict";
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionQuestionScore', function () {
+        var boxId = 1;
+        return {
+            restrict: 'EA',
+            scope   : {
+                questionItem:'=',
+                colorSettings:'='
+            },
+
+            templateUrl: "Views/List/QuestionScoresTemplate.html",
+            replace    : true,
+            link       : function (scope, el, attr) {
+                var scoreRect=el[0].children[0].children[0].children[0];
+                var scoreTextContext=el[0].children[0].children[0].children[1];
+
+                scope.$watch( function(scope){ return scope.questionItem}, function(newValue,oldValue){
+                    if(angular.isUndefined(newValue))
+                    {
+                        newValue = oldValue;
+                    }
+                    var score = newValue.Score;
+                    var boxWidth=27;
+                    var colorCode=newValue.ScoreComparatorColor.ColorCode;
+                    scoreRect.setAttribute("fill",colorCode);
+                    var scoreTextLength = score.toString().length;
+                    var x=0;//distance from left side
+                    if(scoreTextLength==3){
+                        x=Math.round((boxWidth- scoreTextLength)/2)-8;
+                    }
+                    else if(scoreTextLength==2){
+                       x= Math.round((boxWidth- scoreTextLength)/2)-6;
+                    }
+                    else{
+                       x= Math.round((boxWidth- scoreTextLength)/2)-2
+                    }
+
+                    var y = 25 / 2;//distance from top
+                    scoreTextContext.setAttribute("x",x);
+                    scoreTextContext.setAttribute("y",y + 3);
+                    scoreTextContext.setAttribute("fill","#ffffff");
+                    if(!isNaN(score))
+                    {
+                        scope.scoreTex=score;
+                    }
+                    else
+                        scope.scoreTex="";
+                },true);
+                //console.log("Score obj value is :"+scope.scoreObj.Score);
+            }
+
+        };
+    });
+});

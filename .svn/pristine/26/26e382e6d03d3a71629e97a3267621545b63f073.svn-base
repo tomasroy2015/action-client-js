@@ -1,0 +1,148 @@
+/* All external import files
+======================================================*/
+@import '_Colors';
+@import '_Mixins';
+
+$score-item-height:24px;
+$calculate-right:11px;
+//$calculate-right: calc(#{$score-item-height/2} - 1px);
+
+
+div.service-area-questions-container {
+  margin-right : 0px;
+  width        : 229px; /*question item width in left panel.total background width of a item*/
+  margin-top   : 10px;
+  padding-left : 3px;
+}
+
+/*Question hover arrow style  */
+
+ul.attribute-question {
+  display: block;
+  width: 258px;
+  padding: 0px;
+  margin: 0px 0px 0px 2px;
+  position: relative;
+  height: 258px;
+  overflow-y: auto;
+  li.attribute-questionListItem {
+    display    : block;
+    height     : $score-item-height;
+    position   : relative;
+    padding    : 0px;
+    margin     : 2px;
+    text-align : center;
+    width       : 250px;
+    &:not(.selectedQuestionItem):hover {
+      background-color : $GIARTE_LIGHT_GRAY;
+      cursor           : pointer;
+    }
+  }
+
+  .questionScoreListItemDiv {
+    position    : relative;
+    height      : 100%;
+    width       : 250px;
+  }
+}
+
+
+ul.attribute-question li[data-questionType='group']:not(.selectedScoreQuestionItem):hover:after{
+  top: 0;
+  content: "";
+  position: absolute;
+  right: -12px;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid transparent;
+  z-index: 100;
+  right: -11px;
+
+}
+
+
+/*start*/
+.selectedScoreQuestionListItemDiv {
+  cursor: pointer;
+  background-color : $GIARTE_YELLOW;
+  position         : relative;
+  height           : 100%;
+  width            : 250px;
+}
+
+/*list item style*/
+.attribute-questionContainerDiv {
+  padding   : 0;
+  margin    : 0;
+  width     : 250px;
+  float     : left;
+  height    : $score-item-height;
+  font-size : 11px;
+}
+
+.attribute-questionLabelDiv {
+  text-align    : left;
+  margin-top    : 4px;
+  width         : 150px;
+  float         : left;
+  overflow      : hidden;
+  white-space   : nowrap;
+  text-overflow : ellipsis;
+  margin-right  : 3px;
+  padding-left  : 4px;
+}
+
+.attribute-questionScoreDiv1 {
+  margin-top  : 4px;
+  width       : 30px;
+  display     : inline-block;
+  float       : left;
+  font-weight : bold;
+}
+
+.canvasContainer {
+  height : 28px;
+}
+
+.attribute-questionScorebar {
+  background-color : transparent;
+  padding-left     : 0;
+  padding-right    : 0;
+  margin-left      : 0;
+  margin-right     : auto;
+  display          : block;
+  float            : left;
+  top              : 5px
+}
+
+.attribute-questionText {
+  color : #000000;
+}
+
+ul li {
+  list-style : none;
+}
+
+ul.attribute-question li[data-questionType='group'] {
+  width: 235px;
+  background: #ddddde;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+
+
+ul.attribute-question li[data-questionType='group'].selectedScoreQuestionItem{
+  background:transparent;
+}
+
+ul.attribute-question > li[data-questiontype='group']{
+  margin-top:20px;
+  color:red;
+}
+
+ul.attribute-question > li[data-questiontype='group']:first-child{
+  margin-top:0;
+}
+
+

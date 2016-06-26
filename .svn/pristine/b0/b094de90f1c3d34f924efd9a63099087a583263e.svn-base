@@ -1,0 +1,38 @@
+"use strict";
+
+define(['application-configuration','dataFactory'], function (app) {
+
+    app.register.controller('headerController', ['$scope','$rootScope','dataFactory','Notify', function ($scope,$rootScope,dataFactory,Notify) {
+        //console.log('Header Controller running...');
+        $scope.data = dataFactory;
+        $scope.isListViewActive = false;
+        $scope.isMapViewActive=true;
+        $scope.listviewtab_clickHandler = function(){
+
+            if($scope.isListViewActive)
+            return;
+            if( !$scope.isListViewActive){
+                $scope.isListViewActive = true;
+                $scope.isMapViewActive = false;
+                $rootScope.$broadcast("listviewActiveDeactivate",{isActivate:$scope.isListViewActive});
+            }
+
+        }
+        $scope.mapviewtab_clickHandler = function(){
+            $scope.isMapViewActive =true;
+            $scope.isListViewActive=false;
+        }
+        $scope.$on(Notify.SERVICE_AREA_CHANGED,function(event,response){
+            if($scope.isListViewActive)
+            return;
+            if($scope.isMapViewActive){
+                $rootScope.$broadcast("listviewActiveDeactivate",{isActivate:false});
+            }
+        })
+
+
+
+    }]);
+
+});
+

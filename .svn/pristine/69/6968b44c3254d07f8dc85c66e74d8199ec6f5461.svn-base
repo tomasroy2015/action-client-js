@@ -1,0 +1,54 @@
+"use strict";
+
+define(['application-configuration', 'alertsService', 'bootstrap', 'leftMenuController', 'headerController', 'accountFactory', 'datasetSelectionFactory', 'dataFactory', 'comparatorFactory','leftMenuSlidingWindowEventNotifyFactory','moreSettingsFactory','dataFilterFactory'], function (app) {
+
+    app.register.controller('actionRootController', ['$scope', '$rootScope', 'alertsService', 'accountFactory', 'Notify', 'datasetSelectionFactory', 'dataFactory', 'ComparatorType', 'comparatorFactory', 'leftMenuSlidingWindowEventNotifyFactory','moreSettingsFactory','serviceAreaScoreData','dataFilterFactory',
+        function ($scope, $rootScope, alertsService, accountFactory, Notify, datasetSelectionFactory, dataFactory, ComparatorType, comparatorFactory, leftMenuSlidingWindowEventNotifyFactory,moreSettingsFactory,serviceAreaScoreData,dataFilterFactory) {
+            $rootScope.applicationModule = "MainLayout";
+            //$scope.IsFullscoreCardLoad = serviceAreaScoreData.GetGeneralSurveyCollection().length > 0;
+            loadInitialData();
+            $scope.isEvaluationWindowActive=false;
+
+            function loadInitialData() {
+                $scope.active = false;
+//                $scope.isDoubleTargetSelected = false;
+                $scope.selectedDataset = datasetSelectionFactory;
+//                $scope.selectedComparator = ComparatorType.Target;
+                $scope.dataFilterFactory = dataFilterFactory;
+            };
+            $scope.logoutMain = function () {
+                $rootScope.IsloggedOut = false;
+                $rootScope.loadTitle = "Log out";
+                var user = accountFactory.UserData();
+                accountFactory.LogOut(user);
+            };
+
+            $scope.$on(Notify.LOGOUT_SUCCESSFUL, function (event) {
+                window.location = "#/";
+                $rootScope.isNeedToShowLoading = false;
+            });
+
+            $scope.$on("listviewActiveDeactivate", function (event,data) {
+                $scope.active = data.isActivate;
+            });
+            $scope.$on('showEvaluation',function(){
+                $scope.isEvaluationWindowActive = true;
+            })
+            $scope.$on('closeEvaluation',function(){
+                $scope.isEvaluationWindowActive = false;
+                var elem = document.getElementById("leftMenuEvaluationWindow");
+                if(elem){
+                    angular.element(elem).remove();
+                }
+            })
+
+            $scope.compareSettingSliding_Handler = function () {
+                leftMenuSlidingWindowEventNotifyFactory.setCompareSettingsOkBtnEvent(true);
+            };
+
+            $scope.moreSettingSliding_Handler = function () {
+                leftMenuSlidingWindowEventNotifyFactory.setMoreSettingsOkBtnEvent(true);
+            };
+        }]);
+
+});

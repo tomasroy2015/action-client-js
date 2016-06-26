@@ -1,0 +1,3 @@
+1. Enable session validata API calling in application_configuration.js
+2. Modify index.html page for Pentaho
+3. Modify LogingTemplate.html page to handle display issue.

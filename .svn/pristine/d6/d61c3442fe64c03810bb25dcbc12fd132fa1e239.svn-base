@@ -1,0 +1,87 @@
+"use strict";
+
+define(['application-configuration', 'alertsService', 'bootstrap', 'leftMenuController', 'headerController', 'accountFactory', 'datasetSelectionFactory', 'dataFactory', 'comparatorFactory','leftMenuSlidingWindowEventNotifyFactory','moreSettingsFactory'], function (app) {
+
+    app.register.controller('actionRootController', ['$scope', '$rootScope', 'alertsService', 'accountFactory', 'Notify', 'datasetSelectionFactory', 'dataFactory', 'ComparatorType', 'comparatorFactory', 'leftMenuSlidingWindowEventNotifyFactory','moreSettingsFactory',
+        function ($scope, $rootScope, alertsService, accountFactory, Notify, datasetSelectionFactory, dataFactory, ComparatorType, comparatorFactory, leftMenuSlidingWindowEventNotifyFactory,moreSettingsFactory) {
+            $rootScope.applicationModule = "MainLayout";
+
+            loadInitialData();
+
+            function loadInitialData() {
+                $scope.selectedComparator = null;
+                $scope.isDoubleTargetSelected = false;
+                $scope.active = false;
+                $scope.selectedDataset = datasetSelectionFactory;
+            };
+
+            $scope.logoutMain = function () {
+                $rootScope.IsloggedOut = false;
+                $rootScope.loadTitle = "Log out";
+                var user = accountFactory.UserData();
+                accountFactory.LogOut(user);
+            };
+
+            $scope.updateComparatorType = function (type) {
+                comparatorFactory.UpdateComparatorType(type);
+            };
+
+            $scope.doubleTargetSelection_Handler = function () {
+                $scope.isDoubleTargetSelected = !$scope.isDoubleTargetSelected;
+            };
+
+            $scope.initializeComparator = function () {
+                $scope.selectedComparator = ComparatorType.Target;
+                comparatorFactory.UpdateComparatorType($scope.selectedComparator);
+            };
+
+            $scope.initializeMoreSettings = function(){
+                $scope.selectedZoomLevel = moreSettingsFactory.GetDefaultZoomLevel();
+                $scope.selectedColorSet = moreSettingsFactory.GetSelectedColorSet();
+                $scope.minSiteRespondent = moreSettingsFactory.GetMinimumResponseForSite();
+                $scope.minCountryRespondent = moreSettingsFactory.GetMinimumResponseForSite();
+            };
+            $scope.respondentCountryChange_Handler= function(minResp){
+                if(typeof (minResp) != 'undefined' || minResp != null ){
+                    moreSettingsFactory.SetMinimumRespondentForCountry(minResp);
+                }
+                else{
+                    minResp = 0;
+                    moreSettingsFactory.SetMinimumRespondentForCountry(minResp);
+                }
+            };
+            $scope.respondentSiteChange_Handler= function(minResp) {
+                if(typeof (minResp) != 'undefined' || minResp != null ) {
+                    moreSettingsFactory.SetMinimumRespondentForSite(minResp);
+                }
+                else{
+                    minResp = 0;
+                    moreSettingsFactory.SetMinimumRespondentForSite(minResp);
+                }
+            };
+            $scope.setZoomLevel = function(value){
+              moreSettingsFactory.SetDefaultZoomLevel(value);
+            };
+            $scope.setColorSet = function(value,type){
+                if(type === 0)
+                    moreSettingsFactory.SetColorSet(value.OnTarget,value.CloseToTarget,value.FarFromTarget);
+            };
+            $scope.$on(Notify.LOGOUT_SUCCESSFUL, function (event) {
+                window.location = "#/";
+                $rootScope.isNeedToShowLoading = false;
+            });
+
+            $scope.$on("listviewActive", function (event) {
+                $scope.active = true;
+            });
+
+            $scope.compareSettingOkBtnClick = function () {
+                leftMenuSlidingWindowEventNotifyFactory.setCompareSettingsOkBtnEvent(true);
+            };
+
+            $scope.moreSettingOkBtnClick = function () {
+                leftMenuSlidingWindowEventNotifyFactory.setMoreSettingsOkBtnEvent(true);
+            };
+        }]);
+
+});

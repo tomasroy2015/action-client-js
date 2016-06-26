@@ -1,0 +1,21 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionScorecard', [function () {
+
+        return {
+            restrict: 'AE',
+            scope: {
+                data:"="
+            },
+            link: function (scope, el, attrs) {
+                console.log(scope.data);
+            },
+            templateUrl: 'Views/Shared/Template/ScorecardTemplate.html'
+        };
+
+
+    }]);
+
+});

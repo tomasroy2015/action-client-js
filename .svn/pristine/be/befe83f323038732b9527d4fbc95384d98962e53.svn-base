@@ -1,0 +1,125 @@
+define(['application-configuration', 'dataFactory', 'comparatorFactory'], function (app) {
+
+    app.register.factory('fullScorecardDataFactory',
+        ['dataFactory', 'comparatorFactory',
+            function (dataFactory, comparatorFactory) {
+                var preparedData = {};
+                return {
+                    getPreparedFullScorecardData: prepareServiceAreaScoreDataCollection,
+                    getPreparedGeneralSurveyData: function () {
+                        return preparedData.generalSurveyData;
+                    },
+                    getPreparedTriggerSurveyData: function () {
+                        return preparedData.triggerSurveyData;
+                    }
+                };
+                /**
+                 * Service area score data collection preparation
+                 * @param data
+                 */
+                function prepareServiceAreaScoreDataCollection(data) {
+                    preparedData = {};
+                    preparedData.generalSurveyData = {};
+                    preparedData.triggerSurveyData = {};
+
+                    var serviceAreaCollection = data;
+                    var generalSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                        return n.SurveyType === "GEN";
+                    });
+
+                    var triggerSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                        return n.SurveyType === "TCK" && n.Id !== 'SES';
+                    });
+
+                    /* prepare data with score comparator object */
+                    var preparedGenSurvey = [], prepareTrigSurvey = [];
+                    _.forEach(generalSurveyCollection, function (n, key) {
+                        preparedGenSurvey.push(prepareScoreComparatorObject(n));
+                    });
+
+                    _.forEach(triggerSurveyCollection, function (n, key) {
+                        prepareTrigSurvey.push(prepareScoreComparatorObject(n));
+                    });
+
+                    var tmpGenData = _.sortByOrder(preparedGenSurvey, 'SortOrder', true);
+                    var tmpTrigData = _.sortByOrder(prepareTrigSurvey, 'SortOrder', true);
+
+                    var genHeader = prepareSurveyHeaderData('general', 'OVERALL SATISFACTION', data);
+                    var trigHeader = prepareSurveyHeaderData('ticket', 'IT SERVICE EFFORT SCORE', data);
+
+                    preparedData.generalSurveyData = _.assign({}, {header: genHeader}, {data: tmpGenData});
+                    preparedData.triggerSurveyData = _.assign({}, {header: trigHeader}, {data: tmpTrigData});
+
+                    return preparedData;
+                }
+
+                /**
+                 * prepare question object with score comparator object
+                 * @param question
+                 * @returns {*}
+                 */
+                function prepareScoreComparatorObject(question) {
+                    var groupObj = _.extend({}, question, {
+                        scoreComparator: {
+                            Score: question.Score,
+                            ComparatorValue: comparatorFactory.GetScoreItemComparator(question.Id),
+                            ComparatorColorCode: dataFactory.GetScoreColor(question.Score, comparatorFactory.GetScoreItemComparator(question.QuestionId))
+                        }
+                    });
+
+                    var QuestionScores = [];
+                    _.forEach(question.QuestionScores, function (item, key) {
+                        var tmpQesObj = _.extend({}, item, {
+                            scoreComparator: {
+                                Score: item.Score,
+                                ComparatorValue: comparatorFactory.GetScoreItemComparator(item.QuestionId),
+                                ComparatorColorCode: dataFactory.GetScoreColor(item.Score, comparatorFactory.GetScoreItemComparator(item.QuestionId))
+                            }
+                        });
+                        QuestionScores.push(tmpQesObj);
+                    });
+
+                    //var resObj = _.assign({}, groupObj, {QuestionScores: QuestionScores});
+                    //console.log(resObj);
+                    return _.assign({}, groupObj, {QuestionScores: QuestionScores});
+                }
+
+                /**
+                 * Prepare header data for survey
+                 * @param surveyType
+                 * @param title
+                 * @param serviceAreaCollection
+                 * @returns {{scoreComparator: {Score: *, ComparatorValue: *, ComparatorColorCode: *}, surveyType: string, title: *}}
+                 */
+                function prepareSurveyHeaderData(surveyType, title, serviceAreaCollection) {
+                    var surveyTypeTitle = "", isOSScore = false;
+                    var tmpCollection = {};
+                    if (surveyType === "general") {
+                        isOSScore = true;
+                        surveyTypeTitle = "GENERAL SURVEYS";
+                        tmpCollection = _.filter(serviceAreaCollection, function (n) {
+                            return n.Id === 'OS';
+                        });
+                    } else if (surveyType === "ticket") {
+                        isOSScore = false;
+                        surveyTypeTitle = "TICKETS";
+                        tmpCollection = _.filter(serviceAreaCollection, function (n) {
+                            return n.Id === 'TCK' || n.Id === 'SES';
+                        });
+                    }
+                    return {
+                        scoreComparator: {
+                            Score: tmpCollection[0].Score,
+                            ComparatorValue: comparatorFactory.GetScoreItemComparator(tmpCollection[0].Id),
+                            ComparatorColorCode: dataFactory.GetScoreColor(tmpCollection[0].Score, comparatorFactory.GetScoreItemComparator(tmpCollection[0].QuestionId))
+                        },
+                        surveyType: surveyTypeTitle,
+                        title: title,
+                        isOSScore: isOSScore,
+                        noOfRespondent: tmpCollection[0].Respondent
+                    };
+                }
+
+            }
+        ]);
+});

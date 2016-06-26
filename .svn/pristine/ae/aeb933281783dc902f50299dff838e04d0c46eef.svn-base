@@ -1,0 +1,128 @@
+<link rel="stylesheet" href="Views/Shared/CSS/AttributeScoreSummary.css"/>
+<!--<div class="modal-dialog">-->
+<div id="summary-content" ng-controller="attributeScoreSummaryController">
+    <div class="summary-popup-header">
+        <button type="button" class="close" ng-click="close_summary($event)">&times;</button>
+        <div id="btn-back-summary" ng-show="isDetailsState" class="btn-back-summary"
+             ng-click="backToSummary_click_Handler()">
+            BACK TO SUMMARY<i class="fa fa-arrow-circle-left left-arrow-circle"/>
+        </div>
+        <div class="summary-popup-title" id="myModalLabel">
+            <i class="{{titleImage}}" style="font-size: 1.2em"/>
+            {{summaryTitle}}
+        </div>
+        <div class="row button-bar">
+            <div class="btn btn-success" ng-click="scorecard_selected($event)">SCORECARD</div>
+            <div class="btn btn-success" ng-click="evaluation_selected($event)">EVALUATIONS</div>
+            <!--<div class="btn btn-success">SENTIMENT</div>-->
+            <div id="selected-summary-arrow" class="selected-summary-arrow">
+                <i class="fa fa-caret-up"></i>
+            </div>
+        </div>
+    </div>
+    <div class="summary-popup-body show-by-animation">
+        <div id="summary-service-area-container" class="summary-service-area-container">
+            <action-service-area id="generalSurvey" item-click="scoreBar_Clicked(selectedItem)"
+                                 data="generalSurveyCollection" selected-service-area-id="selectedAttributeScore.Id"></action-service-area>
+            <div class="summary-service-area-gap"></div>
+            <action-service-area id="triggerSurvey" item-click="scoreBar_Clicked(selectedItem)"
+                                 data="triggerSurveyCollection" selected-service-area-id="selectedAttributeScore.Id"></action-service-area>
+
+        </div>
+        <div id="summary-container" class="summary-container" >
+            <div id="scorecard-summary" class="scorecard-summary" ng-show="scorecardSelected && isSummaryState">
+                <!--<div class="summary-service-area-label" ng-if="!isOSSelected && !isSESSelected && !isTCKSelected">-->
+                    <!--<p class="label-text">{{selectedAttributeScore.Name}}</p>-->
+                <!--ng-hide="(q.QuestionType === 'regular' && q.QuestionId.indexOf('SES') >= 0)"-->
+                <!--</div>-->
+                <ul class="attribute-question" id="score-summary-question">
+                    <li ng-repeat="q in selectedAttributeScore.QuestionScoreData track by $index"
+                        id="attribute-question-{{$index}}" data-ng-click="questionItemClick(q)"
+                        ng-dblclick="questionItemDblClick(q)"
+                        ng-hide="(q.QuestionType === 'regular' && q.QuestionId.indexOf('SES') >= 0)"
+                        ng-class="{'selectedScoreQuestionListItemDiv': q.QuestionId === selectedAttributeQuestionId}"
+                        data-questionType="{{q.QuestionType === 'group' && q.QuestionId != selectedAttributeQuestionId ? 'group' : ''}}"
+                        class="attribute-questionListItem">
+                        <div class="attribute-questionListItemDiv" id="div-attribute-{{$index}}">
+                            <action-attribute-score-box score="q.Score" question="q"></action-attribute-score-box>
+                        </div>
+                    </li>
+                    <div class="overall-summary-bar-container"
+                         ng-hide="selectedAttributeScore.SurveyType === 'GEN' || isOSSelected || isSESSelected || isTCKSelected">
+                        <div class="overall-scorebar-container">
+                            <span>IT Service Effort Score</span>
+                        </div>
+                        <div class="overall-score-div">
+                            <span>SES</span>
+                            <action-customizable-score-bar class="customized-bar-position" width="60" show-comparator="false"
+                                                           data="selectedAttributeScore.SESScore"></action-customizable-score-bar>
+                        </div>
+                    </div>
+                </ul>
+
+            </div>
+            <div id="evaluation-summary" class="evaluation-summary"  ng-show="evaluationSelected && isSummaryState">
+                <div class="service-area-label">
+                    <p class="label-text">{{selectedAttributeScore.Name}}</p>
+                </div>
+                <div id="evaluation-except-os-summary" ng-show="evaluationSelected && isSummaryState && !isOSSelected
+                                                                               && !isSESSelected &&  !isTCKSelected">
+                    <nav class="score-frequency-header">
+                        <span class="frequency-label">Score frequency per question</span>
+                        <div class="negative-label">1</div>
+                        <div class="negative-label">2</div>
+                        <div class="positive-label">3</div>
+                        <div class="positive-label">4</div>
+                        <span class="header-percentage">%</span>
+                    </nav>
+                    <ul class="evaluation-summary-question" id="evaluation-summary-question">
+                        <li ng-repeat="q in selectedAttributeScore.QuestionScoreData track by $index"
+                            data-questionType="{{q.QuestionType}}" class="evaluation-summary-questionListItem">
+                            <div class="evaluation-summary-questionListItemDiv">
+                                <action-attribute-evaluation-summary index="$index+1" score="q.Score" question="q" color-set="colorSet"></action-attribute-evaluation-summary>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="overallEvaluationSummary" ng-show="evaluationSelected && isSummaryState && (isOSSelected || isSESSelected)">
+                    <span>Score frequency</span>
+                    <action-overall-evaluation-summary selected-attribute-score="selectedAttributeScore" color-set="colorSet"></action-overall-evaluation-summary>
+                    <div class="overall-summary-bar-container">
+                        <div class="overall-scorebar-container">
+                            <span>{{selectedAttributeScore.Name}}</span>
+                        </div>
+                        <div class="overall-score-div">
+                            <span>{{selectedAttributeScore.ShortCode}}</span>
+                            <action-customizable-score-bar class="customized-bar-position" width="60" show-comparator="false" is-os-score="isOSSelected"
+                                                           data="selectedAttributeScore.osScoreComparator"></action-customizable-score-bar>
+                        </div>
+                    </div>
+                </div>
+                <div id="tckEvaluationSummary" ng-show="evaluationSelected && isSummaryState && isTCKSelected">
+                    <action-ticket-evaluation-summary ticket-summary-data="ticketSummaryData"></action-ticket-evaluation-summary>
+                </div>
+            </div>
+            <div id="btn-view-details" class="btn-view-details show-by-animation" ng-click="viewDetails_click_Handler($event)">
+                <i class="fa fa-arrow-circle-right right-arrow-circle"/>VIEW DETAILS
+            </div>
+        </div>
+
+        <div id="fullScoreCard" class="fullScorecard-main-container show-by-animation" ng-show="scorecardSelected && isDetailsState">
+            <action-full-scorecard class="full-scorecard-content-container" full-scorecard-data="fullScorecardData" ng-show="scorecardSelected && isDetailsState">
+            </action-full-scorecard>
+        </div>
+        <div id="evaluationDetails" class="evaluation-details-main-container show-by-animation" ng-show="evaluationSelected && isDetailsState">
+            <action-evaluations class="evaluation-details-content-container" evaluation-collection="serviceAreaEvaluationViewData"
+                                has-translation="true"></action-evaluations>
+        </div>
+    </div>
+
+    <div id="summary-popup-footer" class="summary-popup-footer show-by-animation">
+         <span>Respondents({{selectedAttributeScore.Respondent}})</span>
+        <div id="btn-view-evaluations" class="btn-view-evaluations" ng-click="viewEvaluation_click_Handler($event)">
+            <i class="fa fa-arrow-circle-right right-arrow-circle"/>VIEW EVALUATIONS
+        </div>
+    </div>
+</div>
+<!--</div>-->

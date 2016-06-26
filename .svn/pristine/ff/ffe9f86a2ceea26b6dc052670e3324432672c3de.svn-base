@@ -1,0 +1,43 @@
+$service-area-bg-color : #888888;
+$service-area-hover-bg-color : #fff000;
+$service-area-default-text-color : #fff;
+$service-area-hover-text-color : #000;
+
+#serviceArea {
+  padding-top: 10px;
+  .btn-group > .btn:first-child {
+    margin-left: 5px;
+  }
+
+  .btn {
+    width: 40px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0;
+    margin-bottom: 0;
+    margin-right: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    border: 1px solid transparent;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .btn-primary {
+    color: $service-area-default-text-color;
+    background-color: $service-area-bg-color;
+    box-shadow: none;
+    &:hover,
+    &:focus,
+    &:active,
+    &.active,
+    .open .dropdown-toggle.btn-primary {
+      color: $service-area-hover-text-color;
+      background-color: $service-area-hover-bg-color;
+      border: none;
+    }
+  }
+}
+
+
+

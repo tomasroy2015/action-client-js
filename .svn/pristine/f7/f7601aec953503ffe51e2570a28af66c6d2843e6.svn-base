@@ -1,0 +1,9 @@
+<div style="padding: 0;margin: 0;width: 100%;float: left">
+    <!--<canvas id="{{::canvasid}}" height="25" width="27" style="float: left;padding: 0;margin: 2px;display: inline " ></canvas>-->
+    <svg width="27" height="25" style="float: left;padding: 0;margin: 2px;display: inline">
+        <g>
+            <rect height="25" width="27" x="0" y="0"></rect>
+            <text x="0" y="0" style="font:bold 11px AkkuratStd-Regular">{{scoreTex}}</text>
+        </g>
+    </svg>
+</div>

@@ -1,0 +1,77 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionFullScorecard', [function () {
+
+        return {
+            restrict: "E",
+            transclude:false,
+        scope:{
+            generalSurveyCollection: "=",
+            triggerSurveyCollection: "="
+        },
+            link: function (scope, el, attrs) {
+
+                scope.$watch(function () {
+                    return scope.generalSurveyCollection || scope.triggerSurveyCollection;
+                },function(val){
+                    if(val !== undefined && val.length !== undefined) {
+                        console.log('Gen:>' + scope.generalSurveyCollection);
+                        console.log('Trg:>' + scope.triggerSurveyCollection);
+                    } else{
+                        console.log('Not defined....');
+                    }
+
+                });
+
+
+                //var getGeneralSurveyCollection = serviceAreaScoreData.GetGeneralSurveyCollection();
+                //var getTriggerSurveyCollection = serviceAreaScoreData.GetTriggerSurveyCollection();
+
+
+                //scope.$watch(function () {
+                //    return serviceAreaScoreData.GetGeneralSurveyCollection() || serviceAreaScoreData.GetTriggerSurveyCollection();
+                //}, function (val) {
+                //    if(val.length !== undefined){
+                //        var contentWidth=0;
+                //        var generalSurveyCollection = _.filter(serviceAreaScoreData.GetGeneralSurveyCollection(), function (n) {
+                //            return n.SurveyType == "GEN";
+                //        });
+                //        var gen = generalSurveyCollection.length;
+                //        var trig = serviceAreaScoreData.GetTriggerSurveyCollection().length;
+                //
+                //        if(gen >= trig) {
+                //            contentWidth = (298 * gen) + 52;
+                //        } else{
+                //            contentWidth = (298 * trig) + 52;
+                //        }
+                //
+                //        $('.general-survey-wrapper').css({width: contentWidth});
+                //        $('.trigger-survey-wrapper').css({width: contentWidth});
+                //    }
+                //
+                //});
+
+
+                //console.log(parseInt(scope.generalSurveyColl));
+                //console.log(parseInt(scope.triggerSurveyColl));
+                //console.log(el);
+                //var gen = parseInt(scope.generalSurveyColl);
+                //var trig = parseInt(scope.triggerSurveyColl);
+                //var contentWidth=0;
+                //if(gen >= trig) {
+                //    contentWidth = (298 * gen) + 52;
+                //} else{
+                //    contentWidth = (298 * trig) + 52;
+                //}
+                //
+                //$('.general-survey-wrapper').css({width: contentWidth});
+                //$('.trigger-survey-wrapper').css({width: contentWidth});
+            },
+            templateUrl: 'Views/FullScorecard/FullScorecardTemplate.html'
+        };
+    }]);
+
+});
+

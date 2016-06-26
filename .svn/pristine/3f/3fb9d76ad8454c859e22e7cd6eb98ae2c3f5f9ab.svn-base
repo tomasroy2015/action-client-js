@@ -1,0 +1,130 @@
+"use strict";
+
+define(['application-configuration', 'dataFilterFactory', 'CreateViewDataFactory'], function (app) {
+
+    app.register.controller('dataFilterController', ['$scope', '$interval', 'dataFactory', 'dataFilterFactory', 'Notify', 'CreateViewDataFactory', function ($scope, $interval, dataFactory, dataFilterFactory, Notify, CreateViewDataFactory) {
+
+        $scope.dataFilterFactory = dataFilterFactory;
+        //
+        //function initializeData() {
+        //    var attDataCollection = dataFactory.GetAtributeScoreDataCollection();
+        //
+        //    var query = _.filter(attDataCollection, function (n) {
+        //        return n.AttributeIndex == dataFilterFactory.GetSelectedAttributeIndex();
+        //    });
+        //
+        //    if (query[0].IsAttributeScoreDataNull()) {
+        //        prepareSelectedAttributeServiceAreaData();
+        //    }
+        //    else {
+        //        loadServiceAreaData(query[0].ScoreDataCollection);
+        //    }
+        //}
+
+        $scope.$watch(function () {
+            return dataFilterFactory.GetSelectedAttributeIndex();
+        }, function (newIndex) {
+            if (newIndex !== undefined && newIndex >= 0) {
+                var attDataCollection = dataFactory.GetAtributeScoreDataCollection();
+
+                var query = _.filter(attDataCollection, function (n) {
+                    return n.AttributeIndex == newIndex;
+                });
+
+                if (query !== undefined && query.length === 0) {
+                    prepareSelectedAttributeServiceAreaData();
+                }
+                else {
+                    loadDataFilterData(query[0].ScoreDataCollection);
+                }
+            }
+        });
+
+
+        $scope.$on(Notify.ATTRIBUTE_DATA_READY, function (event) {
+            var attDataCollection = dataFactory.GetAtributeScoreDataCollection();
+
+            var query = _.filter(attDataCollection, function (n) {
+                return n.AttributeIndex == dataFilterFactory.GetSelectedAttributeIndex();
+            })
+            if (query && query.length > 0) {
+                //var sSA = dataFactory.GetSelectedServiceArea();
+                loadDataFilterData(query[0].ScoreDataCollection);
+            }
+        });
+
+        function loadDataFilterData(data) {
+            //TODO
+            console.log(data);
+            var selectedServiceAreaId = dataFactory.GetSelectedServiceArea().Id;
+            var preparedData = [];
+            _.forEach(data, function (n, key) {
+                var oDataFilterViewData = CreateViewDataFactory.DataFilterViewData(selectedServiceAreaId, n);
+                preparedData.push(oDataFilterViewData);
+            });
+            //console.log(preparedData);
+            $scope.myData = preparedData;
+        }
+
+        function prepareSelectedAttributeServiceAreaData() {
+            $scope.myData = [];
+            var selectedAttribute = {
+                Label: dataFilterFactory.GetSelectedAttribute().Label,
+                Index: dataFilterFactory.GetSelectedAttribute().Index,
+                Type: dataFilterFactory.GetSelectedAttribute().Type
+            };
+
+            var requestParam = attributeRequestParam(selectedAttribute);
+            dataFactory.GetSelectedAttributeScoreData(requestParam);
+        }
+
+        function attributeRequestParam(attr) {
+            var applicationDataInfo = dataFactory.DataInfo();
+            var selectedSurveyType = dataFactory.GetSelectedServiceAreaSurveyType();
+
+            return {
+                sessionID: applicationDataInfo.sessionID,
+                customerID: applicationDataInfo.customerID,
+                fromDate: applicationDataInfo.fromDate,
+                toDate: applicationDataInfo.toDate,
+                attributeIndex: attr.Index,
+                surveyType: selectedSurveyType
+            }
+        };
+
+        //$scope.gridOptions.data = myData;
+        //$scope.gridOptions.columnDefs =  $scope.columnDefs;
+
+        $scope.columnDefs = [
+            {field: 'Name', displayName: 'NAME',width:200},
+            {field: 'Score', displayName: 'SCORE',width:80,cellClass:'center-text'},
+            {field: 'Respondent', displayName: '#RESP',width:80,cellClass:'center-text'}];
+
+        $scope.gridOptions = {
+            data: 'myData',
+            enableSorting: true,
+            rowHeight: 25,
+            columnDefs: $scope.columnDefs,
+            enableColumnMenus: false,
+            enableRowSelection: true,
+            enableSelectAll: true,
+            //onRegisterApi: function (gridApi) {
+            //    $scope.gridApi = gridApi;
+            //    gridApi.grid.options.enableRowSelection = true;
+            //}
+
+        };
+        $scope.gridOptions.enableFullRowSelection = true;
+        $scope.gridOptions.onRegisterApi = function (gridApi) {
+            $scope.gridApi = gridApi;
+            console.log($scope.gridApi);
+        };
+
+        $interval(function () {
+            $scope.gridApi.selection.selectRow($scope.gridOptions.data[0]);
+        }, 0, 1);
+
+
+    }]);
+
+});

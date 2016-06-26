@@ -1,0 +1,76 @@
+"use strict";
+
+define(['application-configuration', 'alertsService',  'datasetService'], function (app) {
+
+    app.register.controller('leftMenuController', ['$scope', '$rootScope', 'alertsService',  'datasetService', function ($scope, $rootScope, alertsService, datasetService) {
+
+        var userData = $rootScope.UserData;
+
+        loadDataFilterData();
+
+        function loadDataFilterData() {
+            successfullyGetData( $rootScope.dataset);
+        }
+
+
+        function successfullyGetData(response) {
+
+            /* Custom attributes prepare
+             ======================================================*/
+            var customAttributeCollection = response.CustomAttributeCollection;
+
+            /* Grouping filter collection */
+            var groupedFilterColl = _.groupBy(customAttributeCollection, function (item) {
+                if (item.Type == 0) return 'Geography';
+                else if (item.Type == 1) return 'Organization';
+                else if (item.Type == 2) return 'Ticket';
+            });
+
+            /* Sorting grouped filter collection */
+            _.forEach(groupedFilterColl, function (n, key) {
+                groupedFilterColl[key] = _.sortByOrder(n, 'DisplayOrder', true);
+            });
+
+            $scope.filterDataCollection = groupedFilterColl;
+            /* End of Custom attributes prepare
+             ======================================================*/
+
+            /* Service area preparation
+             ======================================================*/
+            var serviceAreaCollection = response.ServiceAreaCollection;
+            var generalSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                return n.SurveyType == "NOG" || n.SurveyType == "GEN";
+            });
+
+            var triggerSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                return n.SurveyType == "TCK";
+            });
+
+            $scope.generalSurveyCollection =_.sortByOrder(generalSurveyCollection, 'SortOrder', true);
+            $scope.triggerSurveyCollection =_.sortByOrder(triggerSurveyCollection, 'SortOrder', true);
+            //$scope.serviceAreaCollection = response.ServiceAreaCollection;
+
+            /* End of Service area preparation
+             ======================================================*/
+        }
+
+        function errorOnGetData(response) {
+            alertsService.RenderErrorMessage(response.ReturnMessage);
+        }
+
+        $scope.questionSelection_Handler = function (q) {
+            var obj = {};
+           // obj = q.Questions;
+        };
+        function createParams() {
+            var params = {
+                sessionID : userData.SessionId,
+                customerID: 'aegn',
+                fromDate  : '1 jan 2015',
+                toDate    : '15 jan 2015'
+            };
+            return params;
+        }
+
+    }]);
+});

@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="Views/DataFilter/AccordionPanelTemplate.css"/>
+<div>
+    <accordion close-others="oneAtATime">
+        <accordion-group id="accordion-panel" is-open="status.open" ng-repeat="(title, group) in dataFilterCollection">
+            <accordion-heading>
+                {{title}}
+                <i id="glypContainer" class="pull-right glyphicon"
+                   ng-class="{'glyphicon glyphicon-minus-sign': status.open, 'glyphicon glyphicon-plus-sign': !status.open}"></i>
+            </accordion-heading>
+            <div class="row" ng-repeat="content in group">
+                <a href="" class="list-group-item">{{content.Label}}&nbsp;{{'('+content.AttributeCount+')'}}</a>
+            </div>
+        </accordion-group>
+    </accordion>
+
+    <div class="reset-filter">
+        <button type="button" class="btn btn-default btn-sm btn-reset">
+            Reset filters <img src="Content/images/reset-filter.png">
+        </button>
+    </div>
+    <div class="clearfix"></div>
+</div>

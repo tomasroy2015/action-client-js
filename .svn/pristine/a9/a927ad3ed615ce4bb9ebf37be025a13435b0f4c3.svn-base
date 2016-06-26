@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/ServiceAreaScoreItemTemplate.css"/>
+<!--<div class="questionContainerDiv"  data-questionType="{{question.QuestionType}}">-->
+<div class="questionContainerDiv">
+    <div class="questionText questionLabelDiv">
+       {{question.QuestionText}}
+    </div>
+    <div class="questionText questionScoreDiv1">
+        <span > {{score}}</span><span ng-hide="question.QuestionId=='OS'">%</span>
+    </div>
+    <div class="canvasContainer">
+    <canvas class="questionScorebar" id="{{::canvasid}}" height="28" width="57">
+    </canvas>
+    </div>
+</div>

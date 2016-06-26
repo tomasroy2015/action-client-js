@@ -1,0 +1,30 @@
+"use strict";
+define(['application-configuration','lodash'], function (app) {
+    app.register.controller('userAccountSettingsController', ['$scope','$rootScope',
+        function ($scope,$rootScope) {
+            $scope.userAccountColl=[
+                {
+                    Email:'tanvirul@metatude.com',
+                    Name:'tanvir',
+                    Acc:'giarte admin'
+                },
+                {
+                    Email:'jasim@metatude.com',
+                    Name:'jasim',
+                    Acc:'giarte admin'
+                },
+                {
+                    Email:'shahin@metatude.com',
+                    Name:'shahin',
+                    Acc:'giarte admin'
+                },
+                {
+                    Email:'tomas@metatude.com',
+                    Name:'tomas',
+                    Acc:'giarte admin'
+                }
+            ];
+
+
+        }]);
+});

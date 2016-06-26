@@ -1,0 +1,24 @@
+define(['application-configuration'], function (app) {
+
+    app.register.factory('comparatorFactory', ['$rootScope','ComparatorType',
+        function ($rootScope, ComparatorType) {
+
+            var comparatorNames= ["Target", "Benchmark Median","Benchmark upper limit","Benchmark lower limit", "Average", "Custom value"];
+            var selectedComparatorType = comparatorNames[1];
+
+
+            return {
+                UpdateComparatorType: function (comparatorType) {
+                    selectedComparatorType = comparatorType;
+                },
+                GetSelectedComparatorType: function () {
+                    return selectedComparatorType;
+                },
+                GetSelectedComparatorName: function(){
+                    return comparatorNames[selectedComparatorType-1];
+                }
+            };
+
+        }]);
+})
+

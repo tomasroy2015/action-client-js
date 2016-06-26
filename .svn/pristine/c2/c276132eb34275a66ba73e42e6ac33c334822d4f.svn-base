@@ -1,0 +1,97 @@
+"use strict";
+
+define(['application-configuration', 'dataFactory'], function (app) {
+
+    app.register.controller('fullScorecardController', ['$scope', '$timeout','serviceAreaScoreData', 'dataFactory',
+        function ($scope,$timeout, serviceAreaScoreData, dataFactory) {
+
+            console.log('fullScorecardController>>>>>>');
+            $scope.generalSurveyData = {};
+            $scope.triggerSurveyData = {};
+            $timeout({})
+            initializeData();
+            /*
+             $scope.$watch(function () {
+             return serviceAreaScoreData.GetGeneralSurveyCollection() || serviceAreaScoreData.GetTriggerSurveyCollection();
+             }, function (val) {
+             if (val.length !== undefined) {
+             var contentWidth = 0;
+             var generalSurveyCollection = _.filter(serviceAreaScoreData.GetGeneralSurveyCollection(), function (n) {
+             return n.SurveyType == "GEN";
+             });
+             var triggerSurveyCollection = _.filter(serviceAreaScoreData.GetTriggerSurveyCollection(), function (n) {
+             return n.Id !== "SES";
+             });
+             $scope.generalSurveyData = generalSurveyCollection;
+             $scope.triggerSurveyData = triggerSurveyCollection;
+
+             var gen = generalSurveyCollection.length;
+             var trig = serviceAreaScoreData.GetTriggerSurveyCollection().length;
+
+             if (gen >= trig) {
+             contentWidth = (298 * gen) + (15* (gen-1)) + 20;
+             } else {
+             contentWidth = (298 * trig) + (15* (gen-1)) + 20;
+             }
+
+             $('.general-survey-wrapper').css({width: contentWidth});
+             $('.trigger-survey-wrapper').css({width: contentWidth});
+             }
+
+             });
+             */
+
+
+            function initializeData() {
+                prepareServiceAreaScoreDataCollection(dataFactory.ServiceAreaScoreDataCollection());
+
+                var gen = $scope.generalSurveyData.length;
+                var trig = $scope.triggerSurveyData.length;
+                var contentWidth = 0;
+                if (gen >= trig) {
+                    contentWidth = (298 * gen) + (15 * (gen - 1)) + 20 + 'px';
+                } else {
+                    contentWidth = (298 * trig) + (15 * (trig - 1)) + 20 + 'px';
+                }
+
+                //$('div#general-survey-wrapper,div#trigger-survey-wrapper').css({
+                $('div.general-survey-wrapper,div.trigger-survey-wrapper').css({
+                    width: contentWidth.toString()
+                });
+            }
+
+            $scope.generalStyle = function () {
+                var gen = $scope.generalSurveyData.length;
+                var trig = $scope.triggerSurveyData.length;
+                var contentWidth = 0;
+                if (gen >= trig) {
+                    contentWidth = (298 * gen) + (15 * (gen - 1)) + 20 + 'px';
+                } else {
+                    contentWidth = (298 * trig) + (15 * (trig - 1)) + 20 + 'px';
+                }
+                return {width: contentWidth, color: 'red'};
+            };
+
+            /**
+             * Service area preparation
+             * @param data
+             */
+            function prepareServiceAreaScoreDataCollection(data) {
+                var serviceAreaCollection = data;
+                var generalSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                    return n.SurveyType == "GEN";
+                });
+
+                var triggerSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                    return n.SurveyType == "TCK" && n.Id !== 'SES';
+                });
+
+                $scope.generalSurveyData = _.sortByOrder(generalSurveyCollection, 'SortOrder', true);
+                $scope.triggerSurveyData = _.sortByOrder(triggerSurveyCollection, 'SortOrder', true);
+            }
+
+
+        }]);
+
+});
+

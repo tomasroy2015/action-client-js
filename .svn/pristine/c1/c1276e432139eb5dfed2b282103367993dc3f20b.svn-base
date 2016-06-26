@@ -1,0 +1,9 @@
+<link rel="stylesheet" href="Views/CustomerSettings/UserSettings/UserSettingsTemplate.css"/>
+<div>
+    <span class="template-header">
+        USER ACCOUNTS
+    </span>
+    <div>
+        This is user settings template
+    </div>
+</div>

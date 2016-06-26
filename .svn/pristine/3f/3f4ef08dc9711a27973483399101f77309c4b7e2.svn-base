@@ -1,0 +1,26 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionDataFilter', [function () {
+
+        return {
+            restrict: 'AE',
+            scope   : {
+                dataFilterCollection: "=data"
+            },
+            link    : function (scope, el, attrs) {
+                scope.$watch('dataFilterCollection',function(newValue){
+                    if(!angular.isUndefined(newValue))
+                        return scope.renderView(newValue);
+                },true);
+                scope.renderView = function(data) {
+                    scope.oneAtATime = true;
+                    scope.serviceAreaCollection = data;
+                };
+
+            },
+            templateUrl:'Views/DataFilter/AccordionPanel.html'
+        };
+    }]);
+});

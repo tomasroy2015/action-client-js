@@ -1,0 +1,99 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    //app.register.filter('removeSpacesThenLowercase', function () {
+    //    return function (text) {
+    //        var str = text.replace(/\s+/g, '');
+    //        return str.toLowerCase();
+    //    };
+    //});
+
+    app.register.directive('actionDataFilterAccordion', ['$rootScope', 'leftMenuSlidingWindowEventNotifyFactory', function ($rootScope, leftMenuSlidingWindowEventNotifyFactory) {
+
+        return {
+            restrict: 'AE',
+            scope: {
+                categorizedAttributeCollection: "=data",
+                attributeClicked: '&',
+                control: '='
+            },
+            link: function (scope, el, attrs) {
+                scope.internalControl = scope.control || {};
+                var isDataFilterWindowSlideIn = false;
+                var containerWidth;
+                var topPadding = 50;
+
+                scope.$watch('categorizedAttributeCollection', function (newValue) {
+                    if (!angular.isUndefined(newValue))
+                        return scope.renderView(newValue);
+                }, true);
+
+                scope.renderView = function (data) {
+                    scope.oneAtATime = true;
+                    scope.categorizedAttributeCollection = data;
+                };
+
+                scope.selectedListItem = function (event, data) {
+
+                    //var toSelectItem = '#' + event.currentTarget.id;
+                    var toSelectItem = event.currentTarget.id;
+                    var prevSelectedItems = $("div[id^='accordion-panel'] .df-selected").not('#' + toSelectItem);
+
+                    prevSelectedItems.removeClass('df-selected');
+                    $('#' + toSelectItem).toggleClass('df-selected');
+
+                    //containerWidth = $('#dataFilterWindowContainer').width();
+                    var prevSelId = prevSelectedItems.attr('id');
+
+                    if (prevSelId !== undefined && prevSelId !== toSelectItem) {
+                        closeDataFilterSlidingWindow();
+                    }
+
+                    dataFilterWindowSliding();
+                    event.data = data;
+                    scope.attributeClicked()(event);
+                };
+
+                scope.expandCollapsed = function (isExpand) {
+                    $("div[id^='accordion-panel'] .df-selected").removeClass('df-selected');
+                    closeDataFilterSlidingWindow();
+                };
+
+                function dataFilterWindowSliding() {
+                    containerWidth = $('#dataFilterWindowContainer').width();
+                    $('#dataFilterWindowContainer.slide-out').css('top', topPadding + 'px');
+
+                    isDataFilterWindowSlideIn = !isDataFilterWindowSlideIn;
+                    if (isDataFilterWindowSlideIn) {
+                        $('#dataFilterWindowContainer.slide-out').animate({left: 253}, 500, "linear", function () {
+                        });
+                    } else {
+                        closeDataFilterSlidingWindow();
+                    }
+                };
+
+                $('#dataFilterWindowContainer .close-slide-in').on('click', function () {
+                    $("div[id^='accordion-panel'] .df-selected").removeClass('df-selected');
+                    closeDataFilterSlidingWindow();
+                });
+
+                function closeDataFilterSlidingWindow() {
+                    $('#dataFilterWindowContainer.slide-out').animate({left: -containerWidth - 253}, 500, "linear");
+                    isDataFilterWindowSlideIn = false;
+                }
+
+                scope.internalControl.isDataFilterWindowOpen = function(){
+                    return isDataFilterWindowSlideIn;
+                }
+                scope.internalControl.closeDataFiltewWindowHandler = function () {
+                    $("div[id^='accordion-panel'] .df-selected").removeClass('df-selected');
+                    closeDataFilterSlidingWindow();
+                };
+            },
+            templateUrl: 'Views/DataFilter/AccordionPanelTemplate.html'
+        };
+
+    }]);
+
+});

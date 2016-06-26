@@ -1,0 +1,37 @@
+"use strict";
+
+define(['application-configuration','accordionPanelController','action-tabset','mapViewController','listViewController','sentimentViewController','accountsService','eventDispatchService'], function (app) {
+
+    app.register.controller('actionRootController', ['$scope','$rootScope','accountsService','eventDispatchService', function ($scope,$rootScope,accountsService,eventDispatchService) {
+
+        $rootScope.applicationModule = "MainLayout";
+        $scope.abcd = function(){
+           console.log('fsdfsdflsf');
+        };
+
+
+        $scope.logoutMain = function () {
+            $rootScope.IsloggedOut = false;
+            var user = $rootScope.UserData;
+            accountsService.logout2(user, $scope.logoutCompleted, $scope.logoutError);
+        };
+
+        $scope.logoutCompleted = function (response) {
+            //$rootScope.MenuItems = response.MenuItems;
+            //$rootScope.UserData = response.UserData;
+            //window.location = "/layout";
+            window.location = "#/";
+        };
+
+        $scope.logoutError = function (response) {
+            alertsService.RenderErrorMessage(response.ReturnMessage);
+        };
+
+        $rootScope.$on('logedInEvent', function () {
+            $scope.message = eventDispatchService.message;
+            console.log($scope.message+'fsdfsfsf');
+        });
+
+    }]);
+
+});

@@ -1,0 +1,186 @@
+define(['application-configuration', 'ajaxService','dataFactory','accountFactory','leftMenuSlidingWindowEventNotifyFactory'], function (app) {
+
+    app.register.factory('datasetSelectionFactory', ['$rootScope', '$http','$filter', 'ajaxService','dataFactory','accountFactory','leftMenuSlidingWindowEventNotifyFactory','UserType',
+        function ($rootScope, $http,$filter, ajaxService,dataFactory,accountFactory,leftMenuSlidingWindowEventNotifyFactory,UserType) {
+        var datasetFactory = {};
+        var selectedCustomerID = "";
+        datasetFactory.customers = {};
+        datasetFactory.currentuser = null;
+        datasetFactory.FromDate =null;
+        datasetFactory.ToDate = null;
+        datasetFactory.customerID = null;
+        datasetFactory.sessionID = null;
+        datasetFactory.dataSetName = "";
+        initializeDataset();
+
+        function initializeDataset(){
+            /*For By pass Login page ; If use for Pentaho plz uncomment */
+            //accountFactory.SetUserData($rootScope.UserData);
+            $rootScope.isNeedToShowLoading = false;
+            datasetFactory.currentuser = accountFactory.UserData();
+            datasetFactory.sessionID = datasetFactory.currentuser.SessionId;
+            datasetFactory.isGiarteAdmin = (datasetFactory.currentuser.UserType == UserType.GIARTE_ADMIN);
+        }
+
+        datasetFactory.changeDataSet = function () {
+            leftMenuSlidingWindowEventNotifyFactory.setDatasetLoadEvent(true);
+            $rootScope.IsDatasetLoaded = false;
+            datasetFactory.customerID = datasetFactory.selectedCustomer.CustomerId;
+
+            if(!isInputValidated())
+                return;
+
+            $rootScope.isNeedToShowLoading = true;
+            $rootScope.loadTitle = "Loading dataset";
+            datasetFactory.dataSetName = getDataSetName(datasetFactory);
+            createDateRange();
+            var dataSet = createParameter();
+
+            if(selectedCustomerID === dataSet.customerID){
+                dataFactory.ChangeDataSet(dataSet);
+            }else{
+                selectedCustomerID = dataSet.customerID;
+                dataFactory.LoadDataSet(dataSet);
+            }
+        };
+
+        datasetFactory.customerChanged = function(){
+                datasetFactory.customerID = datasetFactory.selectedCustomer.CustomerId;
+        };
+
+        function createDateRange(){
+            var newDate = new Date();
+            var firstDate;
+            var lastDate;
+
+            switch (datasetFactory.selectedValue) {
+                case "MonthToDate":
+                    //First date of current month
+                    firstDate = new Date(newDate.getFullYear(), newDate.getMonth(), 1);
+                    //Yesterday date
+                    lastDate = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
+
+                    datasetFactory.FromDate = firstDate;
+                    datasetFactory.ToDate = lastDate;
+                    break;
+                case "Month":
+                    datasetFactory.FromDate = datasetFactory.selectedMonth.startDate;
+                    datasetFactory.ToDate = datasetFactory.selectedMonth.endDate;
+                    break;
+                case "Quarter":
+                    datasetFactory.FromDate = datasetFactory.selectedQuarter.startDate;
+                    datasetFactory.ToDate = datasetFactory.selectedQuarter.endDate;
+                    break;
+                case "DateRange":
+                    datasetFactory.FromDate = datasetFactory.dtpValueFromDate;
+                    datasetFactory.ToDate = datasetFactory.dtpValueToDate;
+                    break;
+                default:
+                    datasetFactory.FromDate = null;
+                    datasetFactory.ToDate = null;
+                    break;
+            }
+        }
+        function isInputValidated()
+        {
+            var isValid = true;
+
+            if(datasetFactory.selectedValue === "DateRange") {
+                isValid = isValidDateRange();
+            }
+
+            return isValid;
+        }
+
+        function createParameter(){
+            var params = {
+                sessionID: datasetFactory.sessionID,
+                customerID: datasetFactory.customerID,
+                fromDate: $filter('date')(datasetFactory.FromDate, 'yyyy-MM-dd HH:mm:ss'),
+                toDate:  $filter('date')(new Date(datasetFactory.ToDate.getTime()-999), 'yyyy-MM-dd HH:mm:ss')
+            };
+
+            return params;
+        }
+
+        function isValidInput(){
+            var isValid = true;
+            if( datasetFactory.selectedValue === null)
+            {
+                alert("Please select a criteria ");
+                isValid = false;
+                return isValid;
+            }
+            return isValid;
+        }
+
+        function isValidDateRange(){
+            var isValid = true;
+
+            if(datasetFactory.dtpValueFromDate === null || datasetFactory.dtpValueToDate === null) {
+                alert("Please select a DateRange");
+                isValid = false;
+                return isValid;
+            }
+            if(typeof datasetFactory.dtpValueFromDate === "undefined" || typeof datasetFactory.dtpValueToDate === "undefined") {
+                alert("Please select a valid DateRange");
+                isValid = false;
+                return isValid;
+            }
+            if(datasetFactory.dtpValueFromDate >  datasetFactory.dtpValueToDate) {
+                alert("Please select a valid DateRange");
+                isValid = false;
+                return isValid;
+            }
+
+            return isValid
+        }
+        datasetFactory.selDataSet_Checked = function(value){
+            datasetFactory.selectedValue = value.toString();
+        };
+        datasetFactory.setSelectedDataset = function(dataset){
+            selectedCustomerID = dataset.selectedCustomer.CustomerId;
+            datasetFactory.selectedValue = dataset.datasetName;
+            datasetFactory.selectedCustomer = dataset.selectedCustomer;
+            datasetFactory.selectedMonth = dataset.selectedMonth;
+            datasetFactory.selectedQuarter = dataset.selectedQuarter;
+            datasetFactory.customers = dataset.customers;
+            datasetFactory.FromDate = dataset.fromDate;
+            datasetFactory.ToDate = dataset.toDate;
+
+            if(datasetFactory.selectedValue.toLowerCase() == "daterange") {
+                datasetFactory.dtpValueFromDate = dataset.fromDate;
+                datasetFactory.dtpValueToDate = dataset.toDate;
+            }
+            else{
+                datasetFactory.dtpValueFromDate =  new Date();
+                datasetFactory.dtpValueToDate =  new Date();
+            }
+            datasetFactory.isGiarteAdmin = (accountFactory.UserData().UserType == UserType.GIARTE_ADMIN);
+            datasetFactory.LastSixMonth =  dataset.LastSixMonth;
+            datasetFactory.QuarterColl =  dataset.QuarterColl;
+            datasetFactory.dataSetName = getDataSetName(datasetFactory);
+        };
+
+        function getDataSetName(dataset){
+            var datasetName = "";
+            switch(dataset.selectedValue.toLowerCase().trim()){
+                case "monthtodate":
+                    datasetName = "CURRENT MONTH";
+                    break;
+                case "month":
+                    datasetName = dataset.selectedMonth.Name.toUpperCase();
+                    break;
+                case "quarter":
+                    datasetName = dataset.selectedQuarter.Name.toUpperCase();
+                    break;
+                case "daterange":
+                    datasetName = "CUSTOM DATE";
+                    break;
+            }
+            return datasetName;
+        }
+        return datasetFactory;
+    }]);
+});
+

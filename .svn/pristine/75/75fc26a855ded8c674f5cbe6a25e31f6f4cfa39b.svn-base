@@ -1,0 +1,169 @@
+/* All external import files
+======================================================*/
+div.service-area-questions-container {
+  margin-right: 0px;
+  width: 235px;
+  /*question item width in left panel.total background width of a item*/
+  margin-top: 10px;
+  padding-left: 0px;
+}
+
+/*Question hover arrow style  */
+ul.question {
+  display: table;
+  width: 100%;
+  /*94% need to check from this line */
+  padding: 0px;
+  margin: 0px;
+  position: relative;
+  width: 225px;
+}
+ul.question li.questionListItem {
+  display: block;
+  height: 24px;
+  position: relative;
+  padding: 0px;
+  margin: 2px;
+  text-align: center;
+  width: 235px;
+}
+ul.question li.questionListItem:not(.selectedQuestionItem):hover {
+  background-color: #ddddde;
+  cursor: pointer;
+}
+ul.question li.questionListItem:not(.selectedQuestionItem):hover:after {
+  top: 0;
+  content: "";
+  position: absolute;
+  right: -12px;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid #ddddde;
+  z-index: 100;
+  right: -11px;
+}
+ul.question .questionListItemDiv {
+  position: relative;
+  line-height: 24px;
+  /* equal to the list item's height */
+  height: 100%;
+  width: 235px;
+}
+
+ul.question li[data-questionType='group']:not(.selectedQuestionItem):hover:after {
+  /*        pointer-events: none; */
+  /*          border:1px solid red;          */
+  top: 0;
+  content: "";
+  position: absolute;
+  right: -12px;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid transparent;
+  z-index: 100;
+  right: -11px;
+}
+
+/*start*/
+.selectedQuestionListItemDiv {
+  cursor: pointer;
+  background-color: #FFED00;
+  position: relative;
+  line-height: 24px;
+  /* equal to the list item's height */
+  height: 100%;
+  width: 225px;
+}
+.selectedQuestionListItemDiv:after {
+  top: 0;
+  content: "";
+  position: absolute;
+  right: -12px;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid #FFED00;
+  z-index: 100;
+  right: -11px;
+}
+
+/*list item style*/
+.questionContainerDiv {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  float: left;
+  height: 24px;
+  font-size: 11px;
+}
+
+.questionLabelDiv {
+  text-align: left;
+  margin-top: 0px;
+  width: 120px;
+  float: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  top: 0;
+  margin-right: 3px;
+  padding-left: 4px;
+}
+
+.question-score-bar {
+  margin-top: 0px;
+  width: 98px;
+  display: inline-block;
+  float: left;
+  top: 0;
+  font-weight: bold;
+}
+
+.canvasContainer {
+  height: 28px;
+}
+
+.questionScorebar {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: auto;
+  display: block;
+  float: left;
+  top: 5px;
+}
+
+.questionText {
+  color: #000000;
+}
+
+ul li {
+  list-style: none;
+}
+
+div.questionContainerDiv[data-questionType='group'] {
+  width: 235px;
+  background: #ddddde;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+ul.question li[data-questionType='group'].selectedQuestionItem {
+  background: transparent;
+}
+
+ul.question > li[data-questiontype='group'] {
+  margin-top: 20px;
+  color: red;
+  /*     border:1px solid red; */
+}
+
+ul.question > li[data-questiontype='group']:first-child {
+  margin-top: 0;
+}
+
+div.clear {
+  clear: both;
+}
+
+/*# sourceMappingURL=ScoreBoxTemplate.css.map */

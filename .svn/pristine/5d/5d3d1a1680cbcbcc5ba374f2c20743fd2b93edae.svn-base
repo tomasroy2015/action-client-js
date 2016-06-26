@@ -1,0 +1,10 @@
+define(['application-configuration'], function (app) {
+    app.register.factory('EvaluationData', ['$rootScope', '$http', function ($rootScope, $http) {
+
+        var EvaluationData = function(){
+            this.SurveyType = "";
+            this.EvaluationCollection = null;
+        };
+        return EvaluationData;
+    }]);
+});

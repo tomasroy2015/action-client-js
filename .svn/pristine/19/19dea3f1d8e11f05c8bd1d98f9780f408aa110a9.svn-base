@@ -1,0 +1,4 @@
+<link rel="stylesheet" href="Views/Shared/CSS/EvaluationSpeechBubbleTemplate.css"/>
+<div class="speech-container-div">
+    <p  class="speech"> {{evaluationCount}}</p>
+</div>

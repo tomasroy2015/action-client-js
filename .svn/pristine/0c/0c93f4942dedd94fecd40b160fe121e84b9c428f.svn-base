@@ -1,0 +1,8 @@
+.ui-grid-row:nth-child(odd):hover .ui-grid-cell{background:#ddddde !important}
+.ui-grid-row:nth-child(even):hover .ui-grid-cell{background:#ddddde !important}
+.ui-grid-row:hover .speech {
+    background: #ffffff !important;
+}
+.ui-grid-row:hover .speech:before{
+    border-color: #ffffff transparent transparent #ffffff;
+}

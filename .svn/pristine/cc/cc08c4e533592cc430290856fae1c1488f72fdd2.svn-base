@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/AttributeScoreBoxTemplate.css"/>
+<!--<div class="questionContainerDiv"  data-questionType="{{question.QuestionType}}">-->
+<div class="attribute-questionContainerDiv">
+    <div class="attribute-questionText attribute-questionLabelDiv">
+        {{question.QuestionText}}
+    </div>
+    <div class="attribute-questionText attribute-questionScoreDiv1">
+        <span > {{score}}%</span>
+    </div>
+    <div class="attribute-canvasContainer">
+        <canvas class="attribute-questionScorebar" id="{{::canvasid}}" height="28" width="57">
+        </canvas>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="Views/CustomerSettings/ShortCodeMapping/EditShortCodeMappingTemplate.css"/>
+<div class='ng-modal-container' ng-show='show'>
+    <div class='ng-modal-overlay'></div>
+        <div class='ng-modal-dialog' ng-style='dialogStyle'>
+            <div class='ng-modal-dialog-content'>
+                <div class="dialog-header">
+                    <span class="modal-title">Edit short code</span>
+                    <i ng-click="hideModal()" class="fa fa-times-circle fa-lg cursor"></i>
+                </div>
+                <div class="element-parent-div">
+                    <div class="element-container-div">
+                        <div class="left-align inline-block">
+                            <span class="inline-block label-width">Service area:</span>
+                            <span>{{mapData.DisplayLabel}}</span>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="element-container-div">
+                        <div class="left-align">
+                            <span class="inline-block label-width">Abbreviated form:</span>
+                            <input type = "text" ng-model="mapData.ShortCode" class="form-control text-input-normal inline-block">
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-btn-container-div" style="text-align: right">
+                <button class="btn"  ng-click='hideModal()'> Cancel</button>
+                <button class="btn" style="width: inherit" ng-click="editShortCode()"> Ok</button>
+            </div>
+
+        </div>
+</div>

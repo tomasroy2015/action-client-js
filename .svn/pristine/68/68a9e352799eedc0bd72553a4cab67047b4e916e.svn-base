@@ -1,0 +1,197 @@
+define(['application-configuration', 'ajaxService','dataFactory','accountFactory'], function (app) {
+
+    app.register.factory('datasetSelectionFactory', ['$rootScope', '$http', 'ajaxService','dataFactory','accountFactory',
+        function ($rootScope, $http, ajaxService,dataFactory,accountFactory) {
+
+        var datasetFactory = {};
+
+        datasetFactory.customer = {};
+        datasetFactory.currentuser = null;
+        datasetFactory.FromDate =null;
+        datasetFactory.ToDate = null;
+        datasetFactory.dtpValueFromDate =  new Date();
+        datasetFactory.dtpValueToDate =  new Date();
+        datasetFactory.customerID = null;
+        datasetFactory.selectedCustomer = null;
+        datasetFactory.sessionID = null;
+        datasetFactory.selectedValue = "DateRange";
+        datasetFactory.selectedMonth = null;
+        datasetFactory.selectedQuarter = null;
+        datasetFactory.selectedCustomer = null;
+        datasetFactory.customerID = null;
+        datasetFactory.LastSixMonth = [{Name:"",startDate:new Date(),endDate:new Date()}];
+        datasetFactory.QuarterColl = [{Name:"",startDate:new Date(),endDate:new Date()}];
+
+        initializeDataset();
+
+        function initializeDataset(){
+            var month = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+
+
+            $rootScope.isNeedToShowLoading = false;
+            datasetFactory.currentuser = accountFactory.UserData();
+            datasetFactory.sessionID = datasetFactory.currentuser.SessionId;
+
+            getMonthSelectionData(month);
+            getQuarterSelectionData();
+
+        };
+
+       function getMonthSelectionData(month){
+            var newDate = new Date();
+            var firstDate = new Date(newDate.getFullYear(), newDate.getMonth() - 6, 1); //First date of the last sixth month
+            var lastDate = new Date((new Date(firstDate.getFullYear(), firstDate.getMonth() + 1, 1)) - 1); //last date of the last sixth month
+
+           datasetFactory.LastSixMonth.pop();
+           datasetFactory.LastSixMonth.push({Name:month[firstDate.getMonth()]+" - "+ firstDate.getFullYear().toString(),startDate:firstDate,endDate:lastDate});
+            var i;
+            for (i = 1; i < 6; i++){
+                var fDate = new Date(firstDate.getFullYear(), firstDate.getMonth() + i, 1);
+                var lDate = new Date((new Date(fDate.getFullYear(), fDate.getMonth() + 1, 1)) - 1);
+                datasetFactory.LastSixMonth.push({Name: month[fDate.getMonth()]+" - "+ fDate.getFullYear().toString(),startDate:fDate,endDate:lDate});
+            }
+        };
+
+        function getQuarterSelectionData(){
+            var count = 1,quarterName = "";
+            var newDate = new Date();
+            var firstDate = new Date(newDate.getFullYear(), newDate.getMonth() - 12, 1); //First date of the last 1 year
+            var lastDate = new Date((new Date(firstDate.getFullYear(), firstDate.getMonth() + 3, 1)) - 1); //last date of next 3 month
+
+            datasetFactory.QuarterColl.pop();
+            datasetFactory.QuarterColl.push({Name:"1st Quarter"+" - "+ firstDate.getFullYear().toString(),startDate:firstDate,endDate:lastDate});
+            var i;
+            for (i = 3; i < 12; i = i+3){
+                if(count === 1)
+                    quarterName = "2nd Quarter";
+                else if(count === 2)
+                    quarterName = "3rd Quarter";
+                else if(count === 3)
+                    quarterName = "4th Quarter";
+
+                var fDate = new Date(firstDate.getFullYear(), firstDate.getMonth() + i, 1);
+                var lDate = new Date((new Date(fDate.getFullYear(), fDate.getMonth() + 3, 1)) - 1);
+                datasetFactory.QuarterColl.push({Name: quarterName+" - "+ fDate.getFullYear().toString(),startDate:fDate,endDate:lDate});
+                count++;
+            }
+        };
+        datasetFactory.changeDataSet = function () {
+            $rootScope.IsDatasetLoaded = false;
+            datasetFactory.customerID = datasetFactory.selectedCustomer.CustomerId;
+            dataFactory.SetSelectedCustomer(datasetFactory.selectedCustomer);
+
+            if(!isInputValidated())
+                return;
+
+            $rootScope.isNeedToShowLoading = true;
+            $rootScope.loadTitle = "Loading dataset";
+            createDateRange();
+            var dataSet = createParameter();
+            dataFactory.ChangeDataSet(dataSet);
+
+        };
+
+//        $scope.$on('dataService::dataReady', function(event){
+//            $rootScope.isNeedToShowLoading = false;
+//            $rootScope.IsDatasetLoaded = true;
+//            window.location = "#/Main";
+//            $route.reload();
+//        });
+
+        datasetFactory.customerChanged = function(){
+            datasetFactory.customerID = datasetFactory.selectedCustomer.CustomerId;
+        };
+
+        function createDateRange(){
+            var newDate = new Date();
+            var firstDate;
+            var lastDate;
+
+            switch (datasetFactory.selectedValue) {
+                case "MonthToDate":
+                    //First date of current month
+                    firstDate = new Date(newDate.getFullYear(), newDate.getMonth(), 1);
+                    //Yesterday date
+                    lastDate = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate() - 1);
+
+                    datasetFactory.FromDate = firstDate;
+                    datasetFactory.ToDate = lastDate;
+                    break;
+                case "LastMonth":
+                    datasetFactory.FromDate = datasetFactory.selectedMonth.startDate;
+                    datasetFactory.ToDate = datasetFactory.selectedMonth.endDate;
+                    break;
+                case "LastQuarter":
+                    datasetFactory.FromDate = datasetFactory.selectedQuarter.startDate;
+                    datasetFactory.ToDate = datasetFactory.selectedQuarter.endDate;
+                    break;
+                case "DateRange":
+                    datasetFactory.FromDate = datasetFactory.dtpValueFromDate;
+                    datasetFactory.ToDate = datasetFactory.dtpValueToDate;
+                    break;
+                default:
+                    datasetFactory.FromDate = null;
+                    datasetFactory.ToDate = null;
+                    break;
+            }
+        };
+        function isInputValidated()
+        {
+            var isValid = true;
+
+            if(datasetFactory.selectedValue === "DateRange") {
+                isValid = isValidDateRange();
+            }
+
+            return isValid
+        };
+
+        function createParameter(){
+            var params = {
+                sessionID: datasetFactory.sessionID,
+                customerID: datasetFactory.customerID,
+                fromDate: datasetFactory.FromDate,
+                toDate: datasetFactory.ToDate
+            };
+
+            return params;
+        };
+
+        function isValidInput(){
+            var isValid = true;
+            if( datasetFactory.selectedValue === null)
+            {
+                alert("Please select a criteria ");
+                isValid = false;
+                return isValid;
+            }
+            return isValid
+        };
+
+        function isValidDateRange(){
+            var isValid = true;
+
+            if(datasetFactory.dtpValueFromDate === null || datasetFactory.dtpValueToDate === null) {
+                alert("Please select a DateRange");
+                isValid = false;
+                return isValid;
+            }
+            if(typeof datasetFactory.dtpValueFromDate === "undefined" || typeof datasetFactory.dtpValueToDate === "undefined") {
+                alert("Please select a valid DateRange");
+                isValid = false;
+                return isValid;
+            }
+            if(datasetFactory.dtpValueFromDate >  datasetFactory.dtpValueToDate) {
+                alert("Please select a valid DateRange");
+                isValid = false;
+                return isValid;
+            }
+
+            return isValid
+        };
+
+        return datasetFactory;
+    }]);
+})
+

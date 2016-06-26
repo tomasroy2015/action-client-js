@@ -1,0 +1,70 @@
+.ng-modal-overlay {
+    /* A dark translucent div that covers the whole screen */
+    position:absolute;
+    z-index:9999;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:#ddddde;
+    opacity: 0.8;
+}
+.ng-modal-dialog {
+    /* A centered div above the overlay with a box shadow. */
+    z-index:10000;
+    position: absolute;
+    width: 50%; /* Default */
+
+    /* Center the dialog */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 4px 4px 80px #000;
+}
+.ng-modal-dialog-content {
+    padding:10px;
+    text-align: left;
+}
+.ng-modal-close {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 120%;
+    display: inline-block;
+    font-weight: bold;
+    font-family: 'arial', 'sans-serif';
+}
+.ng-modal .confirm-btn-container-div{
+    padding-top: 14px;
+    padding-left: 30px;
+    /* padding-right: 10px; */
+    margin-right: 13px;
+    text-align: center;
+}
+.ng-modal .dialog-header{
+    font-size: 16px;
+    /*font-weight: bold;*/
+    padding-bottom: 10px;
+}
+.ng-modal .btn{
+    height: 22px;
+    border: none;
+    border-radius: 0;
+    background: #878787 !important;
+    margin-left: -3px;
+    padding-top: 2px;
+    color: white;
+    width: 65px;
+    margin-right: 10px;
+}
+.ng-modal .left-align{
+    float: left;
+}
+.ng-modal .right-align{
+    float: right;
+}

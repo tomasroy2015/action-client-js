@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/EvaluationSummaryTemplate.css"/>
+
+<div class="evaluationSummaryContainer">
+    <div class="evaluationSummaryHeader">
+        <span>Evaluation x/y</span>
+        <button type="button" class="close" ng-click="onCancelClick()">×</button>
+    </div>
+    <div class="evaluationSummaryContent">
+        <div class="questionListContainer">
+            <div class="questionListHeader">
+                {{selectedServiceAreaName | uppercase}}
+            </div>
+            <div class="questionListDetails">
+                <table st-table="questionList" st-safe-src="rowCollection" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th >Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="question in questionList">
+                            <td>{{question.QuestionText}}</td>
+                            <td>{{question.Value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="othersInfoContainer">
+            <div class="otherInfoHeader">
+                <div style="vertical-align: bottom">
+                    COMMENTS
+                </div>
+            </div>
+            <div class="regRemarksContainer">
+            </div>
+            <div class="adiRemarksContainer" ng-if="false">
+            </div>
+            <div class="attributeValueContainer">
+            </div>
+        </div>
+    </div>
+</div>

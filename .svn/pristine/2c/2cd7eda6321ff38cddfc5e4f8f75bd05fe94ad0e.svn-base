@@ -1,0 +1,160 @@
+.user-account-settings-container{
+    /*padding: 5px;*/
+    /*margin: 0;*/
+    /*padding-left: 16px;*/
+}
+.user-account-settings-container .template-header{
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+.user-account-settings-container .table{
+    width: 95%;
+    display: table;
+}
+
+.user-account-settings-container .table>thead,.user-account-settings-container .table>tbody{
+    float: left;width: 100%;
+}
+.user-account-settings-container .table>tbody{
+    overflow: auto;
+    height: 366px;
+}
+.user-account-settings-container .table>tbody>tr>td{
+    padding: 2px;
+    border-top: transparent;
+    border-bottom:1px solid #000000;
+    font-size: 11px;
+    padding-left: 8px;
+    overflow: hidden; white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.user-account-settings-container .invisiable{
+    visibility: hidden;
+}
+.user-account-settings-container .fa-times{
+    font-size: 14px;
+}
+.user-account-settings-container .fa-times-circle{
+    font-size: 14px;
+}
+.user-account-settings-container .email-column{
+    width: 135px;
+    max-width: 135px;
+}
+.user-account-settings-container .name-column{
+width: 140px;
+    max-width: 140px;
+}
+.user-account-settings-container .btn-edit{
+    height: 16px;
+    border: none;
+    border-radius: 0;
+    background: inherit !important;
+    color: #000000;
+    width: 33px;
+    margin-right: 4px;
+}
+.user-account-settings-container .btn-edit:hover{
+    background: #555759 !important;
+    color: white;
+}
+
+.user-account-settings-container .table>tbody>tr:hover{
+    background-color: #ddddde;
+}
+
+.user-account-settings-container .table>tbody>tr{
+    width:100%;height:13px !important;overflow:hidden;
+    background-color: #FFFFFF;
+    display: table;
+}
+.user-account-settings-container .table > thead > tr > th{
+    vertical-align: bottom;
+    border-bottom: 1px solid #000000;
+    padding: 2px;
+    font-size: 11px;
+    font-weight: bold;
+    padding-left: 8px;
+}
+.user-account-settings-container .table-container{
+    padding-top: 10px;
+}
+.user-account-settings-container .footer-container-div{
+    padding-top: 14px;
+    padding-left: 12px;
+    padding-right: 10px;
+    border-top: 1px solid;
+    margin-right: 13px;
+}
+.user-account-settings-container .left-align{
+    float: left;
+}
+.user-account-settings-container .right-align{
+    float: right;
+}
+.user-account-settings-container .clear{
+    clear: both;
+}
+.user-account-settings-container .btn{
+    height: 22px;
+    border: none;
+    border-radius: 0;
+    background: #878787 !important;
+    margin-left: -3px;
+    padding-top: 2px;
+    color: white;
+    width: 120px;
+}
+.user-account-settings-container .btn-add-user {
+    height: 22px;
+    border: none;
+    border-radius: 0;
+    background: #FFFFFF !important;
+    margin-left: -3px;
+    padding-top: 2px;
+    width: 89px;
+}
+.user-account-settings-container .btn-add-user:hover{
+    background: #878787 !important;
+    color: white;
+}
+
+.user-account-settings-container .footer-container-div .fa{
+    font-size: 14px;
+    margin-right: 3px;
+}
+.sort:before{
+    content: "";
+    border-width: 0 4px 4px;
+    border-style: solid;
+    border-color: #000 transparent;
+    visibility: visible;
+    position: absolute;
+    opacity: .3;
+}
+.sort:after{
+    content: "";
+    border-width: 0 4px 4px;
+    border-style: solid;
+    border-color: #000 transparent;
+    visibility: visible;
+    position: absolute;
+    opacity: .3;
+    margin-top: 2px;
+
+}
+.sort:before {
+    margin-top: 8px;
+    border-bottom: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #000;
+}
+
+.user-account-settings-container .table > thead > tr > th> i{padding-left: 4px;}
+.user-account-settings-container .sortable {  cursor: pointer;}
+.user-account-settings-container .st-sort-ascent i,.st-sort-descent i { padding-left: 4px; }
+.user-account-settings-container .st-sort-ascent i:before {  content: '\25B2';}
+.user-account-settings-container .st-sort-descent i:before {  content: '\25BC';}

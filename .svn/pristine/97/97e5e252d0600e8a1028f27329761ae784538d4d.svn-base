@@ -1,0 +1,61 @@
+"use strict";
+
+define(['application-configuration', 'dataFactory', 'comparatorFactory', 'CustomCheckbox'], function (app) {
+    app.register.controller('compareWithSettingsController', ['$rootScope', '$scope', 'dataFactory', 'comparatorFactory', 'ComparatorType', 'Notify','$timeout',
+        function ($rootScope, $scope, dataFactory, comparatorFactory, ComparatorType, Notify,$timeout) {
+            $scope.isDoubleTargetSelected = false;
+            $scope.selectedComparator = ComparatorType.Target;
+            $scope.ComparatorType = ComparatorType;
+            //$scope.customValue = {};
+            $scope.compareSettingsCustomValue = {
+                min: 10,
+                max: 100,
+                step: 2,
+                precision: 50,
+                value: 50,
+                orientation: 'horizontal',  // vertical
+                handle: 'square', //'square', 'triangle' or 'custom'
+                tooltip: 'hide', //'hide','always'
+                tooltipseparator: ':',
+                tooltipsplit: false,
+                enabled: true,
+                naturalarrowkeys: false,
+                range: false,
+                ngDisabled: false,
+                reversed: false
+            };
+            $scope.updateComparatorType = function (type) {
+                comparatorFactory.UpdateComparatorType(type);
+                dataFactory.preparedServiceAreaScoreDataCollection();
+                $rootScope.$broadcast(Notify.COMPARATOR_TYPE_CHANGED);
+            };
+
+            $scope.doubleTargetSelection_Handler = function () {
+                $scope.isDoubleTargetSelected = !$scope.isDoubleTargetSelected;
+            };
+
+//            $scope.compareSettingSliding_Handler = function () {
+//                console.log($scope.customValue);
+//            };
+
+            $scope.SliderVal = 50;
+
+            $scope.onClickHandler = function () {
+                if ($scope.selectedComparator !== ComparatorType.Custom) {
+                    $scope.selectedComparator = ComparatorType.Custom;
+                }
+            };
+
+            $scope.isDoubleTargetChecked = false;
+            $scope.isShowDoubleTarget = false;
+
+            $timeout(function(){
+                var oCustomerGeneralSettings = dataFactory.CustomerGeneralSettings();
+                if(oCustomerGeneralSettings.HasDoubleTarget) {
+                    $scope.isShowDoubleTarget = oCustomerGeneralSettings.HasDoubleTarget;
+                }
+            },10);
+
+        }]);
+});
+

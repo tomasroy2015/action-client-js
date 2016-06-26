@@ -1,0 +1,57 @@
+"use strict";
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionQuestionScore', function () {
+        var boxId = 1;
+        return {
+            restrict: 'EA',
+            scope   : {
+                questionItem:'=',
+                colorSettings:'='
+//                score: '=',
+//                scoreObj:'='
+            },
+
+            templateUrl: "Views/List/QuestionScoresTemplate.html",
+            replace    : true,
+            link       : function (scope, el, attr) {
+
+                var score = scope.questionItem.Score;
+                var fillColor="";
+                var colorSettings = scope.colorSettings;
+                var comparatorValue = scope.questionItem.ScoreComparator.ScoreComparatorValue;
+
+                if(score >= comparatorValue)
+                fillColor = colorSettings.OnTarget;
+                else if((score<comparatorValue) &&(score+3>=comparatorValue))
+                fillColor = colorSettings.CloseToTarget;
+                else if((score<comparatorValue) &&(score+3<comparatorValue))
+                    fillColor = colorSettings.FarFromTarget;
+
+
+                var scoreBoxId = 'box' + boxId++;
+                el.find('canvas').attr('id', scoreBoxId);
+                var scoreCanvas = document.getElementById(scoreBoxId);
+                var context = scoreCanvas.getContext('2d');
+
+                context.save();
+                context.fillStyle = fillColor;
+
+                context.fillRect(0, 0, 29, 25);
+                context.fillStyle = 'white';
+
+                var w = context.measureText('100').width;
+                var x = (29 / 2) - (w / 2);
+                var y = 25 / 2;
+                context.font = "bold 12px san-serif";
+                context.textBaseline = 'center';
+                context.fillText(score, x, y + 3);
+                context.restore();
+
+                //console.log("Score obj value is :"+scope.scoreObj.Score);
+
+            }
+
+        };
+    });
+});

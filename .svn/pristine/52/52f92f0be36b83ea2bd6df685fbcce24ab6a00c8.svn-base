@@ -1,0 +1,72 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionFullScorecard', ['$timeout', function ($timeout) {
+
+        return {
+            restrict: "E",
+            transclude: false,
+            scope: {
+                fullScorecardData: "=",
+                customerId:"="
+            },
+            link: function (scope, el, attrs) {
+                $timeout(function () {
+                    //scope.$watch(function () {
+                    //    return scope.fullScorecardData.generalSurveyData || scope.fullScorecardData.triggerSurveyData;
+                    //}, function () {
+                    //
+                    //    calculateFullScorecardContainerWidth();
+                    //});
+                    scope.$apply(calculateFullScorecardContainerWidth());
+                }, 0);
+
+                scope.$watch("customerId", function (newValue, oldValue) {
+                    if (newValue !== '' && newValue !== oldValue) {
+                        calculateFullScorecardContainerWidth();
+                    }
+                });
+
+                function calculateFullScorecardContainerWidth() {
+                    //if (scope.fullScorecardData.length === undefined) return;
+
+                    if(scope.fullScorecardData.generalSurveyData && scope.fullScorecardData.triggerSurveyData) {
+                        var gen = scope.fullScorecardData.generalSurveyData.length;
+                        var trig = scope.fullScorecardData.triggerSurveyData.length;
+
+                        var contentWidth = 0;
+                        if (gen >= trig) {
+                            contentWidth = (298 * gen) + (15 * (gen - 1)) + 15 + 'px';
+                        } else {
+                            contentWidth = (298 * trig) + (15 * (trig - 1)) + 15 + 'px';
+                        }
+                        //$('div#general-survey-wrapper,div#trigger-survey-wrapper').css({
+                        $('div.general-survey-wrapper,div.trigger-survey-wrapper').css({
+                            width: contentWidth.toString()
+                        });
+                    } else if(scope.fullScorecardData.generalSurveyData){
+                        var gen = scope.fullScorecardData.generalSurveyData.length;
+                        var contentWidth = 0;
+                        contentWidth = (298 * gen) + (15 * (gen - 1)) + 15 + 'px';
+
+                        $('div.general-survey-wrapper').css({
+                            width: contentWidth.toString()
+                        });
+                    } else if(scope.fullScorecardData.triggerSurveyData){
+                        var gen = scope.fullScorecardData.triggerSurveyData.length;
+                        var contentWidth = 0;
+                        contentWidth = (298 * gen) + (15 * (gen - 1)) + 15 + 'px';
+
+                        $('div.trigger-survey-wrapper').css({
+                            width: contentWidth.toString()
+                        });
+                    }
+                };
+            },
+            templateUrl: 'Views/Shared/Template/FullScorecardTemplate.html'
+        };
+    }]);
+
+});
+

@@ -1,0 +1,131 @@
+<link rel="stylesheet" href="Views/LeftMenu/Evaluation/EvaluationTemplate.css"/>
+<div class="evaluationTemplateRoot" ng-controller="evaluationController">
+    <div class="left-menu-evaluation-header">
+        <div class="evaluation-header-container">
+            <div class="left-menu-evaluation-header-info-container">
+                <div class="left-menu-evaluation-top-panel-title content-container" id="myModalLabel">
+                    <i class="{{titleImage}}" style="font-size: 1.2em"/>
+                    <span class="left-menu-evaluation-selected-service-area-label">{{selectedServiceAreaTitle}}</span>
+                    <action-customizable-score-bar data="scoreBarData" width="80"
+                                                   show-comparator="{{isComparatorEnable}}"></action-customizable-score-bar>
+                </div>
+                <div class="os-ratio-container content-container" ng-if="selectedServiceAreaId === 'OS'">
+                    <action-os-ratio positive-count="positiveCount" negative-count="negativeCount"></action-os-ratio>
+                </div>
+                <div style="clear: both"></div>
+            </div>
+            <div class="row button-bar">
+                <div class="button summary btn btn-success" ng-click="summary_selectedClickHandler($event)">
+                    SUMMARY
+                </div>
+                <div class="button evaluation btn btn-success" ng-click="evaluation_selectedClickHandler($event)"
+                     ng-if="IsShowEvaluationTab()">
+                    EVALUATIONS
+                </div>
+                <div id="selected-evaluation-window-arrow" class="selected-evaluation-window-arrow">
+                    <i class="fa fa-caret-up"></i>
+                </div>
+                <!--<div class="btn btn-success">SENTIMENT</div>-->
+            </div>
+        </div>
+        <div id="evaluationDataDownload" class="left-menu-evaluation-data-download"
+             ng-click="download_data()" ng-hide="isCustomerUser || isSummarySelected" ng-if="IsShowEvaluationTab()">
+            Download Data&nbsp;&nbsp;<i class="fa fa-arrow-circle-down  down-arrow-circle fa-lg"/>
+        </div>
+        <div class="left-menu-evaluation-arrow-closer close-slide-in">
+            <i class="fa fa-caret-left"></i>
+        </div>
+    </div>
+    <div class="evaluation-window-container show-by-animation">
+        <div id="leftMenuEvaluationSummary" class="left-menu-evaluation-window-container show-by-animation"
+             ng-if="isSummarySelected">
+            <div class="evaluation-summary-bar-chart-container" ng-if="showBarChart()" ng-init="summaryEvaluationExe()">
+                <div class="score-frequency-summary-title"><span>Score Frequency</span></div>
+                <svg class="chart">
+                </svg>
+            </div>
+            <div ng-if="showIndividualServiceAreaSummary()" ng-init="individualServiceAreaSummary()">
+                <div class="individual-score-frequency-header-container">
+                    <div class="individual-score-frequency-header">
+                        <span class="score-frequency-per-question-label">Score frequency per question</span>
+                        <div class="circle" ng-style="{background:farFromTarget}">1</div>
+                        <div class="circle" ng-style="{background:farFromTarget}">2</div>
+                        <div class="circle" ng-style="{background:onTarget}">3</div>
+                        <div class="circle" ng-style="{background:onTarget}">4</div>
+                        <div class="circle">%</div>
+                    </div>
+                </div>
+                <div class="individual-score-frequency-content-container">
+                    <div class="inline-block">
+                        <ul class="ul-padding">
+                            <li ng-repeat="summaryData in individualServiceAreaSummaryDataCol1">
+                                <div class="frequency-item-row">
+                                    <!--<span>{{$index+1}}</span>-->
+                                    <div class="circle2">{{summaryData.serialId}}</div>
+                                    <span class="frequency-item-question-text">{{summaryData.QuestionText}}</span>
+                                    <div class="inline-block">
+                                        <action-individual-evaluation-summary-bar class="inline-block" data="summaryData"/>
+                                    </div>
+                                    <span class="score-text">{{summaryData.Score}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="individual-score-frequency-content-container-col2">
+                        <ul class="ul-padding">
+                            <li ng-repeat="summaryData1 in individualServiceAreaSummaryDataCol2">
+                                <div class="frequency-item-row">
+                                    <!--<span>{{$index+1}}</span>-->
+                                    <div class="circle2">{{summaryData1.serialId}}</div>
+                                    <span class="frequency-item-question-text">{{summaryData1.QuestionText}}</span>
+                                    <div class="inline-block">
+                                        <action-individual-evaluation-summary-bar class="inline-block" data="summaryData1"/>
+                                    </div>
+                                    <span class="score-text">{{summaryData1.Score}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="ses-score-frequency-header-container-root" ng-show="individualServiceAreaSES.length>0">
+                    <div class="ses-score-frequency-header-container">
+                        <span class="ses-header-label">IT Service Effort Score</span>
+                        <div class="circle" ng-style="{background:farFromTarget}">1</div>
+                        <div class="circle" ng-style="{background:farFromTarget}">2</div>
+                        <div class="circle" ng-style="{background:farFromTarget}">3</div>
+                        <div class="circle" ng-style="{background:onTarget}">4</div>
+                        <div class="circle" ng-style="{background:onTarget}">5</div>
+                        <div class="circle" ng-style="{background:onTarget}">6</div>
+                        <div class="circle">%</div>
+                    </div>
+                </div>
+                <div class="inline-block">
+                    <ul class="ul-padding">
+                        <li ng-repeat="sesData in individualServiceAreaSES">
+                            <div class="ses-frequency-item-row">
+                                <!--<span>{{$index+1}}</span>-->
+                                <div class="circle2">1</div>
+                                <span class="ses-frequency-item-question-text">{{sesData.QuestionText}}</span>
+                                <div class="inline-block">
+                                    <action-individual-evaluation-summary-bar class="inline-block" data="sesData"/>
+                                </div>
+                                <span class="score-text">{{sesData.Score}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="leftMenuEvaluations" class="left-menu-evaluation-window-container show-by-animation"
+             ng-show="isEvaluationSelected">
+            <action-evaluations evaluation-collection="serviceAreaEvaluationViewData"
+                                class="left-menu-evaluation-window-content-container"
+                                selected-service-area-name="selectedServiceAreaTitle"
+                                selected-service-area-type="selectedServiceAreaType"
+                                translation-selection-listener="translationSelectionListener(type)"
+                                has-translation="hasTranslation"
+                                custom-attribute-collection="customAttributeCollection"
+                                remarks-column-info="remarksColumnInfo"></action-evaluations>
+        </div>
+    </div>
+</div>

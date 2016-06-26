@@ -1,0 +1,20 @@
+<link rel="stylesheet" href="Views/Shared/CSS/ConfirmationAlertDialogTemplate.css"/>
+<div class='ng-modal' ng-show='show'>
+    <div class='ng-modal-overlay' ng-click='hideModal()'></div>
+    <div class='ng-modal-dialog' ng-style='dialogStyle'>
+        <div class='ng-modal-dialog-content'>
+            <div class="dialog-header">
+                <span>Confirmation!</span>
+            </div>
+            <div>
+                <span>{{message}}</span>
+            </div>
+            <div class="confirm-btn-container-div">
+                <button class="btn" ng-click="confirmOperation()"> Ok</button>
+                <button class="btn"  ng-click='hideModal()'> Cancel</button>
+            </div>
+
+        </div>
+        <!--<div class='ng-modal-close' ng-click='hideModal()'>X</div>-->
+    </div>
+</div>

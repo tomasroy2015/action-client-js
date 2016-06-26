@@ -1,0 +1,61 @@
+"use strict";
+define(['application-configuration','lodash'], function (app) {
+    app.register.directive('editShortCodeMapping',['customerSettingsFactory','Notify',
+        function (customerSettingsFactory,Notify) {
+            return {
+                restrict: 'E',
+                scope: {
+                    show: '=info',
+                    message:'=',
+                    data:'=',
+                    windowCloseListener:'&',
+                    customer:'='
+                },
+                controller:function($scope){
+//                    initViewModel();
+//
+//                    function initViewModel(){
+//                        $scope.isSentimentVisiable=false;
+//                        $scope.isSentimentDetailsVisiable=false;
+//                        if($scope.user==null)
+//                        {
+//                            $scope.user={};
+//                            $scope.user.UserId="";
+//                            $scope.user.UserFullName="";
+//                            $scope.user.IsUserCreationAllowed=false;
+//                            $scope.user.IsCustomerSettingsAllowed=false;
+//                            $scope.isEditMode=false;
+//                            $scope.user.IsSentimentAllowed= false;
+//                            $scope.user.IsSentimentDetailsAllowed= false;
+//                        }
+//                        else{
+//                            $scope.isEditMode=true;
+//                        }
+                   //}
+                },
+                link:function (scope, el, attrs) {
+                    scope.dialogStyle = {};
+                    if (attrs.width)
+                        scope.dialogStyle.width = attrs.width;
+                    if (attrs.height)
+                        scope.dialogStyle.height = attrs.height;
+                    scope.hideModal = function() {
+                        scope.show = false;
+                        scope.windowCloseListener();
+                    };
+
+                    scope.$on(Notify.CUSTOMER_SETTINGS_USER_ADD_OR_UPDATE_SUCCESS,function(event){
+                        scope.hideModal();
+                        var requestedCustomer={
+                            SessionId:scope.customer.SessionId,
+                            CustomerId: scope.customer.CustomerId
+                        };
+                        customerSettingsFactory.GetCustomerUsersList(requestedCustomer);
+                    })
+
+                },
+                templateUrl: 'Views/CustomerSettings/ShortCodeMapping/EditShortCodeMappingTemplate.html'
+            };
+        }]);
+
+});

@@ -1,0 +1,21 @@
+﻿<link rel="stylesheet" href="Views/Shared/SCSS/ServiceAreaEvaluationsTemplate.css"/>
+<link rel="stylesheet" href="Views/LeftMenu.Evaluations/EvaluationUIGrid/GridCustomContents/EvaluationUIGrid.css"/>
+<div class="evaluationContainer">
+    <div class="headerContainer">
+        <div class="labelContainer">
+            Evaluation
+        </div>
+        <div class="filterContainer">
+            <input type="text">
+        </div>
+        <div class="translationContainer">
+
+        </div>
+    </div>
+    <div class="evaluation-ui-grid-container">
+        <div>
+            <div class="ui-grid" ui-grid="evaluationUiGridConfig" ui-grid-auto-resize>
+            </div>
+        </div>
+    </div>
+</div>

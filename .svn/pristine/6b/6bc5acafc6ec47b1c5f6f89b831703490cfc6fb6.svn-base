@@ -1,0 +1,43 @@
+define(['application-configuration'], function (app) {
+    app.register.directive('actionFrequencyBar', [function () {
+        return{
+            restrict: 'E',
+            scope: {
+                scoreFrequency: "=",
+                selectedAttribute: "="
+            },
+            template: '<div id="scoreBar" class="os-frequency-bar"></div>',
+            link: function (scope, el, attr) {
+                scope.$watch(function (scope) {return scope.scoreFrequency }, function (newValue, oldValue) {
+                    var barValue = newValue.Frequency == 0 ? 0 : (newValue.Frequency / scope.selectedAttribute.Respondent) * 350;
+                    var bar = el.find('#scoreBar');
+                    $(bar).css({"height": barValue + 'px'});
+
+                    if(scope.selectedAttribute.Id == "OS"){
+                       if(newValue.AnswerType < 6){
+                           $(bar).addClass('bg-color-red');
+                       }
+                       else if(newValue.AnswerType == 6){
+                           $(bar).addClass('bg-color-orange');
+                       }
+                       else{
+                            $(bar).addClass('bg-color-green');
+                        }
+                    }
+                    else if(scope.selectedAttribute.Id == "SES"){
+                        if(newValue.AnswerType < 4){
+                            $(bar).addClass('bg-color-red');
+                        }
+                        else if(newValue.AnswerType == 4){
+                            $(bar).addClass('bg-color-orange');
+                        }
+                        else{
+                            $(bar).addClass('bg-color-green');
+                        }
+                    }
+                });
+            }
+        };
+    }]);
+
+});

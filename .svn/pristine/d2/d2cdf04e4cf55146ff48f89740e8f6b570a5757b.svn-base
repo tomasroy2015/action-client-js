@@ -1,0 +1,125 @@
+<link rel="stylesheet" href="Views/LeftMenu/Evaluation/EvaluationTemplate.css"/>
+<div class="evaluationTemplateRoot" ng-controller="evaluationController">
+    <div class="evaluationTemplateRoot left-menu-evaluation-header">
+        <div class="left-menu-evaluation-top-panel-title" id="myModalLabel">
+            <i class="{{titleImage}}" style="font-size: 1.2em"/>
+            <span class="left-menu-evaluation-selected-service-area-label">{{selectedServiceAreaTitle}}</span>
+            <action-customizable-score-bar data="scoreBarData" width="80"
+                                           show-comparator="{{isComparatorEnable}}"></action-customizable-score-bar>
+        </div>
+        <div class="os-ratio-container" ng-if="selectedServiceAreaId === 'OS'">
+            <action-os-ratio positive-count="positiveCount" negative-count="negativeCount"></action-os-ratio>
+        </div>
+        <div id="evaluationDataDownload" class="left-menu-evaluation-data-download"
+             ng-click="download_data()">
+            Download Data&nbsp;&nbsp;<i class="fa fa-arrow-circle-down  down-arrow-circle fa-lg"/>
+        </div>
+        <div class="left-menu-evaluation-arrow-closer close-slide-in">
+            <i class="fa fa-caret-left"></i>
+        </div>
+        <div class="evaluationTemplateRoot row button-bar">
+            <div class="evaluationTemplateRoot btn btn-success" ng-click="summary_selectedClickHandler($event)">
+                SUMMARY
+            </div>
+            <div class="evaluationTemplateRoot btn btn-success" ng-click="evaluation_selectedClickHandler($event)">
+                EVALUATIONS
+            </div>
+            <div id="selected-evaluation-window-arrow" class="selected-evaluation-window-arrow">
+                <i class="fa fa-caret-up"></i>
+            </div>
+            <!--<div class="btn btn-success">SENTIMENT</div>-->
+        </div>
+    </div>
+    <div class="evaluation-window-container show-by-animation">
+        <div id="leftMenuEvaluationSummary" class="left-menu-evaluation-window-container show-by-animation"
+             ng-if="isSummarySelected">
+            <div class="evaluation-summary-bar-chart-container" ng-if="showBarChart()" ng-init="summaryEvaluationExe()">
+                <div class="score-frequency-summary-title"><span>Score Frequency</span></div>
+                <svg class="chart">
+                </svg>
+            </div>
+            <div ng-if="showIndividualServiceAreaSummary()" ng-init="individualServiceAreaSummary()">
+                <div style="margin-left: 17px;width: 80%;border-bottom: 1px solid black;">
+                    <div style="display: inline-block;width: 345px;padding-top: 10px;">
+                        <span style="font-size: 10px;display: inline-block;width: 231px;">Score frequency per question</span>
+                        <div class="circle" ng-style="{background:farFromTarget}">1</div>
+                        <div class="circle" ng-style="{background:farFromTarget}">2</div>
+                        <div class="circle" ng-style="{background:onTarget}">3</div>
+                        <div class="circle" ng-style="{background:onTarget}">4</div>
+                        <div class="circle">%</div>
+                    </div>
+                </div>
+                <div style="width: 100%;position: relative">
+                    <div style="display: inline-block;">
+                        <ul style="padding-left: 20px">
+                            <li ng-repeat="summaryData in individualServiceAreaSummaryDataCol1">
+                                <div style="display: table;width: 344px;border-bottom: 1px solid #000000;height: 49px">
+                                    <!--<span>{{$index+1}}</span>-->
+                                    <div class="circle">{{summaryData.serialId}}</div>
+                                    <span style="font-size: 10px;display: inline-block;width: 61%;max-width: 61%">{{summaryData.QuestionText}}</span>
+                                    <div style="display: inline-block">
+                                        <action-individual-evaluation-summary-bar style="display: inline-block;" data="summaryData"/>
+                                    </div>
+                                    <span style="font-size: 10px">{{summaryData.Score}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="position: absolute;top: 0;display: inline-block;padding-left: 25px;">
+                        <ul style="padding-left: 20px">
+                            <li ng-repeat="summaryData1 in individualServiceAreaSummaryDataCol2">
+                                <div style="display: table;width: 344px;border-bottom: 1px solid #000000;height: 49px">
+                                    <!--<span>{{$index+1}}</span>-->
+                                    <div class="circle">{{summaryData1.serialId}}</div>
+                                    <span style="font-size: 10px;display: inline-block;width: 61%;max-width: 61%">{{summaryData1.QuestionText}}</span>
+                                    <div style="display: inline-block">
+                                        <action-individual-evaluation-summary-bar style="display: inline-block;" data="summaryData1"/>
+                                    </div>
+                                    <span style="font-size: 10px">{{summaryData1.Score}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="margin-left: 17px;width: 80%;border-bottom: 1px solid black;" ng-show="individualServiceAreaSES.length>0">
+                    <div style="display: inline-block;width: 391px;padding-top: 25px;">
+                        <span style="font-size: 10px;display: inline-block;width: 231px;">IT Service Effort Score</span>
+                        <div class="circle" ng-style="{background:farFromTarget}">1</div>
+                        <div class="circle" ng-style="{background:farFromTarget}">2</div>
+                        <div class="circle" ng-style="{background:farFromTarget}">3</div>
+                        <div class="circle" ng-style="{background:onTarget}">4</div>
+                        <div class="circle" ng-style="{background:onTarget}">5</div>
+                        <div class="circle" ng-style="{background:onTarget}">6</div>
+                        <div class="circle">%</div>
+                    </div>
+                </div>
+                <div style="display: inline-block;">
+                    <ul style="padding-left: 20px">
+                        <li ng-repeat="sesData in individualServiceAreaSES">
+                            <div style="display: table;width: 447px;border-bottom: 1px solid #000000;height: 49px">
+                                <!--<span>{{$index+1}}</span>-->
+                                <div class="circle">1</div>
+                                <span style="font-size: 10px;display: inline-block;width: 47%;max-width: 47%">{{sesData.QuestionText}}</span>
+                                <div style="display: inline-block">
+                                    <action-individual-evaluation-summary-bar style="display: inline-block;" data="sesData"/>
+                                </div>
+                                <span style="font-size: 10px">{{sesData.Score}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="leftMenuEvaluations" class="left-menu-evaluation-window-container show-by-animation"
+             ng-show="isEvaluationSelected">
+            <action-evaluations evaluation-collection="serviceAreaEvaluationViewData"
+                                class="left-menu-evaluation-window-content-container"
+                                selected-service-area-name="selectedServiceAreaTitle"
+                                selected-service-area-type="selectedServiceAreaType"
+                                translation-selection-listener="translationSelectionListener(type)"
+                                has-translation="hasTranslation"
+                                custom-attribute-collection="customAttributeCollection"
+                                remarks-column-info="remarksColumnInfo"></action-evaluations>
+        </div>
+    </div>
+</div>

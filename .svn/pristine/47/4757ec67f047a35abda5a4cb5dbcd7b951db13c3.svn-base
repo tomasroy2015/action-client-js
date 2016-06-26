@@ -1,0 +1,22 @@
+define(['application-configuration', 'ajaxService'], function (app) {
+
+    app.register.service('datasetService', ['$rootScope', '$http', 'ajaxService', function ($rootScope, $http, ajaxService) {
+
+
+        this.loadDataSet = function (dataset) {
+            ajaxService.AjaxGetWithData(dataset, "dataset/getalldata", this.successFunction, this.errorFunction);
+        };
+
+        this.successFunction = function(response){
+          $rootScope.IsDatasetLoaded = true;
+          $rootScope.dataset = response;
+          $rootScope.$broadcast('datasetService::dataReady',response);
+        };
+
+        this.errorFunction = function(response){
+           //Error handling goes here.
+           window.alert("Error in loading DataSet");
+        };
+
+    }]);
+});

@@ -1,0 +1,20 @@
+"use strict";
+
+define(['application-configuration','dataFactory'], function (app) {
+
+    app.register.controller('headerController', ['$scope','$rootScope','dataFactory', function ($scope,$rootScope,dataFactory) {
+        //console.log('Header Controller running...');
+        $scope.data = dataFactory;
+        $scope.isListViewActive = false;
+        $scope.listview_active = function(){
+            if( !$scope.isListViewActive){
+                $scope.isListViewActive = true;
+                $rootScope.$broadcast("listviewActive");
+            }
+
+        }
+
+    }]);
+
+});
+

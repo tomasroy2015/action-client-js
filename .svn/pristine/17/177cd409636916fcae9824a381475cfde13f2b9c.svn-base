@@ -1,0 +1,25 @@
+<div ng-class="{ 'sortable': sortable }">
+    <!-- <div class="ui-grid-vertical-bar">&nbsp;</div> -->
+    <div class="ui-grid-cell-contents" col-index="renderIndex">
+        <div class="header-label-bottom-border">
+            <span class="header-label">{{ col.displayName }}</span>
+        </div>
+        <ul ng-repeat="item in row.entity.Answers">
+            <!--<li>-->
+                 <!--<span ui-grid-visible="col.sort.direction" ng-class="{ 'ui-grid-icon-up-dir':col.sort.direction == asc}">-->
+            <!--&nbsp;-->
+        <!--</span>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--{{ $index + 1 }}-->
+            <!--</li>-->
+            <!--<li>-->
+                 <!--<span ui-grid-visible="col.sort.direction" ng-class="{'ui-grid-icon-down-dir': col.sort.direction == desc}">-->
+            <!--&nbsp;-->
+        <!--</span>-->
+            <!--</li>-->
+            <span>{{this.$index+1}}</span>
+        </ul>
+
+    </div>
+</div>

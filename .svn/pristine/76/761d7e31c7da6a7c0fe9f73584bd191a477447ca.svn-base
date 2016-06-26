@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="Views/Header/Header.tpl.css"/>
+<div class="row tab-container">
+    <action-tabset>
+        <action-tab title="Map" template-url="Views/Map/MapView.html"></action-tab>
+        <action-tab title="List" template-url="Views/List/ListView.html"></action-tab>
+        <action-tab title="Sentiment" template-url="Views/Sentiment/SentimentView.html"></action-tab>
+    </action-tabset>
+</div>
+
+<!-- Logout btn -->
+<div id="logout">
+    <button type="submit" class="btn btn-success btn-sm" data-ng-click="logOutEvent()">Log out</button>
+</div>

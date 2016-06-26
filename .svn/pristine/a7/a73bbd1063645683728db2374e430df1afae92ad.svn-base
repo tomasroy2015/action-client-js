@@ -1,0 +1,100 @@
+"use strict";
+define(['application-configuration','lodash','customerSettingsFactory'], function (app) {
+    app.register.controller('shortCodeMappingController', ['$scope','$rootScope','customerSettingsFactory','Notify',
+        function ($scope,$rootScope,customerSettingsFactory,Notify) {
+            /* here $scope also inherit parent controller $scope ie 'CustomerSettingsController Scope'.
+             * because ng-include always creates a new scope and
+             * A "child scope" (prototypically) inherits properties from its parent scope.
+             * */
+
+            $scope.displayColl=[];
+            $scope.rowCollection=[];
+            $scope.rowViewCollection=[];
+            $scope.editModalShown=false;
+            initializeData();
+            $scope.$watch( function($scope){ return $scope.selectedCustomer}, function(newValue,oldValue){
+                if(angular.isUndefined(newValue)|| (newValue.CustomerId === oldValue.CustomerId))
+                    return;
+                else{
+                    initializeData();
+                }
+            });
+            function initializeData(){
+                var customer={
+                    sessionId:$scope.currentuser.SessionId,
+                    CustomerId:customerSettingsFactory.GetSelectedCustomer().Others.CustomerId
+                };
+                customerSettingsFactory.GetShortCodeMapping(customer);
+            }
+
+            $scope.$on(Notify.CUSTOMER_SETTINGS_SHORTCODE_MAPPING_DATA_READY, function (event) {
+                $scope.rowCollection=customerSettingsFactory.ShortCodeMappingList();
+                $scope.rowViewCollection=[];
+                var coll = _.values(_.groupBy($scope.rowCollection,'SurveyType'));
+
+                for(var i=0;i<coll.length;i++){
+                    var grpColl=coll[i];
+                    var grpDisplayName="";
+                    grpDisplayName = groupName(grpColl[0].SurveyType);
+
+                    var typeItem={
+                        isGrpType:true,
+                        isEditDeleteHide:true,
+                        DisplayLabel:grpDisplayName
+                    };
+                    $scope.rowViewCollection.push(typeItem);
+
+                    _.forEach(grpColl,function(item){
+                        item.isGrpType=false;
+                        item.isEditDeleteHide=true;
+                        $scope.rowViewCollection.push(item);
+                    })
+                }
+                $scope.displayColl=[].concat($scope.rowViewCollection);
+            });
+
+            var groupName = function GetGroupName(surveyType){
+                var grpName="";
+                switch(surveyType){
+                    case 0:
+                        grpName="Overall survey";
+                        break;
+                    case 1:
+                        grpName="General survey";
+                        break;
+                    case 2:
+                        grpName="Triggered survey";
+                        break;
+                }
+                return grpName;
+            };
+            $scope.edit_ClickHandler= function(data){
+                $scope.editModalShown=true;
+                $scope.mappedData=data;
+                $scope.selectedCustomer.SessionId=$scope.currentuser.SessionId;
+
+            };
+            $scope.rowHover_Handler=function(data){
+                data.isEditDeleteHide=false;
+            };
+            $scope.rowMouseOut_Handler=function(data){
+                data.isEditDeleteHide=true;
+            };
+            $scope.editWindowClose=function(){
+                $scope.editModalShown=false;
+            }
+            $scope.saveShortCodeMapping=function(){
+//                var comparatorColl=[];
+//                _.forEach($scope.displayColl,function(item){
+//
+//                    if(!item.isGrpType){
+//                        comparatorColl.push(item);
+//                    }
+//                });
+//                var attrRoute="/"+$scope.currentuser.SessionId+"/"+customerSettingsFactory.GetSelectedCustomer().Others.CustomerId;
+//                customerSettingsFactory.SaveComparatorMappingSettings(comparatorColl,attrRoute);
+
+            };
+        }]);
+});
+

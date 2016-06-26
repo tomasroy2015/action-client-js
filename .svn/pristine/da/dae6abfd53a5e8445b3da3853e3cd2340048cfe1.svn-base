@@ -1,0 +1,319 @@
+"use strict";
+
+define(['application-configuration', 'dataFilterFactory', 'CreateViewDataFactory'], function (app) {
+
+    app.register.controller('dataFilterController', ['$scope', '$interval', 'dataFactory', 'dataFilterFactory', 'Notify', 'CreateViewDataFactory', 'uiGridTreeViewConstants', function ($scope, $interval, dataFactory, dataFilterFactory, Notify, CreateViewDataFactory, uiGridTreeViewConstants) {
+
+        $scope.dataFilterFactory = dataFilterFactory;
+        $scope.ApplyFilterModelCollection = [];
+        $scope.SelectedItems = [];
+
+
+        $scope.$watch(function () {
+            return dataFilterFactory.GetSelectedAttributeIndex();
+        }, function (newIndex) {
+            if (newIndex !== undefined && newIndex >= 0) {
+                var attDataCollection = dataFactory.GetAtributeScoreDataCollection();
+                var oSelectedServiceArea = dataFactory.GetSelectedServiceArea();
+
+                //updateDataFilerScoreAndRespondent()
+
+                var query = _.filter(attDataCollection, function (n) {
+                    return n.AttributeIndex == newIndex;
+                });
+
+                if (query !== undefined && query.length === 0) {
+                    prepareSelectedAttributeServiceAreaData();
+                }
+                else {
+                    loadDataFilterData(query[0].ScoreDataCollection);
+                }
+            }
+        });
+
+
+        /* LeftMenu Attribute Click Event Listener */
+        $scope.$watch(function () {
+            return dataFilterFactory.GetLeftMenuAttributeClickedEvent() === true;
+        }, function (newVal) {
+            if (newVal) {
+                $scope.SelectedItems = [];
+                updateDataFilerScoreAndRespondent();
+                gridRefresh();
+                dataFilterFactory.SetLeftMenuAttributeClickedEvent(false);
+            }
+        });
+
+        /* LeftMenu Reset Button Click Event Listener */
+        $scope.$watch(function () {
+            return dataFilterFactory.GetDataFilterResetClickedEvent();
+        }, function (newVal) {
+            if (newVal) {
+                $scope.ApplyFilterModelCollection = [];
+                $scope.SelectedItems = [];
+                dataFactory.setGeneralApplyFilter(null);
+                dataFactory.setTriggerApplyFilter(null);
+                dataFilterFactory.SetDataFilterResetClickedEvent(false);
+            }
+        });
+
+        $scope.$on(Notify.ATTRIBUTE_DATA_READY, function (event) {
+            var attDataCollection = dataFactory.GetAtributeScoreDataCollection();
+
+            var cust = dataFactory.CustomAttributeCollection();
+
+            var query = _.filter(attDataCollection, function (n) {
+                return n.AttributeIndex == dataFilterFactory.GetSelectedAttributeIndex();
+            })
+            if (query && query.length > 0) {
+                //var sSA = dataFactory.GetSelectedServiceArea();
+                loadDataFilterData(query[0].ScoreDataCollection);
+            }
+        });
+
+        function loadDataFilterData(data) {
+            //TODO
+            console.log(data);
+            var selectedServiceAreaId = dataFactory.GetSelectedServiceArea().Id;
+            var preparedData = [];
+            _.forEach(data, function (n, key) {
+                var oDataFilterViewData = CreateViewDataFactory.DataFilterViewData(selectedServiceAreaId, n);
+                oDataFilterViewData.$$treeLevel = 0;
+                preparedData.push(oDataFilterViewData);
+                if (n.IsGroup && n.GroupItemsScoreDataCollection && n.GroupItemsScoreDataCollection.length > 0) {
+                    _.forEach(n.GroupItemsScoreDataCollection, function (n2) {
+                        oDataFilterViewData = CreateViewDataFactory.DataFilterViewData(selectedServiceAreaId, n2);
+                        oDataFilterViewData.IsChild = true;
+                        preparedData.push(oDataFilterViewData);
+                    });
+                }
+            });
+            $scope.gridPreparedData = preparedData;
+            gridRefresh();
+        }
+
+        function prepareSelectedAttributeServiceAreaData() {
+            gridReset();
+            var selectedAttribute = {
+                Label: dataFilterFactory.GetSelectedAttribute().Label,
+                Index: dataFilterFactory.GetSelectedAttribute().Index,
+                Type: dataFilterFactory.GetSelectedAttribute().Type
+            };
+
+            var requestParam = attributeRequestParam(selectedAttribute);
+            dataFactory.GetSelectedAttributeScoreData(requestParam);
+        }
+
+        function attributeRequestParam(attr) {
+            var applicationDataInfo = dataFactory.DataInfo();
+            var selectedSurveyType = dataFactory.GetSelectedServiceAreaSurveyType();
+
+            return {
+                sessionID: applicationDataInfo.sessionID,
+                customerID: applicationDataInfo.customerID,
+                fromDate: applicationDataInfo.fromDate,
+                toDate: applicationDataInfo.toDate,
+                attributeIndex: attr.Index,
+                surveyType: selectedSurveyType
+            }
+        };
+
+        //$scope.gridOptions.data = gridPreparedData;
+        //$scope.gridOptions.columnDefs =  $scope.columnDefs;
+
+        $scope.columnDefs = [
+            {
+                field: 'Name', displayName: 'NAME', width: 205,
+                //cellTemplate: '<div class="ui-grid-cell-contents" ng-class="{\'child-item\':row.entity.IsChild}"><input type="checkbox" name="chk" ng-checked="row.isSelected"/><i aria-hidden="true" ng-if="row.entity.IsGroup" ng-click="grid.appScope.toggleRow($event,row)" ng-class="{\'fa fa-play\': row.treeNode.state === \'collapsed\', \'fa fa-play fa-rotate-90\': row.treeNode.state === \'expanded\'}"></i> {{row.entity.Name}}</div>'
+                cellTemplate: '<div class="ui-grid-cell-contents" ng-class="{\'child-item\':row.entity.IsChild}"><i aria-hidden="true" ng-if="row.entity.IsGroup" ng-click="grid.appScope.toggleRow($event,row)" ng-class="{\'fa fa-play\': row.treeNode.state === \'collapsed\', \'fa fa-play fa-rotate-90\': row.treeNode.state === \'expanded\'}" class="group-triangle"></i> {{row.entity.Name}}</div>'
+                , headerCellTemplate: 'Views/DataFilter/DataFilterNameHeaderTemplate.html'
+                //    , cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                //    if (rowRenderIndex === (grid.rows.length-1)) {
+                //        return 'last-item';
+                //    }
+                //}
+            },
+            {field: 'Score', displayName: 'SCORE', width: 80, cellClass: 'center-text'},
+            {field: 'Respondent', displayName: '#RESP', width: 80, cellClass: 'center-text'}];
+
+        $scope.lastItem = function (grid, row) {
+
+            var currentIndex = $scope.gridPreparedData.indexOf(row.entity);
+            // console.log(grid);
+
+            if (currentIndex === (grid.rows.length - 1)) {
+                return 'last-item';
+            }
+        };
+
+        $scope.gridOptions = {
+            //data: 'gridPreparedData',
+            enableSorting: true,
+            rowHeight: 25,
+            //columnDefs: $scope.columnDefs,
+            enableColumnMenus: false,
+            enableRowSelection: true,
+            enableSelectAll: true,
+            showTreeExpandNoChildren: false,
+            showTreeRowHeader: false,
+            selectionRowHeaderWidth: 20,
+            treeRowHeaderAlwaysVisible: false,
+            enableRowHeaderSelection: true,
+            //rowTemplate: '<div><div id="{{rowRenderIndex}}" ng-repeat="col in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell row-color" ui-grid-cell></div></div>'
+            rowTemplate: 'Views/DataFilter/DataFilterRowTemplate.html'
+        };
+
+        $scope.gridOptions.columnDefs = $scope.columnDefs;
+        $scope.gridOptions.enableFullRowSelection = true;
+        $scope.gridOptions.onRegisterApi = function (gridApi) {
+            $scope.gridApi = gridApi;
+            gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+                //$scope.SelectedItems = gridApi.selection.getSelectedRows();
+                if (row && row.isSelected) {
+                    $scope.SelectedItems.push(row.entity);
+                    if (row.treeNode && row.treeNode.children) {
+                        row.treeNode.children.forEach(function (childNode) {
+                            //childNode.row.isSelected = true;
+                            childNode.row.setSelected(true);
+                            $scope.SelectedItems.push(childNode.row.entity);
+                        });
+                    }
+                } else if (row && !row.isSelected) {
+                    var index = -1;
+                    if ($scope.SelectedItems && $scope.SelectedItems.length > 0) {
+                        index = $scope.SelectedItems.indexOf(row.entity);
+                        if (index > -1) {
+                            $scope.SelectedItems.splice(index, 1);
+                        }
+                        if (row.treeNode && row.treeNode.children.length > 0) {
+                            var childIndex = -1;
+                            row.treeNode.children.forEach(function (childNode) {
+                                //childNode.row.isSelected = false;
+                                childNode.row.setSelected(false);
+                                childIndex = $scope.SelectedItems.indexOf(childNode.row.entity);
+                                if (childIndex > -1) {
+                                    $scope.SelectedItems.splice(childIndex, 1);
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        };
+
+        $interval(function () {
+            $scope.gridApi.selection.selectRow($scope.gridOptions.data[0]);
+        }, 0, 1);
+
+        function gridRefresh() {
+            $scope.gridOptions.data = $scope.gridPreparedData;
+            $scope.gridApi.grid.refresh();
+        }
+
+        function gridReset() {
+            $scope.gridPreparedData = [];
+            $scope.gridOptions.data = $scope.gridPreparedData;
+            $scope.gridApi.grid.refresh();
+        }
+
+        function updateDataFilerScoreAndRespondent(){
+            if($scope.gridPreparedData && $scope.gridPreparedData.length > 0) {
+                //DataFilterViewData
+               var tmp = _.forEach($scope.gridPreparedData, function (oDataFilterViewData) {
+                    oDataFilterViewData.SelectedServiceAreaScoreData(dataFactory.GetSelectedServiceArea().Id);
+                });
+                $scope.gridPreparedData = tmp;
+            }
+        }
+
+        $scope.toggleRow = function (event, row) {
+            //$scope.gridApi.treeBase.toggleRowTreeState($scope.gridApi.grid.renderContainers.body.visibleRowCache[rowNum]);
+            $scope.gridApi.treeBase.toggleRowTreeState(row);
+            event.preventDefault();
+            event.stopPropagation();
+        };
+
+        /* Row hovering event handler
+         ======================================================*/
+
+        $scope.rowHover = function (row) {
+            //console.log('row hover...');
+        };
+
+        $scope.rowHoverOut = function (row) {
+            //console.log('row hover out...');
+        };
+
+        /* Apply button event
+         ======================================================*/
+        $scope.btnApplyEventHandler = function () {
+            if ($scope.SelectedItems.length == 0) return;
+            var oSelectedAttribute = dataFilterFactory.GetSelectedAttribute();
+
+            if ($scope.ApplyFilterModelCollection.length > 0) {
+                var findItem = _.find($scope.ApplyFilterModelCollection, {Type: oSelectedAttribute.Type});
+                var delIndex = _.indexOf($scope.ApplyFilterModelCollection, findItem);
+                if (delIndex >= 0) {
+                    $scope.ApplyFilterModelCollection.splice(delIndex, 1);
+                }
+            }
+
+            var selectItemIds = [];
+            _.forEach($scope.SelectedItems, function (item) {
+                selectItemIds.push(item.Id);
+            });
+
+            var attrValue = '';
+            attrValue = oSelectedAttribute.AttributeName;
+            if(selectItemIds.length === 1){
+                attrValue = $scope.SelectedItems[0].Name;
+            }
+
+            var oApplyFilterModel = dataFilterFactory.ApplyFilterModel(oSelectedAttribute.Index, oSelectedAttribute.Type, oSelectedAttribute.VerticaColumnName, selectItemIds,attrValue);
+
+            $scope.ApplyFilterModelCollection.push(oApplyFilterModel);
+
+            prepareApplyData($scope.ApplyFilterModelCollection);
+
+            dataFilterFactory.SetAppliedDataFilterCollection($scope.ApplyFilterModelCollection);
+
+            //var gf = dataFactory.getGeneralApplyFilter();
+            //var tf = dataFactory.getTriggerApplyFilter();
+        };
+
+        function prepareAttributeRoute() {
+            return '/' + dataFactory.DataInfo().customerID + '/' + dataFactory.DataInfo().sessionID;
+        }
+
+        function prepareApplyData(coll) {
+            var genFilter = _.filter(coll, function (item) {
+                return item.Type !== 2;
+            });
+
+            if (genFilter && genFilter.length > 0)
+                dataFactory.setGeneralApplyFilter(prepareApplyFilterParams(genFilter));
+
+            var trigFilter = _.filter(coll, function (item) {
+                return item.Type === 2;
+            });
+
+            if (trigFilter && trigFilter.length > 0)
+                dataFactory.setTriggerApplyFilter(prepareApplyFilterParams(trigFilter));
+        }
+
+        function prepareApplyFilterParams(coll) {
+            var filterString = '', count = 0;
+            _.forEach(coll, function (item) {
+                count++;
+                var prefix = "Fact." + item.VerticaColumnName + " in (";
+                var postfix = item.Ids.join(',') + ')';
+
+                filterString += prefix + postfix;
+                filterString += coll.length !== count ? " AND " : '';
+            });
+            return filterString;
+        }
+
+    }]);
+
+});

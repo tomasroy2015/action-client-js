@@ -1,0 +1,69 @@
+/* All external import files
+======================================================*/
+@import '../Shared/SCSS/_Colors';
+@import '../Shared/SCSS/_Mixins';
+
+/* Variables
+======================================================*/
+$left-arrow-width : 16px;
+$left-arrow-height : 20px;
+
+.data-filter-container {
+  background-color : #ffffff;
+  width    : 100%;
+  height   : 100%;
+  position : relative;
+  .left-arrow-container {
+    position   : absolute;
+    background : $GIARTE_DARK_GRAY;
+    right      : -$left-arrow-width;
+    top : 10px;
+    text-align : center;
+    @include boxShadow(0, 0, 4px, 2px, $GIARTE_DARK_GRAY, 0.5);
+    height     : $left-arrow-height;
+    width      : $left-arrow-width;
+    .fa-caret-left {
+      color          : #fff;
+      font-size      : 1.2em;
+      display        : table-cell;
+      vertical-align : middle;
+      height         : $left-arrow-height;
+      width          : $left-arrow-width;
+    }
+    &:hover {
+      cursor : pointer;
+      .fa-caret-left {
+        color : rgba(#fff, 0.7);
+      }
+    }
+  }
+}
+
+.grid-wrapper{
+  //border : 1px solid #ff0000;
+  height : 100%;
+  width: 100%;
+  position: relative;
+
+}
+.grid-wrapper > .grid {
+  position : absolute;
+  border   : 1px solid #ff0000;
+  width    : 400px !important;
+  height   : 600px !important;
+}
+
+//.grid-wrapper > .grid {
+//  width: 100%;
+//  height: 100%;
+//}
+//
+//div.ui-grid-viewport {
+//  border : 1px solid #ff0000;
+//  width: 100%;
+//  height: 80%;
+//}
+
+//.ui-grid{
+//  height:500px;
+//}

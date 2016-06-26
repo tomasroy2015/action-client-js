@@ -1,0 +1,4 @@
+﻿(function () {
+    'use strict';
+    angular.module(AppModule().MAIN_MODULE , ['ngRoute' , 'door3.css','ui.bootstrap',AppModule().DATA_FILTER]);
+})();

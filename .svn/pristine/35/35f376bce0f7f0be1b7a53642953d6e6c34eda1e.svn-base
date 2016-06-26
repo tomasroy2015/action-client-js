@@ -1,0 +1,63 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionOverallEvaluationSummary', [function () {
+
+        return {
+            restrict: 'AE',
+
+            scope:{
+               selectedAttributeScore:"="
+            },
+            templateUrl: 'Views/Shared/Template/OSEvaluationSummaryTemplate.html',
+            link:function (scope, el, attr) {
+
+                scope.$watch(function(scope) {return scope.selectedAttributeScore}, function (newValue,oldValue) {
+
+                    if(!angular.isUndefined(newValue.Id)) {
+                        if(newValue.Id.indexOf('OS') > -1) {
+
+                            if(angular.isUndefined(newValue.frequency1 )) return;
+
+                            var bar1 = el.find('#bar1');
+                            $(bar1).css({"height": (newValue.frequency1.Frequency / newValue.Respondent)*300 + 'px'});
+
+                            var bar2 = el.find('#bar2');
+                            $(bar2).css({"height": (newValue.frequency2.Frequency / newValue.Respondent)*300 + 'px'});
+
+                            var bar3 = el.find('#bar3');
+                            $(bar3).css({"height": (newValue.frequency3.Frequency / newValue.Respondent)*300 + 'px'});
+
+                            var bar4 = el.find('#bar4');
+                            $(bar4).css({"height": (newValue.frequency4.Frequency / newValue.Respondent)*300 + 'px'});
+
+                            var bar5 = el.find('#bar5');
+                            $(bar5).css({"height": (newValue.frequency5.Frequency / newValue.Respondent)*300 + 'px'});
+
+                            var bar6 = el.find('#bar6');
+                            $(bar6).css({"height": (newValue.frequency6.Frequency / newValue.Respondent)*300 + 'px'});
+
+                            var bar7 = el.find('#bar7');
+                            $(bar7).css({"height": (newValue.frequency7.Frequency / newValue.Respondent)*300 + 'px'});
+
+                            var bar8 = el.find('#bar8');
+                            $(bar8).css({"height": (newValue.frequency8.Frequency / newValue.Respondent)*300 + 'px'});
+
+                            var bar9 = el.find('#bar9');
+                            $(bar9).css({"height": (newValue.frequency9.Frequency / newValue.Respondent)*300  + 'px'});
+
+                            var bar10 = el.find('#bar10');
+                            $(bar10).css({"height": (newValue.frequency10.Frequency / newValue.Respondent)*300 + 'px'});
+                        }
+
+                    }
+                });
+
+            }
+        };
+
+    }]);
+
+});
+

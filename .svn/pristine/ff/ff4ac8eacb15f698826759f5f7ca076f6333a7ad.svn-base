@@ -1,0 +1,31 @@
+.service-areas {
+  padding-top: 10px; }
+  .service-areas span {
+    padding-left: 5px;
+    font-weight: bold;
+    color: #000; }
+
+.nav-tabs > li > a {
+  height: 32px;
+  margin-right: 2px;
+  line-height: 1.42857143;
+  border: none;
+  border-radius: 0;
+  background-color: #ddddde;
+  color: #000; }
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+  color: #000;
+  cursor: default;
+  background-color: #fff;
+  border: none !important;
+  border-bottom-color: transparent !important; }
+
+.ac-collasped-panel {
+  font-size: 0.9em;
+  color: #000;
+  border-bottom: 1px solid;
+  margin-bottom: 5px;
+  cursor: pointer; }
+
+/*# sourceMappingURL=LeftMenuTemplate.css.map */

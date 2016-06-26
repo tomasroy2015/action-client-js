@@ -1,0 +1,36 @@
+"use strict";
+define(['application-configuration'], function (app) {
+    app.register.directive("actionCompareWithSettings", function () {
+        return {
+            restrict   : 'EA',
+            scope      : {
+                selectedComparator: '=',
+                updateComparator: '&',
+                doubleTargetSelection: '&',
+                initComparator:'&'
+            },
+            link       : function (scope, el, attr) {
+               var selectedComparator = scope.selectedComparator;
+
+                scope.compareSettingsCustomValue = {
+                    min: 10,
+                    max: 100,
+                    step: 2,
+                    precision:50,
+                    value:50,
+                    orientation: 'horizontal',  // vertical
+                    handle: 'square', //'square', 'triangle' or 'custom'
+                    tooltip: 'hide', //'hide','always'
+                    tooltipseparator: ':',
+                    tooltipsplit: false,
+                    enabled: true,
+                    naturalarrowkeys: false,
+                    range: false,
+                    ngDisabled: false,
+                    reversed: false
+                };
+            },
+            templateUrl: "Views/LeftMenuSettings/CompareWithSettingsTemplate.html"
+        }
+    });
+});

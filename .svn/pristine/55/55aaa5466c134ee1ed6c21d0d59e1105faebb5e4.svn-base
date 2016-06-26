@@ -1,0 +1,4 @@
+<div style="width: 78%;height: 100%;background-color: #fff"  ng-controller="evaluationController">
+    <action-evaluations evaluation-collection="serviceAreaEvaluationViewData"
+                        has-translation="hasTranslation"></action-evaluations>
+</div>

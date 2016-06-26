@@ -1,0 +1,20 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionDataSetAccordion', [function () {
+
+        return {
+            restrict: 'AE',
+            scope   : {
+                dataset: "=data"
+            },
+            link    : function (scope,el, attrs) {
+
+            },
+            templateUrl:'Views/DatasetAccordion/DatasetTemplate.html'
+        };
+
+    }]);
+
+});

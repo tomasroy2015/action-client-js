@@ -1,0 +1,192 @@
+<!--<div class="container-fluid">-->
+<!--<div class="row body">-->
+<!--<div class="col-sm-2 col-md-2 left-menu">-->
+<!--Left menu-->
+<!--</div>-->
+<!--<div class="col-sm-1 col-md-1 drawer-btn">x</div>-->
+<!--<div class="col-sm-9 col-md-9 right-pane">-->
+<!--Rith contents-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="container">-->
+<!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="col-xs-12 header">&ndash;&gt;-->
+<!--&lt;!&ndash;<h1>Header</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--<div class="row">-->
+<!--<div class="col-md-3 left-menu visible-lg">-->
+<!--<h1>Nav</h1>-->
+<!--</div>-->
+<!--<div class="col-md-9 right-content">-->
+<!--<h1>Content</h1>-->
+
+<!--<p>Lorem ipsum dolor sit amet, eam dictas utamur vituperatoribus ei, alii idque invenire eu eum. Mei ut-->
+<!--patrioque consequuntur, utinam delenit has id, ut natum officiis vix. Vel eu equidem laoreet, an sit-->
+<!--delicata partiendo interesset. Oratio quidam suscipiantur usu ei.-->
+<!--</p>-->
+
+<!--<p>-->
+<!--Esse atqui nec ut, alii tale ea has. Mea offendit constituto posidonium id, et aperiam mentitum qui.-->
+<!--Deserunt tacimates dignissim pro et, ne quidam apeirian pro. Aeterno principes sit et, et nec liber-->
+<!--utinam iudicabit, ex tation perpetua mnesarchum est.-->
+<!--</p>-->
+<!--<p>Lorem ipsum dolor sit amet, eam dictas utamur vituperatoribus ei, alii idque invenire eu eum. Mei ut-->
+<!--patrioque consequuntur, utinam delenit has id, ut natum officiis vix. Vel eu equidem laoreet, an sit-->
+<!--delicata partiendo interesset. Oratio quidam suscipiantur usu ei.-->
+<!--</p>-->
+
+<!--<p>-->
+<!--Esse atqui nec ut, alii tale ea has. Mea offendit constituto posidonium id, et aperiam mentitum qui.-->
+<!--Deserunt tacimates dignissim pro et, ne quidam apeirian pro. Aeterno principes sit et, et nec liber-->
+<!--utinam iudicabit, ex tation perpetua mnesarchum est.-->
+<!--</p>   <p>Lorem ipsum dolor sit amet, eam dictas utamur vituperatoribus ei, alii idque invenire eu eum. Mei ut-->
+<!--patrioque consequuntur, utinam delenit has id, ut natum officiis vix. Vel eu equidem laoreet, an sit-->
+<!--delicata partiendo interesset. Oratio quidam suscipiantur usu ei.-->
+<!--</p>-->
+
+<!--<p>-->
+<!--Esse atqui nec ut, alii tale ea has. Mea offendit constituto posidonium id, et aperiam mentitum qui.-->
+<!--Deserunt tacimates dignissim pro et, ne quidam apeirian pro. Aeterno principes sit et, et nec liber-->
+<!--utinam iudicabit, ex tation perpetua mnesarchum est.-->
+<!--</p>   <p>Lorem ipsum dolor sit amet, eam dictas utamur vituperatoribus ei, alii idque invenire eu eum. Mei ut-->
+<!--patrioque consequuntur, utinam delenit has id, ut natum officiis vix. Vel eu equidem laoreet, an sit-->
+<!--delicata partiendo interesset. Oratio quidam suscipiantur usu ei.-->
+<!--</p>-->
+
+<!--<p>-->
+<!--Esse atqui nec ut, alii tale ea has. Mea offendit constituto posidonium id, et aperiam mentitum qui.-->
+<!--Deserunt tacimates dignissim pro et, ne quidam apeirian pro. Aeterno principes sit et, et nec liber-->
+<!--utinam iudicabit, ex tation perpetua mnesarchum est.-->
+<!--</p>   <p>Lorem ipsum dolor sit amet, eam dictas utamur vituperatoribus ei, alii idque invenire eu eum. Mei ut-->
+<!--patrioque consequuntur, utinam delenit has id, ut natum officiis vix. Vel eu equidem laoreet, an sit-->
+<!--delicata partiendo interesset. Oratio quidam suscipiantur usu ei.-->
+<!--</p>-->
+
+<!--<p>-->
+<!--Esse atqui nec ut, alii tale ea has. Mea offendit constituto posidonium id, et aperiam mentitum qui.-->
+<!--Deserunt tacimates dignissim pro et, ne quidam apeirian pro. Aeterno principes sit et, et nec liber-->
+<!--utinam iudicabit, ex tation perpetua mnesarchum est.-->
+<!--</p>   <p>Lorem ipsum dolor sit amet, eam dictas utamur vituperatoribus ei, alii idque invenire eu eum. Mei ut-->
+<!--patrioque consequuntur, utinam delenit has id, ut natum officiis vix. Vel eu equidem laoreet, an sit-->
+<!--delicata partiendo interesset. Oratio quidam suscipiantur usu ei.-->
+<!--</p>-->
+
+<!--<p>-->
+<!--Esse atqui nec ut, alii tale ea has. Mea offendit constituto posidonium id, et aperiam mentitum qui.-->
+<!--Deserunt tacimates dignissim pro et, ne quidam apeirian pro. Aeterno principes sit et, et nec liber-->
+<!--utinam iudicabit, ex tation perpetua mnesarchum est.-->
+<!--</p>-->
+
+<!--</div>-->
+<!--<div class="clearfix"></div>-->
+<!--</div>-->
+<!--</div>-->
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="col-md-3 left-menu">
+            <!--<h1>Nav</h1>-->
+
+            <!--<div style="border: 1px solid #ff0000;height: 100px" ng-include="'app/components/datafilter/accordionPanel.html'"></div>-->
+            <!--<accordion>-->
+                <!--<accordion-group  ng-repeat="group in vm.groups">-->
+                    <!--{{vm.group.content}}-->
+                <!--</accordion-group>-->
+            <!--</accordion>-->
+            <!--<div ng-repeat="group in vm.groups"> {{group.content}}</div>-->
+
+            <!--<accordion close-others="oneAtATime">-->
+                <!--<accordion-group heading="{{group.title}}" ng-repeat="group in vm.groups">-->
+                    <!--{{group.content}}-->
+                <!--</accordion-group>-->
+            <!--</accordion>-->
+
+            <!--<div ng-include="'app/components/datafilter/accordionDiv.html'"></div>-->
+            <div id="logo">
+                <img class="logo" src="assets/img/dsm.png"/>
+            </div>
+
+            <div ng-include="'app/components/datafilter/accordionPanel.html'"></div>
+        </div>
+        <div class="col-md-9 right-content">
+            <div class="container-fluid">
+                <div class="row content-page-header">
+
+                </div>
+                <div  class="row content-main">
+                    <div>
+                        <!--<p>Lorem ipsum dolor sit amet, eam dictas utamur vituperatoribus ei, alii idque invenire eu eum.-->
+                            <!--Mei-->
+                            <!--ut-->
+                            <!--patrioque consequuntur, utinam delenit has id, ut natum officiis vix. Vel eu equidem-->
+                            <!--laoreet, an-->
+                            <!--sit-->
+                            <!--delicata partiendo interesset. Oratio quidam suscipiantur usu ei.-->
+                        <!--</p>-->
+
+                        <!--<p>-->
+                            <!--Esse atqui nec ut, alii tale ea has. Mea offendit constituto posidonium id, et aperiam-->
+                            <!--mentitum-->
+                            <!--qui.-->
+                            <!--Deserunt tacimates dignissim pro et, ne quidam apeirian pro. Aeterno principes sit et, et-->
+                            <!--nec-->
+                            <!--liber-->
+                            <!--utinam iudicabit, ex tation perpetua mnesarchum est.-->
+                        <!--</p>-->
+
+                        <!--<p>Lorem ipsum dolor sit amet, eam dictas utamur vituperatoribus ei, alii idque invenire eu eum.-->
+                            <!--Mei-->
+                            <!--ut-->
+                            <!--patrioque consequuntur, utinam delenit has id, ut natum officiis vix. Vel eu equidem-->
+                            <!--laoreet, an-->
+                            <!--sit-->
+                            <!--delicata partiendo interesset. Oratio quidam suscipiantur usu ei.-->
+                        <!--</p>-->
+
+                        <!--<p>-->
+                            <!--Esse atqui nec ut, alii tale ea has. Mea offendit constituto posidonium id, et aperiam-->
+                            <!--mentitum-->
+                            <!--qui.-->
+                            <!--Deserunt tacimates dignissim pro et, ne quidam apeirian pro. Aeterno principes sit et, et-->
+                            <!--nec-->
+                            <!--liber-->
+                            <!--utinam iudicabit, ex tation perpetua mnesarchum est.-->
+                        <!--</p>-->
+
+                        <!--<p>Lorem ipsum dolor sit amet, eam dictas utamur vituperatoribus ei, alii idque invenire eu eum.-->
+                            <!--Mei-->
+                            <!--ut-->
+                            <!--patrioque consequuntur, utinam delenit has id, ut natum officiis vix. Vel eu equidem-->
+                            <!--laoreet, an-->
+                            <!--sit-->
+                            <!--delicata partiendo interesset. Oratio quidam suscipiantur usu ei.-->
+                        <!--</p>-->
+
+                        <!--<p>-->
+                            <!--Esse atqui nec ut, alii tale ea has. Mea offendit constituto posidonium id, et aperiam-->
+                            <!--mentitum-->
+                            <!--qui.-->
+                            <!--Deserunt tacimates dignissim pro et, ne quidam apeirian pro. Aeterno principes sit et, et-->
+                            <!--nec-->
+                            <!--liber-->
+                            <!--utinam iudicabit, ex tation perpetua mnesarchum est.-->
+                        <!--</p>-->
+
+                        <!--<p>Lorem ipsum dolor sit amet, eam dictas utamur vituperatoribus ei, alii idque invenire eu eum.-->
+                            <!--Mei-->
+                            <!--ut-->
+                            <!--patrioque consequuntur, utinam delenit has id, ut natum officiis vix. Vel eu equidem-->
+                            <!--laoreet, an-->
+                            <!--sit-->
+                            <!--delicata partiendo interesset. Oratio quidam suscipiantur usu ei.-->
+                        <!--</p>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

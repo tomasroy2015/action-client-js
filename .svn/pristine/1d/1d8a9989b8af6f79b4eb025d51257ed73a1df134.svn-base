@@ -1,0 +1,38 @@
+define(['application-configuration', 'dataService', 'lodash'], function (app) {
+
+    app.register.factory('customerSettingsFactory', ['$rootScope', '$http', 'dataService', 'Notify',
+        function ($rootScope, $http, dataService, Notify ) {
+
+            var customerUsersList=null;
+            var errorFunction = function (response) {
+                //Error handling goes here.
+                window.alert("Error in settings operation");
+            };
+            var onUpdateGeneralSettings=function(response){
+
+            };
+            var onDeleteUserAccountSuccess=function(response){
+
+            }
+            var onGetCustomerUsersList=function(response){
+                customerUsersList=response;
+                $rootScope.$broadcast(Notify.CUSTOMER_SETTINGS_USER_DATA_READY);
+            }
+            return{
+                UpdateGeneralSettings:function(dataModel,attributeRoute){
+                  return  dataService.updateGeneralSettings(dataModel,attributeRoute,onUpdateGeneralSettings,errorFunction);
+
+                },
+               GetCustomerUsersList:function(customer){
+                    return dataService.getUsersByCustomer(customer,onGetCustomerUsersList,errorFunction);
+                },
+                CustomerUsersList:function(){
+                  return customerUsersList;
+                },
+                DeleteUserAccount:function(user){
+                    return dataService.deleteUserAccount(user,onDeleteUserAccountSuccess,errorFunction);
+                }
+            };
+
+        }]);
+});

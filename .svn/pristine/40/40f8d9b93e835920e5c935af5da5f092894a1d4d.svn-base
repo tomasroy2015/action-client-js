@@ -1,0 +1,44 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.controller('fullScorecardController', ['$scope', 'serviceAreaScoreData', function ($scope, serviceAreaScoreData) {
+
+        console.log('fullScorecardController>>>>>>');
+        $scope.generalSurveyData = {};
+        $scope.triggerSurveyData = {};
+
+        $scope.$watch(function () {
+            return serviceAreaScoreData.GetGeneralSurveyCollection() || serviceAreaScoreData.GetTriggerSurveyCollection();
+        }, function (val) {
+            if (val.length !== undefined) {
+                var contentWidth = 0;
+                var generalSurveyCollection = _.filter(serviceAreaScoreData.GetGeneralSurveyCollection(), function (n) {
+                    return n.SurveyType == "GEN";
+                });
+                var triggerSurveyCollection = _.filter(serviceAreaScoreData.GetTriggerSurveyCollection(), function (n) {
+                    return n.Id !== "SES";
+                });
+                $scope.generalSurveyData = generalSurveyCollection;
+                $scope.triggerSurveyData = triggerSurveyCollection;
+
+                var gen = generalSurveyCollection.length;
+                var trig = serviceAreaScoreData.GetTriggerSurveyCollection().length;
+
+                if (gen >= trig) {
+                    contentWidth = (298 * gen) + 52;
+                } else {
+                    contentWidth = (298 * trig) + 52;
+                }
+
+                $('.general-survey-wrapper').css({width: contentWidth});
+                $('.trigger-survey-wrapper').css({width: contentWidth});
+            }
+
+        });
+
+
+    }]);
+
+});
+

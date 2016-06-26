@@ -1,0 +1,127 @@
+/**
+ * Created by Tomas on 8/16/2015.
+ */
+"use strict";
+define(['application-configuration','lodash'], function (app) {
+    app.register.directive('actionAddEditRegionMapping',['customerSettingsFactory','Notify',
+        function (customerSettingsFactory,Notify) {
+            return {
+                restrict: 'E',
+                scope: {
+                    show: '=info',
+                    message:'=',
+                    data:'=',
+                    selectedData:'=',
+                    windowCloseListener:'&',
+                    customer:'=',
+                    isEdit:'='
+                },
+                controller:function($scope){
+                    $scope.latDegree="";
+                    $scope.latMinute="";
+                    $scope.latSecond="";
+                    $scope.lonDegree="";
+                    $scope.lonMinute="";
+                    $scope.lonSecond="";
+                    $scope.latitudes = [{Value:"N"},{Value:"S"}];
+                    $scope.longitudes = [{Value:"E"},{Value:"W"}];
+                    $scope.selectedLatitude = $scope.latitudes[0];
+                    $scope.selectedLongitude =  $scope.longitudes[0];
+                    $scope.latitudeChange = function(lat){
+                        $scope.selectedLatitude.Value = lat.Value;
+                    };
+                    $scope.longitudeChange = function(lon){
+                        $scope.selectedLongitude.Value = lon.Value;
+                    };
+                },
+                link:function (scope, el, attrs) {
+                    scope.mapData = {};
+                    scope.selectedRegion = {};
+                    scope.countries = [];
+                    scope.distinctRegionList = [];
+                    angular.copy(scope.data,scope.mapData);
+                    scope.dialogStyle = {};
+                    scope.valueText = "City(s)";
+
+                    if (attrs.width)
+                        scope.dialogStyle.width = attrs.width;
+                    if (attrs.height)
+                        scope.dialogStyle.height = attrs.height;
+                    scope.hideModal = function() {
+                        scope.show = false;
+                        scope.windowCloseListener();
+                    };
+
+                    InitializeData();
+                    function InitializeData(){
+                        scope.countries = scope.mapData.MappedCountryList;
+
+                        if(!scope.isEdit){
+                            scope.title = "Add region mapping";
+                            scope.selectedCountry= scope.countries[0];
+
+                        }else{
+                            scope.title = "Edit region mapping";
+                            angular.copy(scope.selectedData,scope.selectedRegion);
+                            var cIndex = _.findIndex(scope.countries ,function(n){
+                                return n.Countrykey === scope.selectedRegion.CountryId;
+                            });
+                            scope.selectedCountry= scope.countries[cIndex];
+                            if(scope.selectedRegion.RegionMappingDetails){
+                                _.forEach(scope.selectedRegion.RegionMappingDetails,function(f){
+                                  scope.distinctRegionList.push({isSelected:true,Value: f.MappedValue});
+                            });
+                           }
+                        }
+                        if(scope.mapData.UnmappedRegionCollection && scope.mapData.UnmappedRegionCollection.length > 0){
+                            _.forEach(scope.mapData.UnmappedRegionCollection,function(f){
+                                scope.distinctRegionList.push({isSelected:false,Value: f});
+                            });
+                        }
+                        if(scope.customer.RegionMappingAttributeIndex != null && !angular.isUndefined(scope.customer.RegionMappingAttributeIndex)){
+                            scope.valueText = (scope.customer.RegionMappingAttributeIndex == 3) ? "Site(s)" : "City(s)";
+                        }
+                        scope.selectedRegion.CountryId = scope.selectedCountry.Countrykey;
+//                        var customer={
+//                            SessionId:scope.customer.SessionId,
+//                            CustomerId: scope.customer.CustomerId,
+//                            FromDate:new Date(new Date().getFullYear(), new Date().getMonth() - 11, 1),
+//                            ToDate:new Date((new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)) - 1)
+//                        };
+//                        customerSettingsFactory.GetDistinctCountryList(customer);
+                    }
+                    scope.$on(Notify.CUSTOMER_SETTINGS_REGIONMAPPING_ADD_UPDATE_SUCCESS,function(event){
+                        scope.hideModal();
+                    });
+                    scope.addEditRegionMapping=function(){
+                        scope.selectedRegion.RegionMappingDetails = [];
+                        refreshObject(scope.selectedRegion);
+                        addMappedValues(scope.selectedRegion);
+                        var attrRoute="/"+scope.customer.SessionId+"/"+scope.customer.CustomerId;
+                        customerSettingsFactory.AddUpdateRegionMapping(scope.selectedRegion,attrRoute);
+                    };
+                    var refreshObject = function(selectedRegion){
+                        var latitude = scope.latDegree+"° "+scope.latMinute+" ' "+scope.latSecond+" \" "+scope.selectedLatitude.Value;
+                        var longitude = scope.lonDegree+"° "+scope.lonMinute+" ' "+scope.lonSecond+" \" "+scope.selectedLongitude.Value;
+                        selectedRegion.Latitude = latitude;
+                        selectedRegion.Longitude = longitude;
+
+                        return selectedRegion;
+                    };
+                    var addMappedValues = function(selectedRegion){
+                        _.forEach(scope.distinctRegionList,function(f){
+                            if(f.isSelected){
+                                selectedRegion.RegionMappingDetails.push({RegionMappingId:-1,MappedValue: f.Value});
+                            }
+                        });
+                        return selectedRegion;
+                    };
+                    scope.countrySelectionChange = function(country){
+                        scope.selectedRegion.CountryId = country.Countrykey;
+                    }
+                },
+                templateUrl: 'Views/CustomerSettings/RegionMapping/AddEditRegionMappingTemplate.html'
+            };
+        }]);
+
+});

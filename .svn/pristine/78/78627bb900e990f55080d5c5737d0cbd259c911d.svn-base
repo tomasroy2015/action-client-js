@@ -1,0 +1,448 @@
+html {
+  position   : relative;
+  min-height : 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom : 45px;
+  min-height    : 400px;
+  font-family   : "AkkuratStd-Regular";
+  /*400px*/
+  color         : #000000;
+}
+
+.dataset-container {
+  max-width : 680px;
+  padding   : 0 15px;
+  min-width : 455px;
+}
+
+.dataset-container .page-header {
+  border-bottom : none;
+}
+
+.dataset-container .page-header .panel {
+  border-radius : 0;
+}
+
+.dataset-container .page-header .panel.panel-default {
+  opacity       : 0.9;
+  /*height: 380px;*/
+  /*350px*/
+  width         : 425px;
+  margin-left   : auto;
+  margin-right  : auto;
+  border-radius : 0;
+}
+
+.panel-heading {
+  background-image : url("");
+  background-color : #000 !important;
+  color            : #fff !important;
+  height           : 57px;
+  line-height      : 42px;
+  font-size        : 1.416666666666667em;
+  /* 17px/12px */
+  text-shadow      : none;
+  border-radius    : 0;
+}
+
+.panel-heading .logo {
+  float        : right;
+  margin-top   : 10px;
+  margin-right : 10px;
+}
+
+.panel-body-container {
+  padding : 18px;
+}
+
+.panel-body-container .content-heading {
+  font-weight : bold;
+  font-size   : 1em;
+  font-weight : bold;
+  color       : #000000
+}
+
+.panel-body-container #ddlClient {
+  margin-left   : 20px;
+  padding-left  : 3px;
+  width         : 180px;
+  height        : 24px;
+  border-radius : 0;
+  font-weight   : normal;
+}
+
+input[type='radio'] {
+  margin-top : 0;
+  color      : #000000;
+}
+
+#ddlMonthSelect input[type='radio'], #ddlQuarterSelection input[type='radio'] {
+  margin-left   : 5px;
+  margin-top    : 0;
+  padding-left  : 3px;
+  width         : 180px;
+  height        : 24px;
+  border-radius : 0;
+  font-weight   : normal;
+}
+
+.btn-group > div {
+  margin-bottom : 5px;
+}
+
+.btn-group > div#monthDdlContainer, .btn-group > div#quarterDdlContainer {
+  display : flex;
+}
+
+select#ddlMonthSelect {
+  width       : 150px;
+  height      : 24px;
+  margin-left : 20px;
+}
+
+select#ddlQuarterSelection {
+  width       : 150px;
+  height      : 24px;
+  margin-left : 14px;
+}
+
+.form-group {
+  margin-bottom : 15px;
+  height        : 15px;
+}
+
+.form-group.form-checkbox-panel {
+  margin-top : 20px;
+  /*padding-left: 25px;*/
+  /*padding-right: 25px;*/
+}
+
+.form-group #inputFromDate {
+  margin-left : -4px;
+  color       : #000000;
+}
+
+.form-group #inputToDate {
+  color       : #000000;
+  margin-left : -4px;
+}
+
+.button-container {
+  position   : relative;
+  color      : #fff;
+  margin-top : 10px;
+}
+
+.btn-white-bg {
+  padding-top      : 0;
+  height           : 26px;
+  line-height      : 26px;
+  background-color : #878787;
+  border-radius    : 0;
+}
+
+.btn-white-bg:hover {
+  background-color : #555759;
+  color            : #fff;
+}
+
+.right-side {
+  position : absolute;
+  left     : 37%;
+  color    : #fff;
+}
+
+#datePanel {
+  margin-left : 15px;
+  width       : 385px;
+}
+
+.form-horizontal {
+  /*border-bottom: 1px solid #d3d3d3;*/
+}
+
+.form-horizontal .control-label {
+  text-align : right;
+  left       : 20px;
+  height     : 18px;
+}
+
+.dataset-sel-group {
+  margin-left : 42px;
+  margin-top  : -16px;
+}
+
+.dataset-header-container {
+  border-bottom : 1px solid #000000;
+  font-weight   : bold;
+  font-size     : 1em;
+  font-weight   : bold;
+  color         : #000000;
+  margin-top    : 18px;
+}
+
+.dataset-label {
+  padding-left : -16px;
+}
+
+.footer {
+  position         : absolute;
+  bottom           : 0;
+  width            : 100%;
+  /* Set the fixed height of the footer here */
+  height           : 45px;
+  background-color : #555759;
+  min-width        : 455px;
+  left             : 0;
+}
+
+.url-container {
+  right     : 20px;
+  position  : absolute;
+  transform : translateY(100%);
+  color     : #fff;
+}
+
+.url-container:hover {
+  cursor          : pointer;
+  text-decoration : none;
+  color           : #ddddde;
+  opacity         : 0.7;
+  filter          : alpha(opacity=45);
+}
+
+.footer > .container > .version-container {
+  position  : absolute;
+  color     : #000000;
+  left      : 8px;
+  transform : translateY(100%);
+}
+
+.right-arrow-container {
+  right     : 34px;
+  position  : absolute;
+  transform : translateY(69%);
+}
+
+.arrow-container {
+  right     : 36px;
+  position  : absolute;
+  transform : translateY(90%);
+}
+
+.url-container > a {
+  text-decoration : none;
+  color           : #fff;
+}
+
+/*---------Settings-----*/
+.dataSet-settings-logo {
+  position : absolute;
+  top      : 13px;
+  right    : 10px;
+  cursor   : pointer;
+}
+
+.dataSet-settings-logo:hover {
+  color          : #ddddde;
+  opacity        : .5;
+  filter         : alpha(opacity=50);
+  filter         : brightness(-60%);
+  -webkit-filter : brightness(-60%);
+}
+
+.dataSet-settings-logo .app-settings {
+  color : inherit !important;
+}
+
+.dataSet-settings-logo .app-settings-icon {
+  font-size : 20px !important;
+}
+
+/*-------------Log out button------------*/
+.dataSet-logout-container, .btn-back-dataset {
+  position    : absolute;
+  margin-top  : 13px;
+  height      : 20px;
+  right       : 62px;
+  cursor      : pointer;
+  font-size   : 14px;
+  color       : #000 !important;
+  font-family : "AkkuratStd-Regular";
+}
+
+.dataSet-header-font-size {
+  font-size : 13px;
+  /*font-family: "AkkuratStd-Regular", "Segoe UI Light", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;*/
+}
+
+/*.dataSet-header-font-size:hover{*/
+/*text-decoration : none;*/
+/*color           : #ddddde;*/
+/*}*/
+
+.dataSet-logout-container .logout-url-container {
+  right     : 60px;
+  position  : absolute;
+  transform : translateY(100%);
+}
+
+.dataSet-logout-right-arrow-container {
+  right     : -20px;
+  top       : -13px;
+  position  : absolute;
+  transform : translateY(69%);
+}
+
+.dataSet-logout-arrow-container {
+  right     : -18px;
+  top       : -19px;
+  position  : absolute;
+  transform : translateY(90%);
+}
+
+.dataSet-logout-arrow-container:hover {
+  text-decoration : none;
+  color           : #555759;
+}
+
+.dataSet-logout-circle-arrow-size-2x {
+  vertical-align : middle;
+  padding-left   : 5px;
+  font-size      : 1.25em;
+}
+
+/*New style without form*/
+.create-dataset-radiogroup-panel {
+  margin-left : 25px;
+  color       : #000000;
+}
+
+.create-dataset-radiogroup-panel .radio.create-dataset-radio {
+  height      : 24px;
+  font-weight : normal;
+  color       : #000000;
+}
+
+.create-dataset-radiogroup-panel .create-daterange-panel {
+  margin-left : 45px;
+}
+
+.create-dataset-radiogroup-panel .create-daterange-panel .row.create-custom-row {
+  height : 30px;
+  width  : 180px;
+}
+
+.create-dataset-radiogroup-panel #cboMonthSelect {
+  margin-left   : 95px;
+  position      : absolute;
+  margin-top    : -40px;
+  padding-left  : 3px;
+  height        : 24px;
+  border-radius : 0;
+  font-weight   : normal;
+  width         : 150px;
+  color         : #000000;
+}
+
+.create-dataset-radiogroup-panel #cboQuarterSelect {
+  margin-left   : 95px;
+  margin-top    : -42px;
+  position      : absolute;
+  padding-left  : 3px;
+  height        : 24px;
+  border-radius : 0;
+  font-weight   : normal;
+  width         : 150px;
+  color         : #000000;
+}
+
+.create-dataset-date-picker {
+  margin-left : 5px;
+  width       : 150px;
+  height      : 24px;
+}
+
+.dataset-container .col-md-3 {
+  text-align : left;
+  width      : 24%;
+  color      : #333;
+}
+
+.create-footer-separator {
+  border-bottom : 1px solid #d3d3d3;
+  margin-top    : 20px;
+}
+
+.dataSet-footer-circle-arrow-size-2x {
+  vertical-align : middle;
+  margin-left    : 5px;
+  font-size      : 1.5em;
+  color          : #fff;
+}
+
+/*End*/
+/*-------------------------------------------------
+                Media Query Section
+-------------------------------------------------*/
+@media only screen and (min-width : 768px) {
+  .dataset-container .page-header {
+    top         : 45%;
+    left        : 50%;
+    font-family : "AkkuratStd-Regular";
+    /*height: 420px;*/
+    /*width: 425px;*/
+    position    : fixed;
+    margin-left : -212.5px;
+    margin-top  : -197.5px;
+  }
+  .dataset-container .page-header .panel.panel-default {
+    opacity       : 0.9;
+    height        : 420px;
+    /*width: 425px;*/
+    margin-left   : auto;
+    margin-right  : auto;
+    border-radius : 0;
+  }
+
+  .form-checkbox-panel {
+    margin-top : 20px;
+  }
+}
+
+@media (min-width : 768px) {
+  .col-sm-9 {
+    /* width: 75%; */
+    left : 10px;
+  }
+}
+
+//Aug30
+.btn-back-dataset {
+  font-size: 1.2em;
+  position: absolute;
+  margin-top: 12px;
+  height: 20px;
+  right: 40px;
+  cursor: pointer;
+  a{
+    text-decoration: none;
+  }
+  a:hover{
+    opacity: 0.6;
+  }
+  .fa-arrow-left {
+    font-size: 1.4em;
+    color     : #000000;
+  }
+  .lblBack {
+    position:relative;
+    font-size: 1em;
+    padding-left: 3px;
+    top:-2px;
+    color: #000000;
+  }
+}

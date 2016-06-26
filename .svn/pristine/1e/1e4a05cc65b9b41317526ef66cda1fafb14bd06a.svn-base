@@ -1,0 +1,231 @@
+
+
+/*-----------------------------------
+actionScoreBar directive style
+-------------------------------------*/
+.lisview-container {
+    padding-top: 0px;
+    width: 98%;
+    margin-top: 0px;
+    /*border : 1px solid deeppink;*/
+    height:100%;
+    min-height:100%;
+}
+
+.lisview-container .row-container{
+    margin-right: 0;
+    margin-left: 0;
+}
+.selected {
+    background-color: #c8c8c8;
+}
+
+ td div {
+     width: 200px;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+ }
+
+ .table  tbody > tr div{
+     height: 40px;
+ }
+
+ .table thead > tr > th {
+     vertical-align: bottom;
+     border-bottom: 1px solid #000000;
+ }
+
+ #nameContainerDiv.row{
+     margin-right: 0px !important;
+     margin-left: 0px !important;
+ }
+
+#childItemNameContainerDiv.row{
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
+
+ #tbl>tbody>tr>td>div{
+     padding-top: 5px;
+
+ }
+ .nameColumnPadding{
+     padding-top: 7px !important;
+ }
+ .scoreBarColumnPadding{
+    padding-top: 8px !important;
+}
+.name{
+    line-height: 27px;
+}
+.toggleRow{
+display: none;
+}
+/*
+#tbl>tbody>tr:hover { background: #c8c8c8 !important; }*/
+
+#tbl>tbody>tr:hover { background: #ddddde !important; }
+#tbl>tbody>tr:hover .speech{background: #ffffff !important;}
+#tbl>tbody>tr:hover .speech:before{
+    border-color: #ffffff transparent transparent #ffffff;
+}
+
+/*header column arrow icon style*/
+#tbl.ng-table #tbl.th.sortable #tbl.div:after, #tbl.ng-table #tbl.th.sortable #tbl.div:before {
+    content: "";
+    border-width: 0 4px 4px;
+    border-style: solid;
+    border-color: #000 transparent;
+    visibility: visible;
+    right: 110px;
+    top: 30%;
+    position: absolute;
+    opacity: .3;
+    margin-top: -4px;
+}
+#tbl>tbody>tr{
+    padding-bottom: 0px !important;
+    cursor: pointer;
+}
+#tbl>tbody>tr>td{
+    padding: 0px !important;
+}
+
+#tbl.table > tbody + tbody {
+    border-top: 0px solid #dddddd;
+}
+
+
+/*list template main div */
+#parentDiv.content-main {
+    min-height: 91%;
+    height: 91%;
+    /* margin: 0 auto; */
+    margin-left: 28px;
+    padding-left: 10px;
+    padding-right: 15px;
+    /* border: 1px solid #FF0000; */
+}
+
+/*.actionScoreBar-mainDiv{*/
+    /*padding: 0;margin: 0;width: 100%;float: left*/
+/*}*/
+
+/*.actionScoreBar-scoreDiv{*/
+    /*margin-top: 0px;width: 30px;display: inline-block;float: left*/
+/*}*/
+
+/*.actionScoreBar-scorebarCanvas{*/
+    /*padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;float: left*/
+/*}*/
+.vscrollbar
+{
+    overflow-x: hidden; /*for hiding horizontal scroll bar*/
+    overflow-y: auto; /*for vertical scroll bar*/
+}
+/*list pagination */
+.pagination {
+    display: inline-block;
+    border-radius: 1px;
+    padding: 0;
+    margin-bottom: 3px;
+    margin-top: -10px;
+}
+/*Question score box style*/
+.horizontal { display: inline; float: left; }
+/*list view minimum evaluation number input type style*/
+.btn-apply {
+    height        : 22px;
+    border        : none;
+    border-radius : 0;
+    background    : #878787 !important;
+    margin-left   : -3px;
+    padding-top   : 2px;
+    color: white;
+    width: 58px;
+}
+/**:focus {*/
+    /*outline: 0 !important;*/
+/*}*/
+
+.btn-apply:hover {
+    background : #555759 !important;
+}
+.reset-filter-evaluation{
+    display: inline-block !important;margin-left: 5px !important; width: 70px !important;cursor: pointer;
+}
+
+.reset-filter-button{
+    height        : 22px;
+    width         :71px;
+    border        : none;
+    border-radius : 0;
+    background: transparent !important;
+}
+.reset-filter-button:hover{
+    background : #c8c8c8 !important;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}
+input[type="number"] {
+    -moz-appearance: textfield !important;
+}
+
+button[disabled], html input[disabled] {
+    background: transparent !important;
+    opacity: 0.6 !important;
+    -ms-filter: alpha(opcity=40) !important;
+    filter: alpha(opcity=40 )!important;
+
+}
+
+button[disabled]:hover {
+    background: transparent !important;
+}
+
+
+
+/*list view evaluation bubble style*/
+/*---------Pop up summar*/
+/*.modal-open {*/
+    /*overflow: hidden;*/
+/*}*/
+.modal {
+    position: fixed;
+    top: 78px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin-left: -80px;
+    z-index: 1;
+    display: none;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+
+}
+/*.modal.fade .modal-dialog {*/
+    /*-webkit-transition: -webkit-transform .3s ease-out;*/
+    /*-o-transition:      -o-transform .3s ease-out;*/
+    /*transition:         transform .3s ease-out;*/
+    /*-webkit-transform: translate(0, -25%);*/
+    /*-ms-transform: translate(0, -25%);*/
+    /*-o-transform: translate(0, -25%);*/
+    /*transform: translate(0, -25%);*/
+/*}*/
+/*.modal.in .modal-dialog {*/
+    /*-webkit-transform: translate(0, 0);*/
+    /*-ms-transform: translate(0, 0);*/
+    /*-o-transform: translate(0, 0);*/
+    /*transform: translate(0, 0);*/
+/*}*/
+/*.modal-open .modal {*/
+    /*overflow-x: hidden;*/
+    /*overflow-y: auto;*/
+/*}*/

@@ -1,0 +1,20 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/FullScorecardTemplate.css"/>
+<div id="fullScorecardContainer" class="full-scorecard-container">
+    <div id="fullScorecardHeaderContainer" class="full-scorecard-header-container">
+        <div class="left-arrow-container close-slide-in"><i class="fa fa-caret-left"></i></div>
+    </div>
+    <!-- body contents -->
+    <!--<div id="fullScorecardContentContainer" class="full-scorecard-content-container">-->
+        <!--<div id="general-survey-wrapper" class="general-survey-wrapper">-->
+            <!--<action-scorecard-details survey-data="fullScorecardData.generalSurveyData"></action-scorecard-details>-->
+        <!--</div>-->
+        <!--<div id="trigger-survey-wrapper" class="trigger-survey-wrapper">-->
+            <!--<action-scorecard-details survey-data="fullScorecardData.triggerSurveyData"></action-scorecard-details>-->
+        <!--</div>-->
+
+    <!--</div>-->
+    <!-- body contents -->
+    <action-full-scorecard ng-controller="fullScorecardController" full-scorecard-data="fullScorecardData">
+    </action-full-scorecard>
+
+</div>

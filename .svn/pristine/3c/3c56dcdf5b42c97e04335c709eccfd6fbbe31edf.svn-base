@@ -1,0 +1,38 @@
+.customer-settings-container{
+    padding: 0;
+    margin: 0;
+}
+.modal-content{
+border-radius: 0px;
+}
+.customer-settings-container .modal-header {
+    min-height: 16.428571429px;
+    padding: 15px;
+    background-color: #000000;
+    color: white;
+    /* border-bottom: 1px solid #e5e5e5; */
+    height: 60px;
+    display: inline-block;
+    width: 100%;
+    /* border-bottom: 1px solid #e5e5e5; */
+}
+.customer-settings-container .modal-title{
+    font-size: 16px;
+    font-weight: bold;
+    width: 95%;
+    display: inline-block;
+}
+.customer-settings-container .fa-lg{
+    font-size: 20px;
+}
+.customer-settings-container .modal-body{
+    padding: 0px;
+}
+.customer-settings-container .top-content{
+    height: 60px;
+    width: 100%;
+    border-bottom: 2px solid #d3d3d3;
+}
+.modal{
+    overflow-y: hidden;
+}

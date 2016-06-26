@@ -1,0 +1,7 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/OSEvaluationSummaryTemplate.css"/>
+<div class="os-summary-container">
+    <span>Score frequency</span>
+    <div class="os-frequency-container">
+
+    </div>
+</div>

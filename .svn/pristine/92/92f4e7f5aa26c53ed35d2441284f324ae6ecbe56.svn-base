@@ -1,0 +1,276 @@
+/* All external import files
+======================================================*/
+/* Variables
+======================================================*/
+.data-filter-container {
+  background-color: #878787;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.data-filter-container .left-arrow-container {
+  position: absolute;
+  background: #878787;
+  right: -16px;
+  top: 10px;
+  text-align: center;
+  -webkit-box-shadow: 0 0 4px 2px rgba(85, 87, 89, 0.5);
+  -moz-box-shadow: 0 0 4px 2px rgba(85, 87, 89, 0.5);
+  box-shadow: 0 0 4px 2px rgba(85, 87, 89, 0.5);
+  height: 20px;
+  width: 16px;
+}
+.data-filter-container .left-arrow-container .fa-caret-left {
+  color: #fff;
+  font-size: 1.2em;
+  display: table-cell;
+  vertical-align: middle;
+  height: 20px;
+  width: 16px;
+}
+.data-filter-container .left-arrow-container:hover {
+  cursor: pointer;
+}
+.data-filter-container .left-arrow-container:hover .fa-caret-left {
+  color: rgba(255, 255, 255, 0.7);
+}
+.data-filter-container .datfilter-header-wrapper {
+  background-color: #878787;
+  position: relative;
+  height: 40px;
+  top: 0;
+}
+.data-filter-container .datfilter-header-wrapper > .datafilter-title {
+  font-size: 1.2em;
+  /*   font-weight: bold; */
+  color: #ffffff;
+  margin-left: 18px;
+  margin-top: 12px;
+}
+
+.datfilter-footer-wrapper {
+  background-color: #878787;
+  position: relative;
+  width: 100%;
+  height: 45px;
+  bottom: 0;
+  font-size: 1em;
+  line-height: 1.4em;
+}
+.datfilter-footer-wrapper .hv-line {
+  width: 10px;
+  height: 17px;
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  position: absolute;
+  left: 20px;
+  top: 8px;
+}
+.datfilter-footer-wrapper .fa-plus-circle {
+  font-size: 1.4em;
+  color: #fff;
+  top: 1px;
+  right: 2px;
+  position: relative;
+}
+.datfilter-footer-wrapper > .btn-addtogroup-wrapper {
+  width: 110px;
+  height: 24px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 30px;
+  bottom: 0;
+  font-size: 0.9em;
+}
+.datfilter-footer-wrapper > .btn-addtogroup-wrapper .btn-addtoGgoup {
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  line-height: 100%;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+}
+.datfilter-footer-wrapper > .btn-addtogroup-wrapper .btn-addtoGgoup:hover {
+  color: #555759;
+  background: #ddddde;
+}
+.datfilter-footer-wrapper > .btn-addtogroup-wrapper .btn-addtoGgoup:hover .fa-plus-circle {
+  color: #000;
+}
+.datfilter-footer-wrapper > .btn-addtogroup-wrapper .btn-addtoGgoup:active {
+  background: #C6C6C6;
+}
+.datfilter-footer-wrapper > .btn-wrapper {
+  background-color: #ddddde;
+  /*   margin-left: auto;
+    margin-right: auto;
+    width: 60px;
+    height: 45px; */
+  width: 60px;
+  height: 24px;
+  /*   overflow: hidden; */
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+.datfilter-footer-wrapper > .btn-wrapper > .btn-apply {
+  background: #C6C6C6;
+  text-shadow: none;
+  border-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  line-height: 100%;
+}
+.datfilter-footer-wrapper > .btn-wrapper > .btn-apply:hover {
+  background: #555759;
+}
+.datfilter-footer-wrapper > .btn-wrapper > .btn-apply:active {
+  background: #C6C6C6;
+}
+.datfilter-footer-wrapper:before {
+  content: "";
+  display: block;
+  border-top: 1px solid #fff;
+  width: 385px;
+  max-width: 385px;
+  position: relative;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.grid-wrapper {
+  height: 528px;
+  width: 385px;
+  max-width: 385px;
+  position: relative;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.grid-wrapper > .grid {
+  position: absolute;
+  width: 100% !important;
+  height: 100% !important;
+  color: #fff;
+}
+.grid-wrapper .ui-grid {
+  border: none !important;
+}
+.grid-wrapper .ui-grid-header-viewport {
+  background-color: #878787 !important;
+}
+.grid-wrapper .ui-grid-cell:not(.ui-grid-header-cell):not {
+  border-right: none !important;
+  box-sizing: border-box;
+}
+.grid-wrapper .ui-grid-header {
+  border-bottom: 1px solid #fff !important;
+  border-right: none !important;
+  /*   width:96% !important; */
+}
+.grid-wrapper .ui-grid-header-cell {
+  border-right: none !important;
+}
+.grid-wrapper .ui-grid-viewport {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+.grid-wrapper .ui-grid-row {
+  box-sizing: border-box;
+}
+.grid-wrapper .ui-grid-pinned-container .ui-grid-viewport {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+.grid-wrapper .ui-grid-selection-row-header-buttons {
+  opacity: 1;
+}
+.grid-wrapper .ui-grid-icon-ok:before {
+  content: '' !important;
+  width: 10px;
+  height: 10px;
+  background-color: #000;
+  border: 1px solid #000000;
+}
+.grid-wrapper .ui-grid-selection-row-header-buttons.ui-grid-row-selected.ui-grid-icon-ok:before {
+  content: '' !important;
+  width: 10px;
+  height: 10px;
+  background-color: #fff !important;
+  opacity: 1 !important;
+}
+.grid-wrapper .ui-grid-selection-row-header-buttons.ui-grid-all-selected.ui-grid-icon-ok:before {
+  content: '' !important;
+  width: 10px;
+  height: 10px;
+  background-color: #fff !important;
+}
+.grid-wrapper .ui-grid-row :hover .ui-grid-cell {
+  background-color: rgba(198, 198, 198, 0.4) !important;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.headerCellClass {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row-color {
+  background-color: #878787 !important;
+  border-bottom: 1px solid #fff;
+  border-right: none !important;
+}
+
+.child-item {
+  margin-left: 14px;
+}
+
+.chk-select-all {
+  margin-left: 0px;
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+}
+
+.group-triangle:hover {
+  cursor: pointer;
+}
+
+.name-column {
+  position: relative;
+}
+
+.delete-group-btn {
+  position: absolute;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  text-align: center;
+  border-radius: 7px;
+}
+.delete-group-btn > .fa.fa-times {
+  top: -1px;
+  position: relative;
+  text-align: center;
+  font-size: 0.8em;
+  display: none;
+}
+.delete-group-btn:hover {
+  background-color: #555759;
+  cursor: pointer;
+}
+
+.ui-grid-row :hover .fa.fa-times {
+  display: inline;
+}
+
+/*# sourceMappingURL=DataFilterView.css.map */

@@ -1,0 +1,48 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionDataFilterAccordion', [function () {
+
+        return {
+            restrict: 'AE',
+            scope: {
+                categorizedAttributeCollection: "=data"
+            },
+            link: function (scope, el, attrs) {
+                scope.$watch('categorizedAttributeCollection', function (newValue) {
+                    if (!angular.isUndefined(newValue))
+                        return scope.renderView(newValue);
+                }, true);
+
+                scope.renderView = function (data) {
+                    scope.oneAtATime = true;
+                    scope.categorizedAttributeCollection = data;
+                };
+
+                scope.selectedListItem = function ($event) {
+                    var toSelectItem = '#' + $event.currentTarget.id;
+                    var prevSelectedItems = $("div[id^='accordion-panel'] .df-selected").not(toSelectItem);
+
+                    prevSelectedItems.removeClass('df-selected');
+                    $(toSelectItem).toggleClass('df-selected');
+                };
+                scope.expandCollapsed = function (isExpand) {
+                    $("div[id^='accordion-panel'] .df-selected").removeClass('df-selected');
+                };
+                //Check expand heading
+                //scope.$watch('isOpen', function(value) {
+                //    console.log(value);
+                //
+                //    if ( value ) {
+                //        // accordionCtrl.closeOthers(scope);
+                //    }
+                //});
+
+            },
+            templateUrl: 'Views/DataFilter/AccordionPanelTemplate.html'
+        };
+
+    }]);
+
+});

@@ -1,0 +1,82 @@
+<link rel="stylesheet" href="Views/List/ListViewTemplate.css"/>
+<link rel="stylesheet" href="Views/ngUIGrid/CustomContents/ngUIGrid.css"/>
+<!--<link rel="stylesheet" href="Views/ngUIGrid/CustomContents/ui-grid-unstable.css"/>-->
+<div class="content-main lisview-container" id="parentDiv" ng-controller="listViewController">
+<div class="row row-container">
+    <div class="table-responsive">
+        <div class="view-by-attribute-container-div-parent">
+            <div class="view-by-attribute-container-div">
+                <action-view-by-attribute attr-item-collection="attributeItemColl"
+                                          selected-attribute="defaultAttr"
+                                          selected-service-area="selectedServiceArea"
+                                          view-by-attribute-click="onViewByAttributeClicked()"
+                                          attribute-item-change-listener="serviceAreaAttributeItemChangeListener(attr)">
+                </action-view-by-attribute>
+            </div>
+            <div class="show-all-grp-expand-container-div-parent">
+                <div class="checkbox show-all-grp-expand-container-div" >
+                    <label for="allGroupExpandedChkBx">
+                        <input type="checkbox" id="allGroupExpandedChkBx" ng-disabled="allGrpExpandDisable"
+                                              ng-change="onCheckBoxChange()"
+                                              ng-model="allGrpExp">
+                        <span ng-disabled="allGrpExpandDisable" ng-class="{'disable-label':allGrpExpandDisable}">Show all group expanded</span>
+                    </label>
+                </div>
+            </div>
+            <div class="list-view-apply-reset-container-div">
+                <div class="min-evaluation-container-div">
+                    <span>  MINIMUM # EVALUATIONS:</span>
+                    <div class="btn-apply-container-div">
+                        <input id="numberTypeMinEvaluation" type="number" min="0" ng-model="minEvaluation"
+                               ng-keypress="applyFilterEnterKeyPressHandler($event)"
+                               class="min-evaluation-number-elm">
+                        <button class="btn-list-view-min-evaluation-apply" ng-click="applyFilterClickHandler()">Apply</button>
+                    </div>
+                    <div class="reset-filter-evaluation">
+                        <button id="btnReset" ng-click="resetFilterClickHandler()"   ng-disabled="minEvaluation > 0 ? false : true" class="reset-filter-button">
+                            Reset&nbsp;&nbsp; <img src="Content/images/reset-filter.png">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--
+        ng-class="{'ui-grid-cell-contents':row.entity.IsGroup || row.entity.IsChildItem,'ui-grid-cell-contents-template':!(row.entity.IsGroup || row.entity.IsChildItem)}"
+        -->
+        <div class="ui-grid-container">
+            <div id="grid1" class="ui-grid"  external-scopes="gridScope" ui-grid-tree-view ui-grid="uiGridConfig" ui-grid-auto-resize>
+                <div class="watermark" ng-show="!uiGridConfig.data.length">No data available</div>
+            </div>
+            <script type="text/ng-template" id="ui-grid/treeBaseRowHeader">
+                <div class="ui-grid-render-container">
+                    <div class="ui-grid-cell-contents">
+                        <ui-grid-tree-base-row-header-buttons></ui-grid-tree-base-row-header-buttons></div>
+                </div>
+            </script>
+            <script type="text/ng-template" id="ui-grid/treeBaseRowHeaderButtons">
+                <div class="ui-grid-container" >
+                    <div class="ui-grid-tree-base-row-header-buttons"
+                         ng-class="{'ui-grid-tree-base-header': row.treeLevel > -1 }"
+                         ng-click="grid.appScope.gridScope.isCollapseable(row)||grid.appScope.gridScope.isExpandable(row)?treeButtonClick(row, $event):'';$event.preventDefault();$event.stopPropagation();">
+                        <i ng-class="{'ui-grid-icon-minus-squared':grid.appScope.gridScope.isCollapseable(row), 'ui-grid-icon-plus-squared':grid.appScope.gridScope.isExpandable(row) }"
+                           ng-style="{'padding-left': grid.options.treeIndent * row.treeLevel + 'px'}"></i>
+                        <div style="max-width: 24px !important;max-height: 24px !important; margin-top: -3px">
+                            <img ng-hide="row.entity.IsGroup || row.entity.IsChildItem" class="list-item-icon2 auto-fit-img"
+                                 ng-src="{{grid.appScope.listItemIconSrc}}"/>
+                        </div>
+
+                    </div>
+                </div>
+            </script>
+        </div>
+    </div>
+</div>
+    <div id="list-view-wrapper">
+        <div id="list-view-summary" ng-show="isNeedToShowListSummary">
+            <action-attribute-score-summary id="list-view-attribute-summary"
+                                            from-view="fromView" attribute-index="attributeIndex" attribute-value="attributeValue"
+                                            title-image="titleImage" evaluation-data-collection="evaluationDataCollection"
+                                            control="listViewPopUp"></action-attribute-score-summary>
+        </div>
+    </div>
+</div>

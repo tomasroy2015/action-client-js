@@ -1,0 +1,15 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+    app.register.directive('actionToggle', function(){
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs){
+                if (attrs.actionToggle=="popover"){
+
+                    $(element).popover({title:attrs.title});
+                }
+            }
+        };
+    })
+});

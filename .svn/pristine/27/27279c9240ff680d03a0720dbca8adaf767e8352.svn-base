@@ -1,0 +1,13 @@
+/* All external import files
+======================================================*/
+.full-scorecard-content-container {
+  width: 100%;
+  height: 95%;
+  position: absolute;
+  top: 30px;
+  overflow: auto; }
+
+.general-survey-wrapper, .trigger-survey-wrapper {
+  width: 100%; }
+
+/*# sourceMappingURL=FullScorecardTemplate.css.map */

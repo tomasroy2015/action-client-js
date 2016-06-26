@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="Views/Shared/CSS/AttributeScoreSummary.css"/>
+
+<div class="evaluation-summary-dialog">
+    <div class="evaluation-summary-content">
+        <div class="evaluation-summary-header" style="height:80px">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="false">&times;</button>
+            <h4 class="evaluation-summary-title" id="myModalLabel"><b>{{selectedItem.Name}}</b></h4>
+            <div class="row buttonBar">
+                <div class="col-md-6 btn-content">SCORECARD</div>
+                <div class="col-md-6 btn-content">EVALUATIONS  </div>
+                <!--<div class="col-md-6 btn-content">SENTIMENT</div>-->
+            </div>
+        </div>
+        <div class="evaluation-summary-body" style="height:320px">
+
+        </div>
+        <div class="evaluation-summary-footer" style="height:90px">
+            <p style="left:0;font-size:10pt;font-weight:bold;">Respondents(20)</p>
+            <p style="left:0;font-size:9pt;">No comments</p>
+            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+        </div>
+    </div>
+</div>

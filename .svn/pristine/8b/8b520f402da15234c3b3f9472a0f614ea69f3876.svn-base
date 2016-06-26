@@ -1,0 +1,161 @@
+html, body {
+  min-height: 100%;
+  height: 100%; }
+
+/*=====================================================
+Mixins
+======================================================*/
+/*=====================================================
+Functions
+======================================================*/
+/* Main container section
+======================================================*/
+.container-fluid, .row-fluid {
+  min-height: 100%;
+  height: 100%;
+  padding: 0; }
+
+.col-md-3.left-menu, .col-md-9.right-content {
+  min-height: 100%;
+  height: 100%;
+  background: #fff; }
+
+/* Left menu section
+======================================================*/
+.col-md-3.left-menu {
+  padding: 10px;
+  color: #efefef;
+  /*     border-right: 2px solid #ddddde;     */
+  /*     box-shadow: -5px 0 5px -5px #333, 5px 0 5px -5px #ff0000; */
+  -webkit-box-shadow: -2px 0px 3px 2px rgba(0, 0, 0, 0.3), 2px 0px 3px 2px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: -2px 0px 3px 2px rgba(0, 0, 0, 0.3), 2px 0px 3px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: -2px 0px 3px 2px rgba(0, 0, 0, 0.3), 2px 0px 3px 2px rgba(0, 0, 0, 0.3);
+  width: 252.500px;
+  min-width: 252.500px;
+  max-width: 252.500px;
+  position: relative;
+  z-index: 10000;
+  overflow-y: auto;
+  overflow-x: hidden; }
+
+/* Right side contents section
+======================================================*/
+.col-md-9.right-content {
+  padding: 0;
+  /*width: calc(100% - 252.500px);*/
+  /* Alternative of calc */
+  /*margin-left:-252.500px;*/
+  /*padding-left: 252.500px;*/
+  /*width: 100%;*/
+  /*-moz-box-sizing: border-box;*/
+  /*-webkit-box-sizing: border-box;*/
+  /*box-sizing: border-box;*/
+  /*position:relative;*/
+  /*z-index:0;*/
+  /* End of alternative of calc */ }
+
+/*@supports (width :  calc(100% - 252.500px)) {*/
+/*.col-md-9.right-content {*/
+/*width: -webkit-calc(100% - 252.500px);*/
+/*width: -moz-calc(100% - 252.500px);*/
+/*width: -ms-calc(100% - 252.500px);*/
+/*width: -o-calc(100% - 252.500px);*/
+/*width: calc(100% - 252.500px);*/
+/*}*/
+/*}*/
+/*@supports not (width: calc(100% - 252.500px)) {*/
+/*.col-md-9.right-content {*/
+/*margin-left        : -252.500px;*/
+/*padding-left       : 252.500px;*/
+/*width              : 100%;*/
+/*-moz-box-sizing    : border-box;*/
+/*-webkit-box-sizing : border-box;*/
+/*box-sizing         : border-box;*/
+/*position           : relative;*/
+/*z-index            : 0;*/
+/*}*/
+/*}*/
+.content-page-header {
+  position: relative;
+  height: 80px;
+  background-color: #878787;
+  margin: 0;
+  padding: 0; }
+
+.content-main {
+  min-height: 91%;
+  height: 91%;
+  margin: 0 auto;
+  padding: 10px; }
+
+.view-container {
+  width: 100%;
+  height: 100%;
+  min-height: 100%; }
+
+/*=====================================================
+@Media Query Section
+======================================================*/
+@media only screen and (min-width: 768px) {
+  .col-md-3.left-menu {
+    float: left;
+    /*         z-index : 50000; */ }
+
+  .col-md-9.right-content {
+    float: left;
+    width: -webkit-calc(100% - 252.500px);
+    width: -moz-calc(100% - 252.500px);
+    width: -ms-calc(100% - 252.500px);
+    width: -o-calc(100% - 252.500px);
+    width: calc(100% - 252.500px); } }
+@media only screen and (max-width: 767px) {
+  .col-md-3.left-menu {
+    float: left; }
+
+  .col-md-9.right-content {
+    float: left;
+    /*width            : calc(100% - 252.500px);*/
+    width: -webkit-calc(100% - 252.500px);
+    width: -moz-calc(100% - 252.500px);
+    width: -ms-calc(100% - 252.500px);
+    width: -o-calc(100% - 252.500px);
+    width: calc(100% - 252.500px);
+    /*background : #ff0000;*/ } }
+/*=====================================================
+Slide in/out Section
+======================================================*/
+.slide-out {
+  position: fixed;
+  left: -253px;
+  z-index: 20; }
+
+.slide-in {
+  position: fixed;
+  top: 20px;
+  left: -253px;
+  width: 200px;
+  height: 200px;
+  background: #f00;
+  z-index: 10; }
+
+/* Full scorecard section
+======================================================*/
+.full-scorecard-window-container {
+  width: calc(100% - 285px);
+  height: 92%;
+  background: #fff;
+  left: -calc(100% - 0px);
+  -webkit-box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.5); }
+
+.data-filter-window-container {
+  width: 423px;
+  height: 627px;
+  background: #555759;
+  left: -calc(100% - 0px);
+  -webkit-box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.5); }
+
+/*# sourceMappingURL=ActionRootTemplate.css.map */

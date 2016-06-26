@@ -1,0 +1,57 @@
+/**
+ * Created by syedur on 7/7/2015.
+ */
+"use strict";
+
+define(['application-configuration'], function(app){
+
+    app.register.directive('actionOsRatio', ['moreSettingsFactory', function(moreSettingsFactory){
+        return{
+            restrict: 'AE',
+
+            scope:{
+                positiveCount: '=',
+                negativeCount: '='
+            },
+
+            templateUrl:'Views/Shared/Template/OSRatioTemplate.html',
+
+            link: function(scope, el, attr){
+                scope.colorSettings=moreSettingsFactory;
+
+                scope.$watchGroup( ['positiveCount','negativeCount'], function(newValue,oldValue) {
+
+                    if(angular.isUndefined(newValue)){
+                        return;
+                    }
+                    var positiveCountVar = angular.isUndefined(newValue[0]) ? 0 : newValue[0];
+                    var negativeCountVar = angular.isUndefined(newValue[1]) ? 0 : newValue[1];
+                    if (positiveCountVar > negativeCountVar) {
+                        var ratioVal = 0;
+                        if (positiveCountVar > 0) {
+                            ratioVal = positiveCountVar / negativeCountVar;
+                        } else {
+                            ratioVal = positiveCountVar;
+                        }
+                        scope.maxRatioVal = Math.round(ratioVal * 10) / 10;
+                        if (ratioVal > 10) {
+                            ratioVal = 10;
+                            scope.isValueMoreThanTen = true;
+                            scope.fractionVal = 0;
+                        } else {
+                            scope.isValueMoreThanTen = false;
+                            var fractionVal = ratioVal - Math.floor(ratioVal);
+                            if (fractionVal > 0) {
+                                scope.fractionVal = (Math.round(fractionVal * 10) / 10) * 10; //12 = width of user icon div
+                                ratioVal = Math.floor(ratioVal);
+                            }
+                        }
+                        scope.positiveRange = _.range(0, ratioVal);
+                        scope.negativeRange = _.range(0, 1);
+                    }
+                }, true);
+
+            }
+        };
+    }]);
+});

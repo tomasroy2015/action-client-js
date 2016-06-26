@@ -1,0 +1,35 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionOSEvaluationSummary', [function () {
+        var qIndex = 1;
+        return {
+            restrict: 'AE',
+
+            scope:{
+                score:'=',
+                question:'='
+            },
+            templateUrl: 'Views/Shared/Template/OSEvaluationSummaryTemplate.html',
+            link:function (scope, el, attr) {
+                scope.qIndex = qIndex++;
+//                var bar1 = el.find('#frequency-bar1');
+//                $(bar1).css({"height":'10px'});
+//
+//                var bar2 = el.find('#frequency-bar2');
+//                $(bar2).css({"height":'22px'});
+//
+//                var bar3 = el.find('#frequency-bar3');
+//                $(bar3).css({"height":'18px'});
+//
+//                var bar4 = el.find('#frequency-bar4');
+//                $(bar4).css({"height":'50px'});
+
+            }
+        };
+
+    }]);
+
+});
+

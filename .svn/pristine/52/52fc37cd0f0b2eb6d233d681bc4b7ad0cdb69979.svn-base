@@ -1,0 +1,32 @@
+/**
+ * Created by syedur on 7/9/2015.
+ */
+"use restrict;"
+
+define(['application-configuration'], function(app){
+    app.register.directive('actionEvaluationSummary',[function(){
+        return{
+            restrict: 'AE',
+            scope:{
+                data: '=',
+                currentRespondentId: '=',
+                selectedServiceAreaName:'=',
+                closeEvaluationSummary:'&'
+            },
+            templateUrl:"Views/Shared/Template/Evaluation/EvaluationSummaryTemplate.html",
+            link: function(scope, el, attr){
+                scope.currentIndex = _.findIndex(scope.data, function(item){
+                   return  item.RespondentId == scope.currentRespondentId;
+                });
+                scope.currentEvaluation = scope.data[scope.currentIndex];
+                scope.questionList = scope.currentEvaluation.Answers;
+                scope.RegularRemarks = scope.currentEvaluation.Remarks;
+                scope.AdditionalRemarks = scope.currentEvaluation.RemarksAdd;
+
+                scope.onCancelClick = function(){
+                    scope.closeEvaluationSummary();
+                };
+            }
+        }
+    }]);
+});

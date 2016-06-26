@@ -1,0 +1,79 @@
+.evaluationSummaryContainer{
+  height: 450px;
+  width: 100%;
+  background-color: #dddddd;
+}
+.evaluationSummaryHeader{
+  width: 100%;
+  height: 18px;
+  background-color: #000000;
+  .close {
+    margin: 1px 5px 1px 0px;
+    opacity: 1;
+    background-color: white;
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+    font-size: 17px;
+  }
+}
+.headerContentContainer{
+  align-self: center;
+  width: 90%;
+  margin: auto;
+  color: white;
+}
+.questionListContainer{
+  width: 45%;
+  float: left;
+}
+.questionListHeader{
+  margin: 5px 0px 0px 10px;
+  font-size: 18px;
+  height: 25px;
+}
+.questionListDetails {
+  background-color: white;
+  height: 385px;
+  margin: 5px 0px 5px 10px;
+}
+.evaluationSummaryContent{
+  width: 100%;
+  height: 95%;
+}
+
+.othersInfoContainer{
+  width: 50%;
+  float: right;
+  //margin: 5px 0px 5px 10px;
+  .divLabelContainer{
+    height: 20px;
+    margin: 5px 0px 0px 0px;
+  }
+}
+.otherInfoHeader{
+  height: 25px;
+  margin-top: 5px;
+}
+
+.regRemarksContainer{
+  background-color: white;
+  height: 80px;
+  margin-top: 5px;
+}
+
+.additionalRemarksWrapper{
+  height: 100px;
+}
+
+.adiRemarksContainer{
+  background-color: white;
+  height: 80px;
+}
+.attributeValueWrapper{
+  height: 185px;
+}
+.attributeValueContainer{
+  background-color: white;
+  height: 175px;
+}

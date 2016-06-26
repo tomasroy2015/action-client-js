@@ -1,0 +1,125 @@
+/**
+ * Created by Tomas on 8/16/2015.
+ */
+"use strict";
+define(['application-configuration','lodash'], function (app) {
+    app.register.directive('actionAddEditSiteMapping',['customerSettingsFactory','Notify',
+        function (customerSettingsFactory,Notify) {
+            return {
+                restrict: 'E',
+                scope: {
+                    show: '=info',
+                    message:'=',
+                    data:'=',
+                    selectedData:'=',
+                    windowCloseListener:'&',
+                    customer:'=',
+                    isEdit:'='
+                },
+                controller:function($scope){
+                    $scope.latDegree="";
+                    $scope.latMinute="";
+                    $scope.latSecond="";
+                    $scope.lonDegree="";
+                    $scope.lonMinute="";
+                    $scope.lonSecond="";
+                    $scope.latitudes = [{Value:"N"},{Value:"S"}];
+                    $scope.longitudes = [{Value:"E"},{Value:"W"}];
+                    $scope.selectedLatitude = $scope.latitudes[0];
+                    $scope.selectedLongitude =  $scope.longitudes[0];
+                    $scope.latitudeChange = function(lat){
+                        $scope.selectedLatitude.Value = lat.Value;
+                    };
+                    $scope.longitudeChange = function(lon){
+                        $scope.selectedLongitude.Value = lon.Value;
+                    };
+                },
+                link:function (scope, el, attrs) {
+                    scope.mapData = {};
+                    scope.selectedSite = {};
+                    scope.countries = [];
+                    scope.distinctSiteList = [];
+                    angular.copy(scope.data,scope.mapData);
+                    scope.dialogStyle = {};
+                    scope.valueText = "City(s)";
+
+                    if (attrs.width)
+                        scope.dialogStyle.width = attrs.width;
+//                    if (attrs.height)
+//                        scope.dialogStyle.height = attrs.height;
+                    scope.hideModal = function() {
+                        scope.show = false;
+                        scope.windowCloseListener();
+                    };
+
+                    InitializeData();
+                    function InitializeData(){
+                        scope.countries = scope.mapData.MappedCountryList;
+
+                        if(!scope.isEdit){
+                            scope.title = "Add site clustering";
+                            scope.selectedCountry= scope.countries[0];
+
+                        }else{
+                            scope.title = "Edit site clustering";
+                            angular.copy(scope.selectedData,scope.selectedSite);
+                            var cIndex = _.findIndex(scope.countries ,function(n){
+                                return n.Countrykey === scope.selectedSite.CountryKey;
+                            });
+                            scope.selectedCountry= scope.countries[cIndex];
+                            if(scope.selectedSite.Sites){
+                                _.forEach(scope.selectedSite.Sites,function(f){
+                                  scope.distinctSiteList.push({isSelected:true,ClusterId: f.ClusterId,SiteId: f.SiteId,SiteName: f.SiteName,GroupId: f.GroupId});
+                            });
+                           }
+                        }
+                        if(scope.mapData.UnmappedSiteCollection && scope.mapData.UnmappedSiteCollection.length > 0){
+                            _.forEach(scope.mapData.UnmappedSiteCollection,function(f){
+                                scope.distinctSiteList.push({isSelected:false,ClusterId: null,SiteId:null,SiteName: f,GroupId: null});
+                            });
+                        }
+
+                        scope.selectedSite.CountryKey = scope.selectedCountry.Countrykey;
+//                        var customer={
+//                            SessionId:scope.customer.SessionId,
+//                            CustomerId: scope.customer.CustomerId,
+//                            FromDate:new Date(new Date().getFullYear(), new Date().getMonth() - 11, 1),
+//                            ToDate:new Date((new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)) - 1)
+//                        };
+//                        customerSettingsFactory.GetDistinctCountryList(customer);
+                    }
+                    scope.$on(Notify.CUSTOMER_SETTINGS_SITE_CLUSTER_ADD_UPDATE_SUCCESS,function(event){
+                        scope.hideModal();
+                    });
+                    scope.addEditSiteMapping=function(){
+                        scope.selectedSite.Sites = [];
+                        refreshObject(scope.selectedSite);
+                        addMappedValues(scope.selectedSite);
+                        var attrRoute="/"+scope.customer.SessionId+"/"+scope.customer.CustomerId;
+                        customerSettingsFactory.AddUpdateSiteCluster(scope.selectedSite,attrRoute);
+                    };
+                    var refreshObject = function(selectedSite){
+                        var latitude = scope.latDegree+"° "+scope.latMinute+" ' "+scope.latSecond+" \" "+scope.selectedLatitude.Value;
+                        var longitude = scope.lonDegree+"° "+scope.lonMinute+" ' "+scope.lonSecond+" \" "+scope.selectedLongitude.Value;
+                        selectedSite.Lat = latitude;
+                        selectedSite.Lon = longitude;
+
+                        return selectedSite;
+                    };
+                    var addMappedValues = function(selectedSite){
+                        _.forEach(scope.distinctSiteList,function(f){
+                            if(f.isSelected){
+                                selectedSite.Sites.push({ClusterId: f.ClusterId,SiteId: f.SiteId,SiteName: f.SiteName,GroupId: f.GroupId});
+                            }
+                        });
+                        return selectedSite;
+                    };
+                    scope.countrySelectionChange = function(country){
+                        scope.selectedSite.CountryId = country.Countrykey;
+                    }
+                },
+                templateUrl: 'Views/CustomerSettings/SiteClustering/AddEditSiteMappingTemplate.html'
+            };
+        }]);
+
+});

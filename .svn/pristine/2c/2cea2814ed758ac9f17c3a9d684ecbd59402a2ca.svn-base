@@ -1,0 +1,46 @@
+"use strict";
+define(['application-configuration','colorSetDirective','moreSettingsFactory','dataFactory'], function (app) {
+    app.register.directive("actionMoreSettings", function (moreSettingsFactory,dataFactory) {
+        return {
+            restrict   : 'EA',
+            scope      : {
+                moreSettingOkBtnClick:'&'
+            },
+            link       : function (scope, el, attr) {
+                scope.minSiteRespondent = 0;
+                scope.minCountryRespondent = 0;
+                scope.colorSettings = dataFactory.GetColorSettings();
+                scope.selectedColorSet = scope.colorSettings[0];
+                scope.selectedZoomLevel = 1;
+                moreSettingsFactory.SetMinimumRespondentForCountry(scope.minSiteRespondent);
+                moreSettingsFactory.SetMinimumRespondentForSite(scope.minCountryRespondent);
+
+                scope.updateColorSet = function(colorSet){
+                    moreSettingsFactory.SetColorSet(colorSet.OnTarget,colorSet.CloseToTarget,colorSet.FarFromTarget);
+                };
+                scope.updateZoomLevel = function(selectedZoomLevel){
+                    moreSettingsFactory.SetDefaultZoomLevel(selectedZoomLevel);
+                };
+                scope.respondentCountryChange_Handler= function(minResp){
+                    if(typeof (minResp) != 'undefined' || minResp != null ){
+                        moreSettingsFactory.SetMinimumRespondentForCountry(minResp);
+                    }
+                    else{
+                        minResp = 0;
+                        moreSettingsFactory.SetMinimumRespondentForCountry(minResp);
+                    }
+                };
+                scope.respondentSiteChange_Handler= function(minResp) {
+                    if(typeof (minResp) != 'undefined' || minResp != null ) {
+                        moreSettingsFactory.SetMinimumRespondentForSite(minResp);
+                    }
+                    else{
+                        minResp = 0;
+                        moreSettingsFactory.SetMinimumRespondentForSite(minResp);
+                    }
+                };
+            },
+            templateUrl: "Views/LeftMenuSettings/MoreSettingsTemplate.html"
+        }
+    });
+});

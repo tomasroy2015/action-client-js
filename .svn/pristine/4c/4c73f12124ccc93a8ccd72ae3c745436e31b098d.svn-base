@@ -1,0 +1,206 @@
+/* All external import files
+======================================================*/
+@import '../Shared/SCSS/_Colors';
+@import '../Shared/SCSS/_Mixins';
+
+/* Variables
+======================================================*/
+$list-item-height : 20px;
+
+/* Accordion panel heading section
+======================================================*/
+.accordion-panel-container {
+  //position: relative;
+}
+
+[id^='accordion-panel'].panel-default {
+  &.panel {
+    margin-bottom      : -5px;
+    background-color   : $GIARTE_WHITE;
+    border-radius      : 0;
+    -webkit-box-shadow : none;
+    box-shadow         : none;
+    border             : none;
+    &:last-child {
+      margin-bottom      : 0;
+      background-color   : $GIARTE_WHITE;
+      border-radius      : 0;
+      -webkit-box-shadow : none;
+      box-shadow         : none;
+      border-bottom      : 1px solid $GIARTE_BLACK;
+    }
+  }
+
+  .panel-collapse {
+    .panel-body {
+      padding       : 0 !important;
+      padding-left  : 15px !important;
+      padding-right : 15px !important;
+      border-top    : none;
+    }
+  }
+
+  .panel-heading {
+    padding       : 3px 15px;
+    cursor        : pointer;
+    background    : transparent;
+    border-top    : 1px solid $GIARTE_BLACK;
+    border-bottom : none;
+    border-radius : 0;
+    .panel-title {
+      margin-left : -12px;
+      margin-top  : 2px;
+      padding     : 2px 0;
+      > a {
+        &:focus,
+        &:active {
+          -moz-outline-style    : none;
+          -webkit-outline-style : none;
+          outline               : none;
+        }
+        > div {
+          font-size : 0.9em;
+        }
+        > i {
+          vertical-align : middle;
+          top            : 4px;
+        }
+      }
+    }
+  }
+  a.accordion-toggle {
+    color           : $GIARTE_BLACK;
+    text-decoration : none;
+    font-size       : 12px;
+    font-weight     : bold;
+  }
+}
+
+#glypContainer {
+  position  : relative;
+  font-size : 1.6em;
+  right     : -17px;
+  top       : -2px;
+}
+
+/* Data filter items section
+======================================================*/
+a.list-group-item {
+  width       : 222px;
+  //max-width:222px;
+  height      : $list-item-height;
+  padding     : 3px 8px;
+  color       : $GIARTE_BLACK;
+  background  : $GIARTE_DEEP_LIGHT_GRAY;
+  margin      : 2px 0;
+  font-size   : 0.9em;
+  font-weight : bold;
+  &:first-child {
+    border                  : none;
+    border-top-right-radius : 0;
+    border-top-left-radius  : 0;
+  }
+  &:last-child {
+    margin-bottom              : 8px;
+    border-bottom-right-radius : 0;
+    border-bottom-left-radius  : 0;
+  }
+  &:hover {
+    color            : $GIARTE_BLACK;
+    text-decoration  : none;
+    background-color : $GIARTE_LIGHT_GRAY;
+    &:after {
+      top : 0;
+      @include right-arrow($list-item-height/2, $GIARTE_LIGHT_GRAY, 100);
+    }
+  }
+  &:focus {
+    -moz-outline-style    : none;
+    -webkit-outline-style : none;
+    outline               : none;
+    background            : $GIARTE_DEEP_LIGHT_GRAY;
+    &:after {
+      top : 0;
+      @include right-arrow($list-item-height/2, $GIARTE_DEEP_LIGHT_GRAY, 100);
+    }
+  }
+  &:after {
+    top : 0;
+    @include right-arrow($list-item-height/2, $GIARTE_DEEP_LIGHT_GRAY, 2000);
+  }
+  &.df-selected {
+    //width:230px;
+    background : $GIARTE_YELLOW;
+    &:after {
+      top : 0;
+      @include right-arrow($list-item-height/2, $GIARTE_YELLOW, 100);
+    }
+  }
+  &:active {
+    -moz-outline-style    : none;
+    -webkit-outline-style : none;
+    outline               : none;
+  }
+}
+
+/* Reset filter button section
+======================================================*/
+.reset-filter {
+  padding : 15px 0;
+  > .btn-default {
+    text-shadow   : none;
+    border-color  : transparent;
+    box-shadow    : none;
+    border-radius : 0;
+  }
+  &:hover {
+    cursor : default;
+  }
+}
+
+.btn-reset {
+  font-size       : 0.9em;
+  text-align      : center;
+  padding         : 2px 3px;
+  text-decoration : none;
+  float           : right;
+  color           : $GIARTE_BLACK;
+  background      : transparent;
+  img {
+    padding-left : 5px;
+  }
+  &:focus {
+    -moz-outline-style    : none;
+    -webkit-outline-style : none;
+    outline               : none;
+    background            : transparent;
+  }
+  &:active,
+  &:hover {
+    background : $GIARTE_LIGHT_GRAY;
+  }
+}
+
+.reset-cross-icon {
+  font-size      : 1.5em;
+  top            : -1px;
+  position       : relative;
+  vertical-align : middle;
+  left           : 2px;
+  padding-left   : 5px;
+}
+
+.df-badge {
+  //border: 1px solid red;
+  height         : 16px;
+  min-width      : 16px;
+  line-height    : 16px;
+  text-align     : center;
+  vertical-align : middle;
+  padding        : 0;
+  border-radius  : 8px;
+  top            : -1px;
+  position       : relative;
+  font-size      : 0.9em;
+  left           : -20px;
+}

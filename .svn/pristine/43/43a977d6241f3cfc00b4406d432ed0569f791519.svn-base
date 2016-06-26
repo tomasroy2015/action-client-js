@@ -1,0 +1,118 @@
+"use strict";
+
+define(['application-configuration', 'alertsService', 'bootstrap', 'leftMenuController', 'headerController', 'accountFactory', 'datasetSelectionFactory', 'dataFactory', 'comparatorFactory', 'leftMenuSlidingWindowEventNotifyFactory', 'moreSettingsFactory', 'dataFilterFactory'], function (app) {
+
+    app.register.controller('actionRootController', ['$scope', '$rootScope', 'alertsService', 'accountFactory', 'Notify', 'datasetSelectionFactory', 'dataFactory', 'ComparatorType', 'comparatorFactory', 'leftMenuSlidingWindowEventNotifyFactory', 'moreSettingsFactory', 'serviceAreaScoreData', 'dataFilterFactory',
+        function ($scope, $rootScope, alertsService, accountFactory, Notify, datasetSelectionFactory, dataFactory, ComparatorType, comparatorFactory, leftMenuSlidingWindowEventNotifyFactory, moreSettingsFactory, serviceAreaScoreData, dataFilterFactory) {
+            $rootScope.applicationModule = "MainLayout";
+            //$scope.IsFullscoreCardLoad = serviceAreaScoreData.GetGeneralSurveyCollection().length > 0;
+            loadInitialData();
+            $scope.isEvaluationWindowActive = false;
+            $scope.isFoldOut = false;
+
+            function loadInitialData() {
+                $scope.active = false;
+//                $scope.isDoubleTargetSelected = false;
+                $scope.selectedDataset = datasetSelectionFactory;
+//                $scope.selectedComparator = ComparatorType.Target;
+                $scope.dataFilterFactory = dataFilterFactory;
+            };
+            $scope.logoutMain = function () {
+                $rootScope.IsloggedOut = false;
+                $rootScope.loadTitle = "Log out";
+                var user = accountFactory.UserData();
+                accountFactory.LogOut(user);
+            };
+
+            $scope.$on(Notify.LOGOUT_SUCCESSFUL, function (event) {
+                window.location = "#/";
+                $rootScope.isNeedToShowLoading = false;
+            });
+
+            $scope.$on("listviewActiveDeactivate", function (event, data) {
+                $scope.active = data.isActivate;
+            });
+            $scope.$on('showEvaluation', function () {
+                $scope.isEvaluationWindowActive = true;
+            })
+            $scope.$on('closeEvaluation', function () {
+                $scope.isEvaluationWindowActive = false;
+                var elem = document.getElementById("leftMenuEvaluationWindow");
+                if (elem) {
+                    angular.element(elem).remove();
+                }
+            })
+
+            $scope.compareSettingSliding_Handler = function () {
+                leftMenuSlidingWindowEventNotifyFactory.setCompareSettingsOkBtnEvent(true);
+            };
+
+            $scope.moreSettingSliding_Handler = function () {
+                leftMenuSlidingWindowEventNotifyFactory.setMoreSettingsOkBtnEvent(true);
+            };
+
+            $scope.onBtnFoldClickHandler = function () {
+                $scope.isFoldOut = !$scope.isFoldOut;
+
+                if ($scope.isFoldOut === true) {
+                    angular.element('.col-md-3.left-menu').css({
+                        'left': '-2px',
+                        'width': 0,
+                        'min-width': 0,
+                        'padding': 0,
+                        'margin': 0,
+                        'height': 0,
+                        'min-height': 0
+                    });
+
+                    angular.element('.col-md-9.right-content').css({
+                        'width': '100%'
+                    });
+
+                    angular.element('.up-button-container').css({
+                        'left': '-200px'
+                    });
+
+                    angular.element('.down-button-container').css({
+                        'left': '-200px'
+                    });
+
+                    angular.element('.btn-fold .btn-fold-icon').css({
+                        'transform': 'rotate(180deg)',
+                        'top':'-1px'
+                    });
+
+                } else {
+                    angular.element('.col-md-3.left-menu').css({
+                        'width': '252.500px',
+                        'min-width': '252.500px',
+                        'left': '',
+                        'padding': '10px',
+                        'margin': '',
+                        'height': '100%',
+                        'min-height': '100%'
+                    });
+                    angular.element('.col-md-9.right-content').css({
+                        'width': 'calc(100% - 252.500px)'
+                    });
+
+                    angular.element('.up-button-container').css({
+                        'left': ''
+                    });
+
+                    angular.element('.down-button-container').css({
+                        'left': ''
+                    });
+
+                    angular.element('.btn-fold .btn-fold-icon').css({
+                        'transform': '',
+                        'top':''
+                    });
+                }
+                $rootScope.$broadcast(Notify.LEFT_MENU_FOLD_BUTTON_CLICK, {activeTab: $scope.active ? "listview" : "mapview"});
+            }
+
+
+        }]);//
+
+});//

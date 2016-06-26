@@ -1,0 +1,25 @@
+define(['application-configuration', 'accountsService', 'alertsService'], function (app) {
+
+    app.register.controller('resetPasswordController', ['$scope', '$rootScope', 'accountsService', 'alertsService', '$location',
+        function ($scope, $rootScope, accountsService, alertsService, $location) {
+            $scope.Email="";
+            $scope.isInvalidInput= false;
+
+            $scope.sendEmail = function(){
+                $scope.isInvalidInput= false;
+
+                var isInvalid =  $scope.validateInput();
+                if(isInvalid)
+                    return;
+            };
+            $scope.validateInput = function(){
+                if($scope.Email === "" || typeof $scope.Email === "undefined") {
+                    $scope.isInvalidInput= true;
+                }
+                return $scope.isInvalidInput;
+            }
+            $scope.goBack = function(){
+                window.location = "#/";
+            };
+        }]);
+});

@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <h3 class="modal-title">I'm a modal!</h3>
+</div>
+<div class="modal-body">
+    <ul>
+        <li>
+            <a>General Settings</a><br/>
+        </li>
+        <li>
+            <a>Customer Settings</a><br/>
+        </li>
+    </ul>
+</div>
+<div style="width:50%;height: 50%">
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="Views/FullScorecard/FullScorecardTemplate.css"/>
+<div id="fullScorecardContainer" class="full-scorecard-container">
+    <div id="fullScorecardHeaderContainer" class="full-scorecard-header-container">
+        <div class="left-arrow-container close-slide-in"><i class="fa fa-caret-left"></i></div>
+    </div>
+    <!-- body contents -->
+    <div id="fullScorecardContentContainer" class="full-scorecard-content-container"  ng-controller="fullScorecardController">
+        <!--<slider ng-model="sliders.sliderValue" min="testOptions.min" step="testOptions.step" max="testOptions.max" value="testOptions.value"></slider>-->
+        <div id="general-survey-wrapper" class="general-survey-wrapper">
+            <action-scorecard-details survey-type="GENERAL SURVEYS" title="OVERALL SATISFACTION" survey-data="generalSurveyData"></action-scorecard-details>
+        </div>
+        <div id="trigger-survey-wrapper" class="trigger-survey-wrapper">
+            <action-scorecard-details survey-type="TICKETS" title="IT SERVICE EFFORT SCORE" survey-data="triggerSurveyData"></action-scorecard-details>
+        </div>
+
+    </div>
+
+</div>

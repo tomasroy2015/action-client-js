@@ -1,0 +1,125 @@
+<link rel="stylesheet" href="Views/Dataset/DatasetSelectionTemplate.css"/>
+<!-- Logout btn -->
+<!--<button type="submit" class="btn btn-success btn-sm" data-ng-click="logoutMain()">Log out</button>-->
+<div id="logout-container">
+    <!-- Back btn -->
+    <div class="btn-back-dataset" ng-if="IsLoginFromPentaho"  ng-class="{'btn-back-dataset-shift':IsLoginFromPentaho && currentuser.UserType == 3}">
+        <a href="/pentaho/api/repos/%3Apublic%3AGiarte%3Amain.wcdf/generatedContent"><i class="fa fa-arrow-left"></i><span class="lblBack">Back</span> </a>
+    </div>
+
+    <div id="dataSet-logout-section"  ng-if="!IsLoginFromPentaho">
+        <div  class="dataSet-logout-container" ng-class="{'logout-container-shift':currentuser.UserType == 3}" data-ng-click="logoutData()">
+            <span class = "dataSet-header-font-size">Log out</span>
+            <div class = "dataSet-logout-right-arrow-container">
+                <i class="fa fa-play-circle dataSet-logout-circle-arrow-size-2x"/>
+            </div>
+        </div>
+    </div>
+    <div id="settings" class="dataSet-settings-logo" ng-if="currentuser.UserType != 3">
+        <a class="app-settings" ng-click="settings_clickHandler($event)">
+            <!--<img src="Content/images/Settings.png" height="20px"/>-->
+            <i  class="app-settings-icon fa fa-cog"></i>
+        </a>
+    </div>
+</div>
+
+<div class="container dataset-container" ng-cloak>
+    <div class="page-header">
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                Select dataset
+                <img src="Content/images/giarte-logo.png" alt="Giarte" class="logo"/>
+                <!--<div class = "clearfix"></div>-->
+            </div>
+            <!-- panel-heading -->
+
+            <div class="panel-body panel-body-container" ng-init="initializeController()">
+                <div>
+                    <label id="heading" class="content-heading">{{ClientLabel}} </label>
+                    <label ng-show="!isMultipleCustomer" style="margin-left: 20px" class="content-heading">{{selectedCustomer.CustomerName}} </label>
+                    <select id="ddlClient" ng-show="isMultipleCustomer"
+                            ng-init="selectedCustomer = currentuser.UserToCustomers[0]"
+                            ng-model="selectedCustomer"
+                            ng-options="item.CustomerName for item in currentuser.UserToCustomers"
+                            ng-change="customerChanged()"></select>
+                </div>
+                <div class="dataset-header-container">
+                    <label class="dataset-label">SELECT  DATASET </label>
+                </div>
+
+                <div class="create-dataset-radiogroup-panel">
+                    <label class="radio create-dataset-radio" for="select-monthtodate">
+                        <input id="select-monthtodate" type="radio" name="dataset-group"
+                               value="MonthToDate" ng-model="selectedValue">Month to date
+                    </label>
+
+                    <label class="radio create-dataset-radio" for="select-month">
+                        <input id="select-month" type="radio" name="dataset-group"
+                               value="Month" ng-model="selectedValue">Month
+                    </label>
+                    <select id="cboMonthSelect"
+                            ng-init="selectedMonth=LastSixMonth[0]"
+                            ng-model="selectedMonth" ng-click="dataSet_Checked('Month')"
+                            ng-options="month.Name for month in LastSixMonth"></select>
+
+                    <label class="radio create-dataset-radio" for="select-quarter">
+                        <input id="select-quarter" type="radio" name="dataset-group"
+                               value="Quarter" ng-model="selectedValue">Quarter
+                    </label>
+                    <select id="cboQuarterSelect"
+                            ng-init="selectedQuarter=QuarterColl[0]"
+                            ng-model="selectedQuarter" ng-click="dataSet_Checked('Quarter')"
+                            ng-options="month.Name for month in QuarterColl"></select>
+
+                    <label class="radio create-dataset-radio" for="select-daterange">
+                        <input id="select-daterange" type="radio" name="dataset-group"
+                               value="DateRange" ng-model="selectedValue">Date range
+                    </label>
+
+                    <div id="datePanel">
+                        <div class="form-group">
+                            <label for="inputFromDate" class="col-md-3 control-label">
+                                From date </label>
+                            <input type="date" id="inputFromDate" ng-model="dtpValueFromDate" ng-click="dataSet_Checked('DateRange')" required>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="inputToDate" class="col-md-3 control-label">
+                            To date</label>
+                            <input type="date" id="inputToDate" ng-model="dtpValueToDate" ng-click="dataSet_Checked('DateRange')" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="create-footer-separator"></div>
+                <!--<div class = "button-container">-->
+                <div class="button-container">
+                    <button type="submit" class="btn btn-sm btn-white-bg right-side"
+                            data-ng-click="getCustomerDataSet()">
+                        Load dataset
+                    </button>
+
+                </div>
+                <!--</div>-->
+            </div>
+
+        </div>
+        <!-- panel panel-default -->
+    </div>
+    <!-- page-header -->
+</div> <!-- container -->
+
+<!-- Footer Panel -->
+<footer class = "footer">
+    <div class = "container">
+        <div class="version-container">
+            <span>version:{{Version}}</span>
+        </div>
+        <div class = "url-container">
+            <a  class = "footer-giarte-url" target="_blank" href = "http://giarte.com/itsat/">
+                   Visit Giarte.com/ITsat for more information
+                   <i class="fa fa-play-circle dataSet-footer-circle-arrow-size-2x"></i>
+            </a>
+        </div>
+    </div>
+
+</footer>

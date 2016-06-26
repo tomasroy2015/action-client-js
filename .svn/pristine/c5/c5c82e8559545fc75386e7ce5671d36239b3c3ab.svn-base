@@ -1,0 +1,61 @@
+"use strict";
+define(['application-configuration'], function (app) {
+    app.register.directive("actionScoreBar", function () {
+        return {
+            restrict   : 'EA',
+            scope      : {
+                scoreComparator: '=',
+                isOsScore:'='
+            },
+            templateUrl: "Views/Shared/Template/ScoreBarTemplate.html",
+            replace: false,
+            link   : function (scope, el, attr) {
+                var svg =el[0].children[1].children[1];
+                var scoreBarMain=svg.children[0];
+                var coloredScoreBar= svg.children[1];
+                var comparatorScoreBar=svg.children[2];
+                var doubleTargetScoreBar=svg.children[3];
+
+                scope.$watch( function(scope){ return scope.scoreComparator}, function(newValue,oldValue){
+                    scope.baseScore = "";
+                    scope.comparatorValue="";
+                    if(angular.isUndefined(newValue))
+                    {
+                        newValue = oldValue;
+                    }
+                    var score = newValue.Score;
+                    var comparator  = newValue.ComparatorValue;
+                    scope.comparatorValue= newValue.ComparatorValue;
+                    var doubleTarget=newValue.DoubleTarget;
+                    var colorCode = newValue.ComparatorColorCode;
+                    var coloredBarLength =  score  * (scope.isOsScore?10:1);
+                    //rect(x,y,width,height)
+                    coloredScoreBar.setAttribute("width",coloredBarLength>3?coloredBarLength-3:coloredBarLength);
+                    coloredScoreBar.setAttribute("fill",colorCode);
+                    coloredScoreBar.style.stroke = colorCode;
+
+                    if(!isNaN(comparator)){
+                        var comparatorPosition = comparator * (scope.isOsScore?10:1);
+                        comparatorScoreBar.setAttribute("x",comparatorPosition>3?comparatorPosition-3:0);
+                        comparatorScoreBar.setAttribute("y",3);
+                        comparatorScoreBar.setAttribute("height",18);
+                        comparatorScoreBar.setAttribute("width",3);
+                        comparatorScoreBar.setAttribute("fill","#878787");
+                    }
+                    else{
+                        scope.comparatorValue="";
+                    }
+                    if(!isNaN(doubleTarget)){
+                        var doubleTargetPosition = doubleTarget * (scope.isOsScore?10:1);
+                        doubleTargetScoreBar.setAttribute("x",doubleTargetPosition>3?doubleTargetPosition-3:0);
+                        doubleTargetScoreBar.setAttribute("y",3);
+                        doubleTargetScoreBar.setAttribute("height",18);
+                        doubleTargetScoreBar.setAttribute("width",3);
+                        doubleTargetScoreBar.setAttribute("fill","#c6c6c6");
+                    }
+                    scope.baseScore = isNaN(score) ? "" : scope.isOsScore ? score : score + "%";
+                })
+            }
+        }
+    });//#868888
+});

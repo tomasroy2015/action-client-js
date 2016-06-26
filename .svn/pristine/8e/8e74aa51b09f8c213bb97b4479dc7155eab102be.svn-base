@@ -1,0 +1,9 @@
+<link rel="stylesheet" href="../../LeftMenu.ServiceAreaScoreBox/ServiceAreaTemplate.css"/>
+<div id="{{'serviceArea-' + serviceAreaId}}">
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary {{ $index == 0 ? 'active' : ''}}" ng-click="onClickDir(eachSA)" ng-repeat="eachSA in serviceAreaCollection track by $index">
+            <input type="radio" name="options" id="{{eachSA.Id}}" autocomplete="off"
+                   value="{{eachSA.ShortCode}}"> {{eachSA.ShortCode}}
+        </label>
+    </div>
+</div>

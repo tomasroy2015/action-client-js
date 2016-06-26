@@ -1,0 +1,159 @@
+.add-to-group-window-modal .modal-dialog {
+  width: 230px;
+  height: 280px;
+  top: 50%;
+  left: 50%;
+  margin-top: -150px;
+  margin-left: -125px;
+  position: absolute !important;
+}
+
+.add-to-group-window-modal.modal {
+  overflow: hidden;
+}
+
+.add-to-group-window-modal .modal-dialog .modal-content {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+
+.add-to-group-window-wrapper {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  height: 280px;
+}
+.add-to-group-window-wrapper .modal-header {
+  height: 40px;
+  background-color: #555759;
+  padding: 0;
+}
+.add-to-group-window-wrapper .modal-header .modal-title {
+  color: #ffffff;
+  font-size: 1.5em;
+  left: 10px;
+  top: 8px;
+  position: absolute;
+}
+.add-to-group-window-wrapper .modal-header > .modal-close {
+  position: absolute;
+  right: 5px;
+  top: 12px;
+  color: #fff;
+}
+.add-to-group-window-wrapper .modal-header > .modal-close:hover {
+  opacity: 0.5;
+}
+.add-to-group-window-wrapper .modal-body {
+  height: 190px;
+  padding: 12px !important;
+}
+.add-to-group-window-wrapper .modal-body .list-wrapper {
+  height: 80px;
+  background-color: #ddddde;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.add-to-group-window-wrapper .modal-body .group-creation-content {
+  margin-top: 10px;
+  height: 90px;
+}
+.add-to-group-window-wrapper .modal-body .group-creation-content .txt-box-container .lbl-new-group {
+  display: block;
+  margin-bottom: 2px !important;
+}
+.add-to-group-window-wrapper .modal-body .group-creation-content .txt-box-container .txt-group-name {
+  width: 100%;
+}
+.add-to-group-window-wrapper .modal-body .group-creation-content .ddl-existing-group-container {
+  margin-top: 5px;
+}
+.add-to-group-window-wrapper .modal-body .group-creation-content .ddl-existing-group-container .lbl-existing-group {
+  display: block;
+  margin-bottom: 2px !important;
+}
+.add-to-group-window-wrapper .modal-body .group-creation-content .ddl-existing-group-container .ddl-existing-group {
+  width: 100%;
+  height: 24px !important;
+}
+.add-to-group-window-wrapper .modal-footer {
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 50px;
+  border-top: none !important;
+  position: relative;
+}
+.add-to-group-window-wrapper .modal-footer .btn-add-to-group {
+  display: block;
+  width: 100px;
+  height: 24px;
+  top: 50%;
+  left: 50%;
+  margin-left: -50px;
+  margin-top: -12px;
+  position: absolute;
+  text-align: center;
+  background-color: #878787;
+  box-shadow: none;
+  border: none;
+  color: #ffffff;
+}
+.add-to-group-window-wrapper .modal-footer .btn-add-to-group:hover:not(:disabled) {
+  background-color: #555759;
+}
+.add-to-group-window-wrapper .modal-footer .btn-add-to-group:active {
+  background-color: #878787;
+}
+.add-to-group-window-wrapper .modal-footer .btn-add-to-group:disabled {
+  opacity: 0.5;
+}
+.add-to-group-window-wrapper .modal-footer .btn-add-to-group .lbl-btn {
+  display: inline-block;
+  width: 100%;
+  height: 17px;
+  margin: 4px auto;
+}
+
+.list-wrapper ul {
+  margin: 0;
+  padding: 0;
+  border-bottom: none;
+}
+.list-wrapper ul li {
+  /*  list-style:none;
+   margin:0;
+  padding:0; */
+  list-style: none;
+  width: 100%;
+  height: 20px;
+  padding-top: 2px;
+}
+.list-wrapper ul li:hover {
+  background: #C6C6C6;
+}
+.list-wrapper ul li:hover .delete {
+  display: inline-block;
+  top: -4px;
+  position: relative;
+}
+.list-wrapper ul li.list-item > span.label {
+  margin-left: 5px;
+  width: 88%;
+  display: inline-block;
+  color: #000;
+  text-align: left;
+  font-size: .9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.delete {
+  display: none;
+}
+
+.delete:hover {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=AddToGroupWindowTemplate.css.map */

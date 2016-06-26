@@ -1,0 +1,155 @@
+/* Page header tab bar */
+.tab-panel-container .nav {
+    position:absolute;
+    padding-left: 50px;
+    margin-bottom: 1px;
+    list-style: none;
+    bottom:0;
+}
+
+.tab-panel-container .nav-tabs{
+    border-bottom: none;
+}
+
+.nav-tabs > li > a {
+    height           : 32px;
+    margin-right     : 2px;
+    line-height      : 1.42857143;
+    border           : none;
+    border-radius    : 0;
+    background-color : #ddddde;
+    color            : #000;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    color               : #000;
+    cursor              : default;
+    background-color    : #fff;
+    border              : none !important;
+    border-bottom-color : transparent !important;
+}
+
+.service-area-name{
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.service-area-bellow{
+    top: 30px;
+}
+
+/*------top bar logo------*/
+.top-bar-logo {
+    position: absolute;
+    right: 12px;
+    top: 6px;
+    cursor: pointer;
+}
+/*-------help-------*/
+.help-btn {
+    position: absolute;
+    font-size: 11px;
+    right: 155px;
+    /* width: 100px; */
+    top: 35px;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.help-btn:hover{
+    text-decoration : none;
+    color           : #ddddde;
+}
+.help-circle-container {
+    right: -22px;
+    top: -14px;
+    position: absolute;
+    transform: translateY(69%);
+}
+
+.help-circle-container:hover{
+    text-decoration : none;
+    color           : #ddddde;
+}
+.question-mark-text {
+    top: -18px;
+    right: 5px;
+    position: absolute;
+    color: #555759;
+    transform: translateY(90%);
+}
+/*---------Settings-----*/
+.settings-logo {
+    position: absolute;
+    top: 35px;
+    right: 15px;
+    cursor: pointer;
+}
+
+/*-------------Log out button------------*/
+.logout-container {
+    position: absolute;
+    /* right: 25px; */
+    margin-top: 35px;
+    /* background-color: white; */
+    height: 20px;
+    /* width: 120px; */
+    /* align-content: center; */
+    /* right: 25px; */
+    /* right: -10px; */
+    right: 70px;
+    cursor: pointer;
+    font-size: 11px;
+    color: #ffffff;
+}
+
+.logout-container:hover{
+    text-decoration : none;
+    color           : #ddddde;
+}
+.header-font-size{
+    font-size: 11px;
+}
+.header-font-size:hover{
+    text-decoration : none;
+    color           : #ddddde;
+}
+
+.logout-container .logout-url-container {
+    right     : 60px;
+    position  : absolute;
+    transform : translateY(100%);
+}
+
+.logout-right-arrow-container {
+    right: -20px;
+    top: -14px;
+    position: absolute;
+    transform: translateY(69%);
+}
+
+.logout-arrow-container {
+    right: -18px;
+    top: -14px;
+    position: absolute;
+    transform: translateY(90%);
+}
+
+.logout-arrow-container:hover
+{
+    text-decoration : none;
+    color           : #ddddde;
+}
+/*.logout-url-container > a {*/
+    /*text-decoration : none;*/
+    /*color           : #fff;*/
+/*}*/
+
+/*.logout-url-container > a:hover {*/
+    /*text-decoration : none;*/
+    /*color           : #ddddde;*/
+/*}*/

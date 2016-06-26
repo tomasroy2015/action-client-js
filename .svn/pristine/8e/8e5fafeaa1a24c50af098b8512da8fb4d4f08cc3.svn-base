@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="Views/CustomerSettings/CustomerSettings.css"/>
+<div class="customer-settings-container">
+    <div class="modal-header">
+        <span class="modal-title">Customer Settings</span>
+        <i ng-click="cancel()" class="fa fa-times-circle fa-lg"></i>
+    </div>
+    <div class="modal-body">
+        <div class="top-content">
+            <div>
+                <label>Client: </label>
+                <select id="customerSettings_ddlClient"
+                        ng-init="selectedCustomer = currentuser.UserToCustomers[0]"
+                        ng-model="selectedCustomer"
+                        ng-options="item.CustomerName for item in currentuser.UserToCustomers"
+                        ng-change="customerChanged()"></select>
+            </div>
+        </div>
+
+        <ul>
+            <li>
+                <a ng-click="general_ClickHandler()">General Settings</a><br/>
+            </li>
+            <li>
+                <a ng-click="customerSettings_ClickHandler()">Customer Settings</a><br/>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <div ng-if="selectedView1"
+             ng-include="'Views/CustomerSettings/GeneralSettings/GeneralSettingsTemplate.html'">
+        </div>
+        <div    ng-if="selectedView2"
+                ng-include="'Views/CustomerSettings/UserSettings/UserSettingsTemplate.html'">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--<button class="btn btn-primary" ng-click="ok()">OK</button>-->
+        <!--<button class="btn btn-warning" ng-click="cancel()">Cancel</button>-->
+        Footer content
+    </div>
+</div>

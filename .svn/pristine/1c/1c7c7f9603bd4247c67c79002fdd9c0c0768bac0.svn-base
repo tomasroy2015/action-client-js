@@ -1,0 +1,57 @@
+define(['application-configuration', 'dataService', 'lodash'], function (app) {
+
+    app.register.factory('customerSettingsFactory', ['$rootScope', '$http', 'dataService', 'Notify',
+        function ($rootScope, $http, dataService, Notify ) {
+
+            var customerUsersList=null;
+            var selectedCustomer={Giarte:null,Others:null};
+            var errorFunction = function (response) {
+                //Error handling goes here.
+                window.alert("Error in settings operation");
+            };
+            var onUpdateGeneralSettings=function(response){
+
+            };
+            var onDeleteUserAccountSuccess=function(response){
+
+            }
+            var onGetCustomerUsersList=function(response){
+                customerUsersList=response;
+                $rootScope.$broadcast(Notify.CUSTOMER_SETTINGS_USER_DATA_READY);
+            }
+            var onAddOrUpdateUserSuccess=function(response){
+                $rootScope.$broadcast(Notify.CUSTOMER_SETTINGS_USER_ADD_OR_UPDATE_SUCCESS);
+            }
+            return{
+                UpdateGeneralSettings:function(dataModel,attributeRoute){
+                  return  dataService.updateGeneralSettings(dataModel,attributeRoute,onUpdateGeneralSettings,errorFunction);
+
+                },
+               GetCustomerUsersList:function(customer){
+                    return dataService.getUsersByCustomer(customer,onGetCustomerUsersList,errorFunction);
+                },
+                CustomerUsersList:function(){
+                  return customerUsersList;
+                },
+                DeleteUserAccount:function(user){
+                    return dataService.deleteUserAccount(user,onDeleteUserAccountSuccess,errorFunction);
+                },
+                AddUpdateUserAccount:function(user){
+                    return dataService.AddOrUpdateUser(user,onAddOrUpdateUserSuccess,errorFunction);
+                },
+                SetSelectedCustomer:function(customer){
+                    if(customer.CustomerId=="GIA"){
+                        selectedCustomer.Giarte=customer
+                    }
+                    else{
+                        selectedCustomer.Others=customer;
+                    }
+                },
+                GetSelectedCustomer:function(){
+                    return selectedCustomer;
+                }
+
+            };
+
+        }]);
+});

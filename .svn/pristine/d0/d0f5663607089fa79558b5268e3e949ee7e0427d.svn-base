@@ -1,0 +1,7 @@
+<div>
+    <div id="{{rowRenderIndex}}" ng-repeat="col in colContainer.renderedColumns track by col.colDef.name"
+         class="ui-grid-cell row-color" ui-grid-cell
+         ng-mouseenter="grid.appScope.rowHover(row)"
+         ng-mouseleave="grid.appScope.rowHoverOut(row)">
+    </div>
+</div>

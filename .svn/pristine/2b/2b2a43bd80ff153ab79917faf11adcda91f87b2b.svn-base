@@ -1,0 +1,216 @@
+.add-to-group-window-modal .modal-dialog {
+  width       : 230px;
+  height      : 280px;
+  //border      : 1px solid red;
+  top         : 50%;
+  left        : 50%;
+  margin-top  : -150px;
+  margin-left : -125px;
+  position    : absolute !important;
+}
+
+.add-to-group-window-modal.modal {
+  overflow : hidden;
+}
+
+.add-to-group-window-modal .modal-dialog .modal-content {
+  //width  : 250px;
+  //height : 300px;
+  //left:50%;
+  //top:50%;
+  //margin-left : -125px;
+  //margin-top : -150px;
+
+  -webkit-border-radius : 0;
+  -moz-border-radius    : 0;
+  border-radius         : 0;
+}
+
+.add-to-group-window-wrapper {
+  position : relative;
+  //width  : 250px;
+  //height : 350px;
+  //border : 1px solid red;
+  padding  : 0;
+  margin   : 0;
+  height   : 280px;
+  //overflow:hidden;
+  .modal-header {
+    height           : 40px;
+    background-color : #555759;
+    padding : 0;
+    .modal-title{
+      color: #ffffff;
+      font-size: 1.5em;
+      left:10px;
+      top:8px;
+      position:absolute;
+    }
+    > .modal-close {
+      position : absolute;
+      right    : 5px;
+      top      : 12px;;
+      color    : #fff;
+      &:hover {
+        opacity : 0.5;
+      }
+    }
+  }
+  .modal-body {
+    height  : 190px;
+    padding : 12px !important;
+    //border  : 1px solid red;
+    .list-wrapper {
+      height           : 80px;
+      background-color : #ddddde;
+    }
+    .group-creation-content {
+      margin-top : 10px;
+      height     : 90px;
+      //border     : 1px solid red;
+      .txt-box-container {
+        .lbl-new-group {
+          display : block;
+          margin-bottom : 2px !important;
+        }
+        .txt-group-name{
+          width: 100%;
+        }
+      }
+      .ddl-existing-group-container {
+        margin-top:5px;
+        .lbl-existing-group {
+          display : block;
+          margin-bottom : 2px !important;
+        }
+        .ddl-existing-group{
+          width : 100%;
+          height: 24px !important;
+        }
+      }
+    }
+  }
+  .modal-footer {
+    padding  : 0 !important;
+    margin   : 0 !important;
+    height   : 50px;
+    border-top:none !important;
+    //border   : 1px solid red;
+    position : relative;
+    .btn-add-to-group {
+      display     : block;
+      //border      : 1px solid green;
+      width       : 100px;
+      height      : 24px;
+      top         : 50%;
+      left        : 50%;
+      margin-left : -50px;
+      margin-top  : -12px;;
+      position    : absolute;
+      text-align  : center;
+      background-color : #878787;
+      box-shadow: none;
+      border:none;
+      color: #ffffff;
+      &:hover:not(:disabled){
+        background-color : #555759;
+      }
+      &:active{
+        background-color : #878787;
+      }
+      &:disabled{
+        opacity : 0.5;
+      }
+      .lbl-btn{
+        //border : 1px solid red;
+        display:inline-block;
+        width:100%;
+        height:17px;
+        margin:4px auto;
+      }
+    }
+  }
+}
+
+//.add-to-group-window-wrapper .modal-footer {
+//  padding: 0 !important;
+//  margin: 0 !important;
+//  height: 50px;
+//  border: 1px solid red;
+//  width:100%;
+//  margin-left:auto;
+//  margin-right:auto;
+//  position:relative;
+//}
+//.add-to-group-window-wrapper .modal-footer .btn-add-to-group {
+//  display: block;
+//  border:1px solid green;
+//  width:80px;
+//  height:24px;
+//  top:50%;
+//  left:50%;
+//  margin-left: -40px;
+//  margin-top: -12px;;
+//  position:absolute;
+//}
+
+//.modal-content{
+//  border-radius: 0px;
+//  width: 300px;
+//}
+
+.list-wrapper ul {
+  margin        : 0;
+  padding       : 0;
+  //border        : 1px solid #000;
+  border-bottom : none;
+  li {
+    /*  list-style:none;
+     margin:0;
+    padding:0; */
+    list-style  : none;
+    //border-bottom : 1px solid #000;
+    width       : 100%;
+    height      : 20px;
+
+    padding-top : 2px;
+    &:hover {
+      background : #C6C6C6;
+    }
+    &:hover .delete {
+      display : inline-block;
+    }
+    &.list-item > span.label {
+      margin-left : 5px;
+      width       : 88%;
+      /* color:red; */
+      display     : inline-block;
+      color       : #000;
+      text-align  : left;
+      font-size:.9em;
+    }
+  }
+}
+
+//li:hover{
+//  background:#ddddde;
+//}
+//
+//li:hover .delete{
+//  display:inline-block;
+//}
+
+//li.list-item > span.label{
+//  margin-left: 5px;
+//  width:90%;
+//  /* color:red; */
+//  display:inline-block;
+//}
+
+.delete {
+  display : none;
+}
+
+.delete:hover {
+  cursor : pointer;
+}

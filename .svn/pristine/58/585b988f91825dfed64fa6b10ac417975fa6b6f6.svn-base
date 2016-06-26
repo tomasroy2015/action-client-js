@@ -1,0 +1,53 @@
+"use strict";
+
+define(['application-configuration','alertsService','bootstrap','leftMenuController','headerController','accountFactory','datasetSelectionFactory','dataFactory','comparatorFactory'], function (app) {
+
+    app.register.controller('actionRootController', ['$scope','$rootScope','alertsService','accountFactory','Notify','datasetSelectionFactory','dataFactory','ComparatorType','comparatorFactory',
+        function ($scope,$rootScope,alertsService,accountFactory,Notify,datasetSelectionFactory,dataFactory,ComparatorType,comparatorFactory) {
+
+        $rootScope.applicationModule = "MainLayout";
+        $scope.selectedDataset = datasetSelectionFactory;
+        $scope.selectedComparator = null;
+//        $scope.selectedComparator = ComparatorType.Target;
+        $scope.isDoubleTargetSelected = false;
+        $scope.active =false;
+
+        $scope.logoutMain = function () {
+            $rootScope.IsloggedOut = false;
+            $rootScope.loadTitle = "Log out";
+            var user = accountFactory.UserData();
+            accountFactory.LogOut(user);
+        };
+
+        $scope.updateComparatorType = function(type){
+            comparatorFactory.UpdateComparatorType(type);
+        };
+
+        $scope.doubleTargetSelection_Handler = function(){
+            $scope.isDoubleTargetSelected = !$scope.isDoubleTargetSelected;
+        };
+
+        $scope.initializeComparator = function()
+        {
+            $scope.selectedComparator = comparatorFactory.SelectedComparatorType();
+        };
+//        $scope.logoutCompleted = function (response) {
+//            window.location = "#/";
+//        };
+//
+//        $scope.logoutError = function (response) {
+//            alertsService.RenderErrorMessage(response.ReturnMessage);
+//        };
+        $scope.$on(Notify.LOGOUT_SUCCESSFUL, function(event){
+            window.location = "#/";
+            $rootScope.isNeedToShowLoading = false;
+        });
+
+        $scope.$on("listviewActive",function(event){
+            $scope.active=true;
+        });
+
+
+    }]);
+
+});

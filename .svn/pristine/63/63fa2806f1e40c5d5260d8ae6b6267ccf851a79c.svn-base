@@ -1,0 +1,27 @@
+"use strict";
+
+define(['application-configuration','lodash'], function (app) {
+
+    app.register.directive('actionAttributeScoreSummary',[function () {
+
+        return {
+            restrict: 'AE',
+            scope   : {
+                attributeData:"=",
+                isMapViewSummary:"=",
+                selectedAttributeScore: "=",
+                summaryTitle:"=",
+                titleImage:"=",
+                generalSurveyCollection:"=",
+                triggerSurveyCollection:"=",
+                fullScorecardData:"="
+            },
+            link    : function (scope,el, attrs) {
+
+            },
+            templateUrl:'Views/Shared/Template/AttributeScoreSummaryTemplate.html'
+        };
+
+    }]);
+
+});

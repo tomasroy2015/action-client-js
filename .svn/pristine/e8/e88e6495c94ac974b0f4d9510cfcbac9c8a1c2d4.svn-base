@@ -1,0 +1,7 @@
+<div class="grid-tooltip">
+    <div class="ui-grid-cell-contents col-md-12" style="padding-right: 0px !important;">
+            <img ng-if="row.entity.IsChildItem" class="list-item-icon"
+                 ng-src="{{grid.appScope.listItemImgSrc}}"/>
+            <p class="name-txt">{{row.entity.Name}}</p>
+    </div>
+</div>

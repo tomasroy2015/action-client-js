@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": ";;AAGA,iCAAiC;EAC/B,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,GAAG;EACX,QAAQ,EAAC,QAAQ;EACjB,GAAG,EAAG,IAAI;EACV,QAAQ,EAAG,IAAI;;AAGjB,gDAA+C;EAC7C,KAAK,EAAE,IAAI",
+"sources": ["FullScorecardTemplate.scss"],
+"names": [],
+"file": "FullScorecardTemplate.css"
+}

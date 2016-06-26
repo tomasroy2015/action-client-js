@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/ScorecardDetailsTemplate.css"/>
+<div class="scorecard-details-wrapper">
+    <div class="scorecard-header-container" ng-class="{'scorecard-header-container-ticket':(!headerData.HasSESData && !headerData.isOSScore)}">
+        <div class="scorecard-header-title-container">
+            <span class="scorecard-header-title">{{headerData.surveyType}}</span>
+            <div class="fsc-double-target-wrapper" ng-if="headerData.IsShowDoubleTargetLegend && comparatorSettings.GetSelectedComparatorName() !== 'Target'">
+                <div class="fsc-target-legend">target</div>
+                <div class="fsc-double-target-legend"> {{comparatorSettings.GetSelectedComparatorName()}}</div>
+            </div>
+        </div>
+        <div class="scorecard-sub-header-title-container">
+            <div class="sub-header-title-wrapper">
+                <span class="scorecard-sub-header-title" ng-if="headerData.HasSESData || headerData.isOSScore">{{headerData.title}}</span>
+                <span class="scorecard-sub-header-evaluation" ng-if="headerData.HasSESData || headerData.isOSScore">{{headerData.noOfRespondent}} evaluations</span>
+            </div>
+            <div class="scorecard-header-score-wrapper" ng-if="headerData.HasSESData || headerData.isOSScore">
+                <!--<action-score-bar score-comparator="{Score:50,ComparatorValue:70,ComparatorColorCode:'#f00'}"></action-score-bar>-->
+                <action-customizable-score-bar width="100" is-os-score="headerData.isOSScore"
+                                               data="headerData.comparatorData"></action-customizable-score-bar>
+            </div>
+            <div class="os-ratio-container" ng-if="headerData.isOSScore">
+                <action-os-ratio positive-count="headerData.PositiveResponse"
+                                 negative-count="headerData.NegativeResponse"></action-os-ratio>
+            </div>
+            <div class="denotes-legend" ng-if="headerData.IsShowDenoteLegend"><span>\ denotes exclusion from average calculation</span></div>
+        </div>
+    </div>
+    <div class="scorecard-content-container">
+        <ul class="scorecard-container">
+            <li class="individual-scorecard" ng-repeat="serviceArea in surveyData">
+                <!--{{serviceArea}}-->
+                <action-scorecard data="serviceArea"></action-scorecard>
+            </li>
+            <!--<li class="individual-scorecard">-->
+            <!--<action-scorecard></action-scorecard>-->
+            <!--</li>-->
+            <!--<li class="individual-scorecard">-->
+            <!--<action-scorecard></action-scorecard>-->
+            <!--</li>-->
+            <!--<li class="individual-scorecard">-->
+            <!--<action-scorecard></action-scorecard>-->
+            <!--</li>-->
+        </ul>
+    </div>
+
+    <!-- Trigger survey -->
+
+    <!--<div class="scorecard-header-container">-->
+    <!--<div class="scorecard-header-title-container">-->
+    <!--<span class="scorecard-header-title">TRIGGER SURVEYS</span>-->
+    <!--</div>-->
+    <!--<div class="scorecard-sub-header-title-container">-->
+    <!--<div class="sub-header-title-wrapper">-->
+    <!--<span class="scorecard-sub-header-title">TICKETS</span>-->
+    <!--<span class="scorecard-sub-header-evaluation">50 evaluations</span>-->
+    <!--</div>-->
+    <!--<div class="scorecard-header-score-wrapper">-->
+    <!--<action-score-bar score-comparator="{Score:50,ComparatorValue:70,ComparatorColorCode:'#f00'}"></action-score-bar>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="scorecard-content-container">-->
+    <!--<ul class="scorecard-container">-->
+    <!--<li class="individual-scorecard">-->
+    <!--<action-scorecard></action-scorecard>-->
+    <!--</li>-->
+    <!--<li class="individual-scorecard">-->
+    <!--<action-scorecard></action-scorecard>-->
+    <!--</li>-->
+    <!--<li class="individual-scorecard">-->
+    <!--<action-scorecard></action-scorecard>-->
+    <!--</li>-->
+
+    <!--</ul>-->
+    <!--</div>-->
+
+    <!--<div id="navcontainer">-->
+    <!--<ul>-->
+    <!--<li><action-scorecard></action-scorecard></li>-->
+    <!--<li><action-scorecard></action-scorecard></li>-->
+    <!--<li><action-scorecard></action-scorecard></li>-->
+    <!--<li><action-scorecard></action-scorecard></li>-->
+    <!--<li><action-scorecard></action-scorecard></li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--<ul ng-repeat="item in surveyData">-->
+    <!--<li>{{item.Name}}</li>-->
+    <!--</ul>-->
+</div>

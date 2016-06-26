@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="Views/ServiceArea/Questions/ServiceAreaQuestionTemplate.css"/>
+<div class="questionContainerDiv">
+    <div class="questionText questionLabelDiv">
+       {{question.Text}}
+    </div>
+    <div class="questionText questionScoreDiv1">
+        <span > {{score}}</span>
+    </div>
+    <div class="canvasContainer">
+    <canvas class="questionScorebar" id="{{::canvasid}}" height="20" width="100">
+    </canvas>
+    </div>
+</div>

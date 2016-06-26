@@ -1,0 +1,100 @@
+<!-- Begin page content -->
+<div class = "container">
+    <div class = "page-header">
+        <div class = "panel panel-default">
+            <div class = "panel-heading">
+                <!--<span class="glyphicon glyphicon-lock"></span> Login</div>-->
+                ITsat | Satisfaction in IT
+                <img src = "../../../assets/img/giarte-logo.png" alt = "Giarte" class = "logo"/>
+
+                <div class = "clearfix"></div>
+            </div>
+            <!-- panel-heading -->
+
+            <div class = "panel-body">
+                <div>
+                    <label id = "heading" class = "content-heading"> Welcome to ITsat </label>
+
+                    <div id = "headingcontext" class = "content-heading-context">
+                        <label class = "padding-left-label-text">Please login by providing your email and password below.</label>
+                        <label class = "padding-left-label-text">To request an ITsat Action user account, please contact:</label>
+                        <label class = "padding-left-label-text">support@giarte.com</label>
+                    </div>
+                </div>
+                <form class = "form-horizontal" role = "form" name = 'loginForm' novalidate>
+                    <div class = "form-group">
+                        <label for = "inputEmail3" class = "col-sm-2 control-label padding-left-label-text">
+                            Email</label>
+
+                        <div class = "col-sm-9">
+                            <input type = "email" class = "form-control login-text-box" id = "inputEmail3"
+                                   data-ng-model = "vm.email" placeholder = "Email" required>
+                        </div>
+                    </div>
+                    <div class = "form-group">
+                        <label for = "inputPassword3" class = "col-sm-2 control-label">
+                            Password</label>
+
+                        <div class = "col-sm-9">
+                            <input type = "password" class = "form-control login-text-box" id = "inputPassword3"
+                                   data-ng-model = "vm.password" placeholder = "Password" required>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                    <!--<div class="col-sm-offset-3 col-sm-9">-->
+                    <!--<div class="checkbox">-->
+                    <!--<label>-->
+                    <!--<input type="checkbox"/>-->
+                    <!--Remember me-->
+                    <!--</label>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <div class = "form-group last">
+                        <div class = "col-sm-2 col-sm-offset-5">
+                            <button type = "submit" class = "btn btn-success btn-sm btn-login"
+                                    data-ng-click = "vm.login()">
+                                <!-- ng-disabled="loginForm.$invalid || !loginForm.$dirty"-->
+                                Sign in
+                            </button>
+                            <!--<button type="reset" class="btn btn-default btn-sm">-->
+                            <!--Reset</button>-->
+                        </div>
+                    </div>
+                </form>
+                <!-- form-horizontal -->
+            </div>
+            <!-- panel-body -->
+            <!--Not Registred? <a href="http://www.jquery2dotnet.com">Register here</a></div>-->
+        </div>
+        <!-- panel panel-default -->
+    </div>
+    <!-- page-header -->
+</div> <!-- container -->
+
+<!-- Footer Panel -->
+<footer class = "footer">
+    <div class = "container">
+        <div class = "url-container">
+            <a href = "http://giarte.com/itsat/" class = "footer-giarte-url">
+                <div class = "url-font-size">Visit Giarte.com/ITsat for more information</div>
+            </a>
+        </div>
+        <div class = "right-arrow-container">
+            <div class = "arrow-circle-container">
+                <svg width = "15" height = "15" style = "margin: 0 auto;">
+                    <path d = "M 7.5 0 Q 14 1 15 7.5 Q 14 14 7.5 15 Q 1 14 0 7.5 Q 1 1 7.5 0" fill = "#fff"/>
+                </svg>
+            </div>
+        </div>
+        <!-- right-arrow-container-->
+
+        <div class = "arrow-container">
+            <svg height = "8" width = "8" style = "padding-left: -10px">
+                <path d = "M 0 0 L 8 3.5 L 0 7 L 0 0z" fill = "#555759"/>
+            </svg>
+        </div>
+        <!-- arrow-container -->
+    </div>
+    <!-- container -->
+</footer> <!-- footer -->

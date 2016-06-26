@@ -1,0 +1,17 @@
+<div class="grid-tooltip" style="text-align: right;padding-right: 13px;">
+    <div class="ui-grid-cell-contents">
+        <!--<span ng-repeat="a in row.entity.Answers">-->
+            <!--{{a.Value}}&nbsp;-->
+        <!--</span>-->
+
+        <div style="width: 100% !important;">
+            <ul ng-repeat="q in row.entity.Answers" style="display: inline;padding: 0px;margin: 0px">
+                <li class="horizontalAlign">
+                    <!--<action-question-score question-item="q"></action-question-score>-->
+                    <action-evaluation-answer-scores value="q.Value"></action-evaluation-answer-scores>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--<span>{{row.entity.Answers[col.colDef.colIndex].Value}}</span>-->

@@ -1,0 +1,56 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionAttributeScoreSummary', [function () {
+
+        return {
+            restrict: 'AE',
+            scope   : {
+                selectedAttributeScore: "=",
+                summaryTitle:"=",
+                titleImage:"=",
+                generalSurveyCollection:"=",
+                triggerSurveyCollection:"="
+//                scorecardClicked:"&",
+//                evaluationClicked:"&"
+            },
+            link    : function (scope,el, attrs) {
+               scope.scoreSummarySelected = true;
+               scope.evaluationSummarySelected = false;
+               scope.scorecard_selected = function(){
+//                   $('#scorecard-summary').addClass('scorecard-summary').removeClass('scorecard-summary-hide');
+//                   $('#evaluation-summary').addClass('evaluation-summary-hide').removeClass('evaluation-summary');
+                   $('#selected-summary-arrow').css({ "margin-left": '30px' });
+
+                   scope.scoreSummarySelected = true;
+                   scope.evaluationSummarySelected = false;
+               };
+               scope.evaluation_selected = function(){
+//                   $('#scorecard-summary').addClass('scorecard-summary-hide').removeClass('scorecard-summary');
+//                   $('#evaluation-summary').addClass('evaluation-summary').removeClass('evaluation-summary-hide');
+                   $('#selected-summary-arrow').css({ "margin-left": '120px' });
+
+                   scope.scoreSummarySelected = false;
+                   scope.evaluationSummarySelected = true;
+               };
+               scope.questionItemClick = function (evt) {
+                   var curItem = '#' + evt.currentTarget.id;
+                   $(curItem).addClass('selectedScoreQuestionItem').siblings().removeClass('selectedScoreQuestionItem');
+                   var innerDiv = "#" + evt.currentTarget.firstElementChild.id;
+                   $(innerDiv).addClass('selectedScoreQuestionListItemDiv');
+                   var prevSlected_li = $("#score-summary-question > li > div[id^='div-attribute-'].selectedScoreQuestionListItemDiv").not(innerDiv);
+                   prevSlected_li.removeClass('selectedScoreQuestionListItemDiv').addClass('questionScoreListItemDiv');
+                };
+                scope.close_summary = function(){
+                    scope.scoreSummarySelected = true;
+                    scope.evaluationSummarySelected = false;
+                    $('#selected-summary-arrow').css({ "margin-left": '30px' });
+                };
+            },
+            templateUrl:'Views/Shared/Template/AttributeScoreSummaryTemplate.html'
+        };
+
+    }]);
+
+});

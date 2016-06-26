@@ -1,0 +1,156 @@
+define(['application-configuration', 'ajaxService','dataFactory','accountFactory','leftMenuSlidingWindowEventNotifyFactory'], function (app) {
+
+    app.register.factory('datasetSelectionFactory', ['$rootScope', '$http', 'ajaxService','dataFactory','accountFactory','leftMenuSlidingWindowEventNotifyFactory',
+        function ($rootScope, $http, ajaxService,dataFactory,accountFactory,leftMenuSlidingWindowEventNotifyFactory) {
+        var datasetFactory = {};
+        datasetFactory.customers = {};
+        datasetFactory.currentuser = null;
+        datasetFactory.FromDate =null;
+        datasetFactory.ToDate = null;
+        datasetFactory.customerID = null;
+        datasetFactory.sessionID = null;
+        datasetFactory.customerID = null;
+        initializeDataset();
+
+        function initializeDataset(){
+            $rootScope.isNeedToShowLoading = false;
+            datasetFactory.currentuser = accountFactory.UserData();
+            datasetFactory.sessionID = datasetFactory.currentuser.SessionId;
+
+        }
+
+        datasetFactory.changeDataSet = function () {
+            leftMenuSlidingWindowEventNotifyFactory.setDatasetLoadEvent(true);
+            $rootScope.IsDatasetLoaded = false;
+            datasetFactory.customerID = datasetFactory.selectedCustomer.CustomerId;
+
+            if(!isInputValidated())
+                return;
+
+            $rootScope.isNeedToShowLoading = true;
+            $rootScope.loadTitle = "Loading dataset";
+            createDateRange();
+            var dataSet = createParameter();
+            dataFactory.ChangeDataSet(dataSet);
+
+        };
+
+        datasetFactory.customerChanged = function(){
+            datasetFactory.customerID = datasetFactory.selectedCustomer.CustomerId;
+        };
+
+        function createDateRange(){
+            var newDate = new Date();
+            var firstDate;
+            var lastDate;
+
+            switch (datasetFactory.selectedValue) {
+                case "MonthToDate":
+                    //First date of current month
+                    firstDate = new Date(newDate.getFullYear(), newDate.getMonth(), 1);
+                    //Yesterday date
+                    lastDate = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate() - 1);
+
+                    datasetFactory.FromDate = firstDate;
+                    datasetFactory.ToDate = lastDate;
+                    break;
+                case "Month":
+                    datasetFactory.FromDate = datasetFactory.selectedMonth.startDate;
+                    datasetFactory.ToDate = datasetFactory.selectedMonth.endDate;
+                    break;
+                case "Quarter":
+                    datasetFactory.FromDate = datasetFactory.selectedQuarter.startDate;
+                    datasetFactory.ToDate = datasetFactory.selectedQuarter.endDate;
+                    break;
+                case "DateRange":
+                    datasetFactory.FromDate = datasetFactory.dtpValueFromDate;
+                    datasetFactory.ToDate = datasetFactory.dtpValueToDate;
+                    break;
+                default:
+                    datasetFactory.FromDate = null;
+                    datasetFactory.ToDate = null;
+                    break;
+            }
+        }
+        function isInputValidated()
+        {
+            var isValid = true;
+
+            if(datasetFactory.selectedValue === "DateRange") {
+                isValid = isValidDateRange();
+            }
+
+            return isValid;
+        }
+
+        function createParameter(){
+            var params = {
+                sessionID: datasetFactory.sessionID,
+                customerID: datasetFactory.customerID,
+                fromDate: datasetFactory.FromDate,
+                toDate: datasetFactory.ToDate
+            };
+
+            return params;
+        }
+
+        function isValidInput(){
+            var isValid = true;
+            if( datasetFactory.selectedValue === null)
+            {
+                alert("Please select a criteria ");
+                isValid = false;
+                return isValid;
+            }
+            return isValid
+        }
+
+        function isValidDateRange(){
+            var isValid = true;
+
+            if(datasetFactory.dtpValueFromDate === null || datasetFactory.dtpValueToDate === null) {
+                alert("Please select a DateRange");
+                isValid = false;
+                return isValid;
+            }
+            if(typeof datasetFactory.dtpValueFromDate === "undefined" || typeof datasetFactory.dtpValueToDate === "undefined") {
+                alert("Please select a valid DateRange");
+                isValid = false;
+                return isValid;
+            }
+            if(datasetFactory.dtpValueFromDate >  datasetFactory.dtpValueToDate) {
+                alert("Please select a valid DateRange");
+                isValid = false;
+                return isValid;
+            }
+
+            return isValid
+        }
+
+        datasetFactory.setSelectedDataset = function(dataset){
+            datasetFactory.selectedValue = dataset.datasetName;
+            datasetFactory.selectedCustomer = dataset.selectedCustomer;
+            datasetFactory.selectedMonth = dataset.selectedMonth;
+            datasetFactory.selectedQuarter = dataset.selectedQuarter;
+            datasetFactory.customers = dataset.customers;
+            datasetFactory.FromDate = dataset.fromDate;
+            datasetFactory.ToDate = dataset.toDate;
+
+            if(datasetFactory.selectedValue.toLowerCase() == "daterange") {
+                datasetFactory.dtpValueFromDate = dataset.fromDate;
+                datasetFactory.dtpValueToDate = dataset.toDate;
+            }
+            else{
+                datasetFactory.dtpValueFromDate =  new Date();
+                datasetFactory.dtpValueToDate =  new Date();
+            }
+
+            datasetFactory.LastSixMonth =  dataset.LastSixMonth;
+            datasetFactory.QuarterColl =  dataset.QuarterColl;
+
+        };
+
+        return datasetFactory;
+    }]);
+});
+

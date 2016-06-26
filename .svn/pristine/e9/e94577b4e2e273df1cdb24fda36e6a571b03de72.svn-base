@@ -1,0 +1,44 @@
+/* Page header tab bar */
+.tab-panel-container .nav {
+    position:absolute;
+    padding-left: 50px;
+    margin-bottom: 1px;
+    list-style: none;
+    bottom:0;
+}
+
+.tab-panel-container .nav-tabs{
+    border-bottom: none;
+}
+
+.nav-tabs > li > a {
+    height           : 32px;
+    margin-right     : 2px;
+    line-height      : 1.42857143;
+    border           : none;
+    border-radius    : 0;
+    background-color : #ddddde;
+    color            : #000;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    color               : #000;
+    cursor              : default;
+    background-color    : #fff;
+    border              : none !important;
+    border-bottom-color : transparent !important;
+}
+
+/* logout btn */
+#logout {
+    position   : absolute;
+    right      : 25px;
+    margin-top : 20px;
+}
+
+.service-area-name{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+
+}

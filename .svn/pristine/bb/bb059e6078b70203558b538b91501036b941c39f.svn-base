@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="Views/CustomerSettings/CustomerSettings.css"/>
+<div class="customer-settings-container">
+    <div class="modal-header">
+        <span class="modal-title">Customer Settings</span>
+        <i ng-click="cancel()" class="fa fa-times-circle fa-lg cursor"></i>
+    </div>
+    <div class="modal-body">
+        <div class="top-content">
+            <div class="image-container">
+              <img class="auto-fit-img" ng-src="{{selectedCustomer.LogoURL}}" alt="logo">
+            </div>
+            <div class="client-selection cursor">
+                <label>Client: </label>
+                <select id="customerSettings_ddlClient"
+                        ng-init="setSelectedCustomer(currentuser.UserToCustomers[0])"
+                        ng-model="selectedCustomer"
+                        ng-options="item.CustomerName for item in currentuser.UserToCustomers"
+                        ng-change="customerChanged()"></select>
+            </div>
+        </div>
+    </div>
+    <div class="main-content" ng-switch on="selectedView">
+        <div ng-switch-when="general">
+         <div ng-include="'Views/CustomerSettings/GeneralSettings/GeneralSettingsTemplate.html'"/>
+        </div>
+        <div ng-switch-when="user">
+            <div ng-include="'Views/CustomerSettings/UserSettings/UserSettingsTemplate.html'"/>
+        </div>
+        <!--<div ng-if="selectedView1"-->
+             <!--ng-include="'Views/CustomerSettings/GeneralSettings/GeneralSettingsTemplate.html'">-->
+        <!--</div>-->
+        <!--<div    ng-if="selectedView2"-->
+                <!--ng-include="'Views/CustomerSettings/UserSettings/UserSettingsTemplate.html'">-->
+        <!--</div>-->
+    </div>
+        <div class="menu-left-content cursor">
+            <ul>
+                <li id="customerSettingsMenu-{{$index}}" class="btn-arrow-customer-settings-menu" ng-click="menuItem_eventHandler(menuItem.clickHandlerIndex,$event)"
+                    ng-repeat="menuItem in selectedUserSettingsMenu.Menu">
+                    <span>{{menuItem.title}}</span><br/>
+                </li>
+                <!--<li>-->
+                    <!--<a ng-click="customerSettings_ClickHandler()">Customer Settings</a><br/>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    <div class="clearingdiv"></div>
+    <!--<div class="modal-footer">-->
+        <!--<!--<button class="btn btn-primary" ng-click="ok()">OK</button>-->
+        <!--<!--<button class="btn btn-warning" ng-click="cancel()">Cancel</button>-->
+        <!--Footer content-->
+    <!--</div>-->
+</div>

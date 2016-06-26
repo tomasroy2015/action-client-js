@@ -1,0 +1,163 @@
+"use strict";
+define(['application-configuration','lodash'], function (app) {
+    app.register.directive('actionAddEditCountryMapping',['customerSettingsFactory','Notify',
+        function (customerSettingsFactory,Notify) {
+            return {
+                restrict: 'E',
+                scope: {
+                    show: '=info',
+                    message:'=',
+                    data:'=',
+                    selectedData:'=',
+                    windowCloseListener:'&',
+                    customer:'=',
+                    isEdit:'='
+                },
+//                controller:function($scope){
+//                },
+                link:function (scope, el, attrs) {
+                    var selectedPredefinedValue;
+                    scope.isPredefinedWindowShown = false;
+                    scope.confirmModalShown = false;
+                    scope.confMessage = "";
+                    scope.mapData = {};
+                    scope.selectedItem = {};
+                    scope.countries = [];
+                    scope.distinctCountryList = [];
+                    angular.copy(scope.data,scope.mapData);
+                    scope.dialogStyle = {};
+
+                    if (attrs.width)
+                        scope.dialogStyle.width = attrs.width;
+                    if (attrs.height)
+                        scope.dialogStyle.height = attrs.height;
+                    scope.hideModal = function() {
+                        scope.show = false;
+                        scope.windowCloseListener();
+                    };
+
+                    if(!scope.isEdit){
+                        scope.title = "Add country mapping";
+                        scope.countries = scope.mapData.UnMappedCountries;
+                        scope.selectedCountry= scope.countries[0];
+                    }else{
+                        scope.title = "Edit country mapping";
+                        angular.copy(scope.selectedData,scope.selectedItem);
+                        scope.countries.push(scope.selectedItem);
+                        scope.selectedCountry= scope.countries[0];
+                        scope.selectedCountry.CountryName =  scope.selectedCountry.CountryName+"["+scope.selectedCountry.Countrykey+"]";
+                    }
+                    InitializeData();
+                    function InitializeData(){
+                       var customer={
+                            SessionId:scope.customer.SessionId,
+                            CustomerId: scope.customer.CustomerId,
+                            FromDate:new Date(new Date().getFullYear(), new Date().getMonth() - 11, 1),
+                            ToDate:new Date((new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)) - 1)
+                        };
+                        customerSettingsFactory.GetDistinctCountryList(customer);
+                    }
+                    scope.$on(Notify.CUSTOMER_SETTINGS_DISTINCT_COUNTRY_DATA_READY, function (event) {
+                        if(scope.isEdit){
+                            if(scope.selectedItem.MappedCountries){
+                                _.forEach(scope.selectedItem.MappedCountries,function(f){
+                                    scope.distinctCountryList.push({isSelected:true,isPredefined:false,Value: f.MappedCountryValue});
+                                });
+                            }
+                        }
+
+                       var distinctList = customerSettingsFactory.DistinctCountryList();
+                        if(distinctList && distinctList.length > 0){
+                            _.forEach(distinctList,function(f){
+                                scope.distinctCountryList.push({isSelected:false,isPredefined:false,Value: f});
+                            });
+                        }
+                        var predefinedValues = scope.mapData.PredefinedCountryValues;
+                        if(predefinedValues){
+                            _.forEach(predefinedValues,function(f2){
+                                var selectedDefinedValue = _.find(scope.distinctCountryList, function(n){
+                                    return n.Value.toString().toLowerCase().trim() === f2.CountryValue.toString().toLowerCase().trim();
+                                });
+                                if(!selectedDefinedValue || angular.isUndefined(selectedDefinedValue)){
+                                    scope.distinctCountryList.push({Id: f2.Id, isSelected: false, isPredefined: true, Value: f2.CountryValue});
+                                }
+                            });
+                        }
+                        scope.distinctCountryList = _.sortBy(scope.distinctCountryList, function(x) {return x.Value.toLowerCase();});
+
+                    });
+                    scope.$on(Notify.CUSTOMER_SETTINGS_COUNTRYMAPPING_ADD_UPDATE_SUCCESS,function(event){
+                        scope.hideModal();
+                    });
+                    scope.addEditCountryMapping=function(){
+                        scope.selectedCountry.MappedCountries = [];
+                        addMappedValues(scope.selectedCountry);
+                        var attrRoute="/"+scope.customer.SessionId+"/"+scope.customer.CustomerId;
+                        customerSettingsFactory.AddUpdateCountryMapping(scope.selectedCountry,attrRoute);
+                    };
+                    scope.showPredefinedValue=function(){
+                        scope.isPredefinedWindowShown = true;
+                    };
+                    scope.predefinedValueWindowClose = function(){
+                        scope.isPredefinedWindowShown=false;
+                    };
+                    var addMappedValues = function(selectedCountry){
+                        _.forEach(scope.distinctCountryList,function(f){
+                            if(f.isSelected){
+                                selectedCountry.MappedCountries.push({CountryId:selectedCountry.Countrykey,CustomerId:scope.customer.CustomerId,MappedCountryValue: f.Value});
+                            }
+                        });
+                        return selectedCountry;
+                    };
+                    scope.$on(Notify.CUSTOMER_GENERAL_SETTINGS_PREDEFINED_VALUE_ADDED, function (event,response) {
+                        if(angular.isUndefined(response)) return;
+                        scope.mapData.PredefinedCountryValues.push(response.data);
+                        scope.distinctCountryList.push({Id: response.data.Id,isSelected:false,isPredefined:true,Value: response.data.CountryValue});
+                        scope.distinctCountryList = _.sortBy(scope.distinctCountryList, function(x) {return x.Value.toLowerCase();});
+                    });
+                    scope.$on(Notify.CUSTOMER_GENERAL_SETTINGS_PREDEFINED_VALUE_DELETED, function (event,response) {
+                        if(angular.isUndefined(response)) return;
+                        scope.mapData.PredefinedCountryValues = removePredefinedValue(scope.mapData.PredefinedCountryValues,response);
+                        scope.distinctCountryList = removePredefinedValue(scope.distinctCountryList,response);
+                        scope.distinctCountryList = _.sortBy(scope.distinctCountryList, function(x) {return x.Value.toLowerCase();});
+                    });
+                    function removePredefinedValue(values,response){
+                        var removeCounter = 0;
+                        for (var index = 0; index < values.length; index++) {
+                            // If current array item equals itemToRemove then
+                            if (values[index].Id === response.data.Id) {
+                                // Remove array item at current index
+                                values.splice(index, 1);
+
+                                // Increment count of removed items
+                                removeCounter++;
+
+                                // Decrement index to iterate current position
+                                // one more time, because we just removed item
+                                // that occupies it, and next item took it place
+                                index--;
+                            }
+                        }
+                        return values;
+                    }
+                    scope.deletePredefinedValue = function(item)
+                    {
+                        scope.confirmModalShown = !scope.confirmModalShown;
+                        scope.confMessage="Are you sure to delete this predefined country?";
+                        selectedPredefinedValue = null;
+                        selectedPredefinedValue = {
+                               Id:item.Id,
+                               CustomerId:item.CustomerId,
+                               CountryValue:item.Value
+                          }
+                    };
+                    scope.confirmModalDelete=function(){
+                        var attrRoute="/"+scope.customer.SessionId+"/"+scope.customer.CustomerId;
+                        customerSettingsFactory.DeletePredefinedCountryValue(selectedPredefinedValue,attrRoute);
+                    }
+                },
+                templateUrl: 'Views/CustomerSettings/CountryMapping/AddEditCountryMappingTemplate.html'
+            };
+        }]);
+
+});

@@ -1,0 +1,79 @@
+/* All external import files
+======================================================*/
+ul.attribute-question {
+  display: block;
+  width: 258px;
+  padding: 0px;
+  margin: 0px 0px 0px 2px;
+  position: relative;
+  min-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 318px; }
+  ul.attribute-question li.attribute-questionListItem {
+    display: block;
+    height: 24px;
+    position: relative;
+    padding: 0px;
+    margin-bottom: 4px;
+    text-align: center;
+    width: 250px; }
+    ul.attribute-question li.attribute-questionListItem:not(.selectedScoreQuestionListItemDiv):hover {
+      background-color: #ddddde;
+      cursor: pointer;
+      width: 250px; }
+    ul.attribute-question li.attribute-questionListItem .attribute-questionListItemDiv .attribute-questionContainerDiv {
+      padding: 0;
+      width: 250px;
+      float: left;
+      height: 24px;
+      font-size: 11px;
+      text-align: center; }
+      ul.attribute-question li.attribute-questionListItem .attribute-questionListItemDiv .attribute-questionContainerDiv .attribute-questionLabelDiv {
+        text-align: left;
+        width: 150px;
+        float: left;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-right: 3px;
+        padding-left: 4px;
+        padding-top: 4px; }
+      ul.attribute-question li.attribute-questionListItem .attribute-questionListItemDiv .attribute-questionContainerDiv .attribute-questionScoreDiv1 {
+        margin-top: 0px;
+        display: inline-block;
+        float: left;
+        font-weight: bold; }
+      ul.attribute-question li.attribute-questionListItem .attribute-questionListItemDiv .attribute-questionContainerDiv .attribute-questionText {
+        color: #000000; }
+  ul.attribute-question .overall-summary-bar-container {
+    font-size: 11px;
+    color: #000000;
+    margin: 5px 0px 0px 6px;
+    height: 45px; }
+    ul.attribute-question .overall-summary-bar-container .overall-scorebar-container {
+      font-size: 12px;
+      border-bottom: 2px solid #d3d3d3;
+      font-weight: bold; }
+    ul.attribute-question .overall-summary-bar-container .overall-score-div {
+      display: inline-flex;
+      margin-top: 4px; }
+      ul.attribute-question .overall-summary-bar-container .overall-score-div .customized-bar-position {
+        margin: -5px 0px 0px 124px; }
+  ul.attribute-question li[data-questionType='group'] {
+    width: 250px;
+    background: #ddddde;
+    font-weight: bold; }
+  ul.attribute-question .questionScoreListItemDiv {
+    position: relative;
+    height: 100%;
+    width: 250px; }
+
+.selectedScoreQuestionListItemDiv {
+  cursor: pointer;
+  background-color: #FFED00;
+  position: relative;
+  height: 24px;
+  width: 250px; }
+
+/*# sourceMappingURL=AttributeScoreBoxTemplate.css.map */

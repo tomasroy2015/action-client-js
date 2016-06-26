@@ -1,0 +1,157 @@
+
+<link rel="stylesheet" href="Views/Shared/Module/ngtable/ng-table.css"/>
+<link rel="stylesheet" href="Views/List/ListViewTemplate.css"/>
+<div class="content-main lisview-container " id="parentDiv" ng-controller="listViewController">
+    <div class="row row-container" >
+        <div class="table-responsive vscrollbar">
+            <div>
+                <action-view-by-attribute attr-item-collection="attributeItemColl" selected-attribute="defaultAttr"></action-view-by-attribute>
+            </div>
+            <!--
+            <table ng-table="tableParams" class="table" id="tbl">
+                <tr ng-repeat="user in $data">
+                    <td data-title="'Name'" sortable="'name'">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img style="float: left;width:20px;height: 24px;margin-right: 10px;"
+                                     src="Content/images/geo-attribute-default-icon.png"/>
+                                <span id="name">{{user.name}}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-title="'Score'" sortable="'score.score'">
+                        <actionScoreBar score="user.score.score"></actionScoreBar>
+                    </td>
+                    <td data-title="'Questions'">
+                        <ul ng-repeat="q in user.questionScores" style="display: inline;padding: 0px;margin: 0px">
+                            <li class="horizontal">
+                                <actionQuestionScore score="q.score"></actionQuestionScore>
+                            </li>
+                        </ul>
+                    </td>
+                    <td data-title="'Evaluations'" sortable="'age'" style="height: 45px">
+                       <evaluation-speech-bubble evaluation-count="user.age"></evaluation-speech-bubble>
+                    </td>
+                </tr>
+            </table>-->
+            <table ng-table="tableParams" class="table ng-table" id="tbl">
+                <thead>
+                <tr>
+                    <th class="sortable" ng-class="{
+                        'sort-asc':tableParams.isSortBy('Name','asc'),
+                        'sort-desc':tableParams.isSortBy('Name','desc')}"
+                        ng-click="tableParams.sorting({'Name':tableParams.isSortBy('Name','asc')?'desc':'asc'})">
+                        <div ng-if="!template" ng-show="!template" class="ng-scope ng-binding">NAME</div>
+                    </th>
+                    <th class="sortable" ng-class="{
+                        'sort-asc':tableParams.isSortBy('score.score','asc'),
+                        'sort-desc':tableParams.isSortBy('score.score','desc')}"
+                        ng-click="tableParams.sorting({'score.score':tableParams.isSortBy('score.score','asc')?'desc':'asc'})">
+                        <div>SCORE</div>
+                    </th>
+
+                    <!--
+                        <th ng-repeat="questionType in $data[0].questionScores" style="float: none; width: 100px;"
+                            class="sortable" ng-class="{
+                                'sort-asc':tableParams.isSortBy(questionType.questionType,'asc'),
+                                'sort-desc':tableParams.isSortBy(questionTyp.questionType,'desc')}"
+                            ng-click="tableParams.sorting({questionType.questionType,tableParams.isSortBy(questionType.questionType,'asc')?'desc':'asc'})">
+                            <div>{{questionType.questionType}}
+                            </div>
+                        </th>-->
+                    <th>
+                        <div>QUESTIONS</div>
+                    </th>
+                    <!--
+                     temporary commented code. will used with service area
+                    <th ng-repeat="column in columns"
+                        class="sortable" ng-class="{
+                        'sort-asc': tableParams.isSortBy(column.questionType, 'asc'),
+                        'sort-desc': tableParams.isSortBy(column.questionType, 'desc')
+                      }"
+                        ng-click="tableParams.sorting(column.questionType, tableParams.isSortBy(column.questionType, 'asc') ? 'desc' : 'asc')">
+                        <div>{{column.questionType}}</div>
+                    </th>
+                    -->
+                    <th class="sortable" ng-class="{
+                        'sort-asc':tableParams.isSortBy('age','asc'),
+                        'sort-desc':tableParams.isSortBy('age','desc')}"
+                        ng-click="tableParams.sorting({'age':tableParams.isSortBy('age','asc')?'desc':'asc'})">
+                        <div>EVALUATIONS</div>
+                    </th>
+                </thead>
+                <tbody ng-repeat="item in $data">
+                <tr data-ng-click="rowSelection_Handler(item)">
+                    <td  sortable="'Name'">
+                        <div class="row">
+                            <div class="col-md-12" style="padding-right: 0px !important;">
+                                <img style="float: left;width:20px;height: 24px;margin-right: 10px;"
+                                     src="Content/images/geo-attribute-default-icon.png"/>
+                                <span id="name">{{item.Name}}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td  sortable="'ScoreData.Score'">
+                        <action-score-bar score="item.ScoreData.Score"></action-score-bar>
+                    </td>
+                    <td>
+                        <ul ng-repeat="q in item.ScoreData.QuestionScores" style="display: inline;padding: 0px;margin: 0px">
+                            <li class="horizontal">
+                                <action-question-score score="q.Score"></action-question-score>
+                            </li>
+                        </ul>
+                    </td>
+                    <!-- temporary commented code. will used with service area
+                    <td ng-repeat="q in user.questionScores">
+                        <ul style="display: inline;padding: 3px;">
+                            <li class="horizontal">
+                                <actionQuestionScore score="q.score"></actionQuestionScore>
+                            </li>
+                        </ul>
+                    </td>
+                    -->
+                    <td sortable="'age'" style="height: 45px">
+                        <action-evaluation-speech-bubble evaluation-count="item.ScoreData.Respondents"></action-evaluation-speech-bubble>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!--<script type="text/ng-template" id="custom/pager">
+
+                    <ul style=" list-style: none;" class="pager ng-cloak">
+                        <div style="padding: 0;margin: 0;float: right;">
+                            <li style="display: inline;padding-right: 3px;padding-left: 3px" ng-repeat="page in pages track by $index" ng-show="$index>0 && $index<pages.length-1">
+                                <a  ng-click="params.page(page.number)" href=""> {{$index}}</a>
+                            </li>
+                        </div>
+                    </ul>
+            </script>-->
+
+            <!--data-toggle="modal" data-target="#popup" <div class="pop-up fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+                <!--<div class="pop-up-dialog">-->
+                    <!--<div class="pop-up-content">-->
+                        <!--<div class="pop-up-header" style="height:80px">-->
+                            <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="false">&times;</button>-->
+                            <!--<h4 class="pop-up-title" id="myModalLabel"><b>{{selectedItem.Name}}</b></h4>-->
+                            <!--<div class="row buttonBar">-->
+                                <!--<div class="col-md-6 btn-content">SCORECARD</div>-->
+                                <!--<div class="col-md-6 btn-content">EVALUATIONS  </div>-->
+                                <!--&lt;!&ndash;<div class="col-md-6 btn-content">SENTIMENT</div>&ndash;&gt;-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="pop-up-body" style="height:320px">-->
+
+                        <!--</div>-->
+                        <!--<div class="pop-up-footer" style="height:90px">-->
+                            <!--<p style="left:0;font-size:10pt;font-weight:bold;">Respondents(20)</p>-->
+                            <!--<p style="left:0;font-size:9pt;">No comments</p>-->
+                            <!--&lt;!&ndash;<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>&ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+
+</div>

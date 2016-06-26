@@ -1,0 +1,191 @@
+
+"use strict";
+
+define(['application-configuration','ui-grid-unstable','lodash'], function (app) {
+
+    app.register.directive('actionEvaluations', ['uiGridConstants',function (uiGridConstants) {
+        return {
+            restrict: 'AE',
+            scope:{
+                evaluationCollection:'=',
+                selectedServiceAreaId:'=',
+                hasTranslation:'=',
+                onItemClick:'&'
+            },
+            link:function (scope, el, attrs) {
+                    scope.evaluationUiGridConfig = {
+                        rowHeight: 40,
+                        showGridFooter: true,
+                        enableSorting: true,
+                        rowSelectionHeader: false,
+                        enableFullRowSelection: true,
+                        enableRowSelection: false,
+                        multiSelect: false,
+                        showTreeRowHeader:false,
+                        onRegisterApi: function (gridApi) {
+                            scope.gridApi = gridApi;
+                            scope.gridApi.grid.options.enableHorizontalScrollbar=0;
+                            scope.gridApi.core.on.sortChanged(scope, function (grid, sort) {
+                                scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                                scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.EDIT);
+                            });
+                        scope.gridApi.grid.registerRowsProcessor( scope.evaluationFilter, 200);
+                        },
+                        rowTemplate: 'Views/LeftMenu.Evaluations/EvaluationUIGrid/EvaluationGridRowTemplate.html',
+                        gridFooterTemplate:'Views/LeftMenu.Evaluations/EvaluationUIGrid/EvaluationGridFooterTemplate.html'
+                    };
+
+                scope.columnSortOrder = "";
+                scope.selectedColumnName;
+                scope.columnsGrd=[];
+                scope.commentedOnlyVal = false;
+                scope.transCheckIndex = 1;
+                scope.filterString = "";
+
+                scope.$watch(function(scope){return scope.evaluationCollection},function(newValue,oldValue){
+                    if(angular.isUndefined(newValue) || newValue.length<1)
+                    return;
+                    setEvaluationUIGrid(newValue);
+                },true)
+                function setEvaluationUIGrid(newValue){
+                    var colData = newValue[0].Answers;
+                    setResetUIGridColumn(colData);
+                    scope.evaluationUiGridConfig.data = newValue;
+                    if(!angular.isUndefined(scope.gridApi))
+                        scope.gridApi.grid.refresh();
+                }
+
+                function setResetUIGridColumn(colData){
+                    while(scope.columnsGrd && scope.columnsGrd.length > 0) {
+                        scope.columnsGrd.pop();
+                    }
+                    var commentsGridColumn= {
+                        field: getSelectedTranslatedRemarksType(scope.transCheckIndex),
+                        displayName: 'COMMENTS',
+                        //width:"100%",
+                        //columnHeaderGrpDisplayName:'COMMENTS',
+                        enableSorting: true,
+                        // width:120,
+                        headerCellTemplate: 'Views/LeftMenu.Evaluations/EvaluationUIGrid/HeaderTemplates/HeaderTemplate.html',
+                        cellTemplate: getRemarksCellTemplateURI(scope.transCheckIndex)
+                    };
+
+//                        for(var i=0;i<colData.length;i++)
+//                        {
+//                            var answersGridColumn={
+//                                field:'Answers',
+//                                colIndex:i,
+//                                displayName:"",
+//                                width:30,
+//                                enableSorting:true,
+//                                //columnHeaderGrpDisplayName:'SCORES',
+//                                cellTemplate:'Views/LeftMenu.Evaluations/EvaluationUIGrid/CellTemplates/AnswerColumnCellTemplate.html',
+//                                headerCellTemplate:'Views/LeftMenu.Evaluations/EvaluationUIGrid/HeaderTemplates/HeaderTemplate.html'
+//                            }
+//                            scope.columnsGrd.push(answersGridColumn);
+//                        }
+
+                    var widthPercentage=Math.ceil((30/8)* colData.length);
+                    var widthStr=widthPercentage+"%";
+
+                    var answersGridColumn={
+                        colColl:colData,
+                        field:'Answers',
+                        displayName:'SCORES',
+                        enableSorting: false,
+                        minWidth:80,
+                        width:widthStr,
+                        cellTemplate:'Views/LeftMenu.Evaluations/EvaluationUIGrid/CellTemplates/AnswerColumnCellTemplate.html',
+                        headerCellTemplate:'Views/LeftMenu.Evaluations/EvaluationUIGrid/HeaderTemplates/AnswerColumnHeaderTemplate.html'
+                    }
+                    scope.columnsGrd.push(commentsGridColumn);
+                    scope.columnsGrd.push(answersGridColumn);
+                    scope.evaluationUiGridConfig.columnDefs = scope.columnsGrd;
+                }
+
+
+                scope.onEvaluationItemClick = function(selectedItem){
+                    scope.onItemClick({selectedEvaluation:selectedItem});
+                };
+
+                //scope.onFilterButtonClick = function(inputText){
+                //    scope.onFilterClick({filterString:inputText})
+                //};evaluationUiGridConfig.data
+                scope.getVisibleRowCount = function(){
+                    var remarksCount =  _.select(scope.gridApi.grid.rows, function(n){
+                        return n.visible > 0;
+                    });
+                    return remarksCount.length;
+                };
+                scope.getRemarksCount = function(){
+                  var remarksCount =  _.select(scope.gridApi.grid.rows, function(n){
+                        return n.visible && n.entity.Remarks.length > 0;
+                    });
+                  return remarksCount.length;
+                };
+                scope.onEvaluationFilterClick = function(){
+                    console.log(scope.filterString);
+                    scope.gridApi.grid.refresh();
+                };
+                scope.evaluationFilter = function( renderableRows ){
+                   _.forEach(renderableRows, function( row, key ) {
+                       if(scope.commentedOnlyVal || scope.filterString.length > 0) {
+                           row.visible = row.entity.Remarks.length > 0 && row.entity.Remarks.indexOf(scope.filterString)> -1;
+                       } else{
+                           row.visible = true;
+                       }
+                    });
+                    console.log(scope.getRemarksCount());
+                    return renderableRows;
+                };
+                scope.onTranslationCheck = function($event){
+                    var checkBoxId = $event.target.id;
+                    var prevTransIndex = scope.transCheckIndex;
+                    if(checkBoxId == 'chkOriginal'){
+                        scope.transCheckIndex = 1;
+                    } else if(checkBoxId == 'chkTranslated'){
+                        scope.transCheckIndex = 2;
+                    } else if(checkBoxId == 'chkBoth'){
+                        scope.transCheckIndex = 3;
+                        /*temporary return code*/
+                        return;
+                    }
+                    if(prevTransIndex === scope.transCheckIndex) {
+                        $event.target.checked = true;
+                        return;
+                    }
+                    showEvaluationForSelectedTranslation();
+                }
+
+                function showEvaluationForSelectedTranslation(){
+                    var data = scope.evaluationUiGridConfig.data;
+                    setEvaluationUIGrid(data)
+                }
+                function getSelectedTranslatedRemarksType(translationId)
+                {
+                    var type="";
+                    if(translationId==1)
+                    type="Remarks";
+                    else if(translationId==2)
+                    type="RemarksEng";
+                    else
+                        type="Remarks";
+                    return type;
+                }
+                function getRemarksCellTemplateURI(translationId)
+                {
+                    var uri="";
+                    if(translationId==1)
+                        uri="Views/LeftMenu.Evaluations/EvaluationUIGrid/CellTemplates/CommentsColumnCellTemplate.html";
+                    else if(translationId==2)
+                        uri="Views/LeftMenu.Evaluations/EvaluationUIGrid/CellTemplates/TranslatedCommentsColumnCellTemplate.html";
+                    else
+                        uri="Views/LeftMenu.Evaluations/EvaluationUIGrid/CellTemplates/CommentsColumnCellTemplate.html";
+                    return uri;
+                }
+            },
+            templateUrl: 'Views/Shared/Template/ServiceAreaEvaluationsTemplate.html'
+        };
+    }]);
+
+});

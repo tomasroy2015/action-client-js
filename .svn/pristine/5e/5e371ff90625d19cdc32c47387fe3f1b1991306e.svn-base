@@ -1,0 +1,60 @@
+"use strict";
+
+define(['application-configuration','lodash'], function (app) {
+
+    app.register.directive('actionAttributeEvaluationSummary', [function () {
+
+        return {
+            restrict: 'AE',
+
+            scope:{
+                index:'=',
+                score:'=',
+                question:'='
+            },
+            templateUrl: 'Views/Shared/Template/AttributeEvaluationSummaryTemplate.html',
+            link:function (scope, el, attr) {
+
+                scope.$watch(function(scope) {return scope.question}, function (newValue,oldValue) {
+
+                    if(!angular.isUndefined(newValue)) {
+
+                        if(angular.isUndefined(newValue.frequency1)) return;
+                        var barValue1 = newValue.frequency1.Frequency == 0 ? 0 : (newValue.frequency1.Frequency / newValue.TotalResponse) * 35;
+                        var barValue2 = newValue.frequency2.Frequency == 0 ? 0 : (newValue.frequency2.Frequency / newValue.TotalResponse) * 35;
+                        var barValue3 = newValue.frequency3.Frequency == 0 ? 0 : (newValue.frequency3.Frequency / newValue.TotalResponse) * 35;
+                        var barValue4 = newValue.frequency4.Frequency == 0 ? 0 : (newValue.frequency4.Frequency / newValue.TotalResponse) * 35;
+
+                        var bar1 = el.find('#frequency-bar1');
+                        $(bar1).css({"height": barValue1 + 'px'});
+
+                        var bar2 = el.find('#frequency-bar2');
+                        $(bar2).css({"height": barValue2 + 'px'});
+
+                        var bar3 = el.find('#frequency-bar3');
+                        $(bar3).css({"height": barValue3 + 'px'});
+
+                        var bar4 = el.find('#frequency-bar4');
+                        $(bar4).css({"height": barValue4 + 'px'});
+                    }
+                });
+
+//                var bar1 = el.find('#frequency-bar1');
+//                $(bar1).css({"height":(scope.question.frequency1.Frequency/35)*10+'px'});
+//
+//                var bar2 = el.find('#frequency-bar2');
+//                $(bar2).css({"height":(scope.question.frequency2.Frequency/35)*10+'px'});
+//
+//                var bar3 = el.find('#frequency-bar3');
+//                $(bar3).css({"height":(scope.question.frequency3.Frequency/35)*10+'px'});
+//
+//                var bar4 = el.find('#frequency-bar4');
+//                $(bar4).css({"height":(scope.question.frequency4.Frequency/35)*10+'px'});
+
+
+            }
+        };
+
+    }]);
+
+});

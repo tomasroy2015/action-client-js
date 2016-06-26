@@ -1,0 +1,55 @@
+define(['application-configuration'], function (app) {
+    app.register.factory('CreateViewDataFactory', [function () {
+
+        var ServiceAreaViewData = function () {
+            this.Id = "";
+            this.Items = [];
+        };
+
+        var DataFilterViewData = function (serviceAreaId, data) {
+            this.ServiceAreaId = serviceAreaId;
+            this.Id = data.Id;
+            this.Name = data.Name;
+            this.Score = 0;
+            this.Respondent = 0;
+            this.IsGroup = false;
+            this.IsChild = false;
+            if (data.IsGroup && data.GroupItemsScoreDataCollection && data.GroupItemsScoreDataCollection.length > 0) {
+                this.IsGroup = true;
+            }
+            var tmp = findItem(serviceAreaId, data);
+            if (tmp) {
+                this.Score = tmp.Score;
+                this.Respondent = tmp.Respondent;
+            }
+        };
+
+        function findItem(serviceAreaId, data) {
+            if (data.ServiceAreaScoreDataCollection) {
+                var item = _.find(data.ServiceAreaScoreDataCollection, function (n) {
+                    return n.Id === serviceAreaId;
+                });
+                return item;
+            }
+        }
+
+        //DataFilterViewData.prototype.Data = function(){
+        //    if(this.OriginalData.ServiceAreaScoreDataCollection) {
+        //        var item = _.find(this.OriginalData.ServiceAreaScoreDataCollection, function (n) {
+        //            return n.Id === this.Id;
+        //        });
+        //        return {Score: item.Score, Respondent:item.Respondent};
+        //    }
+        //};
+
+        return {
+            ServiceAreaViewData: function () {
+                return new ServiceAreaViewData();
+            },
+            DataFilterViewData: function (serviceAreaId, data) {
+                return new DataFilterViewData(serviceAreaId, data);
+            }
+        };
+
+    }]);
+});

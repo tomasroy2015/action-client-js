@@ -1,0 +1,5 @@
+.os-summary-container{
+  font-size: 10px;
+  font-family: "AkkuratStd-Regular", "Segoe UI Light";
+  font: "akkuratstd-regular";
+}

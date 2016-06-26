@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="Views/CustomerSettings/ShortCodeMapping/ShortCodeMappingTemplate.css"/>
+<!--<div style="width: 100%;height: 400px">-->
+<!--This is user comparator mapping template-->
+<!--</div>-->
+<div class="shortcode-mapping-container" ng-controller="shortCodeMappingController">
+    <span class="template-header">
+        SHORT CODE MAPPING
+    </span>
+    <div class="table-container">
+        <table st-table="displayColl" st-safe-src="rowViewCollection"  id="smartTable" class="table">
+            <thead>
+                <tr>
+                    <th class="service-area-column">Service area</th>
+                    <th class="short-code-column">Abbreviated form</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in displayColl" ng-class="{shortCodeGrpRow:item.isGrpType}">
+                    <td class="service-area-column"><span>{{item.DisplayLabel}}</span></td>
+                    <td class="short-code-column" style="padding-left: 30px">
+                        <span ng-hide="item.isGrpType">{{item.ShortCode}}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="footer-container-div">
+            <!--<button class="btn" ng-click="saveComparatorSettings()"> Save</button>-->
+        </div>
+    </div>
+</div>

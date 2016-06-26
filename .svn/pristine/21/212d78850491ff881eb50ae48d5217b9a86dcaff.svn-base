@@ -1,0 +1,79 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/ScorecardDetailsTemplate.css"/>
+<div class="scorecard-details-wrapper">
+    <div class="scorecard-header-container">
+        <div class="scorecard-header-title-container">
+            <span class="scorecard-header-title">{{surveyData.header.surveyType}}</span>
+        </div>
+        <div class="scorecard-sub-header-title-container">
+            <div class="sub-header-title-wrapper">
+                <span class="scorecard-sub-header-title">{{surveyData.header.title}}</span>
+                <span class="scorecard-sub-header-evaluation">50 evaluations</span>
+            </div>
+            <div class="scorecard-header-score-wrapper">
+                <!--<action-score-bar score-comparator="{Score:50,ComparatorValue:70,ComparatorColorCode:'#f00'}"></action-score-bar>-->
+                <action-customizable-score-bar width="100" is-os-score="surveyData.header.isOSScore"
+                                               score-comparator="surveyData.header.scoreComparator"></action-customizable-score-bar>
+            </div>
+        </div>
+    </div>
+    <div class="scorecard-content-container">
+        <ul class="scorecard-container">
+            <li class="individual-scorecard" ng-repeat="serviceArea in surveyData.data">
+                <action-scorecard data="serviceArea"></action-scorecard>
+            </li>
+            <!--<li class="individual-scorecard">-->
+                <!--<action-scorecard></action-scorecard>-->
+            <!--</li>-->
+            <!--<li class="individual-scorecard">-->
+                <!--<action-scorecard></action-scorecard>-->
+            <!--</li>-->
+            <!--<li class="individual-scorecard">-->
+                <!--<action-scorecard></action-scorecard>-->
+            <!--</li>-->
+        </ul>
+    </div>
+
+    <!-- Trigger survey -->
+
+    <!--<div class="scorecard-header-container">-->
+        <!--<div class="scorecard-header-title-container">-->
+            <!--<span class="scorecard-header-title">TRIGGER SURVEYS</span>-->
+        <!--</div>-->
+        <!--<div class="scorecard-sub-header-title-container">-->
+            <!--<div class="sub-header-title-wrapper">-->
+                <!--<span class="scorecard-sub-header-title">TICKETS</span>-->
+                <!--<span class="scorecard-sub-header-evaluation">50 evaluations</span>-->
+            <!--</div>-->
+            <!--<div class="scorecard-header-score-wrapper">-->
+                <!--<action-score-bar score-comparator="{Score:50,ComparatorValue:70,ComparatorColorCode:'#f00'}"></action-score-bar>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="scorecard-content-container">-->
+        <!--<ul class="scorecard-container">-->
+            <!--<li class="individual-scorecard">-->
+                <!--<action-scorecard></action-scorecard>-->
+            <!--</li>-->
+            <!--<li class="individual-scorecard">-->
+                <!--<action-scorecard></action-scorecard>-->
+            <!--</li>-->
+            <!--<li class="individual-scorecard">-->
+                <!--<action-scorecard></action-scorecard>-->
+            <!--</li>-->
+
+        <!--</ul>-->
+    <!--</div>-->
+
+    <!--<div id="navcontainer">-->
+    <!--<ul>-->
+    <!--<li><action-scorecard></action-scorecard></li>-->
+    <!--<li><action-scorecard></action-scorecard></li>-->
+    <!--<li><action-scorecard></action-scorecard></li>-->
+    <!--<li><action-scorecard></action-scorecard></li>-->
+    <!--<li><action-scorecard></action-scorecard></li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--<ul ng-repeat="item in surveyData">-->
+        <!--<li>{{item.Name}}</li>-->
+    <!--</ul>-->
+</div>

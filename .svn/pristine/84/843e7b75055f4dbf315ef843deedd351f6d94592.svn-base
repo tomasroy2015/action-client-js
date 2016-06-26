@@ -1,0 +1,135 @@
+/* All external import files
+======================================================*/
+@import '_Colors';
+@import '_Mixins';
+
+.evaluationContainer {
+  overflow-x : auto;
+  overflow-y : hidden;
+  height     : 100%;
+  width      : 100%;
+  position   : absolute;
+  top        : 0;
+}
+
+.evaluation-ui-grid-container > .ui-grid {
+  min-width     : 895px !important;
+  width         : 100% !important;
+  height        : calc(100% - 60px) !important;
+  padding-right : 10px;
+  padding-left  : 10px;
+  box-sizing    : border-box;
+}
+
+.headerContainer {
+  height           : 80px;
+  background-color : #ddddde;
+  width            : 100% !important;
+  min-width        : 895px;
+  padding-top      : 10px;
+  margin-top       : 0 !important;
+  position         : relative;
+}
+
+.labelContainer {
+  width       : 380px;
+  float       : left;
+  height      : 100%;
+  margin-left : 10px;
+}
+
+.filterContainer {
+  width  : 310px;
+  float  : left;
+  height : 100%;
+}
+
+.filterInput {
+  padding-top : 10px;
+}
+
+.translationContainer {
+  float  : left;
+  height : 100%;
+}
+
+.dataContainer {
+  height : 750px;
+}
+
+#evaluationLabel {
+  font-size : 20px;
+}
+
+.search-box, .close-icon, .search-wrapper {
+  position : relative;
+}
+
+.search-input-wrapper {
+  width  : 200px;
+  margin : auto;
+  float  : left;
+}
+
+.search-button-wrapper {
+  float : left;
+}
+
+.search-box {
+  width   : 100%;
+  outline : 0;
+}
+
+.search-box:not(:valid) ~ .close-icon {
+  display : none;
+}
+
+.close-icon {
+  border           : 1px solid transparent;
+  background-color : transparent;
+  display          : inline-block;
+  vertical-align   : middle;
+  outline          : 0;
+  cursor           : pointer;
+  position         : absolute;
+  margin-left      : 175px;
+  margin-top       : -14px;
+}
+
+.close-icon:after {
+  content          : "X";
+  display          : block;
+  width            : 15px;
+  height           : 15px;
+  position         : absolute;
+  background-color : #FA9595;
+  z-index          : 1;
+  top              : 0;
+  bottom           : 0;
+  margin           : auto;
+  padding          : 1px;
+  border-radius    : 50%;
+  text-align       : center;
+  color            : white;
+  font-weight      : normal;
+  font-size        : 12px;
+  box-shadow       : 0 0 2px #E50F0F;
+  cursor           : pointer;
+}
+
+.btn-filter-apply {
+  height        : 23px;
+  border        : none;
+  border-radius : 0;
+  background    : #878787 !important;
+  margin-left   : -3px;
+  padding-top   : 2px;
+  color         : white;
+  width         : 58px;
+}
+
+.btn-filter-apply:hover {
+  background : #555759 !important;
+}
+
+

@@ -1,0 +1,232 @@
+"use strict";
+
+define(['application-configuration','lodash'], function (app) {
+
+    app.register.directive('actionAttributeScoreSummary', [function () {
+
+        return {
+            restrict: 'AE',
+            scope   : {
+                attributeData:"=",
+                isMapViewSummary:"=",
+                selectedAttributeScore: "=",
+                summaryTitle:"=",
+                titleImage:"=",
+                generalSurveyCollection:"=",
+                triggerSurveyCollection:"=",
+                fullScorecardData:"="
+            },
+            link    : function (scope,el, attrs) {
+               var attributeScoreData = {};
+               scope.ticketSummaryData = {};
+               scope.scorecardSelected = true;
+               scope.evaluationSelected = false;
+               scope.isDetailsState = false;
+               scope.isSummaryState = true;
+               scope.isOSSelected = true;
+               scope.isSESSelected = false;
+               scope.isTCKSelected = false;
+
+               scope.scorecard_selected = function(evt){
+                   if(scope.isMapViewSummary){
+                       var mapArrow = $('#map-view-summary').find('#selected-summary-arrow');
+                       $(mapArrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+                   }else{
+                       var listArrow = $('#list-view-summary').find('#selected-summary-arrow');
+                       $(listArrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+                   }
+                   scope.scorecardSelected = true;
+                   scope.evaluationSelected = false;
+                   setSelectedServiceArea( scope.selectedAttributeScore);
+               };
+               scope.evaluation_selected = function(evt){
+                   if(scope.isMapViewSummary){
+                       var mapArrow = $('#map-view-summary').find('#selected-summary-arrow');
+                       $(mapArrow).addClass('evaluation-summary-arrow-selected').removeClass('score-summary-arrow-selected');
+                   }else{
+                       var listArrow = $('#list-view-summary').find('#selected-summary-arrow');
+                       $(listArrow).addClass('evaluation-summary-arrow-selected').removeClass('score-summary-arrow-selected');
+                   }
+
+                   scope.scorecardSelected = false;
+                   scope.evaluationSelected = true;
+                   setSelectedServiceArea( scope.selectedAttributeScore);
+               };
+               scope.questionItemClick = function (evt) {
+                   if(scope.isMapViewSummary) {
+                       var curItem = $('#map-view-summary').find('#' + evt.currentTarget.id);
+                       $(curItem).addClass('selectedScoreQuestionItem').siblings().removeClass('selectedScoreQuestionItem');
+                       var innerDiv = $('#map-view-summary').find("#" + evt.currentTarget.firstElementChild.id);
+                       $(innerDiv).addClass('selectedScoreQuestionListItemDiv');
+                       var prev_li = $("#score-summary-question > li > div[id^='div-attribute-'].selectedScoreQuestionListItemDiv").not(innerDiv);
+                       var prevSelected_li=$('#map-view-summary').find(prev_li);
+                       prevSelected_li.removeClass('selectedScoreQuestionListItemDiv').addClass('questionScoreListItemDiv');
+                   }else{
+                       var curItem = $('#list-view-summary').find('#' + evt.currentTarget.id);
+                       $(curItem).addClass('selectedScoreQuestionItem').siblings().removeClass('selectedScoreQuestionItem');
+                       var innerDiv = $('#list-view-summary').find("#" + evt.currentTarget.firstElementChild.id);
+                       $(innerDiv).addClass('selectedScoreQuestionListItemDiv');
+                       var prev_li = $("#score-summary-question > li > div[id^='div-attribute-'].selectedScoreQuestionListItemDiv").not(innerDiv);
+                       var prevSelected_li=$('#list-view-summary').find(prev_li);
+                       prevSelected_li.removeClass('selectedScoreQuestionListItemDiv').addClass('questionScoreListItemDiv');
+                   }
+                };
+                scope.close_summary = function(event){
+                    scope.ticketSummaryData = {};
+                    scope.scorecardSelected = true;
+                    scope.evaluationSelected = false;
+                    scope.isDetailsState = false;
+                    scope.isSummaryState = true;
+                    scope.isOSSelected = true;
+                    scope.isSESSelected = false;
+                    scope.isTCKSelected = false;
+
+                    if(scope.isMapViewSummary){
+                        $('#map-view-summary').addClass('hide-popup').removeClass('show-popup open-popup-animation');
+                        $('#map-view-summary').addClass('hide-popup').removeClass('show-popup');
+                        $('#map-view-summary').removeClass('expand-details').removeClass('collapse-details');
+
+                        var mapArrow = $('#map-view-summary').find('#selected-summary-arrow');
+                        $(mapArrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+                    }else{
+                        $('#list-view-summary').addClass('hide-popup').removeClass('show-popup open-popup-animation');
+                        $('#list-view-summary').addClass('hide-popup').removeClass('show-popup');
+                        $('#list-view-summary').removeClass('expand-details').removeClass('collapse-details');
+
+                        var listArrow = $('#list-view-summary').find('#selected-summary-arrow');
+                        $(listArrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+                    }
+                    $('#summary-service-area-container,#summary-container,#btn-view-details,#summary-popup-footer').removeClass('hide-summary-content');
+
+                };
+                scope.viewDetails_click_Handler = function(event){
+
+                    scope.isDetailsState = true;
+                    scope.isSummaryState = false;
+
+                    if(scope.scorecardSelected) {
+                        if(scope.isMapViewSummary){
+                            var mapArrow = $('#map-view-summary').find('#selected-summary-arrow');
+                            $(mapArrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+                        }else{
+                            var listArrow = $('#list-view-summary').find('#selected-summary-arrow');
+                            $(listArrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+                        }
+                        scope.scorecardSelected = true;
+                        scope.evaluationSelected = false;
+                    }else {
+                        if(scope.isMapViewSummary){
+                            var mapArrow = $('#map-view-summary').find('#selected-summary-arrow');
+                            $(mapArrow).addClass('evaluation-summary-arrow-selected').removeClass('score-summary-arrow-selected');
+                        }else{
+                            var listArrow = $('#list-view-summary').find('#selected-summary-arrow');
+                            $(listArrow).addClass('evaluation-summary-arrow-selected').removeClass('score-summary-arrow-selected');
+                        }
+                        scope.scorecardSelected = false;
+                        scope.evaluationSelected = true;
+                    }
+                    if(scope.isMapViewSummary){
+                        $('#map-view-summary').addClass('expand-details').removeClass('collapse-details');
+                    }else{
+                        $('#list-view-summary').addClass('expand-details').removeClass('collapse-details');
+                    }
+
+                    $('#summary-service-area-container,#summary-container,#btn-view-details,#summary-popup-footer').addClass('hide-summary-content show-by-animation');
+                };
+                scope.viewEvaluation_click_Handler = function(event){
+                    scope.isDetailsState = true;
+                    scope.isSummaryState = false;
+                    scope.scorecardSelected = false;
+                    scope.evaluationSelected = true;
+
+                    if(scope.isMapViewSummary){
+                        $('#map-view-summary').addClass('expand-details').removeClass('collapse-details');
+
+                        var mapArrow = $('#map-view-summary').find('#selected-summary-arrow');
+                        $(mapArrow).addClass('evaluation-summary-arrow-selected').removeClass('score-summary-arrow-selected');
+                    }else{
+                        $('#list-view-summary').addClass('expand-details').removeClass('collapse-details');
+
+                        var listArrow = $('#list-view-summary').find('#selected-summary-arrow');
+                        $(listArrow).addClass('evaluation-summary-arrow-selected').removeClass('score-summary-arrow-selected');
+                    }
+                    $('#summary-service-area-container,#summary-container,#btn-view-details,#summary-popup-footer').addClass('hide-summary-content show-by-animation');
+                };
+                scope.backToSummary_click_Handler = function(){
+                    if(scope.isMapViewSummary) {
+                        $('#map-view-summary').addClass('collapse-details').removeClass('expand-details');
+                    }else{
+                        $('#list-view-summary').addClass('collapse-details').removeClass('expand-details');
+                    }
+
+                    if(scope.scorecardSelected) {
+                        if(scope.isMapViewSummary){
+                            var mapArrow = $('#map-view-summary').find('#selected-summary-arrow');
+                            $(mapArrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+                        }else{
+                            var listArrow = $('#list-view-summary').find('#selected-summary-arrow');
+                            $(listArrow).addClass('score-summary-arrow-selected').removeClass('evaluation-summary-arrow-selected');
+                        }
+                    }else {
+                        if(scope.isMapViewSummary){
+                            var mapArrow = $('#map-view-summary').find('#selected-summary-arrow');
+                            $(mapArrow).addClass('evaluation-summary-arrow-selected').removeClass('score-summary-arrow-selected');
+                        }else{
+                            var listArrow = $('#list-view-summary').find('#selected-summary-arrow');
+                            $(listArrow).addClass('evaluation-summary-arrow-selected').removeClass('score-summary-arrow-selected');
+                        }
+                    }
+
+                    scope.isDetailsState = false;
+                    scope.isSummaryState = true;
+
+                    $('#summary-service-area-container,#summary-container,#btn-view-details,#summary-popup-footer').removeClass('hide-summary-content');
+                };
+                scope.scoreBar_Clicked = function (selectedItem) {
+                    setSelectedServiceArea(selectedItem);
+                };
+                function setSelectedServiceArea(selectedItem){
+
+                    var selectedAttrColl = _.filter(scope.attributeData, function (n) {
+                        return n.Id == selectedItem.Id;
+                    });
+
+                    attributeScoreData =  selectedAttrColl[0];
+
+                    if(selectedItem.Id == "OS") {
+                        scope.isOSSelected = true;
+                        scope.isSESSelected = false;
+                        scope.isTCKSelected = false;
+                    }else if(selectedItem.Id == "SES"){
+                        scope.isSESSelected = true;
+                        scope.isOSSelected = false;
+                        scope.isTCKSelected = false;
+                    }else if(selectedItem.Id == "TCK"){
+                        scope.isSESSelected = false;
+                        scope.isTCKSelected = true;
+                        scope.isOSSelected = false;
+
+                        if(scope.evaluationSelected && scope.isSummaryState){
+                            var temp = _.filter(attributeScoreData.QuestionScoreData,function(n){
+                                return n.SurveyType === "TCK" && n.QuestionId !== "TCK";
+                            });
+                            scope.ticketSummaryData = temp;
+                        }
+                    }else{
+                        scope.isSESSelected = false;
+                        scope.isTCKSelected = false;
+                        scope.isOSSelected = false;
+                    }
+                    scope.selectedAttributeScore = attributeScoreData;
+
+                    scope.$watch(function(scope){return scope.selectedAttributeScore},function(newValue){
+                        if(angular.isUndefined(newValue)) return;
+                    });
+                }
+            },
+            templateUrl:'Views/Shared/Template/AttributeScoreSummaryTemplate.html'
+        };
+
+    }]);
+
+});

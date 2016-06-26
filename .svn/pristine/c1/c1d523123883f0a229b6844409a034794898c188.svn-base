@@ -1,0 +1,107 @@
+<link rel="stylesheet" href="Views/CustomerSettings/CountryMapping/AddEditCountryMappingTemplate.css"/>
+<div class='ng-modal-container' ng-show='show'>
+    <div class='ng-modal-overlay'></div>
+    <form class = "form-horizontal" role = "form" name = "countryForm" novalidate>
+        <div class='ng-modal-dialog' ng-style='dialogStyle'>
+            <div class='ng-modal-dialog-content'>
+                <div class="dialog-header">
+                    <span class="modal-title">{{title}}</span>
+                    <i ng-click="hideModal()" class="fa fa-times-circle fa-lg cursor"></i>
+                </div>
+                <div class="element-parent-div">
+                    <div class="country-label-div">
+                        <div class="element-container-div">
+                            <div class="left-align inline-block">
+                                <div><span class="inline-block label-width">Country</span></div>
+                                <div>
+                                    <select class="drop-down inline-block"
+                                            ng-disabled="isEdit"
+                                            id="ddlCountry"
+                                            ng-model="selectedCountry"
+                                            ng-options="item.CountryName for item in countries"
+                                            ng-change="countrySelectionChange(selectedCountry)"></select>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="element-container-div">
+                            <div class="left-align">
+                               <div><span class="inline-block label-width">Display Name</span></div>
+                               <div>
+                                   <!--<input type = "text" ng-model="selectedCountry.Displayname" class="form-control text-input-normal inline-block">-->
+                                   <input type = "text" name="name" ng-model="selectedCountry.Displayname"
+                                          ng-class="{'input-validation' : ((countryForm.name.$error.required || countryForm.name.$invalid) && isOkClicked) || isExist}"
+                                          class="form-control text-input-normal inline-block" required>
+                               </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="country-values">
+                        <div><span>Choose country values</span></div>
+                        <div class="county-value-list">
+                            <table st-table="distinctCountryList"  id="smartTable" class="table">
+                                <thead ng-hide="true">
+                                    <tr>
+                                        <th class="check-column" st-sort="CountryName">/th>
+                                        <th class="label-column" st-sort="Displayname"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in distinctCountryList"
+                                        ng-mouseleave="rowMouseOut_Handler(item)"
+                                        ng-mouseover="rowHover_Handler(item)">
+                                        <td class="check-column">
+                                            <input type="checkbox" ng-model="item.isSelected"/>
+                                            <!--<action-checkbox class="check-mapvalue" ng-model="item.isSelected" checked="item.isSelected"></action-checkbox>-->
+                                        </td>
+                                        <td class="label-column"><span>{{item.Value}}</span></td>
+                                        <td class="operation-column">
+                                            <span ng-show="item.isPredefined"
+                                                  style="font-style: italic;
+                                                         display: inline-block;
+                                                         margin-right:12px;">[Predefined]</span>
+                                            <span ng-show="item.isPredefined" class="fa fa-times" ng-click="deletePredefinedValue(item)"></span>
+                                        </td>
+                                    </tr>
+                                    <tr class="add-predefined-btn" ng-click="showPredefinedValue()">
+                                        <td class="predefined-add-column"><i class="fa fa-plus-circle"></i></td>
+                                        <td class="predefined-column"><span>Add predefined value</span></td>
+                                        <td class="operation-column"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="search-container">
+                            <div class="search-indicator"></div>
+                            <div class="advanced-search" ng-click="showAdvancedSearch()">
+                                <i class="fa fa-search"></i>
+                                <span style="padding-left: 5px">Advanced search</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-btn-container-div" style="text-align: right">
+                <button class="btn"  ng-click='hideModal()'> Cancel</button>
+                <button class="btn" style="width: inherit" ng-click="addEditCountryMapping()"> OK</button>
+            </div>
+
+        </div>
+    </form>
+    <action-add-predefined-country-value show="isPredefinedWindowShown"
+                                         customer="customer"
+                                         ng-if="isPredefinedWindowShown"
+                                         window-close-listener="predefinedValueWindowClose()"
+                                         info='isPredefinedWindowShown' width='300px'>
+    </action-add-predefined-country-value>
+    <action-confirmation-alert-dialog id="confirm-delete-container" show="confirmModalShown" message="confMessage"
+                                      confirm-ok="confirmModalDelete()"
+                                      info="confirmModalShown" width='300px' height='20%'>
+    </action-confirmation-alert-dialog>
+    <action-date-range-selection id="advanced-search-dialog" show="isSearchDialogShown"
+                                 from-date="selectedFromDate" to-date="selectedToDate"
+                                 click-ok="searchBtnClick()" info="isSearchDialogShown" title="searchTitle"
+                                 width="326px" height="40%">
+    </action-date-range-selection>
+</div>

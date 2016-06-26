@@ -1,0 +1,32 @@
+"use strict";
+
+define(['application-configuration','alertsService','bootstrap','leftMenuController','headerController','accountsService','eventDispatchService'], function (app) {
+
+    app.register.controller('actionRootController', ['$scope','$rootScope','$route','alertsService','accountsService','eventDispatchService','Notify', function ($scope,$rootScope,$route,alertsService,accountsService,eventDispatchService,Notify) {
+
+        $rootScope.applicationModule = "MainLayout";
+
+        $scope.logoutMain = function () {
+            $rootScope.IsloggedOut = false;
+            $rootScope.loadTitle = "Log out";
+            var user = $rootScope.UserData;
+            accountsService.logout(user, $scope.logoutCompleted, $scope.logoutError);
+        };
+
+        $scope.logoutCompleted = function (response) {
+            window.location = "#/";
+        };
+
+        $scope.logoutError = function (response) {
+            alertsService.RenderErrorMessage(response.ReturnMessage);
+        };
+
+        $scope.$on(Notify.DATA_READY, function(event){
+            $rootScope.isNeedToShowLoading = false;
+            window.location = "#/Main";
+            $route.reload();
+        });
+
+    }]);
+
+});

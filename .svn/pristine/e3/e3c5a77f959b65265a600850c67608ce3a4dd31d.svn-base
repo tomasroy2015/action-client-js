@@ -1,0 +1,162 @@
+
+<link rel="stylesheet" href="Views/Shared/Module/ngtable/ng-table.css"/>
+<link rel="stylesheet" href="Views/List/ListViewTemplate.css"/>
+<div class="content-main lisview-container " id="parentDiv"  ng-controller="listViewController">
+    <div class="row row-container">
+        <div class="table-responsive ">
+            <div style="width: 100%;text-align: left">
+                <div style="width: 35%;display: inline-block;">
+                    <action-view-by-attribute attr-item-collection="attributeItemColl"
+                                              selected-attribute="defaultAttr"
+                                              attribute-item-change-listener="serviceAreaAttributeItemChangeListener(attr)">
+                    </action-view-by-attribute>
+                </div>
+                <div  style="height:62px;padding-top: 22px ;display: inline-block;padding-left: 18px">
+                    <div style="float: right;display: inline-block">
+                        <input type="checkbox">
+                        <span>Show all group expanded</span>
+                    </div>
+                </div>
+                <div  style="width: 47%;padding-top: 20px ; height:62px;display: inline-block;">
+                    <div style="float: right;display: inline-block;">
+                        <span>  MINIMUM # EVALUATIONS:</span>
+                        <div style="display: inline-block; margin-left: 5px">
+                            <input id="numberTypeMinEvaluation" type="number" min="0"
+                                   style="width: 51px;height: 22px; border-radius: 0;">
+                            <button class="btn-apply" ng-click="applyFilter_clickHandler()">Apply</button>
+                        </div>
+                        <div class="reset-filter-evaluation">
+                            <button id="btnReset" ng-click="resetFilter_clickHandler()" class="reset-filter-button">
+                                Reset&nbsp;&nbsp; <img src="Content/images/reset-filter.png">
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table ng-table="tableParams" class="table ng-table vscrollbar" id="tbl">
+                <thead>
+                <tr>
+                    <th class="sortable" ng-class="{
+                        'sort-asc':tableParams.isSortBy('Name','asc'),
+                        'sort-desc':tableParams.isSortBy('Name','desc')}"
+                        ng-click="tableParams.sorting({'Name':tableParams.isSortBy('Name','asc')?'desc':'asc'})">
+                        <div ng-if="!template" ng-show="!template" class="ng-scope ng-binding">NAME</div>
+                    </th>
+                    <th class="sortable" NG-SHOW="!IsTCKSelected" ng-class="{
+                        'sort-asc':tableParams.isSortBy('score.score','asc'),
+                        'sort-desc':tableParams.isSortBy('score.score','desc')}"
+                        ng-click="tableParams.sorting({'score.score':tableParams.isSortBy('score.score','asc')?'desc':'asc'})">
+                        <div>{{IsSESSelected?'IT SERVICE EFFORT SCORE':'SCORE'}}</div>
+                    </th>
+
+
+                    <th ng-show="isQuestionsColumnShow()">
+                        <div>QUESTIONS</div>
+                    </th>
+
+                    <th  ng-show="isServiceAreaColumnShow()"
+                        ng-repeat="column in columns"
+                        class="sortable" ng-class="{
+                        'sort-asc': tableParams.isSortBy(column.QuestionId, 'asc'),
+                        'sort-desc': tableParams.isSortBy(column.QuestionId, 'desc')
+                      }"
+                        ng-click="tableParams.sorting(column.QuestionId, tableParams.isSortBy(column.QuestionId, 'asc') ? 'desc' : 'asc')">
+                        <div>{{column.QuestionId}}</div>
+                    </th>
+
+                    <th class="sortable" ng-class="{
+                        'sort-asc':tableParams.isSortBy('age','asc'),
+                        'sort-desc':tableParams.isSortBy('age','desc')}"
+                        ng-click="tableParams.sorting({'age':tableParams.isSortBy('age','asc')?'desc':'asc'})">
+                        <div>EVALUATIONS</div>
+                    </th>
+                </thead>
+                <tbody ng-repeat="item in $data">
+                <tr data-ng-click="rowSelection_Handler(item)" >
+                    <td  sortable="'Name'">
+                        <div class="row nameColumnPadding" id="nameContainerDiv">
+                            <div class="col-md-12" style="padding-right: 0px !important;">
+                                <!--<button ng-click="groupItemClick(item,$index)">Group1</button>-->
+                                <img style="float: left;width:20px;height: 24px;margin-right: 10px;"
+                                     src="Content/images/geo-attribute-default-icon.png"/>
+                                    <span id="name">{{item.Name}}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td  ng-show="!IsTCKSelected" sortable="'ServiceAreaScoreDataCollection[0].Score'">
+                        <div class="scoreBarColumnPadding">
+                            <action-score-bar score="item.ServiceAreaScoreDataCollection[0].Score" is-os-selected="item.IsOSSelected"></action-score-bar>
+                        </div>
+
+                    </td>
+                    <td ng-show="isQuestionsColumnShow()">
+                        <div style="width: 100% !important;">
+                            <ul ng-repeat="q in item.ServiceAreaScoreDataCollection[0].QuestionScores"
+                                style="display: inline;padding: 0px;margin: 0px">
+                                <li class="horizontal">
+                                    <action-question-score score="q.Score"></action-question-score>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+
+                    <td ng-show="isServiceAreaColumnShow()" ng-repeat="q in item.ServiceAreaScoreDataCollection[0].QuestionScores">
+                       <div style="width: 100% !important;">
+                        <ul style="display: inline;padding: 0px;margin: 0px">
+                            <li class="horizontal">
+                                <action-question-score score="q.Score"></action-question-score>
+                            </li>
+                        </ul>
+                        </div>
+                    </td>
+
+                    <td sortable="'item.ServiceAreaScoreDataCollection.Respondent'">
+                        <div style="width: 100%;min-width: 55px !important;">
+                            <action-evaluation-speech-bubble evaluation-count="item.ServiceAreaScoreDataCollection[0].Respondent"
+                                                             ></action-evaluation-speech-bubble>
+                        </div>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!--<script type="text/ng-template" id="custom/pager">
+                    <ul style=" list-style: none;" class="pager ng-cloak">
+                        <div style="padding: 0;margin: 0;float: right;">
+                            <li style="display: inline;padding-right: 3px;padding-left: 3px" ng-repeat="page in pages track by $index" ng-show="$index>0 && $index<pages.length-1">
+                                <a  ng-click="params.page(page.number)" href=""> {{$index}}</a>
+                            </li>
+                        </div>
+                    </ul>
+            </script>-->
+            <!--data-toggle="modal" data-target="#popup" -->
+            <!--<div class="pop-up fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+            <!--<div class="pop-up-dialog">-->
+            <!--<div class="pop-up-content">-->
+            <!--<div class="pop-up-header" style="height:80px">-->
+            <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="false">&times;</button>-->
+            <!--<h4 class="pop-up-title" id="myModalLabel"><b>{{selectedItem.Name}}</b></h4>-->
+            <!--<div class="row buttonBar">-->
+            <!--<div class="col-md-6 btn-content">SCORECARD</div>-->
+            <!--<div class="col-md-6 btn-content">EVALUATIONS  </div>-->
+            <!--&lt;!&ndash;<div class="col-md-6 btn-content">SENTIMENT</div>&ndash;&gt;-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="pop-up-body" style="height:320px">-->
+
+            <!--</div>-->
+            <!--<div class="pop-up-footer" style="height:90px">-->
+            <!--<p style="left:0;font-size:10pt;font-weight:bold;">Respondents(20)</p>-->
+            <!--<p style="left:0;font-size:9pt;">No comments</p>-->
+            <!--&lt;!&ndash;<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>&ndash;&gt;-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+
+</div>

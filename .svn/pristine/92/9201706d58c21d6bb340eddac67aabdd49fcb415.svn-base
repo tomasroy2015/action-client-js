@@ -1,0 +1,156 @@
+<!--<link rel="stylesheet" href="Views/Dataset/DropDown.css"/>-->
+<div class="container dataset-container" ng-show="!isNeedToShowLoading" ng-cloak>
+    <div class="page-header">
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                Select dataset
+                <img src="Content/images/giarte-logo.png" alt="Giarte" class="logo"/>
+                <!--<div class = "clearfix"></div>-->
+            </div>
+            <!-- panel-heading -->
+
+            <div class="panel-body panel-body-container" ng-init="initializeController()">
+                <div>
+                    <label id="heading" class="content-heading">SELECT CLIENT </label>
+                    <select id="ddlClient"
+                            ng-init="selectedCustomer = currentuser.UserToCustomers[0]"
+                            ng-model="selectedCustomer"
+                            ng-options="item.CustomerName for item in currentuser.UserToCustomers"
+                            ng-change="customerChanged()"></select>
+                </div>
+                <form class="form-horizontal" role="form" name='datasetForm' novalidate>
+                    <div class="form-group checkbox-panel">
+                        <!--<ui-select id="ddl1" ng-model="customer.selected" theme="selectize">-->
+                        <!--<ui-select-match placeholder="Select...">{{$select.selected.CustomerName}}</ui-select-match>-->
+                        <!--<ui-select-choices repeat="item in currentuser.UserToCustomers | filter: $select.search">-->
+                        <!--<span ng-bind-html="item.CustomerName | highlight: $select.search"></span>-->
+                        <!--</ui-select-choices>-->
+                        <!--</ui-select>-->
+
+                        <div id="datasetSelectionGroup">
+                            <div class="btn-group" data-toggle="buttons">
+                                <!--<input id="monthToDate" type="radio" name="group" ng-model="selectedValue" value="MonthToDate" ng-checked="true" checked/> <span>&nbsp;Month To Date</span>-->
+                                <!--<br />-->
+                                <!--<input type="radio" name="group" />&nbsp; Month-->
+                                <!--<select id="ddlMonthSelect" class="ddl-default" ng-init="selectedMonth = LastSixMonth[0]"-->
+                                <!--ng-model="selectedMonth" ng-options="month.Name for month in LastSixMonth"></select>-->
+                                <!--<br/>-->
+                                <!--<input type="radio" name="group"/>&nbsp;Quarter-->
+                                <!--<select id="ddlQuaterSelection" class="ddl-default" ng-init="selectedQuater = QuaterColl[0]"-->
+                                <!--ng-model="selectedQuater" ng-options="quater.Name for quater in QuaterColl"></select>-->
+                                <!--<br />-->
+                                <!--<input type="radio" name="group" ng-model="selectedValue"  value="DateRange"/> <span> &nbsp;Date Range</span>-->
+                                <!--<br />-->
+
+                                <!-- new  -->
+
+                                <div><label class="radio" for="monthToDate">
+                                    <input id="monthToDate" type="radio" name="options" ng-model="selectedValue"
+                                           value="MonthToDate" >Month to date
+                                </label></div>
+
+                                <div id="monthDdlContainer"><label class="radio" for="rdoMonth">
+                                    <input id="rdoMonth" type="radio" name="options" value="LastMonth" ng-model="selectedValue">Month
+
+                                </label>
+                                    <select id="ddlMonthSelect" class="ddl-default"
+                                            ng-init="selectedMonth = LastSixMonth[0]"
+                                            ng-model="selectedMonth"
+                                            ng-options="month.Name for month in LastSixMonth"></select>
+                                </div>
+
+                                <div id="quarterDdlContainer"><label class="radio" for="rdoQuarter">
+                                    <input id="rdoQuarter" type="radio" name="options" value="LastQuarter" ng-model="selectedValue">Quarter
+                                </label>
+                                    <select id="ddlQuarterSelection" class="ddl-default"
+                                            ng-init="selectedQuarter = QuarterColl[0]"
+                                            ng-model="selectedQuarter"
+                                            ng-options="quarter.Name for quarter in QuarterColl"></select>
+                                </div>
+
+                                <div><label class="radio" for="dateRange">
+                                    <input id="dateRange" type="radio" name="options" value="DateRange" ng-model="selectedValue">Date Range
+                                </label></div>
+
+                            </div>
+                        </div>
+
+                        <!--<input type="radio" name="group" ng-model="selectedValue" value="MonthToDate" /> Month To Date-->
+                        <!--<br />-->
+                        <!--<input type="radio" name="group" ng-model="selectedValue" value="LastMonth"/> Last Month-->
+                        <!--<br />-->
+                        <!--<input type="radio" name="group" ng-model="selectedValue" value="LastQuarter"/> Last Quarter-->
+                        <!--<br />-->
+                        <!--<input type="radio" name="group" ng-model="selectedValue"  value="DateRange"/> Date Range-->
+                        <!--<br /><br />-->
+
+                        <div id="datePanel">
+                            <div class="form-group">
+                                <label for="inputFromDate" class="col-md-3 control-label">
+                                    From Date:</label>
+
+                                <div class="col-sm-9">
+                                    <input type="date" id="inputFromDate" ng-model="dtpValueFromDate" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputToDate" class="col-md-3 control-label">
+                                    To Date:</label>
+
+                                <div class="col-sm-9">
+                                    <input type="date" id="inputToDate" ng-model="dtpValueToDate" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--<div class = "button-container">-->
+                    <div class="button-container">
+                        <button type="submit" class="btn btn-sm btn-white-bg right-side"
+                                data-ng-click="getCustomerDataSet()">
+                            Load Dataset
+                        </button>
+
+                    </div>
+                    <!--</div>-->
+                </form>
+            </div>
+
+        </div>
+        <!-- panel panel-default -->
+    </div>
+    <!-- page-header -->
+</div> <!-- container -->
+
+<!-- Logout btn -->
+<div id="logout">
+    <button type="submit" class="btn btn-success btn-sm" data-ng-click="logoutMain()">Log out</button>
+</div>
+
+<!-- Footer Panel -->
+<footer class = "footer">
+    <div class = "container">
+        <div class = "url-container">
+            <a href = "http://giarte.com/itsat/" class = "footer-giarte-url">
+                <div class = "url-font-size">Visit Giarte.com/ITsat for more information</div>
+            </a>
+        </div>
+        <div class = "right-arrow-container">
+            <div class = "arrow-circle-container">
+                <svg width = "15" height = "15" style = "margin: 0 auto;">
+                    <path d = "M 7.5 0 Q 14 1 15 7.5 Q 14 14 7.5 15 Q 1 14 0 7.5 Q 1 1 7.5 0" fill = "#fff"/>
+                </svg>
+            </div>
+        </div>
+        <!-- right-arrow-container-->
+
+        <div class = "arrow-container">
+            <svg height = "8" width = "8" style = "padding-left: -10px">
+                <path d = "M 0 0 L 8 3.5 L 0 7 L 0 0z" fill = "#555759"/>
+            </svg>
+        </div>
+        <!-- arrow-container -->
+    </div>
+
+</footer>

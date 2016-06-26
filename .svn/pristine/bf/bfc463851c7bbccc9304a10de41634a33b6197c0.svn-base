@@ -1,0 +1,65 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <!-- Left Menu -->
+        <div class="col-md-3 left-menu">
+            <!--<div id="logoContainer" class="logo-container">-->
+            <!--<img class="logo" src="Content/images/dsm.png"/>-->
+            <!--</div>-->
+            <!--<action-left-menu></action-left-menu>-->
+            <div ng-include="'Views/LeftMenu/LeftMenuTemplate.html'"></div>
+        </div>
+        <!-- Right container -->
+        <div class="col-md-9 right-content">
+            <div class="container-fluid">
+                <!-- header content -->
+                <div class="row content-page-header">
+                    <action-header log-out-event="logoutMain()"></action-header>
+                </div>
+                <!-- main content -->
+                <div id="container" class="row content-main tab-content">
+                    <div role="tabpanel" class="tab-pane view-container" id="worldMap">
+                        <div ng-include="'Views/Map/MapView.html'" class="view-container"></div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane view-container" id="list">
+                        <div ng-if="active" ng-include="'Views/List/ListViewTemplate.html'"
+                             class="view-container"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="sentiment">
+                        Sentiment..
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="component-container">
+        <div id="dataFilterWindowContainer" class="data-filter-window-container slide-out">
+            <!--<div ng-include="'Views/DataFilter/DataFilterView.html'"></div>-->
+            <action-data-filter-view></action-data-filter-view>
+        </div>
+        <div id="fullScorecardWindowContainer" class="full-scorecard-window-container slide-out">
+            <!--<p>Slide in content goes here.</p>-->
+            <!--<button class="close"  type="button">X</button>-->
+            <!--<action-full-scorecard ng-controller="fullScorecardController" general-survey-collection="generalSurveyData" trigger-survey-collection="triggerSurveyData">-->
+            <!--<action-full-scorecard ng-controller="fullScorecardController" full-scorecard-data="fullScorecardData">-->
+            <!--</action-full-scorecard>-->
+            <!--<div ng-include="'Views/FullScorecard/FullScorecardView.html'"></div>-->
+            <action-full-scorecard-view></action-full-scorecard-view>
+        </div>
+        <!--Target sliding panel-->
+        <div id="compareWithSettingsContainer" class="compare-settings-panel slide-out">
+            <action-compare-with-settings id="compareWithSettings" selected-comparator="selectedComparator"
+                                          compare-setting-ok-btn-click="compareSettingOkBtnClick()"></action-compare-with-settings>
+        </div>
+
+        <div id="datsetContainer" class="left-dataset-container slide-out">
+            <action-data-set-accordion data="selectedDataset"></action-data-set-accordion>
+        </div>
+        <div id="moreSettingsContainer" class="more-settings-container slide-out">
+            <action-more-settings id="moreSettings"
+                                  more-setting-ok-btn-click="moreSettingOkBtnClick()"></action-more-settings>
+        </div>
+    </div>
+
+</div>

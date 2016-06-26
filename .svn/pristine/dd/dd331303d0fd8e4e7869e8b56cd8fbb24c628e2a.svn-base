@@ -1,0 +1,43 @@
+/* All external import files
+======================================================*/
+@import '_Colors';
+@import '_Mixins';
+
+
+//
+.evaluationContainer{
+
+}
+.headerContainer {
+  height: 80px;
+  background-color: $GIARTE_LIGHT_GRAY;
+}
+
+.labelContainer{
+  width: 380px;
+  //background-color: #1dccaa;
+  float:left;
+  height: 100%;
+}
+.filterContainer{
+  width: 310px;
+  //background-color: #0000FF;
+  float: left;
+  height: 100%;
+}
+.filterInput{
+  padding-top: 10px;
+}
+
+.translationContainer{
+  width: 300px;
+  //background-color: #003300;
+  float: left;
+  height: 100%;
+}
+.dataContainer{
+
+}
+#evaluationLabel{
+  font-size: 20px;
+}

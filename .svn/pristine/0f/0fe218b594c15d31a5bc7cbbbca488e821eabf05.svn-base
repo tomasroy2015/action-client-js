@@ -1,0 +1,118 @@
+"use strict";
+define(['application-configuration','lodash','customerSettingsFactory'], function (app) {
+    app.register.controller('comparatorMappingController', ['$scope','$rootScope','customerSettingsFactory','Notify',
+        function ($scope,$rootScope,customerSettingsFactory,Notify) {
+            /* here $scope also inherit parent controller $scope ie 'CustomerSettingsController Scope'.
+            * because ng-include always creates a new scope and
+            * A "child scope" (prototypically) inherits properties from its parent scope.
+             * */
+           // initForm();
+            $scope.displayColl=[];
+            $scope.rowCollection=[];
+            $scope.rowViewCollection=[];
+            console.log("comparator mapping controller...");
+            initForm();
+            $scope.$watch( function($scope){ return $scope.selectedCustomer}, function(newValue,oldValue){
+                if(angular.isUndefined(newValue)|| (newValue.CustomerId === oldValue.CustomerId))
+                    return;
+                else{
+                    initForm();
+                }
+            })
+           function initForm(){
+               //var customer=customerSettingsFactory.GetSelectedCustomer().Others;
+               var customer={
+                   sessionId:$scope.currentuser.SessionId,
+                   CustomerId:customerSettingsFactory.GetSelectedCustomer().Others.CustomerId
+               }
+               customerSettingsFactory.GetComparatorMapping(customer);
+           }
+            $scope.isComparatorSelected=function(item,index){
+                return {
+                    selected:item.Comparator==index
+                }
+            }
+            $scope.$on(Notify.CUSTOMER_SETTINGS_COMPARATOR_MAPPING_DATA_READY, function (event) {
+                $scope.rowCollection=customerSettingsFactory.GetComparatorMappingCollection();
+                $scope.rowViewCollection=[];
+                var coll = _.values(_.groupBy($scope.rowCollection,'SurveyType'));
+                for(var i=0;i<coll.length;i++){
+                    var grpColl=coll[i];
+                    var grpDisplayName="";
+                    switch(grpColl[0].SurveyType){
+                        case 0:
+                            grpDisplayName="Overall survey";
+                            break;
+                        case 1:
+                            grpDisplayName="General survey";
+                            break;
+                        case 2:
+                            grpDisplayName="Triggered survey";
+                            break;
+                    }
+                    var typeItem={
+                        isGrpType:true,
+                        DisplayShortCode:grpDisplayName
+                    }
+                    $scope.rowViewCollection.push(typeItem);
+                    _.forEach(grpColl,function(item){
+                        item=setResetComparatorSeletionChkBox(item,item.Comparator);
+//                        item.isTargerSelected=false;
+//                        item.isLowerLimitSelected=false;
+//                        item.isMedianSelected=false;
+//                        item.isUpperLimitSelected=false;
+                        item.isGrpType=false;
+                        item.isDisable=isAdditionalServiceArea(item);
+
+                        $scope.rowViewCollection.push(item);
+                    })
+                }
+                $scope.displayColl=[].concat($scope.rowViewCollection);
+                function isAdditionalServiceArea(item){
+                    var serviceAreaPrefix=item.ServiceAreaPrefix.toLowerCase();
+                    return serviceAreaPrefix.indexOf("add")>-1 || serviceAreaPrefix.indexOf("ext")>-1?true:false;
+
+                }
+            });
+            $scope.saveComparatorSettings=function(){
+                var comparatorColl=[];
+                _.forEach($scope.displayColl,function(item){
+
+                    if(!item.isGrpType){
+                        comparatorColl.push(item);
+                    }
+                })
+                var attrRoute="/"+$scope.currentuser.SessionId+"/"+customerSettingsFactory.GetSelectedCustomer().Others.CustomerId;
+                customerSettingsFactory.SaveComparatorMappingSettings(comparatorColl,attrRoute);
+
+            }
+            $scope.comparatorSelectionChanged=function (item,comparatorValue){
+                item.Comparator=comparatorValue;
+                setResetComparatorSeletionChkBox(item,comparatorValue);
+            }
+
+
+            function setResetComparatorSeletionChkBox(item,comparatorValue){
+                item.isTargerSelected=false;
+                item.isLowerLimitSelected=false;
+                item.isMedianSelected=false;
+                item.isUpperLimitSelected=false;
+
+                switch(comparatorValue){
+                    case 1:
+                        item.isTargerSelected=true;
+                        break;
+                    case 2:
+                        item.isLowerLimitSelected=true;
+                        break;
+                    case 3:
+                        item.isMedianSelected=true;
+                        break;
+                    case 4:
+                        item.isUpperLimitSelected=true;
+                        break;
+                }
+                return item ;
+            }
+        }]);
+});

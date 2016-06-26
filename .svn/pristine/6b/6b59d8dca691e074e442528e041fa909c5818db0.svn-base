@@ -1,0 +1,29 @@
+/* All external import files
+======================================================*/
+.headerContainer {
+  height: 80px;
+  background-color: #ddddde;
+}
+
+.labelContainer {
+  width: 400px;
+  background-color: #1dccaa;
+  float: left;
+  height: 100%;
+}
+
+.filterContainer {
+  width: 310px;
+  background-color: #0000FF;
+  float: left;
+  height: 100%;
+}
+
+.translationContainer {
+  width: 310px;
+  background-color: #003300;
+  float: left;
+  height: 100%;
+}
+
+/*# sourceMappingURL=ServiceAreaEvaluationsTemplate.css.map */

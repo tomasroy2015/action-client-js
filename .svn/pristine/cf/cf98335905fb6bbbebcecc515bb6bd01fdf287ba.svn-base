@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="Views/LeftMenuSettings/CompareWithSettings.css"/>
+<div class="container compare-settings-container">
+    <div class="page-header target-page-header">
+          <p>Compare values with</p>
+    </div>
+    <div class="compare-settings-body">
+        <div id="targetContainer" class="common-target-style">
+            <label class="radio target-radio" for="target">
+                <input id="target" type="radio" name="radioGroup"
+                       value="target" >Target<br>
+                <span>[Company] target score</span>
+            </label>
+        </div>
+        <div id="averageContainer" class="common-target-style">
+            <label class="radio target-radio" for="average">
+                <input id="average" type="radio" name="radioGroup"
+                       value="average" >Average(of the dataset)
+            </label>
+
+        </div>
+        <div id="benchMarkContainer" class="benchmark-container">
+            <label class="radio target-radio" for="benchmark">
+                <input id="benchmark" type="radio" name="radioGroup"
+                       value="benchmark">Benchmark<br>
+                <span>Benchmark values for your industry</span>
+            </label>
+            <div id="benchmark-value" class="benchmark-value-container">
+                <div class="benchmark-radio-group">
+                    <label class="radio target-radio" for="lowerLimit">
+                        <input id="lowerLimit" type="radio" name="benchmarkGroup"
+                               value="lowerLimit" >Lower limit
+                    </label>
+                    <label class="radio target-radio" for="median">
+                        <input id="median" type="radio" name="benchmarkGroup"
+                               value="median" >Median
+                    </label>
+                    <label class="radio target-radio" for="upperLimit">
+                        <input id="upperLimit" type="radio" name="benchmarkGroup"
+                               value="upperLimit" >Upper limit
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div id="double-target" class="common-target-style">
+            <label class="checkbox" for="doubleTarget">
+                <input id="doubleTarget" type="checkbox" name="benchmarkGroup"
+                       value="doubleTarget">Double Target
+            </label>
+        </div>
+        <div id="custom-value" class="custom-value-container">
+            <label class="radio target-radio" for="doubleTarget">
+                <input id="customValue" type="radio"
+                       value="customValue">Custom value
+            </label>
+        </div>
+        <div class="target-button-container">
+            <button type="submit" class="btn btn-success btn-sm btn-target-ok">
+                OK
+            </button>
+        </div>
+
+    </div>
+</div>

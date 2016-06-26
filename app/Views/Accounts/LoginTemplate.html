@@ -1,0 +1,109 @@
+﻿<!-- Begin page content -->
+
+<div class = "container"  ng-cloak>
+    <!--<div id="login-form" class = "page-header" style="display: none;opacity: 0;">-->
+    <div id="login-form" class = "page-header">
+        <div class = "panel panel-default"
+             ng-class="{ 'panel-reshape panel-reshape-default' : (loginForm.email.$invalid && loginForm.password.$invalid && isInvalidInput) ||
+                                                                 (loginForm.email.$invalid && isInvalidUser && isInvalidInput) ||
+                                                                 (loginForm.password.$invalid && isInvalidUser && isInvalidInput)}">
+            <div class = "panel-heading">
+                <!--<span class="glyphicon glyphicon-lock"></span> Login</div>-->
+                ITsat | Satisfaction in IT
+                <img src = "Content/images/giarte-logo.png" alt = "Giarte" class = "logo"/>
+
+                <div class = "clearfix"></div>
+            </div>
+            <!-- panel-heading -->
+
+            <div class = "panel-body">
+                <!--<action-loading-overlay ng-show="!isInvalidInput" title="Login"></action-loading-overlay>-->
+                <div>
+                    <label id = "heading" class = "content-heading"> Welcome to ITsat </label>
+                    <div id = "headingcontext" class = "content-heading-context">
+                        <label class = "padding-left-label-text">Please login by providing your email and password below.</label>
+                        <label class = "padding-left-label-text">To request an ITsat Action user account, please contact:</label>
+                        <label class = "padding-left-label-text">support@giarte.com</label>
+                    </div>
+                </div>
+                <form class = "form-horizontal" role = "form" name = "loginForm" novalidate>
+                    <div ng-show="isInvalidUser" class="user-validation">
+                        <span>{{loginErrorText}}</span>
+                    </div>
+                    <div class = "form-group">
+                        <label class = "col-sm-2 control-label padding-left-label-text">
+                            Email</label>
+
+                        <div class = "col-sm-9">
+                            <input type = "email" name="email" class = "form-control login-text-box"
+                                   ng-class="{ 'input-validation' : loginForm.email.$invalid && isInvalidInput}"
+                                   data-ng-model = "Email" placeholder = "Email" required>
+
+                            <div ng-show="loginForm.email.$invalid && isInvalidInput" class="text-validation" >
+                                <span ng-show="loginForm.email.$error.required">Please provide your email</span>
+                                <span ng-show="loginForm.email.$error.email">Please enter a valid email address</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "form-group">
+                        <label class = "col-sm-2 control-label">
+                            Password</label>
+
+                        <div class = "col-sm-9">
+                            <input type = "password" name="password" class = "form-control login-text-box"
+                                   ng-class="{ 'input-validation' : loginForm.password.$invalid && isInvalidInput}"
+                                   data-ng-model = "Password" placeholder = "Password" required>
+
+                            <div ng-show="loginForm.password.$invalid && isInvalidInput" class="text-validation">
+                                <span ng-show="loginForm.password.$error.required">Please provide your password</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                    <!--<div class="col-sm-offset-3 col-sm-9">-->
+                    <!--<div class="checkbox">-->
+                    <!--<label>-->
+                    <!--<input type="checkbox"/>-->
+                    <!--Remember me-->
+                    <!--</label>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <div class = "form-group last">
+                        <div class = "col-sm-2 col-sm-offset-5">
+                            <button type = "submit" class = "btn btn-success btn-sm btn-login"
+                                    data-ng-click = "login()">
+                                <!-- ng-disabled="loginForm.$invalid || !loginForm.$dirty"-->
+                                Login
+                            </button>
+                        </div>
+                        <div class="col-sm-6 col-md-offset-6 btn-reset-pass" data-ng-click="reset()">
+                            <span class="label-reset-pass">Reset password</span>
+                        </div>
+                    </div>
+                </form>
+                <!-- form-horizontal -->
+            </div>
+            <!-- panel-body -->
+            <!--Not Registred? <a href="http://www.jquery2dotnet.com">Register here</a></div>-->
+        </div>
+        <!-- panel panel-default -->
+    </div>
+    <!-- page-header -->
+</div> <!-- container -->
+
+<!-- Footer Panel -->
+<footer class = "footer">
+    <div class = "container">
+        <div class="version-container">
+            <span>version: {{Version}}</span>
+        </div>
+        <div class = "url-container" >
+            <a  class = "footer-giarte-url" target="_blank"  href = "http://giarte.com/itsat/">
+                   Visit Giarte.com/ITsat for more information
+                   <i class="fa fa-play-circle login-footer-circle-arrow-size-2x"></i>
+            </a>
+        </div>
+    </div>
+    <!-- container -->
+</footer> <!-- footer -->

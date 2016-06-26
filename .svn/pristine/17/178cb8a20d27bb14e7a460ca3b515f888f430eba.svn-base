@@ -1,0 +1,62 @@
+"use strict";
+define(['application-configuration','dataFactory','ui-grid-unstable'], function (app) {
+    app.register.controller('evaluationController', ['$scope','$rootScope','dataFactory','uiGridConstants','Notify',
+        function ($scope,$rootScope,dataFactory,uiGridConstants,Notify) {
+            console.log("hi");
+            var requestParam = evaluationsRequestParam();
+            console.log("request param:"+requestParam.surveyType);
+            $scope.gridScope = {
+                rowHover: function (row) {
+
+                },
+                rowHoverOut: function (row) {
+
+                },
+                rowClick: function (row,rowRenderIndex) {
+
+                }
+            }
+            dataFactory.GetEvaluations(requestParam);
+            function evaluationsRequestParam() {
+                var applicationDataInfo = dataFactory.DataInfo();
+                var selectedSurveyType = dataFactory.GetSelectedServiceAreaSurveyType();
+                return{
+                    sessionID: applicationDataInfo.sessionID,
+                    customerID: applicationDataInfo.customerID,
+                    fromDate: applicationDataInfo.fromDate,
+                    toDate: applicationDataInfo.toDate,
+                    surveyType: getSurveyType(selectedSurveyType)
+                }
+            };
+           function getSurveyType(type){
+              return  type=="NOG"? "GEN":type;
+           }
+            $scope.$on(Notify.EVALUATION_DATA_READY, function (event, response) {
+                var attDataCollection = dataFactory.GetEvaluationDataCollection();
+                console.log("evaluation data :"+attDataCollection.length);
+            });
+
+            $scope.uiGridConfig = {
+                rowHeight: 40,
+                enableSorting: true,
+                rowSelectionHeader: false,
+                enableFullRowSelection: true,
+                enableRowSelection: false,
+                multiSelect: false,
+                showTreeExpandNoChildren: false,
+                treeRowHeaderBaseWidth:40,
+                showTreeRowHeader:false,
+                onRegisterApi: function (gridApi) {
+                    $scope.gridApi = gridApi;
+                    $scope.gridApi.grid.options.enableHorizontalScrollbar=0;
+                    $scope.gridApi.core.on.sortChanged($scope, function (grid, sort) {
+                        $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                        $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.EDIT);
+                    });
+
+                },
+                rowTemplate: 'Views/ngUIGrid/GridRowTemplate.html'
+            };
+
+        }]);
+});

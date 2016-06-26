@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="Views/Shared/CSS/LoadingOverlayTemplate.css"/>
+<!-- Begin page content -->
+<div class = "container loading-container"  ng-cloak>
+    <div class = "page-header loading-header" >
+        <div class = "panel panel-default loading-default">
+            <div class = "panel-heading loading-heading">
+                {{title}}
+                <img src = "Content/images/giarte-logo.png" alt = "Giarte" class = "logo"/>
+                <div class = "clearfix"></div>
+            </div>
+
+            <div class = "panel-body loading-body">
+                <div class="show-loading">
+                    <img id="loading" src="Content/images/itsat-loading.png" class="make-rotation" />
+                </div>
+            </div>
+            <div class="loading-text">Communicating with server...</div>
+        </div>
+    </div>
+    <!-- page-header -->
+</div> <!-- container -->
+

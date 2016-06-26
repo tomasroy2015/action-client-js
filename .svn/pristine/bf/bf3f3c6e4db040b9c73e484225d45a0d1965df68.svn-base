@@ -1,0 +1,460 @@
+/*-----------------------------------
+actionScoreBar directive style
+-------------------------------------*/
+.listview-container {
+    padding-top: 0px;
+    /*width: 98%;*/
+    margin-top: 0px;
+    /*border : 1px solid deeppink;*/
+    height: 100%;
+    min-height: 100%;
+    position: relative;
+}
+
+.listview-container .view-by-attribute-container-div{
+    /*width: 35%;*/
+    display: inline-block;
+}
+.listview-container .view-by-attribute-container-div-parent{
+    width: 100%;text-align: left
+}
+.listview-container .show-all-grp-expand-container-div{
+    float: left;display: inline-block
+}
+
+.listview-container .show-all-grp-expand-container-div-parent{
+    height:62px;padding-top: 13px ;display: inline-block;
+    /*width: 25%;*/
+}
+.listview-container .btn-apply-container-div{
+    display: inline-block; margin-left: 5px
+}
+.listview-container .min-evaluation-number-elm{
+    width: 51px;height: 22px; border-radius: 0;
+}
+.listview-container .disable-label{
+    opacity: 0.5;
+}
+.listview-container .question-score-directive-font{
+    font:bold 12px AkkuratStd-Regular
+}
+.listview-container .question-score-directive-div{
+    padding: 0;margin: 0;width: 100%;float: left
+}
+/*.question-score-directive-div .tooltip{*/
+   /*width: 100%;*/
+   /*padding: 2px;*/
+/*}*/
+
+.listview-container .question-score-directive-div .tooltip-inner {
+    max-width: 100%;
+    padding: 3px 8px;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    background-color: #000000;
+    border-radius: 4px;
+    width: 100%;
+    overflow: visible;
+}
+.listview-container .question-score-directive-svg{
+    float: left;padding: 0;margin: 2px;display: inline
+}
+
+.listview-container .row-container {
+    margin-right: 0;
+    margin-left: 0;
+    /*border: 2px solid firebrick;*/
+    height: 100%;
+}
+
+.listview-container .selected {
+    background-color: #c8c8c8;
+}
+
+.listview-container td div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.listview-container .table tbody > tr div {
+    height: 40px;
+}
+
+.listview-container .table thead > tr > th {
+    vertical-align: bottom;
+    border-bottom: 1px solid #000000;
+}
+
+#nameContainerDiv.row {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
+#childItemNameContainerDiv.row {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
+#tbl > tbody > tr > td > div {
+    padding-top: 5px;
+
+}
+
+.listview-container .nameColumnPadding {
+    padding-top: 7px !important;
+}
+
+.listview-container .scoreBarColumnPadding {
+    padding-top: 8px !important;
+}
+
+.listview-container .name {
+    line-height: 27px;
+}
+
+.listview-container .toggleRow {
+    display: none;
+}
+
+/*
+#tbl>tbody>tr:hover { background: #c8c8c8 !important; }*/
+
+#tbl > tbody > tr:hover {
+    background: #ddddde !important;
+}
+
+#tbl > tbody > tr:hover .speech {
+    background: #ffffff !important;
+}
+
+#tbl > tbody > tr:hover .speech:before {
+    border-color: #ffffff transparent transparent #ffffff;
+}
+
+/*header column arrow icon style*/
+#tbl.ng-table #tbl.th.sortable #tbl.div:after, #tbl.ng-table #tbl.th.sortable #tbl.div:before {
+    content: "";
+    border-width: 0 4px 4px;
+    border-style: solid;
+    border-color: #000 transparent;
+    visibility: visible;
+    right: 110px;
+    top: 30%;
+    position: absolute;
+    opacity: .3;
+    margin-top: -4px;
+}
+
+#tbl > tbody > tr {
+    padding-bottom: 0px !important;
+    cursor: pointer;
+}
+
+#tbl > tbody > tr > td {
+    padding: 0px !important;
+}
+
+#tbl.table > tbody + tbody {
+    border-top: 0px solid #dddddd;
+}
+
+/*list template main div */
+#parentDiv.content-main {
+    min-height: 100%;
+    height: 100%;
+    /* margin: 0 auto; */
+    margin-left: 15px;
+    margin-right: 15px;
+    /*padding-left: 10px;*/
+    /*padding-right: 15px;*/
+    /*border: 1px solid #FF0000;*/
+}
+
+/*.actionScoreBar-mainDiv{*/
+/*padding: 0;margin: 0;width: 100%;float: left*/
+/*}*/
+
+/*.actionScoreBar-scoreDiv{*/
+/*margin-top: 0px;width: 30px;display: inline-block;float: left*/
+/*}*/
+
+/*.actionScoreBar-scorebarCanvas{*/
+/*padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;float: left*/
+/*}*/
+.listview-container .vscrollbar {
+    overflow-x: hidden; /*for hiding horizontal scroll bar*/
+    overflow-y: auto; /*for vertical scroll bar*/
+}
+
+/*list pagination */
+.listview-container .pagination {
+    display: inline-block;
+    border-radius: 1px;
+    padding: 0;
+    margin-bottom: 3px;
+    margin-top: -10px;
+}
+
+/*Question score box style*/
+.listview-container .horizontal {
+    display: inline;
+    float: left;
+}
+/*list view minimum evaluation number input type style*/
+.listview-container .btn-list-view-min-evaluation-apply {
+    height: 22px;
+    border: none;
+    border-radius: 0;
+    background: #878787 !important;
+    margin-left: -3px;
+    padding-top: 2px;
+    color: white;
+    width: 58px;
+}
+
+.listview-container .btn-list-view-min-evaluation-apply:hover {
+    background: #555759 !important;
+}
+.listview-container .min-evaluation-container-div{
+    float: right;display: inline-block;
+}
+
+.listview-container .list-view-apply-reset-container-div {
+
+    padding-top: 20px;
+    height: 62px;
+    display: inline-block;
+    padding-left: 10px;
+}
+@media (min-width: 1208px) {
+    .listview-container .col-sm-6 {
+        width: 40%;
+    }
+
+    .listview-container .col-sm-3 {
+        width: 20%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .listview-container .col-sm-7 {
+        width: 40%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 1207px) {
+    .listview-container .col-sm-6 {
+        width: 40%;
+    }
+
+    .listview-container .col-sm-3 {
+        width: 25%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .listview-container .col-sm-7 {
+        width: 61%;
+        padding-left: 22px;
+        padding-right: 0;
+    }
+    .listview-container .min-evaluation-container-div {
+        float: left;
+        display: inline-block;
+    }
+
+}
+
+@media screen and (min-width : 768px)
+and (max-width : 1024px)
+{
+    /*.view-by-attribute-container-div{*/
+        /*border: 1px solid red !important;*/
+    /*}*/
+    /*.show-all-grp-expand-container-div-parent{*/
+        /*border: 1px solid red !important;*/
+    /*}*/
+    /*.list-view-apply-reset-container-div {*/
+        /*border: 1px solid red !important;*/
+    /*}*/
+    .listview-container .min-evaluation-container-div {
+        float: left;
+        display: inline-block;
+    }
+    .listview-container .col-sm-6 {
+        width: 40%;
+    }
+
+    .listview-container .col-sm-3 {
+        width: 25%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .listview-container .col-sm-7 {
+        width: 61%;
+        padding-left: 22px;
+        padding-right: 0;
+    }
+}
+
+/*css for ipad*/
+@media screen and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape)
+{
+    /*.view-by-attribute-container-div{*/
+        /*border: 1px solid red !important;*/
+    /*}*/
+    /*.show-all-grp-expand-container-div-parent{*/
+        /*border: 1px solid red !important;*/
+    /*}*/
+    /*.list-view-apply-reset-container-div {*/
+        /*border: 1px solid red !important;*/
+    /*}*/
+    .listview-container .min-evaluation-container-div {
+        float: left;
+        display: inline-block;
+    }
+    .listview-container .col-sm-6 {
+        width: 40%;
+    }
+
+    .listview-container .col-sm-3 {
+        width: 25%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .listview-container .col-sm-7 {
+        width: 61%;
+        padding-left:22px;
+        padding-right: 0;
+    }
+}
+/*css for ipad*/
+@media screen and (min-device-width : 100px)
+and (max-device-width : 768px)
+and (orientation : portrait)
+{
+    .listview-container .min-evaluation-container-div {
+        float: left;
+        display: inline-block;
+    }
+    .listview-container .col-sm-6 {
+        width: 42%;
+    }
+
+    .listview-container .col-sm-3 {
+        width: 26%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .listview-container .col-sm-7 {
+        width: 61%;
+        padding-left:22px;
+        padding-right: 0;
+    }
+}
+
+.listview-container .reset-filter-evaluation {
+    display: inline-block !important;
+    margin-left: 5px !important;
+    width: 70px !important;
+    cursor: pointer;
+}
+
+.listview-container .reset-filter-button {
+    height: 22px;
+    width: 71px;
+    border: none;
+    border-radius: 0;
+    background: transparent !important;
+}
+
+.listview-container .reset-filter-button:hover {
+    background: #c8c8c8 !important;
+}
+
+.listview-container input[type="number"]::-webkit-outer-spin-button,
+.listview-container input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}
+
+.listview-container input[type="number"] {
+    -moz-appearance: textfield !important;
+}
+
+.listview-container button[disabled], .listview-container html input[disabled] {
+    background: transparent !important;
+    opacity: 0.6 !important;
+    -ms-filter: alpha(opcity=40) !important;
+    filter: alpha(opcity=40) !important;
+
+}
+
+.listview-container button[disabled]:hover {
+    background: transparent !important;
+}
+.show-all-grp-expand-container-div input[type="checkbox"],
+.show-all-grp-expand-container-div .checkbox-inline input[type="checkbox"],
+.show-all-grp-expand-container-div .threshold-checkbox {
+    font-weight: bold;
+    margin-top: 0px;
+}
+
+/*.show-all-grp-expand-container-div input[type="checkbox"] {
+    display:none;
+}
+.show-all-grp-expand-container-div input[type="checkbox"] + label span {
+    display:inline-block;
+    width:11px;
+    height:11px;
+    margin:-3px 4px 0 0;
+    vertical-align:middle;
+    background:#C6C6C6;
+    cursor:pointer;
+    border: 1px solid;
+}
+.show-all-grp-expand-container-div input[type="checkbox"]:checked + label span {
+    background:#555759;
+}*/
+
+.list-view-grid-style {
+    /*height: 96%;*/
+    /*width: 96%;*/
+    /*max-width: 96%;*/
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /*border-color: #008000;*/
+}
+
+/*.ui-grid-viewport{*/
+    /*height: 100% !important;*/
+/*}*/
+.listview-container .table-responsive{
+    height: 100% !important;
+    /*border: 1px solid blue;*/
+}
+.listview-container .ui-grid-container {
+    position: relative;
+    height: 90%;
+}
+.listview-container .ui-grid-container >.ui-grid {
+    position : absolute;
+    width : 100% !important;
+    height : 100% !important;
+    /*border: 1px solid #008000;*/
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}

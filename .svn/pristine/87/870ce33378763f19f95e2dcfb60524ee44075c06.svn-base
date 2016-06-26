@@ -1,0 +1,66 @@
+"use strict";
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionEvaluationAnswerScores', function () {
+        var boxId = 1;
+        return {
+            restrict: 'EA',
+            scope   : {
+                id:'=',
+                value:'=',
+                colorSet:'='
+            },
+
+            templateUrl: "Views/Shared/Template/Evaluation/EvaluationUIGrid/CellTemplates/EvaluationAnswerScoresDirectiveTemplate.html",
+            replace    : true,
+            link       : function (scope, el, attr) {
+                scope.$watchGroup( ['value','colorSet','id'], function(newValue,oldValue){
+                    if(angular.isUndefined(newValue))
+                    {
+                       return;
+                    }
+                   // console.log("new Question Score"+newValue.Score+" Old Question Score: "+oldValue.Score);
+                    var score = newValue[0];
+                    var colorCode=getAnswerColorCode(score) ;
+
+                    function getAnswerColorCode(value){
+                        var colorCode="";
+                        if( value>-1&& value<3)
+                            colorCode="#E94242";
+                        else if(value>2)
+                            colorCode="#4BAC4B";
+                        else
+                            colorCode="#555759";
+                        return colorCode;
+                    }
+
+
+                    var scoreBoxId = 'evaluationScoreBox' + boxId++;
+                    el.find('canvas').attr('id', scoreBoxId);
+                    var scoreCanvas =document.getElementById(scoreBoxId); //$(el).find("canvas").get(0);
+                    var context = scoreCanvas.getContext("2d");//$(el).find("canvas").get(0).getContext("2d");
+                    context.clearRect(0, 0, scoreCanvas.width, scoreCanvas.height);
+                    //context.save();
+                    context.fillStyle = colorCode;
+                    var rectWidth=26;
+                    var rectHeight=22;
+
+                    context.fillRect(0, 0, rectWidth, rectHeight);
+                    context.fillStyle = 'white';
+                    var w = context.measureText('10').width;
+                    var x = (rectWidth / 2) - (w / 2);
+                    var y = rectHeight / 2;
+                    context.font = "bold 12px san-serif";
+                    context.textBaseline = 'center';
+                    if(!isNaN(score) &&score>-1 )
+                        context.fillText(score, x, y + 3);
+                    else
+                        context.fillText('NA', 4, y+3);
+                   // context.restore();
+                },true);
+                //console.log("Score obj value is :"+scope.scoreObj.Score);
+            }
+
+        };
+    });
+});

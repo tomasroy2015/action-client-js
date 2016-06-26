@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="Views/Shared/CSS/AttributeScoreSummary.css"/>
+<!--<div class="evaluation-summary"  tabindex="-1" role="dialog" aria-hidden="true">-->
+    <!--<div class="evaluation-summary-dialog">-->
+        <!--<div class="evaluation-summary-content">-->
+            <!--<div class="evaluation-summary-header" style="height:80px">-->
+                <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="false">&times;</button>-->
+                <!--<h4 class="evaluation-summary-title" id="myModalLabel"><b>{{selectedItem.Name}}</b></h4>-->
+                <!--<div class="row buttonBar">-->
+                    <!--&lt;!&ndash;<div class="col-md-6 btn-content">SCORECARD</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="col-md-6 btn-content">EVALUATIONS  </div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="col-md-6 btn-content">SENTIMENT</div>&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="evaluation-summary-body" style="height:320px">-->
+
+            <!--</div>-->
+            <!--<div class="evaluation-summary-footer" style="height:90px">-->
+                <!--<p style="left:0;font-size:10pt;font-weight:bold;">Respondents(20)</p>-->
+                <!--<p style="left:0;font-size:9pt;">No comments</p>-->
+                <!--&lt;!&ndash;<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>&ndash;&gt;-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" >&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{{summaryTitle}}</h4>
+                <div class="row button-bar">
+                    <div class="btn btn-success">SCORECARD</div>
+                    <div class="btn btn-success">EVALUATIONS</div>
+                    <!--<div class="btn btn-success">SENTIMENT</div>-->
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="summary-service-area-container">
+                    <action-service-area id="generalSurvey" item-click="itemClicked(selectedItem)"
+                                         data="generalSurveyCollection"></action-service-area>
+                    <div class="summary-service-area-gap"></div>
+                    <action-service-area id="triggerSurvey" item-click="itemClicked(selectedItem)"
+                                         data="triggerSurveyCollection"></action-service-area>
+                </div>
+                <div class="service-area-questions-container">
+                    <ul class="question" id="selectabl">
+                        <li ng-repeat="q in selectedAttributeItem.ServiceAreaScoreDataCollection[0].QuestionScores track by $index" id="question-{{$index}}"
+                            data-ng-click="serviceAreaScoreItemClick($event)"  data-questionType="{{q.QuestionType}}"
+                            class="questionListItem">
+                            <div class="questionListItemDiv" id="div-{{$index}}">
+                                <action-service-area-question score="q.Score" question="q"></action-service-area-question>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div id="btn-view-details" class="btn-view-details">
+                    <i class="fa fa-arrow-circle-right right-arrow-circle"/>VIEW DETAILS
+                </div>
+            </div>
+            <div class="modal-footer">
+                 <span>Respondents({{selectedAttributeItem.ServiceAreaScoreDataCollection[0].Respondent}})</span>
+                <div id="btn-view-evaluations" class="btn-view-evaluations">
+                    <i class="fa fa-arrow-circle-right right-arrow-circle"/>VIEW EVALUATIONS
+                </div>
+            </div>
+        </div>
+    </div>
+<!--</div>-->

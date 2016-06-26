@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="Views/CustomerSettings/RegionMapping/RegionMappingTemplate.css"/>
+<div class="region-mapping-container" ng-controller="regionMappingController">
+    <span class="template-header">
+        REGION MAPPING
+    </span>
+    <div class="table-container">
+        <table st-table="regionMappingCollection" st-safe-src="rowCollection"  id="smartTable" class="table">
+            <thead>
+                <tr>
+                    <th class="name-column" st-sort="Name" st-sort-default="reverse">REGION<i st-sort="Name"/></span></th>
+                    <th class="latitude-column" st-sort="Latitude">LATITUDE<i st-sort="Latitude"></i></th>
+                    <th class="longitude-column" st-sort="Longitude">LONGITUDE<i st-sort="Longitude"></i></th>
+                    <th class="mapped-value-column">CITIES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="regionMapping in regionMappingCollection">
+                    <td class="name-column"><span>{{regionMapping.Name}}</span></td>
+                    <td class="latitude-column"><span>{{regionMapping.Latitude}}</span></td>
+                    <td class="longitude-column"><span>{{regionMapping.Longitude}}</span></td>
+                    <td class="mapped-value-column">
+                        <div class="mapped-value-item" ng-repeat="mapValue in regionMapping.RegionMappingDetails">
+                            <span style="font-size: 10px; background-color: #ddddde;">{{mapValue.MappedValue}}</span>
+                        </div>
+
+                        <!--<button class="btn-edit" ng-class="{invisible:regionMapping.isEditDeleteHide}">Edit</button>-->
+                        <!--<span ng-class="{invisible:regionMapping.isEditDeleteHide}" class="fa fa-times"></span>-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="footer-container-div">
+        <!--<button class="left-align btn-add-user" ng-click="addUser()"><i class="fa fa-plus-circle"/> <span>ADD USER</span></button>-->
+    </div>
+</div>

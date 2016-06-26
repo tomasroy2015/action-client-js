@@ -1,0 +1,24 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionScorecardDetails', [function () {
+
+        return {
+            restrict: 'AE',
+            scope: {
+                surveyData:'=',
+                headerData:'=',
+                surveyType:'@',
+                title:'@'
+            },
+            link: function (scope, el, attrs) {
+
+            },
+            templateUrl: 'Views/Shared/Template/ScorecardDetailsTemplate.html'
+        };
+
+    }]);
+
+});
+

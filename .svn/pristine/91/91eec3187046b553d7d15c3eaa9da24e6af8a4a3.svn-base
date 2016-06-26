@@ -1,0 +1,167 @@
+<link rel="stylesheet" href="Views/LeftMenu/LeftMenuTemplate.css"/>
+<div ng-controller="leftMenuController" class="left-menu-main-container">
+    <!-- company logo section -->
+    <div id="logoContainer" class="logo-container">
+        <img class="logo" src="Content/images/dsm.png"/>
+    </div>
+    <!-- Dataset selection section -->
+    <div class="dataset-container">
+        <div class="ds-collasped-panel" ng-class="{'ds-collasped-panel-bottom-border':dsIsCollapsed}"
+             ng-click="dsIsCollapsed = !dsIsCollapsed">
+            <i aria-hidden="true"
+               ng-class="{'fa fa-play': dsIsCollapsed, 'fa fa-play fa-rotate-90': !dsIsCollapsed}"></i> DATA SET
+        </div>
+        <div collapse="dsIsCollapsed" class="dataset-selection-container">
+            <!--<div class="questionListItem">Data-may</div>-->
+            <div id="dataset-selection" class="dataset-selection" data-toggle="modal" data-target="#datasetModal"
+                 ng-click="datasetSelected_Handler(this)">
+                Data-may
+            </div>
+        </div>
+
+        <div class="modal fade" id="datasetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Change dataset</h4>
+                    </div>
+                    <div class="modal-body">
+                        <action-data-set-accordion data="selectedDataset"></action-data-set-accordion>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Data filter accordion section -->
+    <div class="data-filter-accordion-container">
+        <div ng-class="{'collapsible-panel-container':isdatafilterCollapsed}" ng-click="expandCollapsedDataFilterPanel()">
+            <i aria-hidden="true"
+               ng-class="{'fa fa-play': isdatafilterCollapsed, 'fa fa-play fa-rotate-90': !isdatafilterCollapsed}"></i>
+            DATA FILTERS
+        </div>
+        <div collapse="isdatafilterCollapsed">
+            <action-data-filter-accordion data="categorizedAttributeColl"></action-data-filter-accordion>
+        </div>
+    </div>
+    <!--<div class="ac-collasped-panel" ng-click="isCollapsed = !isCollapsed">-->
+    <!--<i aria-hidden="true"-->
+    <!--ng-class="{'glyphicon glyphicon-chevron-right': isCollapsed, 'glyphicon glyphicon-chevron-down': !isCollapsed}"></i>-->
+    <!--DATA FILTERS-->
+    <!--</div>-->
+    <!--<div collapse="isCollapsed">-->
+    <!--<action-data-filter-accordion data="categorizedAttributeColl"></action-data-filter-accordion>-->
+    <!--</div>-->
+
+    <!-- Service area button section -->
+    <div class="service-area-container">
+        <span>SCORES (%)</span>
+        <action-service-area id="generalSurvey" item-click="itemClicked(selectedItem)"
+                             data="generalSurveyCollection"></action-service-area>
+        <action-service-area id="triggerSurvey" item-click="itemClicked(selectedItem)"
+                             data="triggerSurveyCollection"></action-service-area>
+    </div>
+    <!-- Service area questions button section -->
+    <div class="service-area-questions-container">
+        <ul class="question" id="selectable">
+            <li ng-repeat="q in generalSurveyCollection[1].Questions track by $index" id="question-{{$index}}"
+                data-ng-click="questionSelection_Handler($index)" onclick="questionSelection_Handler(this)"
+                class="questionListItem">
+                <div class="questionListItemDiv" id="div{{$index}}" onclick="divSelection_Handler(this)">
+                    <action-service-area-question score="45" question="q"></action-service-area-question>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!-- Full scorecard button section -->
+    <div class="full-scorecard-btn-container">
+        <button type="button" class="btn ac-btn-full-scorecard" data-toggle="button">
+            View full scorecard <i class="fa fa-play-circle circle-arrow-size-2x"></i>
+        </button>
+    </div>
+
+    <!-- evaluation button section -->
+    <div class="left-menu-btn-container">
+        <div ng-class="{'collapsible-panel-container':evaluationIsCollapsed}"
+             ng-click="evaluationIsCollapsed = !evaluationIsCollapsed">
+            <i aria-hidden="true"
+               ng-class="{'fa fa-play': evaluationIsCollapsed, 'fa fa-play fa-rotate-90': !evaluationIsCollapsed}"></i>
+            INDIVIDUAL EVALUATIONS
+        </div>
+        <div collapse="evaluationIsCollapsed" class="btn-holder">
+            <div id="btn-evaluation" class="btn-arrow-left-menu" ng-click="evaluationBtn_Handler()">
+                Evaluations
+            </div>
+        </div>
+    </div>
+    <!-- Settings button section -->
+    <div class="left-menu-btn-container">
+        <div ng-class="{'collapsible-panel-container':settingsIsCollapsed}"
+             ng-click="settingsIsCollapsed = !settingsIsCollapsed">
+            <i aria-hidden="true"
+               ng-class="{'fa fa-play': settingsIsCollapsed, 'fa fa-play fa-rotate-90': !settingsIsCollapsed}"></i>
+            SETTINGS
+        </div>
+        <div collapse="settingsIsCollapsed" class="btn-holder">
+            <div id="btn-compare-with" class="btn-arrow-left-menu" ng-click="compareWithBtn_Handler()">
+                Target
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity Logs section -->
+    <div class="left-menu-btn-container">
+        <div ng-class="{'collapsible-panel-container':logsPanelIsCollapsed}"
+             ng-click="logsPanelIsCollapsed = !logsPanelIsCollapsed">
+            <i aria-hidden="true"
+               ng-class="{'fa fa-play': logsPanelIsCollapsed, 'fa fa-play fa-rotate-90': !logsPanelIsCollapsed}"></i>
+            LOGS
+        </div>
+        <div collapse="logsPanelIsCollapsed" class="btn-holder">
+            <div id="btn-activity-log" class="btn-arrow-left-menu" ng-click="activityLogBtn_Handler()">
+                Activity logs
+            </div>
+        </div>
+    </div>
+
+    <div class="arrow"></div>
+    <!-- Custom javascript section -->
+    <script type="text/javascript">
+        function questionSelection_Handler(ele) {
+            var id = "#" + ele.id;
+            $(id).addClass('selectedQuestionItem').siblings().removeClass('selectedQuestionItem');
+            updateQuestionItemsCSSClass(ele.id);
+        }
+        ;
+
+        function divSelection_Handler(ele) {
+            var id = "#" + ele.id;
+            $(id).addClass('selectedQuestionListItemDiv').removeClass('questionListItemDiv');
+        }
+
+        function updateQuestionItemsCSSClass(selectedId) {
+            var id1 = document.getElementById("selectable");
+            var questionPrefix = "question-";
+            var selectedQuestionNumber = selectedId.substr(questionPrefix.length);
+            // console.log("selected li id= "+selectedId );
+            var listItem = id1.getElementsByTagName("li");
+            for (var i = 0; i < listItem.length; i++) {
+                if (i != selectedQuestionNumber) {
+                    var innerDivId = "#div" + i;
+                    // console.log(innerDivId);
+                    $(innerDivId).addClass('questionListItemDiv').removeClass('selectedQuestionListItemDiv');
+                }
+            }
+            //console.log(listItem);
+        }
+
+        //        function datasetSelected_Handler(el) {
+        //            $('#dataset-selection').toggleClass('dataset-selection-selected');
+        //        }
+    </script>
+
+</div>

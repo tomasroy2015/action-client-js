@@ -1,0 +1,28 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.controller('accordionPanelController', [function () {
+
+        var vm = this;
+        vm.oneAtATime = true;
+        vm.groups = [
+            {
+                title  : "GEOGRAPHY",
+                contents: [{name:"Country (80)"}, {name:"City (50)"}, {name:"Site (90)"}]
+            },
+            {
+                title  : "ORGANIZATION",
+                contents: [{name:"Business unit (21)"}, {name:"Division (22)"}, {name:"Organization (33)"}]
+            },
+            {
+                title  : "TICKETS",
+                contents: [{name:"Resolver group (21)"}, {name:"Configuration category (22)"}, {name:"ITIL process (45)"},
+                    {name:"Priority (33)"},{name:"Provider (42)"},{name:"Delivery center (5)"}
+                ]
+            }
+        ]
+
+    }]);
+
+});

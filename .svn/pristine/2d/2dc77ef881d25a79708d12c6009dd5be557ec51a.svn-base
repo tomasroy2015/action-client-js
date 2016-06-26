@@ -1,0 +1,234 @@
+define(['application-configuration', 'dataFactory', 'comparatorFactory', 'QuestionScoreViewData', 'CreateViewDataFactory'], function (app) {
+
+    app.register.factory('ViewDataFactory',
+        ['dataFactory', 'comparatorFactory', 'QuestionScoreViewData', 'CreateViewDataFactory',
+            function (dataFactory, comparatorFactory, QuestionScoreViewData, CreateViewDataFactory) {
+                "use strict";
+
+                var preparedData = {}, allServiceArea = {}, preparedOSTCKData = [];
+                //preparedData.generalSurveyData = {};
+                //preparedData.triggerSurveyData = {};
+                //preparedData.generalSurveyHeaderData = {};
+                //preparedData.triggerSurveyHeaderData = {};
+
+
+                return {
+                    preparedServiceAreaScoreDataCollection: function (data) {
+                        preparedData = {};
+
+                        preparedData = prepareServiceAreaScoreDataCollection(data);
+
+                        prepareServiceAreaData();
+                        prepareOSorTCKDataCollection(data);
+                    },
+                    preparedFullScorecardDataCollection: function (data) {
+                        return prepareServiceAreaScoreDataCollection(data);
+                    },
+                    getPreparedServiceAreaScoreDataCollection: function () {
+                        return preparedData;
+                    },
+                    getServiceAreaDataById: function (Id) {
+                        //var result =
+                        var tmp;
+                        tmp = _.result(_.find(allServiceArea, function (n) {
+                            return n.Id === Id;
+                        }), "Items");
+
+                        if (tmp === undefined) {
+                            tmp = _.result(_.find(preparedOSTCKData, function (n) {
+                                return n.Id === Id;
+                            }), "Items");
+                        }
+                        return tmp;
+
+                        //_.result(_.find(users, function(chr) {
+                        //    return chr.age < 40;
+                        //}), 'user');
+                    },
+                    getAllServiceAreaData: function () {
+                        //allServiceArea = {};
+                        //if (preparedData.generalSurveyData && preparedData.generalSurveyData.length > 0 && preparedData.triggerSurveyData && preparedData.triggerSurveyData.length > 0) {
+                        //    //var tmp = _.extend({},preparedData.generalSurveyData, preparedData.triggerSurveyData);
+                        //    var gen = preparedData.generalSurveyData;
+                        //    var tck = preparedData.triggerSurveyData;
+                        //    allServiceArea = gen.concat(tck);
+                        //} else if (preparedData.generalSurveyData && preparedData.generalSurveyData.length > 0){
+                        //    allServiceArea = preparedData.generalSurveyData;
+                        //} else if (preparedData.triggerSurveyData && preparedData.triggerSurveyData.length > 0){
+                        //    allServiceArea = preparedData.triggerSurveyData;
+                        //}
+                        return allServiceArea;
+                    },
+                    getOSTCKServiceAreaData: function () {
+                        return preparedOSTCKData;
+                    }
+                };
+
+                function prepareServiceAreaScoreDataCollection(data) {
+                    "use strict";
+
+                    var tmpPreparedData = {};
+                    tmpPreparedData.generalSurveyData = {};
+                    tmpPreparedData.triggerSurveyData = {};
+                    tmpPreparedData.generalSurveyHeaderData = {};
+                    tmpPreparedData.triggerSurveyHeaderData = {};
+
+                    var generalSurveyCollection = _.filter(data, function (n) {
+                        return n.SurveyType === "GEN";
+                    });
+
+                    var triggerSurveyCollection = _.filter(data, function (n) {
+                        return n.SurveyType === "TCK" && n.Id !== 'SES' && n.Id !== 'TCK';
+                    });
+
+                    /* prepare data with score comparator object */
+                    var preparedGenSurvey = [], prepareTrigSurvey = [], resultGen = [], resultTrig = [];
+
+
+                    if (generalSurveyCollection && generalSurveyCollection.length > 0) {
+                        var tmpGenData = _.sortByOrder(generalSurveyCollection, 'SortOrder', true);
+                        _.forEach(tmpGenData, function (n, key) {
+                            //var serviceAreaViewData = ServiceAreaViewData.GetServiceAreaViewData(n.Id,prepareCollectionObject(n));
+                            var oServiceAreaViewData = CreateViewDataFactory.ServiceAreaViewData();
+                            oServiceAreaViewData.Id = n.Id;
+                            oServiceAreaViewData.Items = prepareCollectionObject(n);
+                            preparedGenSurvey.push(oServiceAreaViewData);
+                        });
+
+                        //var genHeader = prepareSurveyHeaderData('general', 'OVERALL SATISFACTION', data);
+                        //preparedData.generalSurveyData = _.assign({}, {header: genHeader}, {data: preparedGenSurvey});
+
+                        tmpPreparedData.generalSurveyData = preparedGenSurvey;
+                        tmpPreparedData.generalSurveyHeaderData = prepareSurveyHeaderData('GEN', 'OVERALL SATISFACTION', data);
+                    }
+                    if (triggerSurveyCollection && triggerSurveyCollection.length > 0) {
+                        var tmpTrigData = _.sortByOrder(prepareTrigSurvey, 'SortOrder', true);
+                        _.forEach(triggerSurveyCollection, function (n, key) {
+                            //prepareTrigSurvey[n.Id] = prepareCollectionObject(n);
+                            var oServiceAreaViewData = CreateViewDataFactory.ServiceAreaViewData();
+                            oServiceAreaViewData.Id = n.Id;
+                            oServiceAreaViewData.Items = prepareCollectionObject(n);
+                            prepareTrigSurvey.push(oServiceAreaViewData);
+                        });
+                        //var trigHeader = prepareSurveyHeaderData('ticket', 'IT SERVICE EFFORT SCORE', data);
+                        //preparedData.triggerSurveyData = _.assign({}, {header: trigHeader}, {data: resultTrig});
+                        tmpPreparedData.triggerSurveyData = prepareTrigSurvey;
+                        tmpPreparedData.triggerSurveyHeaderData = prepareSurveyHeaderData('TCK', 'IT SERVICE EFFORT SCORE', data);
+                    }
+                    return tmpPreparedData;
+                    //preparedData.generalSurveyData.data !== undefined
+
+                    //prepareServiceAreaData();
+                    //prepareOSorTCKDataCollection(data);
+                }
+
+                /**
+                 * prepare question object with score comparator object
+                 * @param question
+                 * @returns {*}
+                 */
+                function prepareCollectionObject(question) {
+                    var questionScoreViewData = [];
+
+                    var groupQuestionScoreViewData = prepareGroupQuestionScoreViewData(question);
+                    questionScoreViewData.push(groupQuestionScoreViewData);
+
+                    _.forEach(question.QuestionScores, function (item, key) {
+                        var tmpQesObj = prepareQuestionScoreViewData(item);
+                        questionScoreViewData.push(tmpQesObj);
+                    });
+                    return questionScoreViewData;
+                }
+
+                function prepareGroupQuestionScoreViewData(question) {
+                    var questionScoreViewData = new QuestionScoreViewData();
+                    questionScoreViewData.QuestionId = question.Id;
+                    questionScoreViewData.QuestionText = question.Name;
+                    questionScoreViewData.NoOfRespondent = question.Respondent;
+                    questionScoreViewData.Score = question.Score;
+                    questionScoreViewData.Comparator = comparatorFactory.GetScoreItemComparator(question.Id);
+                    questionScoreViewData.ScoreColor = dataFactory.GetScoreColor(question.Score, comparatorFactory.GetScoreItemComparator(question.Id));
+                    questionScoreViewData.IsGroup = true;
+                    return questionScoreViewData;
+                }
+
+                function prepareQuestionScoreViewData(question) {
+                    var questionScoreViewData = new QuestionScoreViewData();
+                    questionScoreViewData.QuestionId = question.QuestionId;
+                    questionScoreViewData.QuestionText = question.QuestionText;
+                    questionScoreViewData.NoOfRespondent = question.TotalResponse;
+                    questionScoreViewData.Score = question.Score;
+                    questionScoreViewData.Comparator = comparatorFactory.GetScoreItemComparator(question.QuestionId);
+                    questionScoreViewData.ScoreColor = dataFactory.GetScoreColor(question.Score, comparatorFactory.GetScoreItemComparator(question.QuestionId));
+                    return questionScoreViewData;
+                }
+
+
+                /**
+                 * Prepare header data for survey
+                 * @param surveyType
+                 * @param title
+                 * @param serviceAreaCollection
+                 * @returns {{scoreComparator: {Score: *, ComparatorValue: *, ComparatorColorCode: *}, surveyType: string, title: *}}
+                 */
+                function prepareSurveyHeaderData(surveyType, title, dataCollection) {
+                    var surveyTypeTitle = "", isOSScore = false;
+                    var tmpCollection = {};
+                    if (surveyType === "GEN") {
+                        isOSScore = true;
+                        surveyTypeTitle = "GENERAL SURVEYS";
+                        tmpCollection = _.filter(dataCollection, function (n) {
+                            return n.Id === 'OS';
+                        });
+                    } else if (surveyType === "TCK") {
+                        isOSScore = false;
+                        surveyTypeTitle = "TICKETS";
+                        tmpCollection = _.filter(dataCollection, function (n) {
+                            return n.Id === 'TCK' || n.Id === 'SES';
+                        });
+                    }
+                    return {
+                        comparatorData: prepareGroupQuestionScoreViewData(tmpCollection[0]),
+                        surveyType: surveyTypeTitle,
+                        title: title,
+                        isOSScore: isOSScore,
+                        noOfRespondent: tmpCollection[0].Respondent
+                    };
+                }
+
+                function prepareServiceAreaData() {
+                    allServiceArea = {};
+                    if (preparedData.generalSurveyData && preparedData.generalSurveyData.length > 0 && preparedData.triggerSurveyData && preparedData.triggerSurveyData.length > 0) {
+                        //var tmp = _.extend({},preparedData.generalSurveyData, preparedData.triggerSurveyData);
+                        var gen = preparedData.generalSurveyData;
+                        var tck = preparedData.triggerSurveyData;
+                        allServiceArea = gen.concat(tck);
+                    } else if (preparedData.generalSurveyData && preparedData.generalSurveyData.length > 0) {
+                        allServiceArea = preparedData.generalSurveyData;
+                    } else if (preparedData.triggerSurveyData && preparedData.triggerSurveyData.length > 0) {
+                        allServiceArea = preparedData.triggerSurveyData;
+                    }
+                    //return allServiceArea;
+                }
+
+                function prepareOSorTCKDataCollection(dataCollection) {
+                    var tmpFilterColl = _.filter(dataCollection, function (data) {
+                        return data.Id === 'OS' || data.Id === 'TCK' || data.Id === 'SES';
+                    });
+
+                    preparedOSTCKData = [];
+
+                    if (tmpFilterColl && tmpFilterColl.length > 0) {
+                        _.forEach(tmpFilterColl, function (n) {
+                            //preparedOSTCK.push(prepareGroupQuestionScoreViewData(n));
+                            //preparedOSTCK = prepareCollectionObject();
+                            var oServiceAreaViewData = CreateViewDataFactory.ServiceAreaViewData();
+                            oServiceAreaViewData.Id = n.Id;
+                            oServiceAreaViewData.Items = prepareCollectionObject(n);
+                            preparedOSTCKData.push(oServiceAreaViewData);
+                        });
+                    }
+                }
+            }
+        ]);
+});

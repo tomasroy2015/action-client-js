@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="Views/LeftMenuSettings/ColorSet.css"/>
+<!--<label class="radio moresettings-radio" for="colosetStandard">-->
+    <!--<input id="colosetStandard" type="radio" name="colorSetGroup" ng-model="colorSet"-->
+           <!--ng-click="setMoreColorSet(colorSet)">{{colorSet.Label}}-->
+    <!--<div class="row color-coll-div">-->
+        <!--<i id="colorFirst" class="fa fa-minus-circle"></i>-->
+        <!--<i id="colorSecond" class="fa fa-circle"></i>-->
+        <!--<i id="colorThird" class="fa fa-plus-circle"></i>-->
+    <!--</div>-->
+<!--</label>-->
+
+<i id="colorFirst" class="fa fa-minus-circle"></i>
+<i id="colorSecond" class="fa fa-circle"></i>
+<i id="colorThird" class="fa fa-plus-circle"></i>

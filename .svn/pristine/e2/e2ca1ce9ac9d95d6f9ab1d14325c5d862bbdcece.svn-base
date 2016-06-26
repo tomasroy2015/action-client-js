@@ -1,0 +1,61 @@
+"use strict";
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionQuestionScore', function () {
+        var boxId = 1;
+        return {
+            restrict: 'EA',
+            scope   : {
+                questionItem:'=',
+                colorSettings:'='
+            },
+
+            templateUrl: "Views/List/QuestionScoresTemplate.html",
+            replace    : true,
+            link       : function (scope, el, attr) {
+                scope.$watch( function(scope){ return scope.questionItem}, function(newValue,oldValue){
+                    if(angular.isUndefined(newValue))
+                    {
+                        newValue = oldValue;
+                    }
+                   // console.log("new Question Score"+newValue.Score+" Old Question Score: "+oldValue.Score);
+                    var score = newValue.Score;
+                    var boxWidth=27;
+                    var colorCode=newValue.ScoreComparatorColor.ColorCode;
+                    var scoreBoxId = 'box' + boxId++;
+                    el.find('canvas').attr('id', scoreBoxId);
+                    var scoreCanvas = document.getElementById(scoreBoxId);
+                    var context = scoreCanvas.getContext('2d');
+                    context.clearRect(0, 0, scoreCanvas.width, scoreCanvas.height);
+                    //context.save();
+                    context.fillStyle = colorCode;
+                    context.fillRect(0, 0, boxWidth, 25);
+                    context.fillStyle = 'white';
+                    //score="89";
+                    var scoreTextLength = score.toString().length;
+                    var x=0;//distance from left side
+                    if(scoreTextLength==3){
+                        x=Math.round((boxWidth- scoreTextLength)/2)-8;
+                    }
+                    else if(scoreTextLength==2){
+                       x= Math.round((boxWidth- scoreTextLength)/2)-6;
+                    }
+                    else{
+                       x= Math.round((boxWidth- scoreTextLength)/2)-2
+                    }
+
+                    var y = 25 / 2;//distance from top
+                    context.font = "bold 11px AkkuratStd-Regular";
+                    context.textBaseline = 'center';
+                    if(!isNaN(score))
+                        context.fillText(score, x, y + 3);
+                    else
+                        context.fillText('', x, y + 3);
+                   // context.restore();
+                },true);
+                //console.log("Score obj value is :"+scope.scoreObj.Score);
+            }
+
+        };
+    });
+});

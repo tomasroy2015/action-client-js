@@ -1,0 +1,167 @@
+/* All external import files
+======================================================*/
+@import '../Shared/SCSS/_Colors';
+@import '../Shared/SCSS/_Mixins';
+
+
+$left-arrow-width:16px;
+$left-arrow-height:20px;
+$top-margin-length:16px;
+
+.container{
+  background-color: #ffffff;
+}
+.container.compare-settings-container{
+  color: #000000;
+  width: 230px;
+  height: 430px;
+  font-family: "AkkuratStd-Regular", "Segoe UI Light", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  border: 1px solid #c0c0c0;
+  border-radius: 2px;
+  top: 250px;
+  box-shadow: 2px 2px 2px #d3d3d3;
+  cursor: default;
+}
+.page-header {
+  margin: 10px 0 0px;
+  border-bottom: 1px solid #000000;
+}
+.page-header.target-page-header{
+  font-size: 14px;
+  height: 30px;
+  font-weight: bold;
+  .target-left-arrow-container {
+    position: absolute;
+    top: $top-margin-length;
+    right: -15px;
+    text-align:center;
+    box-shadow: 2px 2px 2px #d3d3d3;
+    height: $left-arrow-height;
+    width:$left-arrow-width;
+    background-color: #fff;
+    border-top: 1px solid #d3d3d3;
+    border-bottom: 1px solid #d3d3d3;
+    border-right: 1px solid #d3d3d3;
+    .fa-caret-left{
+      font-size:1.2em;
+      display:table-cell;
+      vertical-align:middle;
+      height: $left-arrow-height;
+      width:$left-arrow-width;
+      color: #555759;
+    }
+    &:hover {
+      cursor : pointer;
+    }
+  }
+}
+.compare-settings-body{
+  font-size: 11px;
+}
+.radio.target-radio{
+  font-weight: normal;
+}
+.common-target-style{
+  margin: 2px 0 0px;
+  border: none;
+  border-bottom: 1px solid #000000;
+
+  input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
+    float: left;
+    margin-left: -20px;
+    margin-top: 0px;
+  }
+  input[type="checkbox"], .checkbox-inline input[type="checkbox"],.target-checkbox{
+    font-weight: normal;
+  }
+}
+.compare-settings-body > .benchmark-container{
+  margin: 2px 0 0px;
+  border: none;
+}
+.compare-settings-body > .custom-value-container{
+  margin: 2px 0 0px;
+  border: none;
+  border-bottom: 1px solid  #d3d3d3;
+}
+.compare-settings-body > .benchmark-container > .benchmark-value-container{
+  background-color: #d3d3d3;
+  border: none;
+  height: 87px;
+}
+
+.compare-settings-body > .benchmark-container > .benchmark-value-container > .benchmark-radio-group {
+  padding-top: 2px;
+  padding-left: 18px;
+}
+.target-button-container{
+  color: #ffffff;
+  display: block;
+  text-align: center;
+  font-size: 14px;
+}
+.btn-target-ok {
+  margin-top: 8px;
+  padding-top: 2px;
+  height: 22px;
+  width: 40px;
+  border: none;
+  background: #878787 !important;
+}
+
+.btn-target-ok:hover {
+  background : #555759 !important;
+}
+//input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
+//  float: left;
+//  margin-left: -20px;
+//  margin-top: 0px;
+//}
+//input[type="checkbox"], .checkbox-inline input[type="checkbox"],.target-checkbox{
+//  font-weight: normal;
+//}
+
+
+/*Slider*/
+#custom-slider .slider {
+  display: inline-block;
+  position: relative;
+  margin-top: -20px;
+  width: 200px;
+}
+
+#custom-slider .slider.slider-horizontal .slider-track{
+  background: #d3d3d3;
+}
+
+#custom-slider .slider.slider-horizontal .slider-track .slider-handle.round{
+  border-radius: 0;
+  background-color: #555759;
+  background-image: -webkit-linear-gradient(top, #555759 0%, #555759 100%);
+  background-image: -o-linear-gradient(top, #555759 0%, #555759 100%);
+  background-image: linear-gradient(to bottom, #555759 0%, #555759 100%);
+  background-repeat: repeat-x;
+}
+#custom-slider .slider.slider-horizontal .slider-track .slider-handle.min-slider-handle.round{
+  left: 50%;
+}
+#custom-slider .slider-selection {
+  background: #d3d3d3;
+  width: 50%;
+}
+
+#custom-slider .slider.slider-horizontal .slider-track .slider-handle{
+  background-color: #555759;
+  background-image: -webkit-linear-gradient(top, #555759 0%, #555759 100%);
+  background-image: -o-linear-gradient(top, #555759 0%, #555759 100%);
+  background-image: linear-gradient(to bottom, #555759 0%, #555759 100%);
+  background-repeat: repeat-x;
+}
+
+#custom-slider .slider.slider-horizontal .tooltip.top{
+  display:none;
+}
+
+#custom-slider .slider.slider-horizontal .tooltip.bottom{
+  display:none;
+}

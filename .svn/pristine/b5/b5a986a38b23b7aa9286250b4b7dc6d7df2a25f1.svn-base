@@ -1,0 +1,54 @@
+"use strict";
+define(['application-configuration','dataFactory'], function (app) {
+    app.register.controller('headerController', ['$scope','$rootScope','dataFactory','Notify','$window','$modal',
+        function ($scope,$rootScope,dataFactory,Notify,$window,$modal) {
+        //console.log('Header Controller running...');
+        $scope.data = dataFactory;
+        $scope.isListViewActive = false;
+        $scope.isMapViewActive=true;
+        $scope.listviewtab_clickHandler = function(){
+
+            if($scope.isListViewActive)
+            return;
+            if( !$scope.isListViewActive){
+                $scope.isListViewActive = true;
+                $scope.isMapViewActive = false;
+                $rootScope.$broadcast("listviewActiveDeactivate",{isActivate:$scope.isListViewActive});
+            }
+        }
+        $scope.mapviewtab_clickHandler = function(){
+            $scope.isMapViewActive =true;
+            $scope.isListViewActive=false;
+        }
+        $scope.$on(Notify.SERVICE_AREA_CHANGED,function(event,response){
+            if($scope.isListViewActive)
+            return;
+            if($scope.isMapViewActive){
+                $rootScope.$broadcast("listviewActiveDeactivate",{isActivate:false});
+            }
+        })
+        $scope.settings_clickHandler=function($event){
+
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'Views/CustomerSettings/CustomerSettingsTemplate.html',
+                controller: 'customerSettingsController',
+                size: 'lg',
+                resolve: {
+                    items: function () {
+                        return "parent controlller data";
+                    }
+                }, keyboard: false,
+                backdrop: 'static'
+            });
+
+            modalInstance.result.then(function (selectedItem) {
+                $scope.selected = selectedItem;
+            }, function () {
+               // $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+    }]);
+
+});
+

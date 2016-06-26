@@ -1,0 +1,9 @@
+<link rel="stylesheet" href="Views/LeftMenu/LeftMenu.tpl.css"/>
+<div ng-controller="leftMenuController">
+    <action-data-filter data="filterDataCollection"></action-data-filter>
+    <div class="service-areas">
+        <span>SCORES (%)</span>
+        <service-area id="generalSurvey" data="serviceAreaDataCollection.GeneralSurveyCollection"></service-area>
+        <service-area id="triggerSurvey" data="serviceAreaDataCollection.TriggerSurveyCollection"></service-area>
+    </div>
+</div>

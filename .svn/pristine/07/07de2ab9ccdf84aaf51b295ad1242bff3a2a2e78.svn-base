@@ -1,0 +1,15 @@
+"use strict";
+define(['application-configuration'], function (app) {
+    app.register.directive("actionCompareWithSettings", function () {
+        return {
+            restrict   : 'EA',
+            scope      : {
+                customer: '='
+            },
+            templateUrl: "Views/LeftMenuSettings/CompareWithSettingsTemplate.html",
+            replace    : false,
+            link       : function (scope, el, attr) {
+            }
+        }
+    });
+});

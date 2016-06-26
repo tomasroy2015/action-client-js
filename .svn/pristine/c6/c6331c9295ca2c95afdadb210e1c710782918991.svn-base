@@ -1,0 +1,21 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionTicketEvaluationSummary', [function () {
+
+        return {
+            restrict: 'AE',
+
+            scope:{
+                ticketSummaryData:"=",
+                target:"="
+            },
+            templateUrl: 'Views/Shared/Template/TCKEvaluationSummaryTemplate.html',
+            link:function (scope, el, attr) {
+            }
+        };
+
+    }]);
+
+});

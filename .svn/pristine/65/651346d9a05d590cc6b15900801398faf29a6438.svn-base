@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="content/style/bootstrap.css" rel="stylesheet" />
+    <link href="content/style/app.css" rel="stylesheet" />
+    <title>Main Dashboard</title>
+</head>
+<body class="container-fluid">
+    <div class="label-insight">
+        <span>insight</span>
+    </div>
+    <div class="insight-legend">
+        <span>action client migrated to insight portal</span>
+    </div>
+    <div class="content">
+        <article>
+            <p>L.S.</p>
+            <p>This used to be the location for the ‘ITsat Action client’ to view results on the IT satisfaction measurements we do for your organization.</p>
+            <p>But as of October 28th 2015, we have integrated this application in a portal, together with other reports and dashboards.</p>
+            <p class="giarte-link">The link to the new portal is: <a href="https://insight.itsat.com/" target="_blank">https://insight.itsat.com/</a> </p>
+            <p>If you were a user of the Action Client, you can set a new password. Go to the portal and click on the link ‘forgot password’. After submitting your email address, an email with instructions will be sent.</p>
+            <div class="previous-version">
+                <p class="header">Previous version action client </p>
+                <p>Due to various reasons, not all our ITsat customers have already been migrated. They access the previous version of the Action Client <a href="https://action2.itsat.com" target="_blank">here</a></p>
+            </div>
+            <div class="regards">
+                <p>with kind regards,</p>
+                <p>ITsat</p>
+            </div>
+            
+        </article>
+    </div>
+    <div class="page-footer">
+        <img alt="GIARTE" src="content/images/giarte-logo.png"/>
+    </div>
+</body>
+</html>

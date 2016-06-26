@@ -1,0 +1,11 @@
+"use strict";
+
+define(['application-configuration','dataFactory'], function (app) {
+
+    app.register.controller('headerController', ['$scope','dataFactory', function ($scope,dataFactory) {
+        console.log('Header Controller running...');
+        $scope.SelectedServiceAreaName = dataFactory.GetServiceAreaName();
+    }]);
+
+});
+

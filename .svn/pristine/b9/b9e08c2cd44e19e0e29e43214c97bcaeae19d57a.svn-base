@@ -1,0 +1,209 @@
+"use strict";
+
+define(['application-configuration','alertsService','dataFactory','accountFactory','ng-table'], function (app) {
+
+    app.register.controller('listViewController', ['$scope','$rootScope','alertsService','dataFactory','accountFactory',
+        '$filter', 'ngTableParams','$window','Notify','datasetSelectionFactory',
+        function ($scope,$rootScope,alertsService,dataFactory,accountFactory,$filter,ngTableParams,$window,Notify,datasetSelectionFactory) {
+            var selectedServiceAreaId="OS";
+            console.log('Loading ListViewController');
+
+            $scope.attributeItemColl;
+            $scope.dataSuccess = false;
+            $scope.IsOSSelected = false;
+            $scope.selectedServiceAreaScoreDataColl;
+            $scope.columns = [];
+            $scope.defaultAttr="";
+            var minGridItemOffset = 17;
+            var gridHeightOffset = 955;
+
+            loadServiceAreaData();
+
+            function loadServiceAreaData(){
+                selectedServiceAreaId = dataFactory.SelectedServiceAreaId();
+                successfullyGetData();
+            }
+
+            $scope.serviceAreaAttributeItemChangeListener = function(attr){
+                var requestParam = attributeRequestParam(attr);
+                dataFactory.GetSelectedAttributeScoreData(requestParam);
+
+            };
+              function attributeRequestParam (attr){
+                var applicationDataInfo = dataFactory.DataInfo();
+                var selectedSurveyType= dataFactory.GetSelectedServiceAreaSurveyType();
+
+                return{
+                    sessionID: applicationDataInfo.sessionID,
+                    customerID:applicationDataInfo.customerID,
+                    fromDate: applicationDataInfo.fromDate,
+                    toDate: applicationDataInfo.toDate,
+                    attributeIndex:attr.Index,
+                    surveyType:selectedSurveyType
+                }
+            };
+            $scope.$on(Notify.SERVICE_AREA_CHANGED, function(event,response){
+               // console.log(response);
+                $scope.columns = [];
+                selectedServiceAreaId = response;
+                loadServiceAreaData();
+            });
+            $scope.$on(Notify.ATTRIBUTE_DATA_READY, function(event){
+                $scope.columns = [];
+                loadServiceAreaData();
+            });
+
+            function successfullyGetData() {
+                /*view by attribute code block start*/
+                var customAttributeCollection=null;
+                var finalColl=[];
+                var itemObj={groupName:null,grpItems:[]};
+                //var isNewGroupAppear = true;
+                var grpGeography="Geography";
+                var grpOrganization="Organization";
+                var grpTicket="Ticket";
+                var grpOthers="Others";
+
+                customAttributeCollection = dataFactory.CustomAttributeCollection();
+                var sortedColl = customAttributeCollection.sort(strDes);
+                function strDes(a, b) {
+                    //compare different type item
+                    if(a.Type < b.Type) return -1;
+
+                    //compare same type item by display order
+                    else if(a.Type == b.Type){
+                        if (a.DisplayOrder< b.DisplayOrder) return -1;
+                        else
+                            return 1;
+                    }
+                    //a.Type>b.Type
+                    else return 1;
+                }
+
+                for(var index=0;index<sortedColl.length;index++)
+                {
+                    var item = sortedColl[index];
+                    if(isNewGroupAppear(itemObj.groupName,item))
+                    {
+                        if(index>0)
+                            finalColl.push(itemObj);
+
+                        itemObj={groupName:null,grpItems:[]};
+                        if(item.Type==0)
+                            itemObj.groupName=grpGeography;
+                        else if(item.Type==1)
+                            itemObj.groupName=grpOrganization;
+                        else if(item.Type==2)
+                            itemObj.groupName=grpTicket;
+                        else if(item.Type==3)
+                            itemObj.groupName=grpOthers;
+                    }
+                    itemObj.grpItems.push(item);
+                    if((sortedColl.length==1)||(index==sortedColl.length-2))
+                        finalColl.push(itemObj);
+                }
+                $scope.attributeItemColl = finalColl;
+                $scope.dataSuccess = true;
+                $scope.defaultAttr = "Business unit";
+                function isNewGroupAppear(currentGrpName,item){
+                    if(
+                        ((currentGrpName==grpGeography) && (item.Type ==0))||
+                        ((currentGrpName==grpOrganization) && (item.Type ==1))||
+                        ((currentGrpName==grpTicket) && (item.Type ==2))||
+                        ((currentGrpName==grpOthers) && (item.Type ==3))
+                        )
+                        return false;
+                    else
+                        return true;
+
+                }
+                /*view by attribute code block end*/
+
+                //var selectedServiceAreaId="WS";
+                var serviceAreaScoreDataColl = dataFactory.AttributeScoreDataCollection();
+
+                $scope.selectedServiceAreaScoreDataColl=getSelectedServiceAreaData(serviceAreaScoreDataColl,selectedServiceAreaId);
+
+                if($scope.IsOSSelected)
+                {
+                    var osColumnItems =  $scope.selectedServiceAreaScoreDataColl[0].ServiceAreaScoreDataCollection[0].QuestionScores;
+
+                    for(var i=0;i< osColumnItems.length;i++)
+                    {
+                        $scope.columns.push(osColumnItems[i]);
+                        //console.log("name: "+$scope.columns[i].QuestionId);
+                    }
+                }
+
+                function getSelectedServiceAreaData(attributeScoreDataColl,selectedServiceAreaId){
+
+                    var listViewServiceAreaItemColl=[];
+
+                    for(var i=0;i<attributeScoreDataColl.length;i++)
+                    {
+                       //here need to filter main collection by selected service area collection.
+                        var serviceAreaColl = attributeScoreDataColl[i].ServiceAreaScoreDataCollection;
+                        for(var j=0;j<serviceAreaColl.length;j++){
+                           var serviceAreaItem = serviceAreaColl[j];
+                            console.log("id: "+serviceAreaItem.Id);
+                            if(serviceAreaItem.Id==selectedServiceAreaId)
+                            {
+                                var listViewServiceAreaItem = {
+                                    Id:attributeScoreDataColl[i].Id,
+                                    Name:attributeScoreDataColl[i].Name,
+                                    ServiceAreaScoreDataCollection:[],
+                                    IsOSSelected:false
+
+                                };
+
+                                listViewServiceAreaItem.IsOSSelected= serviceAreaItem.Id=="OS"?true:false;
+                                $scope.IsOSSelected = serviceAreaItem.Id=="OS"?true:false;
+                                listViewServiceAreaItem.ServiceAreaScoreDataCollection.push(serviceAreaItem);
+                                listViewServiceAreaItemColl.push(listViewServiceAreaItem);
+                                break;
+
+                            }
+                        }
+                    }
+                    return listViewServiceAreaItemColl;
+                };
+                //bind data in listview
+                setListView();
+            }
+            function setListView(){
+                $scope.tableParams = new ngTableParams({
+                    sorting:{
+                        Name:'asc'
+                    },
+
+                    page:1,
+                    count:(minGridItemOffset * Math.floor($window.innerHeight)) / gridHeightOffset,
+                    data:$scope.selectedServiceAreaScoreDataColl
+
+                },{
+                    total:$scope.selectedServiceAreaScoreDataColl.length,
+                    getData:function($defer,params){
+
+                        var orderedData =params.sorting()?
+                            $filter('orderBy')($scope.selectedServiceAreaScoreDataColl,params.orderBy()):$scope.selectedServiceAreaScoreDataColl;
+                        var sortObj = params.$params.sorting;
+                        var sortingProperty = Object.getOwnPropertyNames(sortObj);
+                        var prop = sortingProperty[0];
+                        var sortingOrder = sortObj[prop];
+                        $defer.resolve( orderedData.slice((params.page()-1)* params.count(),params.page()*params.count()));
+                        params.total( orderedData.length);
+                    }
+
+                });
+            }
+            //this line render grid data
+            $scope.tableParams.$params.count = (minGridItemOffset * Math.floor($window.innerHeight)) / gridHeightOffset;
+
+            //grid row click handler
+            $scope.rowSelection_Handler = function(data){
+               // $scope.selectedItem = data;
+                console.log(data.Name);
+            };
+        }]);
+
+});

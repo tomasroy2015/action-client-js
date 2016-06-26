@@ -1,0 +1,44 @@
+define(['application-configuration', 'ajaxService'], function (app) {
+
+    app.register.service('dataService', ['$rootScope', '$http', 'ajaxService', function ($rootScope, $http, ajaxService) {
+
+        var dataService = {};
+
+        dataService.Dataset = null;
+        dataService.IsDatasetLoaded = false;
+        dataService.ServiceAreaCollection = null;
+        dataService.CustomAttributeCollection = null;
+        dataService.ServiceAreaScoreDataCollection = null;
+        dataService.AttributeScoreDataCollection = null;
+
+        dataService.loadDataSet = function (dataset) {
+            ajaxService.AjaxGetWithData(dataset, "data/getalldata", this.onGetAllData, this.errorFunction);
+        };
+
+        dataService.onGetAllData = function(response){
+            dataService.IsDatasetLoaded = true;
+            dataService.Dataset = response;
+            dataService.ServiceAreaCollection = response.ServiceAreaCollection;
+            dataService.CustomAttributeCollection = response.CustomAttributeCollection;
+            dataService.ServiceAreaScoreDataCollection = response.CustomAttributeCollection;
+            dataService.AttributeScoreDataCollection = response.AttributeScoreDataCollection;
+
+            $rootScope.$broadcast('dataService::dataReady');
+        };
+
+        dataService.errorFunction = function(response){
+            //Error handling goes here.
+            window.alert("Error in loading DataSet");
+        };
+
+        dataService.getSelectedAttributeScoreData = function (requestParameter){
+            ajaxService.AjaxGetWithData(requestParameter,"data/getAttributeScoreData", this.onGetSelectedAttributeScoreData, this.errorFunction);
+        }
+
+        dataService.onGetSelectedAttributeScoreData = function(response){
+            dataService.AttributeScoreDataCollection = response.AttributeScoreDataCollection;
+            $rootScope.$broadcast('dataService::attributeDataReady');
+        }
+        return dataService;
+    }]);
+});

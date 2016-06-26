@@ -1,0 +1,9 @@
+<div ng-class="{ 'sortable': sortable }">
+    <!-- <div class="ui-grid-vertical-bar">&nbsp;</div> -->
+    <div class="ui-grid-cell-contents" style="padding-right: 0px !important;margin-right: -5px" col-index="renderIndex" ng-click="grid.appScope.gridScope.listViewHeaderClick()">
+        <span>{{ col.displayName }}</span>
+        <span ui-grid-visible="col.sort.direction" ng-class="{ 'ui-grid-icon-up-dir':col.sort.direction == asc, 'ui-grid-icon-down-dir': col.sort.direction == desc, 'ui-grid-icon-blank': !col.sort.direction }">
+            &nbsp;
+        </span>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+define(['application-configuration','dataFactory'], function (app) {
+
+    app.register.factory('attributeScoreSummaryData', ['$rootScope','dataFactory','Notify','comparatorFactory',
+        function ($rootScope, dataFactory,Notify,comparatorFactory) {
+            var attributeScoreSummaryData = {};
+            var selectedAttributeData = {};
+            var selectedServiceArea = {};
+            var serviceAreaData = {};
+
+            return {
+                getAttributeScoreSummaryData:function(attData){
+                    attributeScoreSummaryData = prepareScoreSummaryData(attData);
+                    return attributeScoreSummaryData;
+                },
+                getSelectedAttributeScoreSummaryData:function(attData){
+                    var  selectedAttrColl = _.filter(attData, function (n) {
+                        return n.Id == selectedServiceArea.Id;
+                    });
+
+                    selectedAttributeData = selectedAttrColl[0];
+                    return  selectedAttributeData;
+                }
+            };
+
+           function getOSScoreBarData(serviceAreaData){
+                var comparatorObj = _.extend({}, serviceAreaData, {
+                    scoreComparator: {
+                        Score: serviceAreaData.Score,
+                        ComparatorValue: comparatorFactory.GetScoreItemComparator(serviceAreaData.Id),
+                        ComparatorColorCode: dataFactory.GetScoreColor(serviceAreaData.Score, comparatorFactory.GetScoreItemComparator(serviceAreaData.QuestionId))
+                    }
+                });
+                return comparatorObj;
+            }
+
+            function prepareScoreSummaryData(attData){
+                var scoreFrequency = {};
+                selectedServiceArea = dataFactory.GetSelectedServiceArea();
+
+                _.forEach(attData,function(att1,key){
+                    var sArea = _.filter(attData, function (att2) {
+                        return att1.Id == att2.Id;
+                    });
+                    serviceAreaData = sArea[0];
+
+                    if(serviceAreaData.Id == "OS"){
+                            serviceAreaData.osScoreComparator = getOSScoreBarData(serviceAreaData);
+                            serviceAreaData.frequency1 = serviceAreaData.QuestionScoreFrequency[0];
+                            serviceAreaData.frequency2 = serviceAreaData.QuestionScoreFrequency[1];
+                            serviceAreaData.frequency3 = serviceAreaData.QuestionScoreFrequency[2];
+                            serviceAreaData.frequency4 = serviceAreaData.QuestionScoreFrequency[3];
+                            serviceAreaData.frequency5 = serviceAreaData.QuestionScoreFrequency[4];
+                            serviceAreaData.frequency6 = serviceAreaData.QuestionScoreFrequency[5];
+                            serviceAreaData.frequency7 = serviceAreaData.QuestionScoreFrequency[6];
+                            serviceAreaData.frequency8 = serviceAreaData.QuestionScoreFrequency[7];
+                            serviceAreaData.frequency9 = serviceAreaData.QuestionScoreFrequency[8];
+                            serviceAreaData.frequency10 = serviceAreaData.QuestionScoreFrequency[9];
+                    }
+                    else{
+                        var index = 0;
+                        _.forEach(serviceAreaData.QuestionScores, function (n1, key) {
+
+                            scoreFrequency = _.filter(serviceAreaData.QuestionScoreFrequency, function (n2) {
+                                return n1.QuestionId == n2.QuestionId && n2.AnswerType > -1;
+                            });
+
+                            serviceAreaData.QuestionScores[index].frequency1 = scoreFrequency[0];
+                            serviceAreaData.QuestionScores[index].frequency2 = scoreFrequency[1];
+                            serviceAreaData.QuestionScores[index].frequency3 = scoreFrequency[2];
+                            serviceAreaData.QuestionScores[index].frequency4 = scoreFrequency[3];
+                            index++;
+                        });
+                    }
+                });
+
+
+                return attData;
+            }
+        }]);
+});

@@ -1,0 +1,43 @@
+"use strict";
+define(['application-configuration'], function (app) {
+    app.register.directive("scorebar", function () {
+        var uid = 1;
+        return {
+            restrict   : 'EA',
+            scope      : {
+                score   : '=',
+                canvasid: '='
+            },
+            //template: '<div><table>' + '<tr><td><span>{{score}}&nbsp;%</span></td>' + '<td><canvas id="{{::canvasid}}" width="100px" height="100px"></canvas></td>' +
+            //'</tr></table></div>',
+            templateUrl: "Views/Shared/Template/ScoreBarTemplate.html",
+
+            replace: false,
+            link   : function (scope, el, attr) {
+                var item = 'item' + uid++;
+                el.find('canvas').attr('id', item);
+                var id = document.getElementById(item);
+                var ctx = id.getContext('2d');
+                var totalScorebarLength = 97;
+                var coloerdBarlength = scope.score > 0 ? scope.score - 3 : 0;
+                var shortageScoreBarlength = totalScorebarLength - coloerdBarlength;
+                ctx.beginPath();
+                ctx.rect(0, 6, coloerdBarlength, 7);
+                ctx.fillStyle = 'green';
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.rect(coloerdBarlength, 6, shortageScoreBarlength, 7);
+                ctx.fillStyle = "white";
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.rect(scope.score > 0 ? scope.score - 3 : 0, 0, 3, 20);
+                ctx.fillStyle = 'gray';
+                ctx.fill();
+            }
+        }
+    });
+});

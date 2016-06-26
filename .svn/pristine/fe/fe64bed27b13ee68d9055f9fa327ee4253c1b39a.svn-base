@@ -1,0 +1,52 @@
+define(['application-configuration'], function (app) {
+
+    app.register.factory('moreSettingsFactory', ['$rootScope',
+        function ($rootScope) {
+
+            var siteMinResp = 0,
+                countryMinResp = 0,
+                defaultZoomLevel = 1;
+
+            var selectedColorSet = {
+                OnTarget : "#4BAC4B",
+                CloseToTarget:"#FB9838",
+                FarFromTarget:"#E33833"
+            }
+            return {
+                SetMinimumRespondentForSite: function (minResp) {
+                    siteMinResp = minResp;
+                },
+                SetMinimumRespondentForCountry: function (minResp) {
+                    countryMinResp = minResp;
+                },
+                SetDefaultZoomLevel: function (value) {
+                    defaultZoomLevel = value;
+                },
+                SetColorSet: function (onTarget,closeToTarget,farFromTarget) {
+                    selectedColorSet.OnTarget = onTarget;
+                    selectedColorSet.CloseToTarget = closeToTarget;
+                    selectedColorSet.FarFromTarget = farFromTarget;
+
+                    //selectedColorSet
+                    //    .CloseToTarget =  closeToTarget
+                    //    .FarFromTarget = farFromTarget
+
+                },
+
+                GetMinimumResponseForSite: function(){
+                  return siteMinResp;
+                },
+                GetMinimumResponseForCountry: function(){
+                    return countryMinResp;
+                },
+                GetDefaultZoomLevel: function(){
+                    return defaultZoomLevel;
+                },
+                GetSelectedColorSet: function(){
+                    return selectedColorSet;
+                }
+            };
+
+        }]);
+})
+

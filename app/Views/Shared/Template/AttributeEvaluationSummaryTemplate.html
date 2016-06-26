@@ -1,0 +1,108 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/AttributeEvaluationSummaryTemplate.css">
+<div class="evaluation-summary-questionContainerDiv">
+    <!--<span class="evaluation-summary-questionText evaluation-summary-questionLabelDiv">-->
+        <!--{{question.QuestionText}}-->
+    <!--</span>-->
+    <ul class="score-frequency-list-container" ng-hide="question.QuestionId.toUpperCase().indexOf('SES') >= 0" ng-if="!question.IsGroup">
+        <li class="score-frequency-listItem"><span class="question-index">{{index}}</span></li>
+        <li class="score-frequency-listItem">
+            <div class="evaluation-summary-questionText evaluation-summary-questionLabelDiv">
+                     {{questionText}}
+            </div>
+        </li>
+        <li class="score-frequency-listItem">
+            <!--tooltip-popup-delay='300' tooltip-trigger="mouseenter"  title="n = {{question.frequency1.Frequency}}" data-toggle="tooltip" tooltip-placement="top" tooltip="n = {{question.frequency4.Frequency}}"-->
+            <div id="frequency-bar1"
+                 tooltip-popup-delay='500' tooltip-trigger="mouseenter"
+                 tooltip-placement="top"
+                 tooltip-append-to-body="true"
+                 tooltip="n = {{question.frequency1.Frequency}}"
+                 class="negative-frequency-bar"></div>
+        </li>
+        <li class="score-frequency-listItem">
+            <div id="frequency-bar2"
+                 tooltip-popup-delay='500'
+                 tooltip-trigger="mouseenter"
+                 tooltip-placement="top"
+                 tooltip-append-to-body="true"
+                 tooltip="n = {{question.frequency2.Frequency}}"
+                 class="negative-frequency-bar"></div>
+        </li>
+        <li class="score-frequency-listItem">
+            <div id="frequency-bar3"
+                 tooltip-popup-delay='500'
+                 tooltip-trigger="mouseenter"
+                 tooltip-placement="top"
+                 tooltip-append-to-body="true"
+                 tooltip="n = {{question.frequency3.Frequency}}"
+                 class="positive-frequency-bar"></div>
+        </li>
+        <li class="score-frequency-listItem">
+            <div id="frequency-bar4"
+                 tooltip-popup-delay='500'
+                 tooltip-trigger="mouseenter"
+                 tooltip-placement="top"
+                 tooltip-append-to-body="true"
+                 tooltip="n = {{question.frequency4.Frequency}}" class="positive-frequency-bar"></div>
+        </li>
+        <li class="score-frequency-listItem"><span class="freq-ques-score"> {{scoreText}}</span></li>
+    </ul>
+
+    <ul class="ses-score-frequency-list-container" ng-show="question.QuestionId.toUpperCase().indexOf('SES') >= 0">
+        <nav class="score-frequency-header">
+            <span class="frequency-label">IT Service Effort Score</span>
+            <div class="negative-label">1</div>
+            <div class="negative-label">2</div>
+            <div class="negative-label">3</div>
+            <div class="positive-label">4</div>
+            <div class="positive-label">5</div>
+            <div class="positive-label">6</div>
+            <span class="header-percentage">%</span>
+        </nav>
+        <li class="ses-score-frequency-listItem"><span class="ses-question-index">1</span></li>
+        <li class="ses-score-frequency-listItem">
+            <div class="ses-evaluation-summary-questionText ses-evaluation-summary-questionLabelDiv">
+                {{questionText}}
+            </div>
+        </li>
+        <li class="ses-score-frequency-listItem">
+            <div id="ses-frequency-bar1"
+                 tooltip-popup-delay='500' tooltip-trigger="mouseenter"
+                 tooltip-placement="top"
+                 tooltip-append-to-body="true"
+                 tooltip="n = {{question.frequency1.Frequency}}" class="ses-negative-frequency-bar"></div>
+        </li>
+        <li class="ses-score-frequency-listItem">
+            <div id="ses-frequency-bar2"  tooltip-popup-delay='500' tooltip-trigger="mouseenter"
+                 tooltip-placement="top"
+                 tooltip-append-to-body="true"
+                 tooltip="n = {{question.frequency2.Frequency}}" class="ses-negative-frequency-bar"></div>
+        </li>
+        <li class="ses-score-frequency-listItem">
+            <div id="ses-frequency-bar3"  tooltip-popup-delay='500' tooltip-trigger="mouseenter"
+                 tooltip-placement="top"
+                 tooltip-append-to-body="true"
+                 tooltip="n = {{question.frequency3.Frequency}}" class="ses-negative-frequency-bar"></div>
+        </li>
+        <li class="ses-score-frequency-listItem">
+            <div id="ses-frequency-bar4"  tooltip-popup-delay='500' tooltip-trigger="mouseenter"
+                 tooltip-placement="top"
+                 tooltip-append-to-body="true"
+                 tooltip="n = {{question.frequency4.Frequency}}" class="ses-positive-frequency-bar"></div>
+        </li>
+        <li class="ses-score-frequency-listItem">
+            <div id="ses-frequency-bar5"
+                 tooltip-popup-delay='500' tooltip-trigger="mouseenter"
+                 tooltip-placement="top"
+                 tooltip-append-to-body="true"
+                 tooltip="n = {{question.frequency5.Frequency}}" class="ses-positive-frequency-bar"></div>
+        </li>
+        <li class="ses-score-frequency-listItem">
+            <div id="ses-frequency-bar6"  tooltip-popup-delay='500' tooltip-trigger="mouseenter"
+                 tooltip-placement="top"
+                 tooltip-append-to-body="true"
+                 tooltip="n = {{question.frequency6.Frequency}}" class="ses-positive-frequency-bar"></div>
+        </li>
+        <li class="ses-score-frequency-listItem"><span class="freq-ques-score"> {{scoreText}}</span></li>
+    </ul>
+</div>

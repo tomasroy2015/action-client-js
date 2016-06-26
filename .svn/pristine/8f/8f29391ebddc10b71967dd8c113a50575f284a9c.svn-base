@@ -1,0 +1,38 @@
+
+#accordion-panel>.panel-heading {
+    cursor: pointer;
+    background: transparent;
+
+}
+
+#accordion-panel a.accordion-toggle{
+    color: #000;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+
+}
+#glypContainer {
+    font-size: 16px;
+}
+
+#reset-filter {
+    padding : 0px 15px;
+}
+.btn-reset {
+    text-decoration : none;
+    float           : right;
+    color           : #000000;
+    background: transparent;
+    border: none;
+    border-bottom: none;
+    /*height          : 21px;*/
+    /*line-height: 21px;*/
+    /*padding: 10px 15px;*/
+}
+
+
+
+.btn-reset img {
+    padding-left: 5px;
+}

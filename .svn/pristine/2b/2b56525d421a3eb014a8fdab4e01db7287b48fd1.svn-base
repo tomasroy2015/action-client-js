@@ -1,0 +1,37 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionScorecardDetails', [function () {
+
+        return {
+            restrict: 'AE',
+            scope: {
+                surveyData:'=',
+                surveyType:'@',
+                title:'@'
+            },
+            link: function (scope, el, attrs) {
+
+                //console.log(el);
+                //var survey = el.find("ul.scorecard-container");
+
+                //var genServiceAreas = $('.general-survey-wrapper ul.scorecard-container').children();
+                //var trigServiceAreas = $('.trigger-survey-wrapper ul.scorecard-container').children();
+                //var contentWidth=0;
+                //if(genServiceAreas.length >= trigServiceAreas.length) {
+                //    contentWidth = (295 * genServiceAreas.length) + 52;
+                //} else{
+                //    contentWidth = (295 * trigServiceAreas.length) + 52;
+                //}
+               //var contentWidth = (295 * trigServiceAreas.length) + 52;
+                //$('.scorecard-content-container').css({width: contentWidth});
+            },
+            templateUrl: 'Views/Shared/Template/ScorecardDetailsTemplate.html'
+        };
+
+
+    }]);
+
+});
+

@@ -1,0 +1,9 @@
+<!--<link rel="stylesheet" href="Views/Shared/SCSS/ServiceAreaTabBarTemplate.css"/>-->
+<div id="{{'serviceArea-' + serviceAreaId}}" ng-if="serviceAreaCollection && serviceAreaCollection.length > 0">
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary {{($index == 0 && (selectedServiceAreaId == 'OS' || selectedServiceAreaId == 'TCK' || selectedServiceAreaId == 'SES')) || (eachSA.Id == selectedServiceAreaId) ? 'active' : ''}}" ng-click="onClickDir(eachSA)" ng-repeat="eachSA in serviceAreaCollection track by $index">
+            <input type="radio" name="options" id="{{eachSA.Id}}" autocomplete="off"
+                   value="{{eachSA.Id}}"> {{eachSA.ShortCode}}
+        </label>
+    </div>
+</div>

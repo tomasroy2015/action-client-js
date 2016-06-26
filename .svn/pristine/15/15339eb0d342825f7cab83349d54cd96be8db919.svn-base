@@ -1,0 +1,33 @@
+.ratio-label{
+  color: #FFFFFF;
+}
+.ratioContainer{
+  width: auto;
+  margin-left: 5px;
+}
+.ratioLabelContainer{
+  float: left;
+}
+.negative-ratio{
+  color: #e33833;
+  float:left;
+  width: 12px;
+  height: 18px;
+  margin-left:5px;
+}
+.positive-ratio{
+  color: #4bac4b;
+  float:left;
+  width: 12px;
+  height: 18px;
+}
+.fractionContainer{
+  //position: relative;
+  
+}
+#clipUserIcon{
+  clip: rect(0, 12px, 18px, 0);
+}
+.fa{
+  font-size: 14px;
+}

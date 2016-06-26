@@ -1,0 +1,255 @@
+/* --------------------------------------------------
+                        login.css
+-------------------------------------------------- */
+html {
+    position   : relative;
+    min-height : 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom : 45px;
+    min-height    : 400px;
+}
+
+/*-------------------------------------------------
+               Bootstrap Override class
+-------------------------------------------------*/
+.container {
+    width     : auto;
+    max-width : 680px;
+    padding   : 0 15px;
+    min-width : 455px;
+}
+
+.page-header {
+    border-bottom : none;
+}
+/*-------------------------------------------------
+             End of Bootstrap Override class
+ -------------------------------------------------*/
+
+/*-------------------------------------------------
+                Login Control Panel
+-------------------------------------------------*/
+.panel {
+    border-radius : 0;
+}
+
+.panel-default {
+    opacity       : 0.9;
+    height        : 100%;
+    min-height    : 350px;
+    width         : 425px;
+    margin-left   : auto;
+    margin-right  : auto;
+    border-radius : 0;
+}
+
+.panel-reshape {
+    border-radius : 0;
+}
+
+.panel-reshape-default{
+    opacity       : 0.9;
+    height        : 396px;
+    width         : 425px;
+    margin-left   : auto;
+    margin-right  : auto;
+    border-radius : 0;
+}
+
+.form-group.last {
+    margin-bottom : 0;
+}
+
+.panel-body {
+    padding : 25px;
+}
+
+.panel-default > .panel-heading {
+    background-image : url('');
+    background-color : #000 !important;
+    color            : #fff !important;
+    height           : 57px;
+    line-height      : 42px;
+    font-size        : 18px;
+    border-radius    : 0;
+}
+
+
+.logo {
+    float        : right;
+    margin-top   : 10px;
+    margin-right : 10px;
+}
+
+.content-heading {
+    font-weight : bold;
+    font-size   : 18px;
+    color       : #555759;
+}
+
+.content-heading-context {
+    margin    : 6px 0;
+    font-size : 13px;
+    color     : #555759;
+    text-wrap : normal;
+}
+
+.padding-left-label-text {
+    text-align : left !important;
+}
+
+.login-text-box {
+    height        : 24px;
+    border-radius : 0;
+    padding: 2px 2px 0px 5px;
+    font-size: 13px;
+    width: 90%;
+}
+
+.btn-login {
+    height        : 24px;
+    border        : none;
+    border-radius : 0;
+    background    : #878787 !important;
+}
+
+.btn-login:hover {
+    background : #555759 !important;
+}
+
+.btn-reset-pass {
+    width: 150px;
+    height: 6px;
+    font-size : 13px;
+    margin-top: 10px;
+    margin-left: 33%;
+    text-align: center;
+    cursor: pointer;
+    color: #555759;
+    border-radius: 0;
+}
+.btn-reset-pass:hover{
+    color : #000 !important;
+}
+.btn-reset-pass  .label-reset-pass{
+    width: 100%;
+    border-bottom: 1px solid #555759;
+}
+.text-validation
+{
+    color: #ff0000;
+    padding-top: 2px;
+    font-size: 11px;
+}
+.input-validation
+{
+    border-style:solid;
+    border-width: 1px;
+    border-color: #ff0000;
+}
+.user-validation{
+    margin-left: 70px;
+    color: #ff0000;
+    font-size: 11px;
+    margin-bottom: 3px;
+}
+/*-------------------------------------------------
+            End of Login Control Panel
+-------------------------------------------------*/
+
+/*-------------------------------------------------
+                    Footer Panel
+-------------------------------------------------*/
+.footer {
+    position         : absolute;
+    bottom           : 0;
+    width            : 100%;
+    /* Set the fixed height of the footer here */
+    height           : 45px;
+    background-color : #555759;
+    min-width        : 455px;
+    left             : 0;
+}
+
+.url-container {
+    right     : 20px;
+    position  : absolute;
+    transform : translateY(100%);
+    -ms-transform: translateY(100%); /* IE 9 */
+    -webkit-transform:translateY(100%);
+    -moz-transform:translateY(100%); /*Safari*/
+    color           : #fff;
+}
+.url-container:hover
+{
+    cursor: pointer;
+    text-decoration : none;
+    color   : #ddddde;
+    opacity : 0.7;
+    filter  : alpha(opacity=45);
+}
+.footer > .container > .version-container{
+    position: absolute;
+    color: #000000;
+    left: 8px;
+    transform: translateY(100%);
+}
+.right-arrow-container {
+    right     : 34px;
+    position  : absolute;
+    transform : translateY(69%);
+}
+
+.arrow-container {
+    right     : 36px;
+    position  : absolute;
+    transform : translateY(90%);
+}
+
+.url-container > a {
+     text-decoration : none;
+     color           : #fff;
+ }
+
+/*.url-container > a:hover {*/
+    /*text-decoration : none;*/
+    /*color           : #ddddde;*/
+/*}*/
+ .login-footer-circle-arrow-size-2x{
+    vertical-align: middle;
+     margin-left: 5px;
+    font-size: 1.5em;
+    color: #fff;
+}
+/*-------------------------------------------------
+                End of Footer Panel
+-------------------------------------------------*/
+
+/*-------------------------------------------------
+                Media Query Section
+-------------------------------------------------*/
+@media only screen and (min-width : 480px) {
+    .page-header {
+        top         : 50%;
+        left        : 50%;
+        position    : fixed;
+        margin-left : -212.5px;
+        margin-top  : -197.5px;
+    }
+}
+
+/*-------------------------------------------------
+            End of Media Query Section
+-------------------------------------------------*/
+
+
+
+
+
+
+
+
+

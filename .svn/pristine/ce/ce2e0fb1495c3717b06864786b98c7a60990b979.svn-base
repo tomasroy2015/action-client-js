@@ -1,0 +1,100 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionFullScorecard', ['$timeout',function ($timeout) {
+
+        return {
+            restrict: "E",
+            transclude:false,
+        scope:{
+            //generalSurveyCollection: "=",
+            //triggerSurveyCollection: "=",
+            fullScorecardData:"="
+        },
+            link: function (scope, el, attrs) {
+                $timeout(function(){
+                    scope.$apply(calculateFullScorecardContainerWidth());
+                },0)
+
+                function calculateFullScorecardContainerWidth() {
+                    //var gen = scope.generalSurveyCollection.length;
+                    //var trig = scope.triggerSurveyCollection.length;
+                    var gen = scope.fullScorecardData.generalSurveyData.data.length;
+                    var trig = scope.fullScorecardData.triggerSurveyData.data.length;
+
+                    var contentWidth = 0;
+                    if (gen >= trig) {
+                        contentWidth = (298 * gen) + (15 * (gen - 1)) + 20 + 'px';
+                    } else {
+                        contentWidth = (298 * trig) + (15 * (trig - 1)) + 20 + 'px';
+                    }
+                    //$('div#general-survey-wrapper,div#trigger-survey-wrapper').css({
+                    $('div.general-survey-wrapper,div.trigger-survey-wrapper').css({
+                        width: contentWidth.toString()
+                    });
+                };
+
+
+                //scope.$watch(function () {
+                //    return scope.generalSurveyCollection || scope.triggerSurveyCollection;
+                //},function(val){
+                //    if(val !== undefined && val.length !== undefined) {
+                //        console.log('Gen:>' + scope.generalSurveyCollection);
+                //        console.log('Trg:>' + scope.triggerSurveyCollection);
+                //    } else{
+                //        console.log('Not defined....');
+                //    }
+                //
+                //});
+
+
+                //var getGeneralSurveyCollection = serviceAreaScoreData.GetGeneralSurveyCollection();
+                //var getTriggerSurveyCollection = serviceAreaScoreData.GetTriggerSurveyCollection();
+
+
+                //scope.$watch(function () {
+                //    return serviceAreaScoreData.GetGeneralSurveyCollection() || serviceAreaScoreData.GetTriggerSurveyCollection();
+                //}, function (val) {
+                //    if(val.length !== undefined){
+                //        var contentWidth=0;
+                //        var generalSurveyCollection = _.filter(serviceAreaScoreData.GetGeneralSurveyCollection(), function (n) {
+                //            return n.SurveyType == "GEN";
+                //        });
+                //        var gen = generalSurveyCollection.length;
+                //        var trig = serviceAreaScoreData.GetTriggerSurveyCollection().length;
+                //
+                //        if(gen >= trig) {
+                //            contentWidth = (298 * gen) + 52;
+                //        } else{
+                //            contentWidth = (298 * trig) + 52;
+                //        }
+                //
+                //        $('.general-survey-wrapper').css({width: contentWidth});
+                //        $('.trigger-survey-wrapper').css({width: contentWidth});
+                //    }
+                //
+                //});
+
+
+                //console.log(parseInt(scope.generalSurveyColl));
+                //console.log(parseInt(scope.triggerSurveyColl));
+                //console.log(el);
+                //var gen = parseInt(scope.generalSurveyColl);
+                //var trig = parseInt(scope.triggerSurveyColl);
+                //var contentWidth=0;
+                //if(gen >= trig) {
+                //    contentWidth = (298 * gen) + 52;
+                //} else{
+                //    contentWidth = (298 * trig) + 52;
+                //}
+                //
+                //$('.general-survey-wrapper').css({width: contentWidth});
+                //$('.trigger-survey-wrapper').css({width: contentWidth});
+            },
+            templateUrl: 'Views/FullScorecard/FullScorecardTemplate.html'
+        };
+    }]);
+
+});
+

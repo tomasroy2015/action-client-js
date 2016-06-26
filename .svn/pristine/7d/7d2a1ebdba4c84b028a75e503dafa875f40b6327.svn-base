@@ -1,0 +1,52 @@
+<!--<link rel="stylesheet" href="Views/DataFilter/AccordionPanelTemplate.css"/>-->
+<!--<div class="ac-collasped-panel" ng-click="isCollapsed = !isCollapsed">-->
+<!--<div class="ac-collasped-panel" ng-click="isCollapsedPanel()">-->
+
+<div class="accordion-panel-container">
+    <accordion close-others="oneAtATime">
+        <!--<accordion-group id="{{catgory.hasTopLevelAttribute?'top-level-accordion-panel-':'accordion-panel-' + catgory.name|lowercase}}" is-open="catgory.isExpand" ng-repeat="catgory in categorizedAttributeCollection" >-->
+        <accordion-group id="{{'accordion-panel-' + catgory.name|lowercase}}" is-open="catgory.isExpand"
+                         ng-repeat="catgory in categorizedAttributeCollection">
+            <accordion-heading>
+                <div ng-click="expandCollapsed($event,catgory.isExpand)" action-div-disabled="catgory.isTCKDisabled">
+                    {{catgory.name}}
+                    <i id="glypContainer" class="pull-right"
+                       ng-class="{'fa fa-minus-circle': catgory.isExpand, 'fa fa-plus-circle': !catgory.isExpand}"></i>
+                </div>
+            </accordion-heading>
+            <div class="row"
+                 id="{{catgory.name +'-'+ item.Label + '-list-group-item-container'|removeSpacesThenLowercase}}"
+                 ng-repeat="item in catgory.items"
+                 ng-class="{'top-level-child-display': ($index > 0 && catgory.hasTopLevelAttribute)}">
+                <a href="" id="{{ catgory.name +'-'+ item.Label + '-list-group-item'|removeSpacesThenLowercase}}"
+                   class="list-group-item"
+                   ng-click="item.IsTopLevel ? onTopLevelAttrClickHandler($event,item) : selectedListItem($event,item)"
+                   ng-class="{'applied-df-count': FilterCount(item.Index) >0}">
+                    {{item.Label}}&nbsp;{{'('+item.AttributeCount+')'}} <span class="badge df-badge"
+                                                                              ng-show="FilterCount(item.Index) >0">{{FilterCount(item.Index)}}</span></a>
+                <accordion-footer>
+                    <div class="df-applied-label" ng-show="TopLevelFilterCount(item) > 0 && !catgory.isExpand"><span
+                            class="applied-label">{{TopLevelDataFilterCollapsedLabel(item)}}</span> <span
+                            class="badge df-badge2"
+                            ng-show="TopLevelFilterCount(item) > 1">{{TopLevelFilterCount(item)}}</span></div>
+
+                    <div class="df-applied-label" ng-show="FilterCount2(item.Type) > 0 && !catgory.isExpand"><span
+                            class="applied-label">{{DataFilterCollapsedLabel(item.Type)}}</span> <span
+                            class="badge df-badge2"
+                            ng-show="FilterCount2(item.Type) > 1">{{FilterCount2(item.Type)}}</span></div>
+                </accordion-footer>
+            </div>
+
+        </accordion-group>
+
+    </accordion>
+
+    <div class="reset-filter">
+        <button type="button" class="btn btn-default btn-sm btn-reset" ng-click="onResetClickHandler()"
+                data-ng-disabled="internalControl.isResetFilterBtnDisabled">
+            Reset filters <i class="fa fa-times-circle reset-cross-icon"></i>
+            <!--<img src="Content/images/reset-filter.png">-->
+        </button>
+    </div>
+    <!--<div class="clearfix"></div>-->
+</div>

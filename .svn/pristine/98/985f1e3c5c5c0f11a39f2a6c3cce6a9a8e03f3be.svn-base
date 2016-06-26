@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="Views/CustomerSettings/UserAccountSettings/AddOrEditUserDirectiveTemplate.css"/>
+<div class='ng-modal-container' ng-show='show'>
+    <div class='ng-modal-overlay' ng-click='hideModal()'></div>
+    <div class='ng-modal-dialog' ng-style='dialogStyle'>
+        <div class='ng-modal-dialog-content'>
+            <div class="dialog-header">
+                <span class="modal-title">Add user account</span>
+                <i ng-click="cancel()" class="fa fa-times-circle fa-lg cursor"></i>
+            </div>
+            <div class="element-parent-div">
+                <div class="element-container-div">
+                    <div class="left-align inline-block">
+                        <span class="inline-block label-width">Name:</span>
+                        <input type = "text"  class="form-control text-input-normal inline-block">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="element-container-div">
+                    <div class="left-align">
+                        <span class="inline-block label-width">Email:</span>
+                        <input type = "text"  class="form-control text-input-normal inline-block">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="element-container-div">
+                    <div class="left-align">
+                        <span class="inline-block label-width">User type:</span>
+                        <select class="drop-down inline-block"></select>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div style="height: 30px">
+                    <label for="allowCreateUserChkBx" style="padding-right: 10px;">
+                        <input type="checkbox" id="allowCreateUserChkBx">
+                        Allow to create user account
+                    </label>
+                </div>
+                <div  style="height: 45px">
+                    <label for="allowToModifyChkBx" style="padding-right: 10px;">
+                        <input type="checkbox" id="allowToModifyChkBx">
+                        Allow to modify customer settings
+                    </label>
+                </div>
+            </div>
+
+        </div>
+        <div class="confirm-btn-container-div">
+            <button class="btn" ng-click="confirmOperation()"> Ok</button>
+            <button class="btn"  ng-click='hideModal()'> Cancel</button>
+        </div>
+
+    </div>
+    <!--<div class='ng-modal-close' ng-click='hideModal()'>X</div>-->
+</div>
+</div>

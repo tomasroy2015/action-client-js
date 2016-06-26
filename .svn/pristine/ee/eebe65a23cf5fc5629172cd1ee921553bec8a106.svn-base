@@ -1,0 +1,13 @@
+
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionServiceAreaScoreBox', [function () {
+
+        return {
+            restrict: 'AE',
+            templateUrl: 'Views/LeftMenu.ServiceAreaScoreBox/ServiceAreaScoreBoxTemplate.html'
+        }
+    }]);
+});

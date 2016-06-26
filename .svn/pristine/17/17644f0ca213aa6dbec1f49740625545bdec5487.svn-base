@@ -1,0 +1,176 @@
+/* All external import files
+======================================================*/
+.evaluationContainer {
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+.evaluationContainer .popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1300;
+  display: none;
+  max-width: 100%;
+  padding: 3px;
+  text-align: left;
+  white-space: normal;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  background-clip: padding-box;
+}
+.evaluationContainer .popover-title {
+  padding: 0 !important;
+  margin: 0;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 18px;
+  background-color: transparent !important;
+  border-bottom: none !important;
+  border-radius: 5px 5px 0 0;
+}
+.evaluationContainer .popover-content {
+  padding: 0 !important;
+  line-height: 10px;
+  width: 100%;
+  font-size: 11px;
+}
+.evaluationContainer .popover.bottom .arrow {
+  top: -11px;
+  left: 50%;
+  margin-left: -11px;
+  border-bottom-color: #999999;
+  border-bottom-color: rgba(0, 0, 0, 0.25);
+  border-top-width: 0;
+}
+
+.evaluation-ui-grid-container > .ui-grid {
+  min-width: 895px !important;
+  width: 100% !important;
+  height: calc(100% - 60px) !important;
+  padding-right: 10px;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+
+.headerContainer {
+  background-color: #ddddde;
+  width: 100% !important;
+  min-width: 895px;
+  padding-top: 10px;
+  margin-top: 0 !important;
+  position: relative;
+  display: inline-block;
+}
+.headerContainer input[type="checkbox"] {
+  margin: 5px 0 0 0;
+  line-height: normal;
+  vertical-align: text-bottom;
+}
+.headerContainer .inputContainer {
+  float: left;
+  margin-right: 15px;
+}
+.headerContainer .inputContainer .check-box-label {
+  font-weight: normal;
+}
+
+.labelContainer {
+  width: 380px;
+  float: left;
+  margin-left: 10px;
+  height: 80px;
+}
+
+.filterContainer {
+  width: 300px;
+  float: left;
+  margin-left: 10px;
+  height: 80px;
+}
+
+.filterInput {
+  padding-top: 10px;
+}
+
+.translationContainer {
+  float: left;
+  margin-left: 10px;
+  height: 80px;
+}
+
+.dataContainer {
+  height: 750px;
+}
+
+#evaluationLabel {
+  font-size: 20px;
+}
+
+.search-box, .close-icon, .search-wrapper {
+  position: relative;
+}
+
+.search-input-wrapper {
+  width: 200px;
+  margin: auto;
+  float: left;
+  position: relative;
+}
+.search-input-wrapper input:required {
+  box-shadow: none;
+}
+.search-input-wrapper .btn-close {
+  border: 1px solid transparent;
+  background-color: transparent;
+  outline: 0;
+  cursor: pointer;
+  position: absolute;
+  left: 182px;
+  top: 2px;
+  font-size: 17px;
+}
+.search-input-wrapper .fa {
+  color: #FA9595;
+}
+
+.search-button-wrapper {
+  float: left;
+}
+
+.search-box {
+  width: 100%;
+  outline: 0;
+}
+
+.search-box:not(:valid) ~ .btn-close {
+  display: none;
+}
+
+.btn-filter-apply {
+  height: 23px;
+  border: none;
+  border-radius: 0;
+  background: #878787 !important;
+  margin-left: -3px;
+  padding-top: 2px;
+  color: white;
+  width: 58px;
+}
+
+.btn-filter-apply:hover {
+  background: #555759 !important;
+}
+
+.comment-checkbox-wrapper {
+  margin-top: 4px;
+}
+
+/*# sourceMappingURL=ServiceAreaEvaluationsTemplate.css.map */

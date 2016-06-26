@@ -1,0 +1,11 @@
+.general-settings-container{
+    padding: 5px;
+    margin: 0;
+    padding-left: 16px;
+}
+.general-settings-container .template-header{
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 10px;
+}

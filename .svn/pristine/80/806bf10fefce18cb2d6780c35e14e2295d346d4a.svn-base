@@ -1,0 +1,96 @@
+define(['application-configuration', 'dataService', 'lodash'], function (app) {
+
+    app.register.factory('customerSettingsFactory', ['$rootScope', '$http', 'dataService', 'Notify',
+        function ($rootScope, $http, dataService, Notify ) {
+
+            var customerUsersList=null;
+            var countryMappingList = null;
+            var regionMappingList = null;
+            var siteClusterList = null;
+            var selectedCustomer={Giarte:null,Others:null};
+            var errorFunction = function (response) {
+                //Error handling goes here.
+                window.alert("Error in settings operation");
+            };
+            var onUpdateGeneralSettings=function(response){
+
+            };
+            var onDeleteUserAccountSuccess=function(response){
+
+            };
+            var onResetCustomerSettingsUserPasswordSuccess=function(response){
+
+            };
+            var onGetCustomerUsersList=function(response){
+                customerUsersList=response;
+                $rootScope.$broadcast(Notify.CUSTOMER_SETTINGS_USER_DATA_READY);
+            };
+            var onAddOrUpdateUserSuccess=function(response){
+                $rootScope.$broadcast(Notify.CUSTOMER_SETTINGS_USER_ADD_OR_UPDATE_SUCCESS);
+            };
+            var onGetCountryMappingList=function(response){
+                countryMappingList=response;
+                $rootScope.$broadcast(Notify.CUSTOMER_SETTINGS_COUNTRY_MAPPING_DATA_READY);
+            };
+            var onGetRegionMappingList = function(response){
+                regionMappingList = response;
+                $rootScope.$broadcast(Notify.CUSTOMER_SETTINGS_REGION_MAPPING_DATA_READY);
+            };
+            var onGetSiteClusterList = function(response){
+                siteClusterList = response;
+                $rootScope.$broadcast(Notify.CUSTOMER_SETTINGS_SITE_CLUSTER_DATA_READY);
+            };
+            return{
+                UpdateGeneralSettings:function(dataModel,attributeRoute){
+                  return  dataService.updateGeneralSettings(dataModel,attributeRoute,onUpdateGeneralSettings,errorFunction);
+
+                },
+               GetCustomerUsersList:function(customer){
+                    return dataService.getUsersByCustomer(customer,onGetCustomerUsersList,errorFunction);
+                },
+                CustomerUsersList:function(){
+                  return customerUsersList;
+                },
+                DeleteUserAccount:function(user){
+                    return dataService.deleteUserAccount(user,onDeleteUserAccountSuccess,errorFunction);
+                },
+                AddUpdateUserAccount:function(user,attributeRoute){
+                    return dataService.addOrUpdateUser(user,attributeRoute,onAddOrUpdateUserSuccess,errorFunction);
+                },
+                ResetCustomerSettingsUserPassword:function(user,attRoute){
+                    return dataService.resetCustomerSettingsUserPassword(user,attRoute,onResetCustomerSettingsUserPasswordSuccess,errorFunction);
+                },
+                SetSelectedCustomer:function(customer){
+                    if(customer.CustomerId=="GIA"){
+                        selectedCustomer.Giarte=customer
+                    }
+                    else{
+                        selectedCustomer.Others=customer;
+                    }
+                },
+                GetSelectedCustomer:function(){
+                    return selectedCustomer;
+                },
+                GetCountryMapping:function(customer){
+                    return dataService.getCountryMappingByCustomer(customer,onGetCountryMappingList,errorFunction);
+                },
+                CountryMappingList:function(){
+                    return countryMappingList;
+                },
+                GetRegionMapping:function(customer){
+                    return dataService.getRegionMappingByCustomer(customer,onGetRegionMappingList,errorFunction);
+                },
+                RegionMappingList:function(){
+                    return regionMappingList;
+                },
+                GetSiteClusters:function(customer){
+                    return dataService.getSiteClustersByCustomer(customer,onGetSiteClusterList,errorFunction);
+                },
+                SiteClusterList:function(){
+                    return siteClusterList;
+                }
+
+            };
+
+        }]);
+});

@@ -1,0 +1,12 @@
+<div class="grid-tooltip">
+    <div class="ui-grid-cell-contents">
+        <div style="width: 100% !important;">
+            <ul style="display: inline;padding: 0px;margin: 0px">
+                <li class="horizontal">
+                    <!-- grid.appScope.'scope variable name' used to access controller variable from cell template -->
+                    <action-question-score question-item="row.entity.ServiceAreaScoreDataCollection[0].QuestionScores[grid.appScope.gridScope.getIndex(col.colDef.serviceAreaId,row.entity)]"></action-question-score>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

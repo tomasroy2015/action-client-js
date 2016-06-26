@@ -1,0 +1,38 @@
+"use strict";
+define(['application-configuration'], function (app) {
+    app.register.directive("actionViewByAttribute", function () {
+        var uid = 1;
+        return {
+            restrict   : 'EA',
+            controller:'listViewController',
+            scope      : {
+                attrItemCollection: '=',
+                selectedAttribute:'=',
+                attributeItemChangeListener:'&'
+            },
+            templateUrl: "Views/List/ViewByAttributeTemplate.html",
+            link   : function (scope, el, attr) {
+
+                console.log("directive element: "+el);
+                console.log("directive attr: "+attr);
+
+
+                scope.attributeItem_clickHandler = function(selectedItem,itemLabel){
+
+                    scope.selectedAttribute = itemLabel;
+                    scope.attributeItemChangeListener( {attr:selectedItem});
+
+                };
+
+                scope.getClass = function(itemAttr){
+
+                    if(scope.selectedAttribute==itemAttr)
+                    return "selectedAttributeItem";
+                    else
+                    return "";
+                }
+
+            }
+        };
+    });
+});

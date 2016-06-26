@@ -1,0 +1,30 @@
+"use strict";
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionAddOrEditUser', [function () {
+        return {
+            restrict: 'E',
+            scope: {
+                show: '=info',
+                message:'=',
+                user:'='
+            },
+            link:function (scope, el, attrs) {
+                scope.dialogStyle = {};
+                if (attrs.width)
+                    scope.dialogStyle.width = attrs.width;
+                if (attrs.height)
+                    scope.dialogStyle.height = attrs.height;
+                scope.hideModal = function() {
+                    scope.show = false;
+                };
+                scope.confirmOperation=function(){
+//                    scope.confirmOk();
+                    scope.hideModal();
+                }
+            },
+            templateUrl: 'Views/CustomerSettings/UserAccountSettings/AddOrEditUserDirectiveTemplate.html'
+        };
+    }]);
+
+});

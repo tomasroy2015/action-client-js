@@ -1,0 +1,27 @@
+#colorFirst{
+  width: 15px;
+  height: 15px;
+  font-size: 16px;
+}
+#colorSecond{
+  font-size: 16px;
+  width: 15px;
+  height: 15px;
+}
+#colorThird{
+  font-size: 16px;
+  width: 15px;
+  height: 15px;
+}
+//.radio.moresettings-radio {
+//  font-weight: normal; }
+//.colorset-ul {
+//  margin-left: -38px;
+//  margin-top: -2px; }
+//
+//.color-coll-div {
+//  margin-top: -16px;
+//  margin-left: 85px; }
+//
+//.color-coll-li {
+//  height: 14px; }

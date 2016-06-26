@@ -1,0 +1,100 @@
+"use strict";
+
+define(['application-configuration', 'alertsService', 'dataFactory','ViewDataFactory', 'datasetSelectionFactory', 'leftMenuSlidingWindowEventNotifyFactory'], function (app) {
+
+    app.register.controller('serviceAreaScoreBoxController', ['$scope', 'alertsService', 'dataFactory','ViewDataFactory', 'appSettings', 'Notify', 'ComparatorType', 'comparatorFactory', 'datasetSelectionFactory', 'leftMenuSlidingWindowEventNotifyFactory',
+        function ($scope, alertsService, dataFactory,ViewDataFactory, appSettings, Notify, ComparatorType, comparatorFactory, datasetSelectionFactory, leftMenuSlidingWindowEventNotifyFactory) {
+
+            $scope.leftMenuSlidingWindowEventNotify = leftMenuSlidingWindowEventNotifyFactory;
+            var selectedServiceAreaId = 'OS';
+            $scope.selectedQuestionId = 'OS';
+            initializeData();
+
+            function initializeData() {
+                prepareDefaultData();
+            }
+            function prepareDefaultData() {
+                var serviceAreaCollection = dataFactory.ServiceAreaScoreDataCollection();
+
+                $scope.generalSurveyCollection = function(){
+                    return _.filter(serviceAreaCollection, function(n){
+                        return n.SurveyType == "GEN" || n.SurveyType == "NOG";
+                    });
+                }();
+                $scope.triggerSurveyCollection =  function(){
+                    var tmp =  _.filter(serviceAreaCollection, function(n){
+                        return n.SurveyType == "TCK";
+                    });
+                    return _.sortByOrder(tmp,"SortOrder",true);
+                }();
+
+                prepareDefaultScoreDataCollection();
+            }
+            $scope.$on(Notify.DATASET_CHANGED, function (event) {
+                prepareDefaultData();
+            });
+            $scope.$on(Notify.COMPARATOR_TYPE_CHANGED, function () {
+                setSelectedServiceAreaScoreData();
+            });
+            $scope.$on(Notify.COMPARATOR_COLOR_CHANGED, function () {
+                setSelectedServiceAreaScoreData();
+            });
+            $scope.onServiceAreaClicked = function (selectedServiceArea) {
+                selectedServiceAreaId = selectedServiceArea.Id;
+                dataFactory.ServiceAreaChanged(selectedServiceAreaId);
+                setSelectedServiceAreaScoreData();
+
+            }
+            $scope.onQuestionItemClick = function(selectedId){
+                console.log("selected question:" + selectedId);
+                $scope.selectedQuestionId = selectedId;
+            }
+            var setSelectedServiceAreaScoreData = function(){
+                if (selectedServiceAreaId === "OS" || selectedServiceAreaId === "TCK" || selectedServiceAreaId === "SES") {
+                    prepareDefaultScoreDataCollection();
+                } else {
+                    prepareScoreDataCollectionOnClick();
+                }
+            }
+
+            /**
+             * This method combine group data of General and Triggered
+             *
+             * @param generalData, triggerData
+             */
+            function prepareDefaultScoreDataCollection() {
+
+                var generalScoreData = ViewDataFactory.getServiceAreaDataById('OS');
+                var triggerScoreData = ViewDataFactory.getServiceAreaDataById('TCK');
+
+                if(!triggerScoreData)
+                    triggerScoreData = ViewDataFactory.getServiceAreaDataById('SES');
+
+                var combinedQuestionList = [];
+
+                _.forEach(generalScoreData, function (n, key) {
+                    //var temp = _.assign({}, {IsQuestionSelected: false}, n);
+                    var temp = _.assign({}, n);
+                    combinedQuestionList.push(temp);
+                });
+
+                _.forEach(triggerScoreData, function (n, key) {
+                    //var temp = _.assign({}, {IsQuestionSelected: false}, n);
+                    var temp = _.assign({}, n);
+                    combinedQuestionList.push(temp);
+                });
+                //combinedQuestionList[0].IsQuestionSelected = true;
+                $scope.combinedScoreDataCollection = combinedQuestionList;
+            }
+
+            function prepareScoreDataCollectionOnClick() {
+                var scoreDataCollection = ViewDataFactory.getServiceAreaDataById(selectedServiceAreaId);
+                var combinedQuestionList = [];
+                _.forEach(scoreDataCollection, function(n, key){
+                    var temp = _.assign({}, n);
+                    combinedQuestionList.push(temp);
+                });
+                $scope.combinedScoreDataCollection = combinedQuestionList;
+            }
+        }]);
+});

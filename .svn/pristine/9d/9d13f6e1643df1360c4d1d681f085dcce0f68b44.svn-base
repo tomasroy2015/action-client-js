@@ -1,0 +1,26 @@
+define(['application-configuration'], function (app) {
+
+    app.register.factory('dataFilterFactory', ['$rootScope','Notify','dataFactory',
+        function ($rootScope,Notify,dataFactory) {
+
+            var selectedAttributeIndex = -1;
+
+            return {
+                SetSelectedAttributeIndex: function (index) {
+                    selectedAttributeIndex = index;
+                },
+                GetSelectedAttributeIndex: function () {
+                    return selectedAttributeIndex;
+                },
+                GetSelectedAttribute: function(){
+                    var item = _.find(dataFactory.CustomAttributeCollection(),function(n){
+                        return n.Index == selectedAttributeIndex;
+                    });
+                    return item;
+                }
+
+            };
+
+        }]);
+});
+

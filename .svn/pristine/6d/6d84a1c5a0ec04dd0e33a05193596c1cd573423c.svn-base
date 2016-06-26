@@ -1,0 +1,25 @@
+
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionScoreBox', [function () {
+        return {
+            restrict: 'AE',
+            scope:{
+                generalSurveyCollection:'=',
+                triggerSurveyCollection:'=',
+                scoreDataCollection:'=',
+                scoreBarWidth:'=',
+                onTabItemClick:'&'
+            },
+            link:function (scope, el, attrs) {
+                scope.onClickDir = function(selectedItem){
+                    scope.onTabItemClick({selectedId:selectedItem});
+                };
+            },
+            templateUrl: 'Views/Shared/Template/ScoreBoxTemplate.html'
+        };
+    }]);
+
+});

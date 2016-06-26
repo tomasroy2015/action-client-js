@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/OSRatioTemplate.css"/>
+<div class="ratioContainer">
+    <div class="ratioLabelContainer">
+        <span class="ratio-label">Ratio:</span>
+    </div>
+
+    <div ng-repeat="n in negativeRange" class="negative-ratio">
+        <i class="fa fa-user"></i>
+    </div>
+    <div class="ratioLabelContainer">
+        <span class="ratio-label">/</span>
+    </div>
+    <div ng-repeat="n in positiveRange" class="positive-ratio">
+        <i class="fa fa-user"></i>
+    </div>
+    <!--<div class="fractionContainer" ng-show="fractionVal > 0">-->
+        <!--<div id="clipUserIcon" class="positive-ratio">-->
+            <!--<i class="fa fa-user"></i>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="ratioLabelContainer" ng-if="isValueMoreThanTen">
+        <span class="ratio-label">++</span>
+    </div>
+    <div class="ratioLabelContainer">
+        <span class="ratio-label" style="margin-left: 5px">(1:{{maxRatioVal}})</span>
+    </div>
+</div>

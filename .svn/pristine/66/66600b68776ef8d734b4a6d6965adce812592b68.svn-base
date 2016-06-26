@@ -1,0 +1,196 @@
+$default-text-color:#000;
+
+html {
+  position   : relative;
+  min-height : 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom : 45px;
+  min-height    : 400px;/*400px*/
+  color:$default-text-color;
+}
+
+
+.dataset-container {
+  max-width : 680px;
+  padding   : 0 15px;
+  min-width : 455px;
+
+   .page-header {
+     border-bottom : none;
+     .panel {
+       border-radius : 0;
+       &.panel-default {
+         opacity       : 0.9;
+         height        : 380px;/*350px*/
+         width         : 425px;
+         margin-left   : auto;
+         margin-right  : auto;
+         border-radius : 0;
+       }
+     }
+   }
+}
+
+.panel-heading{
+  background-image : url('');
+  background-color : #000 !important;
+  color            : #fff !important;
+  height           : 57px;
+  line-height      : 42px;
+  font-size        : 1.416666666666667em;
+  /* 17px/12px */
+  text-shadow: none;
+  border-radius    : 0;
+   .logo {
+    float        : right;
+    margin-top   : 10px;
+    margin-right : 10px;
+  }
+}
+
+
+.panel-body-container {
+  padding : 18px;
+  .content-heading {
+    font-weight : bold;
+    font-size   : 1em;
+    font-weight : bold;
+    padding-left: 10px;
+  }
+//  select[id='ddlClient'] {
+//    margin-left   : 20px;
+//    padding-left: 3px;
+//    width         : 180px;
+//    height        : 24px;
+//    border-radius : 0;
+//    font-weight: normal;
+//  }
+
+  #ddlClient {
+    margin-left   : 20px;
+    padding-left  : 3px;
+    width         : 180px;
+    height        : 24px;
+    border-radius : 0;
+    font-weight   : normal;
+//    background:url("../../Content/images/dropdownarrow.png") no-repeat;
+  }
+}
+
+input[type='radio'] {
+  margin-top: 0;
+}
+
+#ddlMonthSelect input[type='radio'], #ddlQuaterSelection input[type='radio'] {
+  margin-left   : 5px;
+  margin-top    : 0;
+  //  padding-top: 10px;
+  //  padding-bottom: 10px;
+  padding-left  : 3px;
+  width         : 180px;
+  height        : 24px;
+  border-radius : 0;
+  font-weight   : normal;
+}
+.btn-group > div {
+  margin-bottom: 5px;
+}
+
+//select#ddlMonthSelect,select#ddlQuaterSelection{
+//margin: 5px 0;
+//  height: 24px;
+//}
+
+.checkbox-panel {
+  margin-top    : 10px;
+  padding-left  : 25px;
+  padding-right : 25px;
+}
+
+.button-container {
+  position:relative;
+  width: 100%;
+  height:40px;
+}
+
+.btn-white-bg{
+  padding-top: 0;
+  height: 26px;
+  line-height: 26px;
+  background-color : #555759;
+  color: #fff;
+  border-radius: 0;
+  &:hover {
+    background-color : rgba(#555759,.8);
+  }
+}
+
+.right-side {
+  position: absolute;
+  right: 20px;
+}
+
+#datePanel {
+  margin-top : 10px;
+}
+.form-horizontal .control-label {
+  text-align: left;
+}
+/*-------------------------------------------------
+                    Footer Panel
+-------------------------------------------------*/
+.footer {
+  position         : absolute;
+  bottom           : 0;
+  width            : 100%;
+  /* Set the fixed height of the footer here */
+  height           : 40px;
+  background-color : #555759;
+  min-width        : 455px;
+  left             : 0;
+  font-size: 0.8333333333333333em; /* 10px/12px */
+  letter-spacing: 0.0416666666666667em;
+  .url-container {
+    right     : 48px;
+    position  : absolute;
+    transform : translateY(100%);
+    > a {
+      text-decoration : none;
+      color           : #fff;
+      :hover {
+        color : #ddddde;
+      }
+    }
+  }
+}
+
+.right-arrow-container {
+  right     : 21px;
+  position  : absolute;
+  transform : translateY(69%);
+}
+
+.arrow-container {
+  right     : 23px;
+  position  : absolute;
+  transform : translateY(90%);
+  top:2px;
+}
+
+/*-------------------------------------------------
+                Media Query Section
+-------------------------------------------------*/
+@media only screen and (min-width : 480px) {
+  .dataset-container {
+    .page-header {
+      top         : 50%;
+      left        : 50%;
+      position    : absolute;
+      margin-left : -212.5px;
+      margin-top  : -197.5px;
+    }
+  }
+}

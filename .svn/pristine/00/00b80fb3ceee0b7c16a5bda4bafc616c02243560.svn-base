@@ -1,0 +1,25 @@
+"use strict";
+
+define(['application-configuration','alertsService','bootstrap','leftMenuController','headerController','accountsService','eventDispatchService'], function (app) {
+
+    app.register.controller('actionRootController', ['$scope','$rootScope','alertsService','accountsService','eventDispatchService', function ($scope,$rootScope,alertsService,accountsService,eventDispatchService) {
+
+        $rootScope.applicationModule = "MainLayout";
+
+        $scope.logoutMain = function () {
+            $rootScope.IsloggedOut = false;
+            var user = $rootScope.UserData;
+            accountsService.logout2(user, $scope.logoutCompleted, $scope.logoutError);
+        };
+
+        $scope.logoutCompleted = function (response) {
+            window.location = "#/";
+        };
+
+        $scope.logoutError = function (response) {
+            alertsService.RenderErrorMessage(response.ReturnMessage);
+        };
+
+    }]);
+
+});

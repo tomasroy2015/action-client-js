@@ -1,0 +1,73 @@
+.group-delete-modal.modal {
+  overflow: hidden;
+}
+.group-delete-modal .modal-dialog {
+  width: 270px;
+  height: 140px;
+  top: 50%;
+  left: 50%;
+  margin-top: -70px;
+  margin-left: -135px;
+  position: absolute !important;
+  color: #000;
+}
+.group-delete-modal .modal-dialog .modal-content {
+  width: 270px;
+  height: 140px;
+  border-radius: 0;
+  background: #ddddde;
+  position: relative;
+}
+.group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper {
+  width: 270px;
+  height: 140px;
+}
+.group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper .modal-header {
+  padding: 0;
+  border-bottom: none;
+  font-size: 1.4em;
+  padding: 15px 20px 8px;
+}
+.group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper .modal-body {
+  padding: 0 15px 0 20px;
+  font-size: 0.92em;
+}
+.group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper .modal-footer {
+  height: 28px;
+  text-align: right;
+  position: absolute;
+  padding: 0;
+  bottom: 8px;
+  right: 13px;
+}
+.group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper .modal-footer .btn-cancel, .group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper .modal-footer .btn-ok {
+  display: inline-block;
+  width: 70px;
+  height: 22px;
+  text-align: center;
+  background-color: #ffffff;
+  box-shadow: none;
+  border: none;
+  color: #000;
+  position: relative;
+  margin: 0 2px;
+}
+.group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper .modal-footer .btn-cancel:hover:not(:disabled), .group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper .modal-footer .btn-ok:hover:not(:disabled) {
+  background-color: #555759;
+  color: #fff;
+}
+.group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper .modal-footer .btn-cancel:active, .group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper .modal-footer .btn-ok:active {
+  background-color: #878787;
+  color: #fff;
+}
+.group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper .modal-footer .btn-cancel:disabled, .group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper .modal-footer .btn-ok:disabled {
+  opacity: 0.5;
+}
+.group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper .modal-footer .btn-cancel .lbl-btn, .group-delete-modal .modal-dialog .group-delete-confirmation-window-wrapper .modal-footer .btn-ok .lbl-btn {
+  display: inline-block;
+  width: 100%;
+  margin: 3px auto;
+  box-sizing: border-box;
+}
+
+/*# sourceMappingURL=GroupDeleteConfirmationWindowTemplate.css.map */

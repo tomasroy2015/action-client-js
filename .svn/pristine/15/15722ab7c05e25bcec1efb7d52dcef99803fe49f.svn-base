@@ -1,0 +1,37 @@
+"use strict";
+define(['application-configuration'], function (app) {
+    app.register.directive("viewByAttribute", function ($route) {
+        var uid = 1;
+        return {
+            restrict   : 'EA',
+            scope      : {
+                attrItemCollection: '='
+
+            },
+            //template: '<div><table>' + '<tr><td><span>{{score}}&nbsp;%</span></td>' + '<td><canvas id="{{::canvasid}}" width="100px" height="100px"></canvas></td>' +
+            //'</tr></table></div>',
+            templateUrl: "Views/List/directives/viewByAttribute.html",
+            link   : function (scope, el, attr) {
+                console.log(scope.attrItemCollection);
+                //scope.filterDataCollection = data;
+                scope.$watch('attributeItemColl', function (newValue,oldValue) {
+                    if(!angular.isUndefined(newValue))
+                        return scope.render(newValue);
+                },true);
+                scope.render = function(attrItemCollection) {
+                    scope.attrItemCollection = attrItemCollection;
+                    console.log(scope.attrItemCollection+" m");
+                };
+
+                $(".multi-column-dropdown li a").click(function () {
+                    var selText = $(this).text();
+                    $(this).parents('.collapse').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
+                    console.log('reloading ListViewController');
+                    //reload ui
+                    $route.reload();
+
+                });
+            }
+        };
+    });
+});

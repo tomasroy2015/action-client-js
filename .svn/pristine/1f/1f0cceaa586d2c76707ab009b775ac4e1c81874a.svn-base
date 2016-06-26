@@ -1,0 +1,23 @@
+
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionEvaluations', [function () {
+        return {
+            restrict: 'AE',
+            scope:{
+                evaluationCollection:'=',
+                selectedServiceAreaId:'=',
+                onItemClick:'&'
+            },
+            link:function (scope, el, attrs) {
+                scope.onEvaluationItemClick = function(selectedItem){
+                    scope.onItemClick({selectedEvaluation:selectedItem});
+                };
+            },
+            templateUrl: 'Views/Shared/Template/ServiceAreaEvaluationsTemplate.html'
+        };
+    }]);
+
+});

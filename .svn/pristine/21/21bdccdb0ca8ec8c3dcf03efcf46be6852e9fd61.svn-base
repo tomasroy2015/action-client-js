@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="Views/DataFilter/DataFilterView.css"/>
+<div id="dataFilterContainer" class="data-filter-container">
+    <!-- Right side closing arrow -->
+    <div class="left-arrow-container close-slide-in">
+        <i class="fa fa-caret-left"></i>
+    </div>
+
+    <!-- body contents -->
+
+
+</div>

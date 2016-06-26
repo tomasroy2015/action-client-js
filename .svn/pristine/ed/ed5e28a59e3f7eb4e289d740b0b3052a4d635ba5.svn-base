@@ -1,0 +1,25 @@
+"use strict";
+define(['application-configuration'], function (app) {
+    app.register.directive("actionMoreSettings", function () {
+        return {
+            restrict   : 'EA',
+            scope      : {
+                minSiteRespondent: '=',
+                minCountryRespondent: '=',
+                selectedZoomLevel: '=',
+                selectedColorSet: '=',
+                initMoreSettings:'&',
+                updateZoomLevel:'&',
+                updateColorSet:'&',
+                respondentSiteChange:'&',
+                respondentCountryChange:'&',
+                moreSettingOkBtnClick:'&'
+            },
+            link       : function (scope, el, attr) {
+                var minSiteRespondent = scope.minSiteRespondent;
+                var minCountryRespondent = scope.minCountryRespondent;
+            },
+            templateUrl: "Views/LeftMenuSettings/MoreSettingsTemplate.html"
+        }
+    });
+});

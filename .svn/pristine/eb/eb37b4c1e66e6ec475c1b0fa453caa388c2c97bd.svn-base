@@ -1,0 +1,80 @@
+<link rel="stylesheet" href="Views/DatasetAccordion/DatasetTemplate.css"/>
+
+<div class="container dataset-body-container">
+    <div id="dt-header">
+        <div class="content-heading">
+            <label id="content-heading" >Change dataset </label>
+         </div>
+        <div style="margin-top:11px; ">
+            <label id="heading" >Select Client </label>
+            <select id="ddlClient"
+                    ng-init="dataset.selectedCustomer = dataset.currentuser.UserToCustomers[17]"
+                    ng-model="dataset.selectedCustomer"
+                    ng-options="item.CustomerName for item in dataset.currentuser.UserToCustomers"
+                    ng-change="dataset.customerChanged()"></select>
+        </div>
+    </div>
+    <form class="form-horizontal" role="form" name='datasetForm' novalidate>
+        <div class="form-group checkbox-panel">
+
+            <div id="datasetSelectionGroup">
+                <div class="btn-group" data-toggle="buttons">
+
+
+                    <div><label class="radio" for="monthToDate">
+                        <input id="monthToDate" type="radio" name="ngOptions" ng-model="dataset.selectedValue"
+                               value="MonthToDate" >Month to date
+                    </label></div>
+
+                    <div id="monthDdlContainer"><label class="radio" for="rdoMonth">
+                        <input id="rdoMonth" type="radio" name="ngOptions" value="LastMonth" ng-model="dataset.selectedValue">Month
+
+                    </label>
+                        <select id="ddlMonthSelect" class="ddl-default"
+                                ng-init="dataset.selectedMonth = dataset.LastSixMonth[0]"
+                                ng-model="dataset.selectedMonth"
+                                ng-options="month.Name for month in dataset.LastSixMonth"></select>
+                    </div>
+
+                    <div id="quarterDdlContainer"><label class="radio" for="rdoQuarter">
+                        <input id="rdoQuarter" type="radio" name="ngOptions" value="LastQuarter" ng-model="dataset.selectedValue">Quarter
+                    </label>
+                        <select id="ddlQuarterSelection" class="ddl-default"
+                                ng-init="dataset.selectedQuarter = dataset.QuarterColl[0]"
+                                ng-model="dataset.selectedQuarter"
+                                ng-options="quarter.Name for quarter in dataset.QuarterColl"></select>
+                    </div>
+
+                    <div><label class="radio" for="dateRange">
+                        <input id="dateRange" type="radio" name="ngOptions" value="DateRange" ng-model="dataset.selectedValue">Date Range
+                    </label></div>
+
+                </div>
+            </div>
+
+            <div id="datePanel" class="date-panel">
+                <div class="form-group">
+                    <label for="inputFromDate" class="col-md-3 control-label">
+                        From:</label>
+
+                    <div class="col-sm-9">
+                        <input type="date" id="inputFromDate" ng-model="dataset.dtpValueFromDate" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputToDate" class="col-md-3 control-label">
+                        To:</label>
+
+                    <div class="col-sm-9">
+                        <input type="date" id="inputToDate" ng-model="dataset.dtpValueToDate" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="button-load-container">
+        <button id="btn-OK" type="submit" class="btn btn-success btn-sm btn-load-ok" data-ng-click="dataset.changeDataSet()">
+            Load dataset
+        </button>
+    </div>
+</div>

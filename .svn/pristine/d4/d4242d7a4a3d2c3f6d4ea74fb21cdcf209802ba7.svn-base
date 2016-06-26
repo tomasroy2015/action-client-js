@@ -1,0 +1,45 @@
+/**
+ * Created by syedur on 7/7/2015.
+ */
+"use strict";
+
+define(['application-configuration'], function(app){
+
+    app.register.directive('actionOsRatio', [function(){
+        return{
+            restrict: 'AE',
+
+            scope:{
+                positiveCount: '=',
+                negativeCount: '='
+            },
+
+            templateUrl:'Views/Shared/Template/OSRatioTemplate.html',
+
+            link: function(scope, el, attr){
+                //var gcdVal = gcd(scope.positiveCount, scope.negativeCount);
+                //if(gcdVal == 1){
+                //    scope.positiveRange = _.range(1, Math.floor(scope.positiveCount / scope.negativeCount));
+                //    scope.negativeRange = _.range(1, 1);
+                //}else{
+                //    scope.positiveRange = _.range(1, scope.positiveCount / gcdVal);
+                //    scope.negativeRange = _.range(1, scope.negativeCount / gcdVal);
+                //}
+                scope.positiveRange = _.range(1, Math.floor(scope.positiveCount / scope.negativeCount));
+                scope.negativeRange = _.range(1, 1);
+            }
+        };
+    }]);
+
+    function gcd(a,b) {
+        if (a < 0) a = -a;
+        if (b < 0) b = -b;
+        if (b > a) {var temp = a; a = b; b = temp;}
+        while (true) {
+            if (b == 0) return a;
+            a %= b;
+            if (a == 0) return b;
+            b %= a;
+        }
+    }
+});

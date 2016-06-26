@@ -1,0 +1,131 @@
+"use strict";
+define(['application-configuration','accountFactory','lodash'], function (app) {
+    app.register.controller('customerSettingsController', ['$scope','$rootScope','$modalInstance','accountFactory','$timeout',
+        function ($scope,$rootScope,$modalInstance,accountFactory,$timeout) {
+            $scope.selectedCustomer = null;
+            $scope.currentuser = accountFactory.UserData();
+            $scope.sessionID = $scope.currentuser.SessionId;
+            var menuColl=[];
+            var giarteUserMenu={
+                "UserType":1,
+                "Menu":[
+                    {title:'GENERAL SETTINGS',menuIndex:1},
+                    {title:'USER ACCOUNTS',menuIndex:2},
+                    {title:'COUNTRY MAPPING',menuIndex:3},
+                    {title:'REGION MAPPING',menuIndex:4},
+                    {title:'SITE CLUSTERING',menuIndex:5},
+                    {title:'COMPARATOR MAPPING',menuIndex:6},
+                    {title:'DATA FILTER SETTINGS',menuIndex:7},
+                    {title:'SHORT CODE MAPPING',menuIndex:8},
+                    {title:'IP MAPPING',menuIndex:9}
+                ]
+            }
+            var viewStackEnum={
+                GENERAL_SETTINGS:'general',
+                USER_ACCOUNTS:'user',
+                COUNTRY_MAPPING:'country',
+                REGION_MAPPING:'region',
+                SITE_CLUSTERING:'site',
+                COMPARATOR_MAPPING:'comparator',
+                DATA_FILTER_SETTINGS:'datafilter',
+                SHORT_CODE_MAPPING:'shortcode',
+                IP_MAPPING:'ip'
+            }
+
+            $scope.menuItem_eventHandler=function(menuIndex,event){
+                var ele=event.currentTarget;
+                $("#"+ele.id).siblings().addClass('btn-arrow-customer-settings-menu').removeClass('btn-arrow-customer-settings-menu-selected');
+                $("#"+ele.id).addClass('btn-arrow-customer-settings-menu-selected').removeClass('btn-arrow-customer-settings-menu');
+                switch(menuIndex){
+                    case 1:
+                        generalSettings_ClickHandler();
+                        break;
+                    case 2:
+                        userAccounts_ClickHandler();
+                        break;
+                    case 3:
+                        countryMapping_ClickHandler();
+                        break;
+                    case 4:
+                        regionMapping_ClickHandler();
+                        break;
+                    case 5:
+                        siteClustering_ClickHandler();
+                        break;
+                    case 6:
+                        comparatorMapping_ClickHandler();
+                        break;
+                    case 7:
+                        dataFilterSettings_ClickHandler();
+                        break;
+                    case 8:
+                        shortCodeMapping_ClickHandler();
+                        break;
+                    case 9:
+                        ipMapping_ClickHandler();
+                        break;
+                }
+            }
+            menuColl.push(giarteUserMenu);
+            $scope.selectedUserSettingsMenu= _.filter(menuColl,function(item){
+                return item.UserType==$scope.currentuser.UserType
+
+            })[0];
+
+            $scope.setSelectedCustomer=function(customer){
+                $scope.selectedCustomer=customer;
+            }
+            function initSelectionMenu(){
+              var proxyEvent={
+                  currentTarget:{
+                      id:'customerSettingsMenu-0'
+                  }
+              }
+                $scope.menuItem_eventHandler(1,proxyEvent);
+            };
+
+
+            $scope.setSelectedCustomer($scope.currentuser.UserToCustomers[0]);
+            $scope.customerChanged = function(){
+                $scope.customerID = $scope.selectedCustomer.CustomerId;
+            };
+            $timeout(function(){
+                initSelectionMenu();
+            },100)
+            function generalSettings_ClickHandler(){
+                $scope.selectedView= viewStackEnum.GENERAL_SETTINGS;
+            }
+            function userAccounts_ClickHandler(){
+                $scope.selectedView= viewStackEnum.USER_ACCOUNTS;
+            }
+            function countryMapping_ClickHandler(){
+                $scope.selectedView= viewStackEnum.COUNTRY_MAPPING;
+
+            }
+            function regionMapping_ClickHandler(){
+                $scope.selectedView= viewStackEnum.REGION_MAPPING;
+            }
+            function siteClustering_ClickHandler(){
+                $scope.selectedView= viewStackEnum.SITE_CLUSTERING;
+            }
+            function comparatorMapping_ClickHandler(){
+                $scope.selectedView= viewStackEnum.COMPARATOR_MAPPING;
+            }
+            function dataFilterSettings_ClickHandler(){
+                $scope.selectedView= viewStackEnum.DATA_FILTER_SETTINGS;
+
+            }
+            function shortCodeMapping_ClickHandler(){
+                $scope.selectedView= viewStackEnum.SHORT_CODE_MAPPING;
+            }
+            function ipMapping_ClickHandler(){
+                $scope.selectedView= viewStackEnum.IP_MAPPING;
+            }
+
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+        }]);
+
+});
+

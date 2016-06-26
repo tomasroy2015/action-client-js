@@ -1,0 +1,150 @@
+/* All external import files
+======================================================*/
+@import '_Colors';
+@import '_Mixins';
+
+$score-item-height:25px;
+$calculate-right:11px;
+//$calculate-right: calc(#{$score-item-height/2} - 1px);
+
+div.service-area-questions-container {
+  margin-right : 0px;
+  width        : 235px; /*question item width in left panel.total background width of a item*/
+  margin-top   : 10px;
+  padding-left : 0px;
+}
+
+/*Question hover arrow style  */
+
+ul.question {
+  display  : table;
+  width    : 100%; /*94% need to check from this line */
+  padding  : 0px;
+  margin   : 0px;
+  position : relative;
+  width       : 225px;
+  li.questionListItem {
+    display    : block;
+    height     : $score-item-height;
+    position   : relative;
+    padding    : 0px;
+    text-align : center;
+    width       : 235px;
+    &:not(.selectedQuestionListItemDiv):hover {
+      background-color : $GIARTE_LIGHT_GRAY;
+      cursor           : pointer;
+      &:after {
+        top   : 0;
+        @include right-arrow($score-item-height/2, $GIARTE_LIGHT_GRAY, 100);
+        right : -$calculate-right;
+      }
+    }
+  }
+
+  .questionListItemDiv {
+    position    : relative;
+    line-height : $score-item-height; /* equal to the list item's height */
+    height      : 100%;
+    width       : 235px;
+  }
+}
+
+ul.question > li[data-questiontype='group']{
+  width: 235px;
+  background: #ddddde;
+  font-weight:bold;
+}
+
+/*list item style*/
+.questionContainerDiv {
+  padding-left   : 5px;
+  margin    : 0;
+  width     : 100%;
+  float     : left;
+  height    : $score-item-height;
+  /*font-size : 11px;*/
+}
+.topGroupContainer{
+  margin-bottom:15px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.bottomGroupContainer{
+  margin-top:15px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.questionLabelDiv {
+  text-align    : left;
+  margin-top    : 0px;
+  width         : 120px;
+  float         : left;
+  overflow      : hidden;
+  white-space   : nowrap;
+  text-overflow : ellipsis;
+  top           : 0;
+  margin-right  : 3px;
+  padding-left  : 0px;
+}
+
+.question-score-bar {
+  margin-top  : 0px;
+  width       : 98px;
+  display     : inline-block;
+  float       : left;
+  top         : 0;
+  font-weight : bold;
+}
+
+.scoreContainer {
+  height : 24px;
+  width: 95px;
+  float: left;
+}
+
+.questionScorebar {
+  background-color : transparent;
+  padding-left     : 0;
+  padding-right    : 0;
+  margin-left      : 0;
+  margin-right     : auto;
+  display          : block;
+  float            : left;
+  top              : 5px
+}
+
+.questionText {
+  color : #000000;
+}
+
+ul li {
+  list-style : none;
+}
+
+ul.question > li[data-questiontype='group']:first-child {
+  margin-top: 0;
+}
+/*start*/
+.selectedQuestionListItemDiv {
+  cursor: pointer;
+  background-color : $GIARTE_YELLOW;
+  position         : relative;
+  line-height      : $score-item-height; /* equal to the list item's height */
+  height           : 100%;
+  width            : 200px;
+  &:hover {
+    background-color: $GIARTE_YELLOW;
+    cursor: pointer;
+    &:after {
+      top: 0;
+      @include right-arrow($score-item-height/2, $GIARTE_YELLOW, 100);
+      right: -$calculate-right;
+    }
+  }
+}
+div.clear{
+  clear: both;
+}
+
+

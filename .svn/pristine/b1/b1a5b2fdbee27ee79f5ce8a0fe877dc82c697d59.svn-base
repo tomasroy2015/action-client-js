@@ -1,0 +1,103 @@
+/* All external import files
+======================================================*/
+ul.evaluation-summary-question {
+  display: inline-block;
+  width: 250px;
+  padding: 0px;
+  position: relative;
+  height: 190px;
+  overflow-y: auto;
+  border-top: 1px solid #d3d3d3;
+  font-family: "AkkuratStd-Regular";
+  font-family: "AkkuratStd-Regular";
+  font: "akkuratstd-regular";
+  vertical-align: bottom; }
+  ul.evaluation-summary-question li.evaluation-summary-questionListItem {
+    position: relative;
+    padding: px;
+    font-size: 9px;
+    text-align: right;
+    border-bottom: 1px solid #d3d3d3;
+    vertical-align: bottom;
+    display: inline-block; }
+    ul.evaluation-summary-question li.evaluation-summary-questionListItem .evaluation-summary-questionListItemDiv {
+      position: relative;
+      text-align: left; }
+      ul.evaluation-summary-question li.evaluation-summary-questionListItem .evaluation-summary-questionListItemDiv .evaluation-summary-questionContainerDiv {
+        font-size: 10px; }
+        ul.evaluation-summary-question li.evaluation-summary-questionListItem .evaluation-summary-questionListItemDiv .evaluation-summary-questionContainerDiv ul.score-frequency-list-container {
+          position: relative;
+          margin-left: -35px;
+          display: inline-block;
+          height: 36px; }
+          ul.evaluation-summary-question li.evaluation-summary-questionListItem .evaluation-summary-questionListItemDiv .evaluation-summary-questionContainerDiv ul.score-frequency-list-container li.score-frequency-listItem {
+            position: relative;
+            vertical-align: bottom;
+            display: inline-block;
+            margin: 10px 0px 0px 0px; }
+            ul.evaluation-summary-question li.evaluation-summary-questionListItem .evaluation-summary-questionListItemDiv .evaluation-summary-questionContainerDiv ul.score-frequency-list-container li.score-frequency-listItem .negative-frequency-bar {
+              background-color: #ff0000;
+              display: block;
+              width: 20px;
+              height: 20px; }
+            ul.evaluation-summary-question li.evaluation-summary-questionListItem .evaluation-summary-questionListItemDiv .evaluation-summary-questionContainerDiv ul.score-frequency-list-container li.score-frequency-listItem .positive-frequency-bar {
+              background-color: #008000;
+              display: block;
+              width: 20px;
+              height: 24px; }
+            ul.evaluation-summary-question li.evaluation-summary-questionListItem .evaluation-summary-questionListItemDiv .evaluation-summary-questionContainerDiv ul.score-frequency-list-container li.score-frequency-listItem .evaluation-summary-questionText {
+              color: #000000; }
+            ul.evaluation-summary-question li.evaluation-summary-questionListItem .evaluation-summary-questionListItemDiv .evaluation-summary-questionContainerDiv ul.score-frequency-list-container li.score-frequency-listItem .evaluation-summary-questionLabelDiv {
+              text-align: left;
+              white-space: nowrap;
+              width: 124px;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              margin-top: 4px; }
+
+.evaluation-summary-questionScoreDiv1 {
+  width: 30px;
+  display: inline-block;
+  float: right;
+  font-weight: bold;
+  padding-top: 5px; }
+
+.evaluation-canvasContainer {
+  height: 28px; }
+
+.evaluation-summary-questionScorebar {
+  background-color: #ff0000;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 2px;
+  margin-right: auto;
+  display: block;
+  float: left;
+  top: 5px; }
+
+.score-frequency-container {
+  display: flex;
+  padding: 5px;
+  text-align: center; }
+
+.score-frequency-container .negative-label {
+  margin-right: 2px;
+  /* padding-top: 5px; */
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background: #ff0000; }
+
+.score-frequency-container .positive-label {
+  margin-right: 2px;
+  /* padding-top: 5px; */
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background: #008000; }
+
+/*# sourceMappingURL=AttributeEvaluationSummaryTemplate.css.map */

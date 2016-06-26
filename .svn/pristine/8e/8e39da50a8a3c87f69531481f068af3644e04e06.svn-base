@@ -1,0 +1,38 @@
+"use strict";
+
+define(['application-configuration','alertsService','bootstrap','leftMenuController','headerController','accountFactory','datasetSelectionFactory'], function (app) {
+
+    app.register.controller('actionRootController', ['$scope','$rootScope','alertsService','accountFactory','Notify','datasetSelectionFactory',
+        function ($scope,$rootScope,alertsService,accountFactory,Notify,datasetSelectionFactory) {
+
+        $rootScope.applicationModule = "MainLayout";
+        $scope.selectedDataset = datasetSelectionFactory;
+        $scope.active =false;
+
+        $scope.logoutMain = function () {
+            $rootScope.IsloggedOut = false;
+            $rootScope.loadTitle = "Log out";
+            var user = accountFactory.UserData();
+            accountFactory.LogOut(user);
+        };
+
+//        $scope.logoutCompleted = function (response) {
+//            window.location = "#/";
+//        };
+//
+//        $scope.logoutError = function (response) {
+//            alertsService.RenderErrorMessage(response.ReturnMessage);
+//        };
+        $scope.$on(Notify.LOGOUT_SUCCESSFUL, function(event){
+            window.location = "#/";
+            $rootScope.isNeedToShowLoading = false;
+        });
+
+        $scope.$on("listviewActive",function(event){
+            $scope.active=true;
+        });
+
+
+    }]);
+
+});

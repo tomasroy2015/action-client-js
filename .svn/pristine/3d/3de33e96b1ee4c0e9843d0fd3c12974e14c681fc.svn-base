@@ -1,0 +1,114 @@
+"use strict";
+
+define(['application-configuration', 'd3','topojson','d3Map','dataFactory','CountryViewScoreData', 'comparatorFactory'], function (app) {
+
+    app.register.controller('mapViewController', ['$document', '$scope','dataFactory','Notify','CountryViewScoreData','comparatorFactory','serviceAreaScoreData', 'fullScorecardDataFactory', 'attributeScoreSummaryData','ViewDataFactory',
+        function ($document,$scope,dataFactory,Notify,CountryViewScoreData,comparatorFactory,serviceAreaScoreData, fullScorecardDataFactory, attributeScoreSummaryData,ViewDataFactory) {
+
+        var countryViewScoreDataCollection = [];
+        var selectedServiceAreaId = "";
+
+        $scope.attributeData = {};
+        $scope.selectedAttributeScore = {};
+        $scope.generalSurveyCollection = {};
+        $scope.triggerSurveyCollection = {};
+        $scope.summaryTitle = "";
+        $scope.fullScorecardData = {};
+        $scope.isNeedToShowSummary=false;
+        initializeCountryViewData();
+
+        $scope.onCountryClick = function(selectedCountry)
+        {
+            var selectedCountryViewScoreData = _.find(countryViewScoreDataCollection, function(n){
+                return n.CountryKey == selectedCountry.properties.NAME;
+            });
+            if(selectedCountryViewScoreData){
+                //Popup scorecard stuff goes here
+                initializeAttributeScoreSummary();
+                var countryViewScoreData = selectedCountryViewScoreData.ServiceAreaScoreDataCollection;
+                $scope.$apply(function(){
+                    $scope.attributeData = attributeScoreSummaryData.getAttributeScoreSummaryData(countryViewScoreData);
+                    $scope.selectedAttributeScore = attributeScoreSummaryData.getSelectedAttributeScoreSummaryData($scope.attributeData);
+                    $scope.summaryTitle = selectedCountryViewScoreData.DisplayName.toUpperCase();
+                    $scope.generalSurveyCollection = serviceAreaScoreData.GetGeneralSurveyCollection();
+                    $scope.triggerSurveyCollection = serviceAreaScoreData.GetTriggerSurveyCollection();
+                    $scope.fullScorecardData = ViewDataFactory.preparedFullScorecardDataCollection(countryViewScoreData);
+                });
+            }
+
+        };
+        $scope.$on(Notify.SERVICE_AREA_CHANGED, function () {
+            selectedServiceAreaId = dataFactory.SelectedServiceAreaId();
+            updateSelectedServiceAreaScoreData();
+            $scope.d3ServiceId = selectedServiceAreaId;
+        });
+        $scope.$on(Notify.DATASET_CHANGED, function () {
+            initializeCountryViewData();
+        });
+
+        $scope.$on(Notify.COMPARATOR_TYPE_CHANGED, function () {
+            updateSelectedServiceAreaScoreData();
+            $scope.d3Data = countryViewScoreDataCollection;
+            //TODO: adding time stamp to create unique service area id so the it triggered map transition
+            //Need to find out proper way for this
+            $scope.d3ServiceId = selectedServiceAreaId + new Date().getTime().toString();
+        });
+            $scope.$on(Notify.COMPARATOR_COLOR_CHANGED, function () {
+                updateSelectedServiceAreaScoreData();
+                $scope.d3Data = countryViewScoreDataCollection;
+                $scope.d3ServiceId = selectedServiceAreaId + new Date().getTime().toString();
+            });
+
+        //Private Methods
+        function initializeAttributeScoreSummary(){
+            $scope.isNeedToShowSummary=true;
+            $('#map-view-summary').addClass('hide-popup').removeClass('show-popup open-popup-animation');
+            $('#map-view-summary').addClass('hide-popup').removeClass('show-popup');
+            $('#map-view-summary').removeClass('expand-details').removeClass('collapse-details');
+            $('#map-view-summary').addClass('show-popup open-popup-animation').removeClass('hide-popup');
+        }
+        function initializeCountryViewData(){
+            selectedServiceAreaId = dataFactory.SelectedServiceAreaId();
+            prepareCountryViewDataCollection(dataFactory.CountryaScoreDataCollection());
+            updateSelectedServiceAreaScoreData();
+            $scope.d3Data = countryViewScoreDataCollection;
+            $scope.d3ServiceId = selectedServiceAreaId;
+        }
+
+        function prepareCountryViewDataCollection(cCollection){
+            for ( var i=0; i<cCollection.length; i++){
+                var viewData = new CountryViewScoreData();
+                viewData.CountryKey = cCollection[i].Country.Countrykey;
+                viewData.DisplayName = cCollection[i].Country.Displayname;
+                viewData.Score = NaN;
+                viewData.Comparator = NaN;
+                viewData.CountryColor = "#736F6E";
+                viewData.MappedCountryValues = cCollection[i].Country.MappedCountryValues;
+                viewData.ServiceAreaScoreDataCollection = cCollection[i].ServiceAreaScoreDataCollection;
+
+                countryViewScoreDataCollection.push(viewData);
+            }
+        }
+
+        function updateSelectedServiceAreaScoreData(){
+            for (var i=0; i<countryViewScoreDataCollection.length; i++){
+                var countryData = countryViewScoreDataCollection[i];
+                if(countryData.ServiceAreaScoreDataCollection && countryData.ServiceAreaScoreDataCollection.length > 0){
+                    var selectedScoreItems = _.filter(countryData.ServiceAreaScoreDataCollection, function(n){
+                        return n.Id == selectedServiceAreaId
+                    });
+                    if(selectedScoreItems.length > 0){
+                        countryData.Score = selectedScoreItems[0].Score;
+                        countryData.Comparator = comparatorFactory.GetScoreItemComparator(selectedServiceAreaId);
+                        if(!isNaN(countryData.Score)){
+                            countryData.CountryColor = dataFactory.GetScoreColor(countryData.Score, countryData.Comparator);
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }]);
+
+});

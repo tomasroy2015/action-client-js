@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="Views/CustomerSettings/UserAccountSettings/UserAccountSettingsTemplate.css"/>
+<div class="user-account-settings-container" ng-controller="userAccountSettingsController">
+    <span class="template-header">
+        USER ACCOUNTS
+    </span>
+    <div class="table-container">
+        <table st-table="userAccountColl" class="table">
+            <thead>
+            <tr>
+                <th>EMAIL</th>
+                <th>NAME</th>
+                <th>ACC TYPE</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="user in userAccountColl"
+                style="width:100%;height:13px !important;overflow:hidden;">
+                <td>{{user.Email}}</td>
+                <td>{{user.Name}}</td>
+                <td>{{user.Acc}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

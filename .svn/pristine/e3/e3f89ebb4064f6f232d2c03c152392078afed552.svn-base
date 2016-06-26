@@ -1,0 +1,58 @@
+/**
+ * Created by syedur on 7/7/2015.
+ */
+"use strict";
+
+define(['application-configuration'], function(app){
+
+    app.register.directive('actionOsRatio', [function(){
+        return{
+            restrict: 'AE',
+
+            scope:{
+                positiveCount: '=',
+                negativeCount: '='
+            },
+
+            templateUrl:'Views/Shared/Template/OSRatioTemplate.html',
+
+            link: function(scope, el, attr){
+                if(scope.positiveCount > scope.negativeCount) {
+                    var ratioVal = scope.positiveCount / scope.negativeCount;
+                    scope.maxRatioVal = Math.round(ratioVal * 100) / 100;
+                    if(ratioVal > 10){
+                        ratioVal = 10;
+                        scope.isValueMoreThanTen = true;
+                        scope.fractionVal = 0;
+                    }else{
+                        scope.isValueMoreThanTen = false;
+                        var fractionVal = ratioVal - Math.floor(ratioVal);
+                        if(fractionVal > 0) {
+                            scope.fractionVal = Math.round(fractionVal * 12 *100) / 100; //12 = width of user icon div
+                            ratioVal = Math.floor(ratioVal);
+                            //var clipDiv = document.getElementById("clipUserIcon").style.clip;
+                            //clipDiv.rect(0, fractionVal, 18, 0);
+                        }
+                    }
+                    scope.positiveRange = _.range(0, ratioVal);
+                    scope.negativeRange = _.range(0, 1);
+                }else{
+                    scope.positiveRange = _.range(0, 1);
+                    scope.negativeRange = _.range(0, Math.floor(scope.negativeCount / scope.positiveCount));
+                }
+            }
+        };
+    }]);
+
+    //function gcd(a,b) {
+    //    if (a < 0) a = -a;
+    //    if (b < 0) b = -b;
+    //    if (b > a) {var temp = a; a = b; b = temp;}
+    //    while (true) {
+    //        if (b == 0) return a;
+    //        a %= b;
+    //        if (a == 0) return b;
+    //        b %= a;
+    //    }
+    //}
+});

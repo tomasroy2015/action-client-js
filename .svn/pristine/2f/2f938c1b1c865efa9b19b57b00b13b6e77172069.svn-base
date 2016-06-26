@@ -1,0 +1,143 @@
+"use strict";
+define(['application-configuration','dataFactory'], function (app) {
+    app.register.controller('headerController', ['$scope','$rootScope','dataFactory','Notify','$window','$modal','dataFilterFactory','accountFactory','UserType',
+        function ($scope,$rootScope,dataFactory,Notify,$window,$modal,dataFilterFactory,accountFactory,UserType) {
+        //console.log('Header Controller running...');
+            $scope.data = dataFactory;
+            $scope.isListViewActive = false;
+            $scope.isMapViewActive=true;
+            var appliedFilterData = [];
+            $scope.headerData = [];
+            $scope.currentuser = accountFactory.UserData();
+            $scope.isEndUser = ($scope.currentuser.UserType == UserType.END_USER);
+            setHeaderWithFilterData();
+
+            $scope.IsLoginFromPentaho = $rootScope.IsLoginFromPentaho;
+            $scope.listviewtab_clickHandler = function(){
+
+                if($scope.isListViewActive)
+                return;
+                if( !$scope.isListViewActive){
+                    $scope.isListViewActive = true;
+                    $scope.isMapViewActive = false;
+                    $rootScope.$broadcast("listviewActiveDeactivate",{isActivate:$scope.isListViewActive});
+                }
+            };
+            $scope.mapviewtab_clickHandler = function(){
+                $scope.isMapViewActive =true;
+                $scope.isListViewActive=false;
+            };
+            $scope.$on(Notify.SERVICE_AREA_CHANGED,function(event,response){
+                setHeaderWithFilterData();
+                if($scope.isListViewActive)
+                return;
+                if($scope.isMapViewActive){
+                    $rootScope.$broadcast("listviewActiveDeactivate",{isActivate:false});
+                }
+            });
+            $scope.$on(Notify.SERVICE_AREA_QUESTION_CHANGED,function(event,response){
+                setHeaderWithFilterData();
+            });
+            $scope.$on(Notify.DATASET_CHANGED,function(){
+                setHeaderWithFilterData();
+                $('#headerTab a:first').tab('show');
+                $scope.isListViewActive=false;
+                $rootScope.$broadcast("listviewActiveDeactivate",{isActivate:false});
+            });
+            $scope.$on(Notify.DATA_READY,function(){
+                setHeaderWithFilterData();
+                $('#headerTab a:first').tab('show');
+                $scope.isListViewActive=false;
+                $rootScope.$broadcast("listviewActiveDeactivate",{isActivate:false});
+            });
+            $scope.settings_clickHandler=function($event){
+
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: 'Views/CustomerSettings/CustomerSettingsTemplate.html',
+                    controller: 'customerSettingsController',
+                    size: 'lg',
+                    resolve: {
+                        items: function () {
+                            return "parent controlller data";
+                        }
+                    }, keyboard: false,
+                    backdrop: 'static'
+                });
+
+                modalInstance.result.then(function (selectedItem) {
+                    $scope.selected = selectedItem;
+                }, function () {
+                   // $log.info('Modal dismissed at: ' + new Date());
+                });
+            };
+            $scope.help_clickHandler = function(){
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: 'Views/Help/HelpTemplate.html',
+                    controller: 'customerSettingsController',
+                    size: 'lg',
+                    keyboard: false,
+                    backdrop: 'static'
+                });
+            };
+            $scope.$on(Notify.DATA_FILTER_APPLIED,function(event,response){
+                setHeaderWithFilterData();
+            });
+
+            $scope.$on(Notify.DATA_FILTER_GROUP_CHANGED,function(event,response){
+                setHeaderWithFilterData();
+            });
+
+            var getAttributeType = function(type){
+                var typeName = "";
+                switch (type){
+                    case 0:
+                        typeName = "GEOGRAPHY";
+                        break;
+                    case 1:
+                        typeName = "ORGANIZATION";
+                        break;
+                    case 2:
+                        typeName = "TICKETS";
+                        break;
+                    default:
+                        typeName = "OTHERS";
+                        break;
+                }
+                return typeName;
+            };
+            function setHeaderWithFilterData(){
+                var filterCount = "";
+                $scope.headerData = [];
+                var scoreText = "SCORE"+($scope.data.GetSelectedQuestion() ? ": LABEL":"");
+                var serviceAreaName = $scope.data.GetSelectedServiceArea().Name.toUpperCase()+($scope.data.GetSelectedQuestion() ? ": " + $scope.data.GetSelectedQuestion().Text.toUpperCase() :"");
+                $scope.headerData.push({Count:"",Name:serviceAreaName,Type:scoreText});
+                appliedFilterData = dataFilterFactory.GetAppliedDataFilterCollection();
+                if(appliedFilterData != null){
+                    appliedFilterData = _.sortBy(appliedFilterData, function(x) {return x.Type;});
+                    _.forEach(appliedFilterData,function(n) {
+                        if(n.Ids.length > 1){
+                            filterCount = n.Ids.length.toString();
+                        }else{
+                            filterCount = "";
+                        }
+                        $scope.headerData.push({Count:filterCount,Name:n.Value.toUpperCase(),Type:getAttributeType(n.Type)});
+                    });
+                }
+            }//
+
+            //Header Tab selection
+            angular.element(document).ready(function () {
+                $('#headerTab a:first').tab('show');
+                $('#headerTab a').click(function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                })
+            });
+
+
+    }]);
+
+});
+

@@ -1,0 +1,73 @@
+"use strict";
+define(['application-configuration'], function (app) {
+    app.register.directive("actionScoreBar", function () {
+        var uid = 1;
+        return {
+            restrict   : 'EA',
+            scope      : {
+                scoreComparator   : '=',
+                canvasid: '=',
+                isOsSelected:'='
+
+            },
+            //template: '<div><table>' + '<tr><td><span>{{score}}&nbsp;%</span></td>' + '<td><canvas id="{{::canvasid}}" width="100px" height="100px"></canvas></td>' +
+            //'</tr></table></div>',
+            templateUrl: "Views/Shared/Template/ScoreBarTemplate.html",
+
+            replace: false,
+            link   : function (scope, el, attr) {
+
+                var score = scope.scoreComparator.Score;
+                var comparator  = scope.scoreComparator.ComparatorValue;
+                var colorCode = scope.scoreComparator.ComparatorColorCode;
+
+                var item = 'item' + uid++;
+                el.find('canvas').attr('id', item);
+                var id = document.getElementById(item);
+                var ctx = id.getContext('2d');
+                var colorSettings = scope.colorSettings;
+                var fillColor="";
+//                if(score >= comparator)
+//                    fillColor = colorSettings.OnTarget;
+//                else if((score<comparator) &&(score+3>=comparator))
+//                    fillColor = colorSettings.CloseToTarget;
+//                else if((score<comparator) &&(score+3<comparator))
+//                    fillColor = colorSettings.FarFromTarget;
+
+                var totalScorebarLength = 97;
+                var coloerdBarlength =  score  * (scope.isOsSelected?10:1);
+                var comparatorPosition = comparator * (scope.isOsSelected?10:1);
+                var shortageScoreBarlength = totalScorebarLength - coloerdBarlength;
+                /*rect(x,y,width,height)*/
+                ctx.beginPath();
+                ctx.rect(0,9,totalScorebarLength,7);
+                ctx.fillStyle = "white";
+                ctx.fill();
+                ctx.strokeStyle ="#000000";
+                //ctx.lineWidth =1;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.rect(0, 9, coloerdBarlength, 7);
+                ctx.fillStyle = colorCode;
+                ctx.fill();
+                ctx.strokeStyle = colorCode;
+                ctx.stroke();
+
+//                ctx.beginPath();
+//                ctx.rect(coloerdBarlength, 6, shortageScoreBarlength, 7);
+//                ctx.fillStyle = "white";
+//                ctx.fill();
+
+                ctx.beginPath();
+                //ctx.rect(scope.score > 0 ? scope.score - 3 : 0, 0, 3, 20);
+                ctx.rect(comparatorPosition>3?comparatorPosition-3:0,5,3,20);
+                ctx.fillStyle = '#878787';
+                ctx.fill();
+
+                scope.scoreComparator.Score = scope.isOsSelected?score:score+"%";
+
+            }
+        }
+    });
+});

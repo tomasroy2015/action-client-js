@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="Views/CustomerSettings/IPMapping/IPMappingTemplate.css"/>
+<div class="ip-mapping-container" ng-controller="ipMappingController">
+    <span class="template-header">
+        IP MAPPING
+    </span>
+    <div class="table-container">
+        <table st-table="ipMappingCollection" st-safe-src="rowCollection"  id="smartTable" class="table">
+            <thead>
+                <tr>
+                    <th class="location-column" st-sort="Location" st-sort-default="regular">LOCATION<i st-sort="Location"/></span></th>
+                    <th class="ip-column" st-sort="IpAddress">IP ADDRESS<i st-sort="IpAddress"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="ipMapping in ipMappingCollection">
+                    <td class="location-column"><span>{{ipMapping.Location}}</span></td>
+                    <td class="ip-column"><span>{{ipMapping.IpAddress}}</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="footer-container-div">
+        <!--<button class="left-align btn-add-user" ng-click="addUser()"><i class="fa fa-plus-circle"/> <span>ADD USER</span></button>-->
+    </div>
+</div>

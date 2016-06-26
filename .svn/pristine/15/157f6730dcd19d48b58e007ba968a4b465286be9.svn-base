@@ -1,0 +1,23 @@
+define(['application-configuration'], function (app) {
+    app.register.factory('CountryViewScoreData', ['$rootScope', '$http', function ($rootScope, $http) {
+
+        var CountryViewScoreData = function(){
+            this.CountryKey = "";
+            this.DisplayName = "";
+            this.Score = NaN;
+            this.Comparator = NaN;
+            this.CountryColor = "";
+            this.MappedCountryValues = null;
+            this.ServiceAreaScoreDataCollection = null;
+        };
+
+        //AttributeScoreData.prototype.IsGeneralAttributeScoreDataNull = function(){
+        //        var self = this;
+        //        if (!self.GeneralScoreDataCollection)
+        //            return true;
+        //    return false;
+        //};
+
+        return CountryViewScoreData;
+    }]);
+});

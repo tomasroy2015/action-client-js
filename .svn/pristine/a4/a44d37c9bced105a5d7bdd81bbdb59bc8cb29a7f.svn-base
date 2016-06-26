@@ -1,0 +1,57 @@
+﻿/// <reference path="Scripts/ui-bootstrap-tpls-0.11.0.js" />
+/// <reference path="Scripts/ui-bootstrap-tpls-0.11.0.js" />
+/// <reference path="Scripts/ui-bootstrap-tpls-0.11.0.js" />
+require.config({
+
+    baseUrl: "",
+
+    // alias libraries paths
+    paths: {
+        'application-configuration': 'Scripts/application-configuration',
+        'angular': 'bower_components/angular/angular',
+        'angular-route': 'bower_components/angular-route/angular-route',
+        'angularAMD': 'Scripts/angularAMD',
+         'ui-bootstrap' : 'Scripts/ui-bootstrap-0.12.1',
+        'jquery':'bower_components/jquery/dist/jquery.min',
+        'd3':'bower_components/d3/d3',
+        'blockUI': 'Scripts/angular-block-ui',
+        'ngload': 'Scripts/ngload',
+        'angular-sanitize': 'Scripts/angular-sanitize',
+        'mainService': 'services/mainServices',
+        'ajaxService': 'services/ajaxServices',
+        'alertsService': 'services/alertsServices',
+        'accountsService': 'services/accountsServices',
+        'angular-css':'bower_components/angular-css/angular-css.min',
+        'accordionPanelController':'Views/DataFilter/AccordionPanelController',
+        'action-tabset' : 'Views/Shared/Directive/tabset',
+        'mapViewController':'Views/Map/MapViewController',
+        'listViewController' : 'Views/List/ListViewController',
+        'sentimentViewController' : 'Views/Sentiment/SentimentViewController',
+        'topojson':'bower_components/topojson/topojson',
+        'map':'Views/Map/map',
+        'ng-table': 'Views/List/ngtable/ng-table',
+        'questionscore' : 'Views/List/directives/questionscores',
+        'scorebar' : 'Views/List/directives/scorebar',
+        'eventDispatchService' : 'Services/EventDispatchService'
+    },
+
+    // Add angular modules that does not support AMD out of the box, put it in a shim
+    shim: {
+        'angularAMD': ['angular'],
+        'angular-route': ['angular'],
+        'blockUI': ['angular'],
+        'angular-sanitize': ['angular'],
+        'ui-bootstrap': ['angular'],
+        'angular-css' : ['angular'],
+        'action-tabset' :['angular'],
+        topojson:{exports:'topojson'},
+        'map':['d3','topojson',],
+         angular: { exports: 'angular'},
+        'ng-table': ['angular','jquery'],
+        'questionscore':['angular'],
+        'scorebar':['angular']
+    },
+
+    // kick start application
+    deps: ['application-configuration']
+});

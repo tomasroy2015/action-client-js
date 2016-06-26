@@ -1,0 +1,17 @@
+var connect = require('connect');
+var http = require('http');
+
+
+var serveStatic = require("serve-static");
+var app = connect();
+app.use(serveStatic("D:/Developement/action-client.js/"));
+
+
+// respond to all requests
+app.use(function(req, res){
+  //res.end('Hello from Connect');
+})
+
+//create node.js http server and listen on port
+http.createServer(app).listen(8050);
+//http.createServer(app).listen(63343)

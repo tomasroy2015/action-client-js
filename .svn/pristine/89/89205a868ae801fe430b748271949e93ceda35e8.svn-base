@@ -1,0 +1,175 @@
+<link rel="stylesheet" href="Views/CustomerSettings/SiteClustering/AddEditSiteMappingTemplate.css"/>
+<div class='ng-modal-container' ng-show='show'>
+    <div class='ng-modal-overlay'></div>
+    <form class = "form-horizontal" role = "form" name = "siteForm" novalidate>
+        <div class='ng-modal-dialog' ng-style='dialogStyle'>
+            <div class='ng-modal-dialog-content'>
+                <div class="dialog-header">
+                    <span class="modal-title">{{title}}</span>
+                    <i ng-click="hideModal()" class="fa fa-times-circle fa-lg cursor"></i>
+                </div>
+                <div class="element-parent-div">
+                    <div class="site-label-div">
+                        <div class="element-container-div">
+                            <div class="left-align inline-block">
+                                <div><span class="inline-block label-width">Site cluster</span></div>
+                                <div>
+                                    <input type="text" name="name" ng-model="selectedSite.ClusterName"
+                                           ng-class="{ 'input-validation' : (isSaveBtnClicked && siteForm.name.$error.required && siteForm.name.$invalid) || isExist }"
+                                           class="form-control text-input-normal inline-block" required>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="element-container-div">
+                            <div class="left-align">
+                                <div><span class="inline-block label-width">Country</span></div>
+                                <div>
+                                    <select class="drop-down inline-block"
+                                            id="ddlCountry"
+                                            ng-model="selectedCountry"
+                                            ng-options="item.CountryName for item in countries"
+                                            ng-change="countrySelectionChange(selectedCountry)"></select>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="element-container-div">
+                            <div class="left-align">
+                                <div class="latlon-label"><span class="inline-block label-width">Latitude</span></div>
+                                <div class="latlon-input-container">
+                                    <div class="latlon-input-div">
+                                        <span class="latlon-input-label">D:</span>
+                                        <input type = "text" name="latDegree" ng-model="latDegree" maxlength="3"
+                                               ng-class="{ 'input-validation' :isSaveBtnClicked && (siteForm.latDegree.$error.required || latDegree > 180) }"
+                                               class="form-control latlon-text" ng-change="onlyDigits()" required>
+                                    </div>
+                                    <div class="latlon-input-div">
+                                        <span class="latlon-input-label">M:</span>
+                                        <input type = "text" name="latMinute" ng-model="latMinute" maxlength="2" ng-readonly="latDegree == 180"
+                                               ng-class="{ 'input-validation' :isSaveBtnClicked && ( siteForm.latMinute.$error.required || latMinute > 59) }"
+                                               class="form-control latlon-text" ng-change="onlyDigits()"  required>
+                                    </div>
+                                    <div class="latlon-input-div">
+                                        <span class="latlon-input-label">S:</span>
+                                        <input type = "text" name="latSecond" ng-model="latSecond" maxlength="2" ng-readonly="latDegree == 180"
+                                               ng-class="{ 'input-validation' :isSaveBtnClicked && ( siteForm.latSecond.$error.required || latSecond > 59) }"
+                                               class="form-control latlon-text" ng-change="onlyDigits()"required>
+                                    </div>
+                                    <div class="latlon-input-div">
+                                        <select class="latlon-drop-down"
+                                        id="ddlLatitude" ng-model="selectedLatitude"
+                                        ng-options="item.Value for item in latitudes"
+                                        ng-change="latitudeChange(selectedLatitude)"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <small class="error"
+                                   ng-show="latMinute > 59 || latSecond > 59">
+                                Max value is 59!
+                            </small>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="element-container-div">
+                            <div class="left-align">
+                                <div class="latlon-label"><span class="inline-block label-width">Longitude</span></div>
+                                <div class="latlon-input-container">
+                                    <div class="latlon-input-div">
+                                        <span class="latlon-input-label">D:</span>
+                                        <input type = "text" name="lonDegree" ng-model="lonDegree" maxlength="3"
+                                               ng-class="{ 'input-validation' :isSaveBtnClicked && ( siteForm.lonDegree.$error.required || latDegree > 180)}"
+                                               class="form-control latlon-text" ng-change="onlyDigits()" required>
+                                    </div>
+                                    <div class="latlon-input-div">
+                                        <span class="latlon-input-label">M:</span>
+                                        <input type = "text" name="lonMinute" ng-model="lonMinute" maxlength="2" ng-readonly="lonDegree == 180"
+                                               ng-class="{ 'input-validation' :isSaveBtnClicked && ( siteForm.lonMinute.$error.required || lonMinute > 59)}"
+                                               class="form-control latlon-text" ng-change="onlyDigits()" required>
+                                    </div>
+                                    <div class="latlon-input-div">
+                                        <span class="latlon-input-label">S:</span>
+                                        <input type = "text" name="lonSecond" ng-model="lonSecond" maxlength="2" ng-readonly="lonDegree == 180"
+                                               ng-class="{ 'input-validation' :isSaveBtnClicked && ( siteForm.lonSecond.$error.required || lonSecond > 59)}"
+                                               class="form-control latlon-text" ng-change="onlyDigits()" required>
+                                    </div>
+                                    <div class="latlon-input-div">
+                                        <select class="latlon-drop-down"
+                                        id="ddlLongitude"
+                                        ng-model="selectedLongitude"
+                                        ng-options="item.Value for item in longitudes"
+                                        ng-change="longitudeChange(selectedLongitude)"></select>
+                                   </div>
+                                </div>
+                            </div>
+                            <small class="error"
+                                   ng-show="lonMinute > 59 || lonSecond > 59">
+                                Max value is 59!
+                            </small>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="element-container-div">
+                            <div class="left-align">
+                                <div class="latlon-label"><span class="inline-block label-width">Legend</span></div>
+                                <div class="latlon-input-container">
+                                    <div class="latlon-input-div">
+                                        <span class="latlon-input-label">D: Degree;</span>
+                                    </div>
+                                    <div class="latlon-input-div">
+                                        <span class="latlon-input-label"> M: Minute;</span>
+                                    </div>
+                                    <div class="latlon-input-div">
+                                        <span class="latlon-input-label"> S: Second; </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="site-values">
+                        <div><span>Select site to the cluster</span></div>
+                        <div class="site-value-list">
+                            <table st-table="distinctSiteList"  id="smartTable" class="table">
+                                <thead ng-hide="true">
+                                    <tr>
+                                        <th class="check-column">/th>
+                                        <th class="label-column"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in distinctSiteList"
+                                    ng-mouseleave="rowMouseOut_Handler(item)"
+                                    ng-mouseover="rowHover_Handler(item)">
+                                    <td class="check-column">
+                                        <input type="checkbox" ng-model="item.isSelected"/>
+                                        <!--<action-checkbox class="check-mapvalue" ng-model="item.isSelected" checked="item.isSelected"></action-checkbox>-->
+                                    </td>
+                                    <td class="label-column"><span>{{item.SiteName}}</span></td>
+                                    <!--<td class="operation-column">-->
+                                        <!--<span ng-hide="item.isEditDeleteHide" class="fa fa-times"></span>-->
+                                    <!--</td>-->
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--<div>-->
+                            <!--<span>Add predefined value</span>-->
+                            <!--</div>-->
+                        </div>
+                        <div class="search-container">
+                            <div class="search-indicator"></div>
+                            <div class="advanced-search">
+                                <i class="fa fa-search"></i>
+                                <span style="padding-left: 5px">Advanced search</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-btn-container-div" style="text-align: right">
+                <button class="btn"  ng-click='hideModal()'> Cancel</button>
+                <button class="btn" type="submit" style="width: inherit" ng-click="addEditSiteMapping()"> Ok</button>
+            </div>
+
+         </div>
+    </form>
+</div>

@@ -1,0 +1,15 @@
+@mixin right-arrow($arrow-width: 10px,$arrow-color:#c6c6c6, $zindex:10) {
+  content: "";
+  position: absolute;
+  right: -$arrow-width;
+  border-top: $arrow-width solid transparent;
+  border-bottom: $arrow-width solid transparent;
+  border-left: $arrow-width solid $arrow-color;
+  z-index: $zindex;
+}
+
+@mixin boxShadow($hVal:0px,$vVal:0px,$blur:2px,$spread:1px,$color:#000,$alpha:0.5) {
+  -webkit-box-shadow : $hVal $vVal $blur $spread rgba($color, $alpha);
+  -moz-box-shadow    : $hVal $vVal $blur $spread rgba($color, $alpha);
+  box-shadow         : $hVal $vVal $blur $spread rgba($color, $alpha);
+}

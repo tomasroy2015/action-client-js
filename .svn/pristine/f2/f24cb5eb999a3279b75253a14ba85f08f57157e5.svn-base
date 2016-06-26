@@ -1,0 +1,153 @@
+"use strict";
+
+define(['application-configuration','lodash'], function (app) {
+
+    app.register.directive('actionAttributeScoreSummary', [function () {
+
+        return {
+            restrict: 'AE',
+            scope   : {
+                attributeData:"=",
+                selectedAttributeScore: "=",
+                summaryTitle:"=",
+                titleImage:"=",
+                generalSurveyCollection:"=",
+                triggerSurveyCollection:"=",
+                fullScorecardData:"="
+            },
+            link    : function (scope,el, attrs) {
+               scope.scorecardSelected = true;
+               scope.evaluationSelected = false;
+               scope.isDetailsState = false;
+               scope.isSummaryState = true;
+               scope.isOSSelected = true;
+               scope.isSESSelected = false;
+               scope.isTCKSelected = false;
+
+               scope.scorecard_selected = function(){
+                   $('#selected-summary-arrow').css({ "margin-left": '30px' });
+
+                   scope.scorecardSelected = true;
+                   scope.evaluationSelected = false;
+               };
+               scope.evaluation_selected = function(){
+                   $('#selected-summary-arrow').css({ "margin-left": '120px' });
+
+                   scope.scorecardSelected = false;
+                   scope.evaluationSelected = true;
+
+                   setServiceAreaSelected(scope.selectedAttributeScore);
+               };
+               scope.questionItemClick = function (evt) {
+                   var curItem = '#' + evt.currentTarget.id;
+                   $(curItem).addClass('selectedScoreQuestionItem').siblings().removeClass('selectedScoreQuestionItem');
+                   var innerDiv = "#" + evt.currentTarget.firstElementChild.id;
+                   $(innerDiv).addClass('selectedScoreQuestionListItemDiv');
+                   var prevSlected_li = $("#score-summary-question > li > div[id^='div-attribute-'].selectedScoreQuestionListItemDiv").not(innerDiv);
+                   prevSlected_li.removeClass('selectedScoreQuestionListItemDiv').addClass('questionScoreListItemDiv');
+                };
+                scope.close_summary = function(){
+                    scope.scorecardSelected = true;
+                    scope.evaluationSelected = false;
+                    scope.isSummaryState = true;
+                    scope.isDetailsState = false;
+                    $('.modal').addClass('hide-popup').removeClass('show-popup open-popup-animation');
+                    $('.modal-backdrop').addClass('hide-popup').removeClass('show-popup');
+                    $('.modal-content').addClass('hide-popup').removeClass('show-popup');
+                    $('.modal-content').removeClass('expand-details').removeClass('collapse-details');
+                    $('#summary-service-area-container,#summary-container,#btn-view-details,#modal-footer').removeClass('hide-summary-content');
+                    $('#selected-summary-arrow').css({ "margin-left": '30px' });
+                };
+                scope.viewDetails_click_Handler = function(){
+                    scope.isDetailsState = true;
+                    scope.isSummaryState = false;
+
+                    if(scope.scorecardSelected) {
+                        $('#selected-summary-arrow').css({ "margin-left": '30px' });
+                        scope.scorecardSelected = true;
+                        scope.evaluationSelected = false;
+                    }
+                    else {
+                        $('#selected-summary-arrow').css({ "margin-left": '120px' });
+                        scope.scorecardSelected = false;
+                        scope.evaluationSelected = true;
+                    }
+
+                    $('.modal-content').addClass('expand-details').removeClass('collapse-details');
+                    $('#summary-service-area-container,#summary-container,#btn-view-details,#modal-footer').addClass('hide-summary-content show-by-animation');
+                };
+                scope.viewEvaluation_click_Handler = function(){
+                    scope.isDetailsState = true;
+                    scope.isSummaryState = false;
+                    scope.scorecardSelected = false;
+                    scope.evaluationSelected = true;
+
+                    $('#selected-summary-arrow').css({ "margin-left": '120px' });
+                    $('.modal-content').addClass('expand-details').removeClass('collapse-details');
+                    $('#summary-service-area-container,#summary-container,#btn-view-details,#modal-footer').addClass('hide-summary-content show-by-animation');
+
+                };
+                scope.backToSummary_click_Handler = function(){
+                    $('.modal-content').addClass('collapse-details').removeClass('expand-details');
+
+                    if(scope.scorecardSelected) {
+                        $('#selected-summary-arrow').css({ "margin-left": '30px' });
+                    }
+                    else {
+                        $('#selected-summary-arrow').css({ "margin-left": '120px' });
+                    }
+
+                    scope.isDetailsState = false;
+                    scope.isSummaryState = true;
+
+                    $('#summary-service-area-container,#summary-container,#btn-view-details,#modal-footer').removeClass('hide-summary-content');
+                };
+                scope.scoreBar_Clicked = function (selectedItem) {
+                    setServiceAreaSelected(selectedItem);
+
+                    var selectedAttrColl = _.filter(scope.attributeData, function (n) {
+                        return n.Id == selectedItem.Id;
+                    });
+
+                    scope.selectedAttributeScore = selectedAttrColl[0];
+//                    scope.$watch(function(scope) {return scope.selectedAttributeScore}, function (newValue,oldValue) {
+//
+//                        if(!angular.isUndefined(newValue))
+//                            return scope.render(newValue);
+//                    });
+//
+//                    scope.render = function(data) {
+//                        scope.selectedAttributeScore = data;
+//                    };
+
+                };
+                function setServiceAreaSelected(selectedItem){
+                    if(selectedItem.Id == "OS") {
+                        scope.isOSSelected = true;
+                        scope.isSESSelected = false;
+                        scope.isTCKSelected = false;
+                    }
+                    else if(selectedItem.Id == "SES"){
+                        scope.isSESSelected = true;
+                        scope.isOSSelected = false;
+                        scope.isTCKSelected = true;
+                    }
+                    else if(selectedItem.Id == "TCK"){
+                        scope.isSESSelected = false;
+                        scope.isTCKSelected = true;
+                        scope.isOSSelected = false;
+                    }
+                    else{
+                        scope.isSESSelected = false;
+                        scope.isTCKSelected = false;
+                        scope.isOSSelected = false;
+                    }
+
+                }
+            },
+            templateUrl:'Views/Shared/Template/AttributeScoreSummaryTemplate.html'
+        };
+
+    }]);
+
+});

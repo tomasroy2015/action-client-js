@@ -1,0 +1,62 @@
+"use strict";
+define(['application-configuration','lodash'], function (app) {
+    app.register.controller('userAccountSettingsController', ['$scope','$rootScope',
+        function ($scope,$rootScope) {
+            $scope.userAccountColl=[
+                {
+                    Email:'tanvirul@metatude.com',
+                    Name:'tanvir',
+                    Acc:'giarte admin',
+                    isEditDeleteHide:true
+                },
+                {
+                    Email:'jasim@metatude.com',
+                    Name:'jasim',
+                    Acc:'giarte admin',
+                    isEditDeleteHide:true
+                },
+                {
+                    Email:'shahin@metatude.com',
+                    Name:'shahin',
+                    Acc:'giarte admin',
+                    isEditDeleteHide:true
+                },
+                {
+                    Email:'tomas@metatude.com',
+                    Name:'tomas',
+                    Acc:'giarte admin',
+                    isEditDeleteHide:true
+                }
+
+            ];
+            $scope.rowHover_Handler=function(user){
+                user.isEditDeleteHide=false;
+            }
+            $scope.rowMouseOut_Handler=function(user){
+                user.isEditDeleteHide=true;
+            }
+            $scope.deleteIcon_mouseleaveHandler=function(event){
+                stopEventBubble(event);
+                var obj=event.currentTarget;
+                obj.className="fa fa-times";
+            }
+
+            $scope.deleteIcon_mouseoverHandler=function(event){
+                stopEventBubble(event);
+                var obj=event.currentTarget;
+                obj.className="fa fa-times-circle";
+            }
+            function stopEventBubble(event){
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            $('#smartTable').on('click','tr',function(e){
+                if($(this).hasClass('highlight')){
+                    $(this).removeClass('highlight')
+                }
+                else{
+                    $(this).addClass('highlight')
+                }
+            })
+        }]);
+});

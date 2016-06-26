@@ -1,0 +1,238 @@
+.evaluationTemplateRoot{
+    /*width: 75%;*/
+    height: 100%;
+    background-color: #fff;
+    padding-bottom: 0px
+}
+.evaluationTemplateRoot.left-menu-evaluation-header{
+    position: relative;
+    min-height: 16px;
+    /* margin-left: 2px; */
+    /* padding: 2px 2px 2px 2px; */
+    padding-top: 2px;
+    padding-left: 14px;
+    height: 75px;
+    border-bottom: 1px solid #e5e5e5;
+    background-color: black;
+    color: white;
+    width: 100%;
+}
+.left-menu-evaluation-arrow-closer{
+    position: absolute;
+    background: #000000;
+    right: -16px;
+    /*bottom: 0;*/
+    padding-top: 3px;
+    top: 10px;
+    text-align: center;
+    -webkit-box-shadow: 0 0 4px 2px rgba(85, 87, 89, 0.5);
+    -moz-box-shadow: 0 0 4px 2px rgba(85, 87, 89, 0.5);
+    box-shadow: 0 0 4px 2px rgba(85, 87, 89, 0.5);
+    height: 20px;
+    width: 16px;
+}
+.left-menu-evaluation-arrow-closer{
+    cursor: pointer;
+}
+.left-menu-evaluation-arrow-closer .fa-caret-left:hover{
+    color: #ddddde;
+}
+.left-menu-evaluation-top-panel-title{
+    font-size: 16px;
+    font-weight: bold;
+    height: 26px;
+    margin-top: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.left-menu-evaluation-top-panel-title .scorebar-mainDiv{
+    width: 200px;
+    text-align: center;
+    /*background-color: beige;*/
+    margin-left: 20px;
+}
+.left-menu-evaluation-top-panel-title .scorebar-scoreDiv{
+    width: 68px;
+    max-width: 55px;
+    font-weight: bold;
+    font-size: 20px;
+    /*color: red;*/
+    text-align: center;
+}
+
+.left-menu-evaluation-top-panel-title .customizable-scorebar-score-label span
+{
+    display: block;
+    text-align: left;
+    font-size: small;
+}
+.evaluationTemplateRoot.row.button-bar{
+    padding-left: 6px;
+    margin-top: 7px;
+    height: 20px;
+    background-color: transparent;
+}
+.left-menu-evaluation-data-download{
+    margin: 7px 5px 0px 0px;
+    float: right;
+    font-size: 11px;
+}
+.left-menu-evaluation-data-download:hover{
+    cursor: pointer;
+}
+.left-menu-evaluation-selected-service-area-label{
+    color: #ffffff;
+    font-size: medium;
+    font-weight: bold;
+    display: inline-block;
+    padding-right: 24px;
+}
+.evaluationTemplateRoot.btn.btn-success {
+    color: #ffffff;
+    border: none;
+    font-size: 11px;
+    background-color: black;
+    height: 22px;
+    width: 85px;
+    border-radius: 0px;
+    padding-left: 8px;
+    padding-top: 4px;
+    text-align: center;
+}
+.evaluationTemplateRoot.btn.btn-success:hover{
+    background-color: #d3d3d3;
+    color: #000000;
+}
+.selected-evaluation-window-arrow{
+    display: block;
+    position: relative;
+    margin-left: 120px;
+    width: 50px;
+    margin-top: -3px;
+}
+.evaluation-window-container{
+    position: relative;
+    padding-left: 0px;
+    padding-top: 0px;
+    /*min-height: 350px;*/
+}
+.left-menu-evaluation-window-container{
+    overflow: auto;
+    height: 715px;
+}
+.left-menu-evaluation-window-container .left-menu-evaluation-window-content-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    /*overflow: auto;*/
+}
+.left-menu-summary-arrow-selected{
+    margin-left: 30px;
+}
+.left-menu-evaluation-arrow-selected{
+    margin-left: 120px;
+}
+.os-ratio-container{
+    float: right;
+    font-size: 12px;
+    font-weight: bold;
+    height: 26px;
+    margin-top: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 450px;
+}
+.evaluation-window-container.show-by-animation{
+    -webkit-animation-duration:.4s;
+    -moz-animation-duration:.4s;
+    -o-animation-duration:.4s;
+    animation-duration:.4s;
+    -webkit-animation-name:show-left-menu-evaluation-details;
+    -moz-animation-name:show-left-menu-evaluation-details;
+    -o-animation-name:show-left-menu-evaluation-details;
+    animation-name:show-left-menu-evaluation-details;
+    -webkit-animation-iteration-count:1;
+    -moz-animation-iteration-count:1;
+    -o-animation-iteration-count:1;
+    animation-iteration-count:1;
+    -webkit-animation-timing-function:ease-in;
+    -moz-animation-timing-function:ease-in;
+    -o-animation-timing-function:ease-in;
+    animation-timing-function:ease-in;
+    -webkit-animation-fill-mode:forwards;
+    -moz-animation-fill-mode:forwards;
+    -o-animation-fill-mode:forwards;
+    animation-fill-mode:forwards;
+}
+@-webkit-keyframes show-left-menu-evaluation-details {
+    0%  {opacity: 0}
+    25% {opacity: 0}
+    50% {opacity: 0}
+    75% {opacity: 0}
+    100%{opacity: 1;}
+}
+@-moz-keyframes show-left-menu-evaluation-details {
+    0%  {opacity: 0}
+    25% {opacity: 0}
+    50% {opacity: 0}
+    75% {opacity: 0}
+    100%{opacity: 1;}
+}
+@-o-keyframes show-left-menu-evaluation-details {
+    0%  {opacity: 0}
+    25% {opacity: 0}
+    50% {opacity: 0}
+    75% {opacity: 0}
+    100%{opacity: 1;}
+}
+@keyframes show-left-menu-evaluation-details {
+    0%  {opacity: 0}
+    25% {opacity: 0}
+    50% {opacity: 0}
+    75% {opacity: 0}
+    100%{opacity: 1;}
+}
+
+.evaluationTemplateRoot .evaluation-summary-bar-chart-container{
+    width: 95%;
+    height: 95%;
+    /*border: 1px solid red;*/
+    /* padding: 10px; */
+    /* margin: 1px; */
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.evaluationTemplateRoot .chart .rect-red {
+    fill: #E94242;
+}
+.evaluationTemplateRoot .bar-frequency-label{
+    font-size: 10px;
+    text-anchor: start;
+}
+.evaluationTemplateRoot .chart .rect-neutral {
+    fill: #FFA100;
+}
+.evaluationTemplateRoot .chart .rect-green {
+    fill: #4BAC4B;
+}
+
+.evaluationTemplateRoot .axis path,
+.evaluationTemplateRoot .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: auto;
+}
+.evaluationTemplateRoot .chart .axis .tick line{
+    display: none;
+}
+.evaluationTemplateRoot .axis text {
+    font-size: 12px;
+}
+
+.evaluationTemplateRoot .chart .current {
+    fill: green;
+    cursor: pointer;
+}

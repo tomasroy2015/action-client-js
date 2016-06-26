@@ -1,0 +1,5 @@
+<div class="grid-tooltip">
+    <div class="ui-grid-cell-contents">
+          <span>{{row.entity.Name}}</span>
+    </div>
+</div>

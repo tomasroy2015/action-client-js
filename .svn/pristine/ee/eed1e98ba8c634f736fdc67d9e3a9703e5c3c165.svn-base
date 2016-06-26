@@ -1,0 +1,22 @@
+"use strict";
+
+define(['application-configuration', 'dataFactory', 'fullScorecardDataFactory'], function (app) {
+
+    app.register.controller('fullScorecardController',
+        ['$scope', '$timeout', 'serviceAreaScoreData', 'dataFactory', 'fullScorecardDataFactory',
+            function ($scope, $timeout, serviceAreaScoreData, dataFactory, fullScorecardDataFactory) {
+                //
+                //$scope.generalSurveyData = {};
+                //$scope.triggerSurveyData = {};
+                $scope.fullScorecardData = {};
+                $timeout(function () {
+                    initializeData();
+                }, 0);
+
+                function initializeData() {
+                    $scope.fullScorecardData = fullScorecardDataFactory.getPreparedFullScorecardData(dataFactory.ServiceAreaScoreDataCollection());
+                }
+
+            }]);
+});
+

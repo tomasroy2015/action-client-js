@@ -1,0 +1,6 @@
+<div class="os-ratio-container">
+    <span>Ratio: </span>
+    <div ng-repeat="n in negativeRange" >
+        <i class="fa-user"></i>
+    </div>
+</div>

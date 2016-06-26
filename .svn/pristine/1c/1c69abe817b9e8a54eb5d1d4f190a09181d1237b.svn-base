@@ -1,0 +1,83 @@
+<link href="Views/List/ViewByAttributeTemplate.css" rel="stylesheet">
+<div class="view-by-attribute-root content white" id="viewByAttributeParentDiv">
+    <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/Main">View by </a>
+            </div>
+            <div class="collapse navbar-collapse" id="attributeItemsMainDIv">
+                <ul class="nav navbar-nav" id="atttibuteItemRoot">
+                    <li class="dropdown" id="ddlViewBy">
+                        <a href="#/Main" id="selectedAttribute" class="dropdown-toggle" data-toggle="dropdown" data-disabled="true"
+                           role="button" aria-haspopup="true" aria-expanded="false"><span>{{selectedAttribute}}</span>
+                            <b class="caret"></b></a>
+                        <ul class="dropdown-menu multi-column columns-2">
+                            <div class="row">
+                                <div style="font-size: 18px;margin-left: 45px;padding-top: 14px;">
+                                    <div class="viewby-label col-sm-6"  style="display: inline;width: 100%;float: left">
+                                        <label style="padding-right: 4px !important;font-weight: normal !important;">View
+                                            by</label>
+                                        <span style="font-weight: bold; color: #000000 !important;"> {{selectedAttribute}}</span><b
+                                            class="view-by-attribute-open-caret"></b>
+                                    </div>
+                                </div>
+                                <!-- left column template -->
+                                <div class="col-sm-6" id="attributeType2">
+                                    <ul class="multi-column-dropdown"
+                                        ng-class="{'multi-column-dropdown-group-item-margin':$index>2,'multi-column-dropdown':$index<2, 'disabled-group': (item.IsTck && isNotTCKSeleted)}"
+                                        ng-repeat="item in attrItemCollection" ng-init="parentIndex = $index" ng-if="$even">
+                                        <li class="attributeGroupItem"
+                                            ng-class="{'cursor-not-allowed':(item.IsTck && isNotTCKSeleted)}">
+                                            <a style="font-size: 11px !important; text-transform: uppercase;font-weight: bold;
+                                         background-color: transparent !important;" href="#/Main#"
+                                               ng-class="{'cursor-not-allowed':(item.IsTck && isNotTCKSeleted)}">
+                                                <!-- <img ng-src="{{item.groupImageURI}}" style="height:20px;border:0"> -->
+                                                <i class="{{item.GroupImageURI}}" style="height:20px;border:0">
+                                                </i>&nbsp;
+                                                {{item.GroupName}}&nbsp;attributes</a>
+                                        </li>
+                                        <li class="divider"
+                                            ng-class="{'cursor-not-allowed':(item.IsTck && isNotTCKSeleted)}"></li>
+                                        <li ng-repeat="grpItem in item.Items"
+                                            id="type2-{{$parent.$index}}-{{$index}}"
+                                            ng-class="{'selectedAttributeItem': selectedAttribute == grpItem.Label,'attributeHoverEffect':isHoverClass(grpItem),'cursor-not-allowed':!isHoverClass(grpItem)}"
+                                            ng-click="attributeItem_clickHandler(grpItem,grpItem.Label,$event)">
+
+                                            <a href="#/Main" ng-class="{'cursor-not-allowed':!isHoverClass(grpItem)}">{{grpItem.Label}}({{grpItem.AttributeCount}})</a>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- right column template -->
+                                <div class="col-sm-6" id="attributeType1">
+                                    <ul class="multi-column-dropdown"
+                                        ng-class="{'multi-column-dropdown-group-item-margin':$index>1,'multi-column-dropdown':$index<1, 'disabled-group': (item.IsTck && isNotTCKSeleted)}"
+                                        ng-repeat="item in attrItemCollection" ng-init="parentIndex = $index" ng-if="$odd">
+                                        <li class="attributeGroupItem"
+                                            ng-class="{'cursor-not-allowed':(item.IsTck && isNotTCKSeleted)}">
+                                            <a style=" font-size: 11px !important;background-color: transparent !important;
+                                         text-transform: uppercase;font-weight: bold" href="#/Main#"
+                                               ng-class="{'cursor-not-allowed':(item.IsTck && isNotTCKSeleted)}">
+                                                <!--<img ng-src="{{item.groupImageURI}}" style="height:20px;border:0">-->
+                                                <i class="{{item.GroupImageURI}}" style="height:20px;border:0">
+                                                </i>&nbsp;
+                                                {{item.GroupName}}&nbsp;attributes
+                                            </a>
+                                        </li>
+                                        <li class="divider"
+                                            ng-class="{'cursor-not-allowed':(item.IsTck && isNotTCKSeleted)}"></li>
+                                        <li ng-repeat="grpItem in item.Items"
+                                            ng-click="attributeItem_clickHandler(grpItem,grpItem.Label,$event)"
+                                            ng-class="{'selectedAttributeItem': selectedAttribute == grpItem.Label,'attributeHoverEffect':isHoverClass(grpItem),'cursor-not-allowed':!isHoverClass(grpItem)}"
+                                            id="type1-{{$parent.$index}}-{{$index}}">
+                                            <a href="#/Main" ng-class="{'cursor-not-allowed':!isHoverClass(grpItem)}">{{grpItem.Label}}({{grpItem.AttributeCount}})</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+    </nav>
+</div>

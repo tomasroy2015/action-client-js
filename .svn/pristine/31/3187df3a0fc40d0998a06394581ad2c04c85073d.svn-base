@@ -1,0 +1,54 @@
+<!--<link rel="stylesheet" href="Views/DataFilter/DataFilterView.css"/>-->
+<div id="dataFilterContainer" class="data-filter-container" ng-controller="dataFilterController">
+    <!-- Right side closing arrow -->
+    <div class="left-arrow-container close-slide-in">
+        <i class="fa fa-caret-left"></i>
+    </div>
+
+    <div class="datfilter-header-wrapper">
+        <label class="datafilter-title">Select {{selectedAttribute}}(s)</label>
+    </div>
+    <!-- body contents -->
+    <div class="grid-wrapper" style=" height: 528px;position: relative;">
+        <div id="grid1" ui-grid="gridOptions" class="grid" ui-grid-auto-resize
+             ui-grid-tree-view ui-grid-selection></div>
+    </div>
+    <div class="datfilter-footer-wrapper">
+        <div class="hv-line"></div>
+        <div class="btn-addtogroup-wrapper">
+            <button class="btn-addtoGgoup" ng-click="onAddToGroupClickHandler()" data-ng-disabled="IsAddToGroupBtnEnabled"><i class="fa fa-plus-circle"></i> ADD TO GROUP</button>
+        </div>
+        <div class="btn-wrapper">
+            <button class="btn-apply" ng-click="btnApplyEventHandler()">Apply</button>
+        </div>
+    </div>
+    <!--<script type="text/ng-template" id="ui-grid/selectionRowHeaderButtons">-->
+
+    <!--<div class="ui-grid-selection-row-header-buttons ui-grid-icon-ok"-->
+    <!--ng-class="{'ui-grid-row-selected': row.isSelected,'last-item':grid.appScope.lastItem(grid,row) }" ng-click="selectButtonClick(row, $event)">&nbsp;</div>-->
+
+    <!--</script>-->
+
+    <!--<script type="text/ng-template" id="ui-grid/treeBaseRowHeader">-->
+        <!--<div class="ui-grid-render-container">-->
+            <!--<div class="ui-grid-cell-contents">-->
+                <!--<ui-grid-tree-base-row-header-buttons></ui-grid-tree-base-row-header-buttons>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</script>-->
+    <!--<script type="text/ng-template" id="ui-grid/treeBaseRowHeaderButtons">-->
+        <!--<div class="ui-grid-container">-->
+            <!--<div class="ui-grid-tree-base-row-header-buttons" ng-class="{'ui-grid-tree-base-header': row.treeLevel> -1}">-->
+
+                <!--<div style="display: inline-block">-->
+                    <!--<input type="checkbox" name="chk" id="chkSelect-{{rowRenderIndex}}"/>-->
+                    <!--&nbsp;-->
+                    <!--<i ng-class="{'ui-grid-icon-minus-squared': ( ( grid.options.showTreeExpandNoChildren && row.treeLevel> -1) || ( row.treeNode.children && row.treeNode.children.length > 0 ) ) && row.treeNode.state === 'expanded', 'ui-grid-icon-plus-squared': ( ( grid.options.showTreeExpandNoChildren && row.treeLevel > -1) || ( row.treeNode.children && row.treeNode.children.length > 0 ) ) && row.treeNode.state === 'collapsed'}"-->
+                       <!--ng-style="{'padding-left': grid.options.treeIndent * row.treeLevel + 'px'}" ng-click="treeButtonClick(row, $event)">-->
+                    <!--</i> &nbsp;-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</script>-->
+
+</div>

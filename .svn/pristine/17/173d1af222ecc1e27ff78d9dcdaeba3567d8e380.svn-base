@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="Views/LeftMenu/Evaluation/EvaluationTemplate.css"/>
+<div class="evaluationTemplateRoot" ng-controller="evaluationController">
+    <div class="evaluationTemplateRoot left-menu-evaluation-header">
+        <!--<button type="button" class="close" ng-click="close_summary($event)">&times;</button>-->
+        <!--<div class="left-menu-evaluation-arrow-closer close-slide-in">-->
+            <!--<i class="fa fa-caret-left"></i>-->
+        <!--</div>-->
+        <div class="left-menu-evaluation-arrow-closer close-slide-in">
+            <i class="fa fa-caret-left"></i>
+        </div>
+        <div id="evaluationDataDownload"  class="left-menu-evaluation-data-download"
+             ng-click="">
+            Download Data&nbsp;&nbsp;<i class="fa fa-arrow-circle-down  down-arrow-circle fa-lg"/>
+        </div>
+        <div class="os-ratio-container" ng-if="selectedServiceAreaId === 'OS'">
+            <action-os-ratio positive-count="positiveCount" negative-count="negativeCount"></action-os-ratio>
+        </div>
+        <!--<div>-->
+            <!--<action-customizable-score-bar data="scoreBarData" width="65" show-comparator="showComparator"></action-customizable-score-bar>-->
+        <!--</div>-->
+        <div class="left-menu-evaluation-top-panel-title" id="myModalLabel">
+            <i class="{{titleImage}}" style="font-size: 1.2em"/>
+            <span class="left-menu-evaluation-selected-service-area-label">{{selectedServiceAreaTitle}}</span>
+            <action-customizable-score-bar data="scoreBarData" width="80" show-comparator="{{isComparatorEnable}}"></action-customizable-score-bar>
+
+        </div>
+        <div class="evaluationTemplateRoot row button-bar">
+            <div class="evaluationTemplateRoot btn btn-success" ng-click="summary_selectedClickHandler($event)">SUMMARY</div>
+            <div class="evaluationTemplateRoot btn btn-success" ng-click="evaluation_selectedClickHandler($event)">EVALUATIONS</div>
+            <div id="selected-evaluation-window-arrow" class="selected-evaluation-window-arrow">
+                <i class="fa fa-caret-up"></i>
+            </div>
+            <!--<div class="btn btn-success">SENTIMENT</div>-->
+        </div>
+    </div>
+    <div class="evaluation-window-container show-by-animation">
+        <div id="leftMenuEvaluationSummary" class="left-menu-evaluation-window-container show-by-animation" ng-show="isSummarySelected">
+            <!--<action-full-scorecard class="full-scorecard-content-container" full-scorecard-data="fullScorecardData" ng-show="scorecardSelected && isDetailsState">-->
+            <!--</action-full-scorecard>-->
+            <div></div>
+        </div>
+        <div id="leftMenuEvaluations" class="left-menu-evaluation-window-container show-by-animation" ng-show="isEvaluationSelected">
+            <action-evaluations evaluation-collection="serviceAreaEvaluationViewData" class="left-menu-evaluation-window-content-container"
+                                has-translation="hasTranslation"></action-evaluations>
+        </div>
+    </div>
+</div>

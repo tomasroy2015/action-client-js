@@ -1,0 +1,67 @@
+define(['application-configuration', 'dataService'], function (app) {
+
+    app.register.factory('dataFactory', ['$rootScope', '$http', 'dataService', function ($rootScope, $http, dataService) {
+
+        var dataset = null;
+        var isDatasetLoaded = false;
+        var serviceAreaCollection = null;
+        var customAttributeCollection = null;
+        var serviceAreaScoreDataCollection = null;
+        var attributeScoreDataCollection = null;
+        var selectedServiceAreaName = "OS";
+
+
+
+         var onGetAllData = function(response){
+            isDatasetLoaded = true;
+            dataset = response;
+            serviceAreaCollection = response.ServiceAreaCollection;
+            customAttributeCollection = response.CustomAttributeCollection;
+            serviceAreaScoreDataCollection = response.CustomAttributeCollection;
+            attributeScoreDataCollection = response.AttributeScoreDataCollection;
+            selectedServiceAreaName = "Overall satisfaction";
+            $rootScope.$broadcast('dataFactory::dataReady');
+        };
+
+
+        var errorFunction = function(response){
+            //Error handling goes here.
+            window.alert("Error in loading DataSet");
+        };
+
+
+        var onGetSelectedAttributeScoreData = function(response){
+            attributeScoreDataCollection = response.AttributeScoreDataCollection;
+            $rootScope.$broadcast('dataFactory::attributeDataReady');
+        }
+
+        //all public methods and properties exposed by this factory
+        return {
+            LoadDataSet : function (dataset) {
+               return dataService.getAllData(dataset, onGetAllData, errorFunction);
+            },
+            GetSelectedAttributeScoreData : function(requestParameter){
+                return dataService.getAttributeData(requestParameter, onGetSelectedAttributeScoreData, errorFunction);
+            },
+
+            GetServiceAreaName : function(){
+              return selectedServiceAreaName;
+            },
+            ServiceAreaChanged : function(){
+                $rootScope.$broadcast('dataFactory::serviceAreaChanged');
+            },
+            ServiceAreaCollection : function(){
+                return serviceAreaCollection;
+            },
+            CustomAttributeCollection: function(){
+                return customAttributeCollection;
+            },
+            ServiceAreaScoreDataCollection : function (){
+                return serviceAreaScoreDataCollection;
+            },
+            AttributeScoreDataCollection : function(){
+                return attributeScoreDataCollection;
+            }
+        };
+    }]);
+});

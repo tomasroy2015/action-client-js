@@ -1,0 +1,204 @@
+/**
+ * Angular JS slider directive
+ *
+ * (c) Rafal Zajac <rzajac@gmail.com>
+ * http://github.com/rzajac/angularjs-slider
+ *
+ * Licensed under the MIT license
+ */
+
+.wrapper{
+    width:200px;
+    position: relative;
+    display: inline;
+    height: 8px;
+    vertical-align: middle;
+    top: 3px;
+    
+}
+rzslider {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    height: 6px;
+    /* margin: 30px 0 15px 0; */
+    vertical-align: middle;
+    /* border:1px solid; */
+    top:-8px;
+
+}
+
+rzslider span {
+    position: absolute;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+rzslider span.base {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+}
+
+rzslider span.bar {
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    background: #878787;
+    /* border:1px solid red; */
+    border-radius:3px;
+}
+
+/* rzslider span.bar:after{
+  content:'';
+  display:inline-block;
+  left:32px;
+  top:-6px;
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:green;
+  border-right:1px solid #000;
+} */
+
+
+rzslider span.bar.selection {
+    z-index: 1;
+    width: 0;
+    background: #67b700;
+}
+
+rzslider span.pointer {
+    top: -10px;
+    z-index: 2;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    background-color: rgba(85,87,89,0.9);
+    /* -webkit-border-radius: 16px;
+       -moz-border-radius: 16px;
+            border-radius: 16px; */
+    /*     text-align:center; */
+    /* padding-top:8px; */
+    /* background:transparent; */
+    /*     border:1px solid red; */
+    display:inline-block;
+    position:relative;
+    left:0;
+}
+rzslider .label{
+    color: #fff;
+    text-align: center;
+    width: 24px;
+    padding: 0;
+    /* height: 32px; */
+    /* left: 50%; */
+    top: 28%;
+    /* transform: translate(0%,0%); */
+    /* transform: translateX(-8%); */
+    /* margin: 0 auto; */
+    /* border: 1px solid red; */
+    left: 0;
+    /* background: transparent; */
+    /* vertical-align: middle; */
+    font-size: 110%;
+    font-weight: normal;
+}
+
+
+rzslider span.pointer:hover:after {
+    /* background-color: #67b700; */
+}
+
+rzslider span.pointer.active:after {
+    /* background-color: #67b700; */
+}
+
+rzslider span.bubble {
+    top: -32px;
+    padding: 1px 3px 1px 3px;
+    color: #67b700;
+    cursor: default;
+    display:none;
+}
+
+rzslider span.bubble.selection {
+    top: 15px;
+}
+
+rzslider span.bubble.limit {
+    /*color: #808080;*/
+
+}
+
+.tick{
+    height:5px;
+    border-right:1px solid #555759;
+    position:absolute;
+    left:30px;
+    top:-4px;
+}
+
+.tick2{
+    height:5px;
+    border-right:1px solid #555759;
+    position:absolute;
+    left:48px;
+    top:-4px;
+}
+
+.tick3{
+    height:5px;
+    border-right:1px solid #555759;
+    position:absolute;
+    left:65px;
+    top:-4px;
+}
+
+.tick4{
+    height:5px;
+    border-right:1px solid #555759;
+    position:absolute;
+    left:82px;
+    top:-4px;
+}
+
+.tick5{
+    height:5px;
+    border-right:1px solid #555759;
+    position:absolute;
+    left:100px;
+    top:-4px;
+}
+
+.tick6{
+    height:5px;
+    border-right:1px solid #555759;
+    position:absolute;
+    left:120px;
+    top:-4px;
+}
+
+.tick7{
+    height:5px;
+    border-right:1px solid #555759;
+    position:absolute;
+    left:135px;
+    top:-4px;
+}
+
+.tick8{
+    height:5px;
+    border-right:1px solid #555759;
+    position:absolute;
+    left:154px;
+    top:-4px;
+}
+
+.tick9{
+  height:5px;
+  border-right:1px solid #555759;
+  position:absolute;
+  left:170px;
+  top:-4px;
+}

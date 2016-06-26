@@ -1,0 +1,16 @@
+<div class="grid-tooltip">
+    <div class="ui-grid-cell-contents col-md-12"
+         action-truncated-tool-tip tooptip-placement="top"
+         ng-class="{'name-cell-template-cell-content-padding': !row.entity.IsChildItem,
+         'name-cell-template-cell-content-child-item-padding': row.entity.IsChildItem}">
+        <p class="name-txt">
+            <i ng-click="grid.appScope.toggleRow(row);$event.preventDefault();$event.stopPropagation();"
+               ng-class="{'fa fa-minus-circle fa-lg':grid.appScope.gridScope.isCollapseable(row),
+                'fa fa-plus-circle  fa-lg':grid.appScope.gridScope.isExpandable(row) }"
+                ng-if="row.entity.IsGroup"></i>
+            <i  ng-if="!row.entity.IsGroup" class="{{grid.appScope.listItemIconSrc}}"></i>
+            &nbsp;&nbsp;&nbsp;
+            <span>{{row.entity.Name}}&nbsp;{{grid.appScope.gridScope.getGrpItemCountTxt(row.entity)}}</span>
+       </p>
+    </div>
+</div>

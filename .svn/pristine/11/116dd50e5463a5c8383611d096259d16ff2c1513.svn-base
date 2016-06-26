@@ -1,0 +1,36 @@
+"use strict";
+
+define(['application-configuration','alertsService','leftMenuDataService'], function (app) {
+
+    app.register.controller('leftMenuController', ['$scope', '$rootScope', 'alertsService', 'leftMenuDataService', function ($scope, $rootScope,alertsService, leftMenuDataService) {
+
+        var userData = $rootScope.UserData;
+
+        loadDataFilterData();
+
+        function loadDataFilterData() {
+            var datasetRangeParams = createParams();
+            leftMenuDataService.datafilters(datasetRangeParams, successfullyGetData, errorOnGetData);
+        }
+
+        function successfullyGetData(response) {
+            $scope.filterDataCollection = response.FilterDataCollection;
+            $scope.serviceAreaDataCollection = response.ServiceAreaData;
+        }
+
+        function errorOnGetData(response) {
+            alertsService.RenderErrorMessage(response.ReturnMessage);
+        }
+
+        function createParams() {
+            var params = {
+                sessionID : userData.SessionId,
+                customerID: 'aegn',
+                fromDate  : '1 jan 2015',
+                toDate    : '15 jan 2015'
+            };
+            return params;
+        }
+
+    }]);
+});

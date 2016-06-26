@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="Views/CustomerSettings/CustomerSettings.css"/>
+<div class="customer-settings-container">
+    <div class="modal-header">
+        <span class="modal-title">Customer Settings</span>
+        <i ng-click="cancel()" class="fa fa-times-circle fa-lg cursor"></i>
+    </div>
+    <div class="modal-body">
+        <div class="top-content">
+            <div class="image-container">
+                Image content
+            </div>
+            <div class="client-selection cursor">
+                <label>Client: </label>
+                <select id="customerSettings_ddlClient"
+                        ng-init="setSelectedCustomer(currentuser.UserToCustomers[0])"
+                        ng-model="selectedCustomer"
+                        ng-options="item.CustomerName for item in currentuser.UserToCustomers"
+                        ng-change="customerChanged()"></select>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="main-content">
+        <div ng-if="selectedView1"
+             ng-include="'Views/CustomerSettings/GeneralSettings/GeneralSettingsTemplate.html'">
+        </div>
+        <div    ng-if="selectedView2"
+                ng-include="'Views/CustomerSettings/UserSettings/UserSettingsTemplate.html'">
+        </div>
+    </div>
+        <div class="menu-left-content cursor">
+            <ul>
+                <li ng-repeat="menuItem in selectedUserSettingsMenu.Menu">
+                    <a ng-click="menuItem.clickHandler">{{menuItem.title}}</a><br/>
+                </li>
+                <!--<li>-->
+                    <!--<a ng-click="customerSettings_ClickHandler()">Customer Settings</a><br/>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    <div class="clearingdiv"></div>
+    <!--<div class="modal-footer">-->
+        <!--&lt;!&ndash;<button class="btn btn-primary" ng-click="ok()">OK</button>&ndash;&gt;-->
+        <!--&lt;!&ndash;<button class="btn btn-warning" ng-click="cancel()">Cancel</button>&ndash;&gt;-->
+        <!--Footer content-->
+    <!--</div>-->
+</div>

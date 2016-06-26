@@ -1,0 +1,6 @@
+<link rel="stylesheet" href="Views/CustomerSettings/GeneralSettings/GeneralSettings.css"/>
+<div class="general-settings-container">
+    <span class="template-header">
+        GENERAL SETTINGS
+    </span>
+</div>

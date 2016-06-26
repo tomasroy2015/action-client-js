@@ -1,0 +1,245 @@
+html, body {
+    min-height : 100%;
+    height     : 100%;
+}
+
+/* Main container section
+======================================================*/
+.container-fluid, .row-fluid {
+    min-height : 100%;
+    height     : 100%;
+    padding    : 0;
+}
+
+.col-md-3.left-menu, .col-md-9.right-content {
+    min-height : 100%;
+    height     : 100%;
+}
+
+/* Left menu section
+======================================================*/
+.col-md-3.left-menu {
+    padding            : 10px;
+    color              : #efefef;
+    /*     border-right: 2px solid #ddddde;     */
+    /*     box-shadow: -5px 0 5px -5px #333, 5px 0 5px -5px #ff0000; */
+
+    -webkit-box-shadow : -2px 0px 3px 0px #ddddde, 2px 0px 3px 0px #ddddde;
+    -moz-box-shadow    : -2px 0px 3px 0px #ddddde, 2px 0px 3px 0px #ddddde;
+    box-shadow         : -2px 0px 3px 0px #ddddde, 2px 0px 3px 0px #ddddde;
+
+    width              : 252.500px;
+    min-width          : 252.500px;
+    max-width          : 252.500px;
+    position           : relative;
+    z-index            : 10;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/*.logo-container {*/
+    /*width         : 100%;*/
+    /*margin-bottom : 10px;*/
+/*}*/
+
+/*img.logo {*/
+    /*width  : 233px;*/
+    /*height : 60px;*/
+    /*margin : 0 auto;*/
+/*}*/
+
+/* Right side contents section
+======================================================*/
+.col-md-9.right-content {
+    padding : 0;
+    /*width: calc(100% - 252.500px);*/
+
+    /* Alternative of calc */
+    /*margin-left:-252.500px;*/
+    /*padding-left: 252.500px;*/
+    /*width: 100%;*/
+    /*-moz-box-sizing: border-box;*/
+    /*-webkit-box-sizing: border-box;*/
+    /*box-sizing: border-box;*/
+    /*position:relative;*/
+    /*z-index:0;*/
+    /* End of alternative of calc */
+}
+
+@supports (width :  calc(100% - 252.500px)) {
+    .col-md-9.right-content {
+        width            : calc(100% - 252.500px);
+    }
+}
+
+@supports not (width: calc(100% - 252.500px)) {
+    .col-md-9.right-content {
+        margin-left        : -252.500px;
+        padding-left       : 252.500px;
+        width              : 100%;
+        -moz-box-sizing    : border-box;
+        -webkit-box-sizing : border-box;
+        box-sizing         : border-box;
+        position           : relative;
+        z-index            : 0;
+    }
+}
+
+.content-page-header {
+    position         : relative;
+    height           : 80px;
+    background-color : #878787;
+    margin           : 0;
+    padding          : 0;
+}
+
+.content-main {
+    min-height: 91%;
+    height: 91%;
+    margin     : 0 auto;
+    padding    : 10px;
+    border:1px solid #FF0000;
+}
+
+/* Map section
+======================================================*/
+#worldMap, #list {
+    /*border:1px solid #FFFF00 !important;*/
+    min-height : 100%;
+    height     : 100%;
+}
+
+#worldMap svg {
+    border:1px solid #000088 !important;
+    min-height : 100%;
+    height     : 100%;
+}
+
+/* Listview section
+======================================================*/
+#list .row-container {
+    width      : 100%;
+    height     : 100%;
+    min-height : 100%;
+}
+/*Leftmenu dataset
+======================================================*/
+.modal-backdrop{
+ z-index: 0 !important;
+    background: none !important;
+}
+.modal-header{
+    color: #000000;
+}
+.dataset-modal {
+    /*position: fixed;*/
+    z-index: 1200;
+}
+
+/*.dataset-container {*/
+    /*max-width: 680px;*/
+    /*padding: 0 15px;*/
+    /*min-width: 455px; }*/
+/*.dataset-container .page-header {*/
+    /*border-bottom: none; }*/
+/*.dataset-container .page-header .panel {*/
+    /*border-radius: 0; }*/
+/*.dataset-container .page-header .panel.panel-default {*/
+    /*opacity: 0.9;*/
+    /*height: 380px;*/
+    /*350px*/
+    /*width: 425px;*/
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+    /*border-radius: 0; }*/
+
+/*.dataset-heading {*/
+    /*background-image: url("");*/
+    /*background-color: #000 !important;*/
+    /*color: #fff !important;*/
+    /*height: 57px;*/
+    /*line-height: 42px;*/
+    /*font-size: 1.416666666666667em;*/
+    /* 17px/12px */
+    /*text-shadow: none;*/
+    /*border-radius: 0; }*/
+/*.dataset-heading .logo {*/
+    /*float: right;*/
+    /*margin-top: 10px;*/
+    /*margin-right: 10px; }*/
+
+/*.dataset-body-container {*/
+    /*padding: 18px; color: #000000;}*/
+/*.dataset-body-container .content-heading {*/
+    /*font-weight: bold;*/
+    /*font-size: 1em;*/
+    /*font-weight: bold;*/
+    /*padding-left: 10px; }*/
+/*.dataset-body-container #ddlClient {*/
+    /*margin-left: 20px;*/
+    /*padding-left: 3px;*/
+    /*width: 180px;*/
+    /*height: 24px;*/
+    /*border-radius: 0;*/
+    /*font-weight: normal; }*/
+
+/*input[type='radio'] {*/
+    /*margin-top: 0; }*/
+
+/*#ddlMonthSelect input[type='radio'], #ddlQuarterSelection input[type='radio'] {*/
+    /*margin-left: 5px;*/
+    /*margin-top: 0;*/
+    /*padding-left: 3px;*/
+    /*width: 180px;*/
+    /*height: 24px;*/
+    /*border-radius: 0;*/
+    /*font-weight: normal; }*/
+
+/*.btn-group > div {*/
+    /*margin-bottom: 5px; }*/
+/*.btn-group > div#monthDdlContainer, .btn-group > div#quarterDdlContainer {*/
+    /*display: flex; }*/
+
+/*select#ddlMonthSelect {*/
+    /*width: 150px;*/
+    /*height: 24px;*/
+    /*margin-left: 20px; }*/
+
+/*select#ddlQuarterSelection {*/
+    /*width: 150px;*/
+    /*height: 24px;*/
+    /*margin-left: 14px; }*/
+
+/*.checkbox-panel {*/
+    /*margin-top: 20px;*/
+    /*padding-left: 25px;*/
+    /*padding-right: 25px;*/
+    /*color: #000000;*/
+/*}*/
+
+/*.button-container {*/
+    /*position: relative;*/
+    /*width: 100%;*/
+    /*height: 40px;*/
+    /*padding-top: 10px;}*/
+
+/*.btn-white-bg {*/
+    /*padding-top: 0;*/
+    /*height: 26px;*/
+    /*line-height: 26px;*/
+    /*background-color: #555759;*/
+    /*color: #fff;*/
+    /*border-radius: 0; }*/
+/*.btn-white-bg:hover {*/
+    /*background-color: rgba(85, 87, 89, 0.8); }*/
+
+/*.right-side {*/
+    /*position: absolute;*/
+    /*right: 20px; }*/
+
+/*#datePanel {*/
+    /*margin-top: 10px; }*/
+
+/*.form-horizontal .control-label {*/
+    /*text-align: left; }*/

@@ -1,0 +1,66 @@
+.action-checkbox-wrapper {
+    position       : relative;
+    vertical-align : middle;
+    display        : inline-block;
+    height: 14px;
+    width          : 100%;
+}
+
+.action-checkbox {
+    width      : 12px;
+    height     : 12px;
+    border     : 1px solid #000;
+    background : #fff;
+    position   : relative;
+    box-sizing : border-box;
+}
+
+.action-checkbox:hover {
+    background : rgba(221, 221, 222, 1);
+    background : -moz-linear-gradient(top, rgba(221, 221, 222, 1) 0%, rgba(135, 135, 135, 1) 50%, rgba(198, 198, 198, 1) 100%);
+    background : -webkit-gradient(left top, left bottom, color-stop(0%, rgba(221, 221, 222, 1)), color-stop(50%, rgba(135, 135, 135, 1)), color-stop(100%, rgba(198, 198, 198, 1)));
+    background : -webkit-linear-gradient(top, rgba(221, 221, 222, 1) 0%, rgba(135, 135, 135, 1) 50%, rgba(198, 198, 198, 1) 100%);
+    background : -o-linear-gradient(top, rgba(221, 221, 222, 1) 0%, rgba(135, 135, 135, 1) 50%, rgba(198, 198, 198, 1) 100%);
+    background : -ms-linear-gradient(top, rgba(221, 221, 222, 1) 0%, rgba(135, 135, 135, 1) 50%, rgba(198, 198, 198, 1) 100%);
+    background : linear-gradient(to bottom, rgba(221, 221, 222, 1) 0%, rgba(135, 135, 135, 1) 50%, rgba(198, 198, 198, 1) 100%);
+    filter     : progid:DXImageTransform.Microsoft.gradient(startColorstr='#ddddde', endColorstr='#c6c6c6', GradientType=0);
+}
+
+.action-checkMarked {
+    position         : absolute;
+    width            : 8px;
+    height           : 8px;
+    top              : 50%;
+    left             : 50%;
+    margin-left      : -4px;
+    margin-top       : -4px;
+    background-color : #000;
+}
+
+.action-checkbox-label {
+/*     margin-left    : 20px; */
+    position       : absolute;
+    top            : -1px;
+    vertical-align : middle;
+/*     left:20px; */
+}
+
+[class^='action-check'] {
+    -webkit-touch-callout : none;
+    -webkit-user-select   : none;
+    -khtml-user-select    : none;
+    -moz-user-select      : none;
+    -ms-user-select       : none;
+    user-select           : none;
+}
+
+.action-checkbox-hover {
+    background : rgba(221, 221, 222, 1);
+    background : -moz-linear-gradient(top, rgba(221, 221, 222, 1) 0%, rgba(135, 135, 135, 1) 50%, rgba(198, 198, 198, 1) 100%);
+    background : -webkit-gradient(left top, left bottom, color-stop(0%, rgba(221, 221, 222, 1)), color-stop(50%, rgba(135, 135, 135, 1)), color-stop(100%, rgba(198, 198, 198, 1)));
+    background : -webkit-linear-gradient(top, rgba(221, 221, 222, 1) 0%, rgba(135, 135, 135, 1) 50%, rgba(198, 198, 198, 1) 100%);
+    background : -o-linear-gradient(top, rgba(221, 221, 222, 1) 0%, rgba(135, 135, 135, 1) 50%, rgba(198, 198, 198, 1) 100%);
+    background : -ms-linear-gradient(top, rgba(221, 221, 222, 1) 0%, rgba(135, 135, 135, 1) 50%, rgba(198, 198, 198, 1) 100%);
+    background : linear-gradient(to bottom, rgba(221, 221, 222, 1) 0%, rgba(135, 135, 135, 1) 50%, rgba(198, 198, 198, 1) 100%);
+    filter     : progid:DXImageTransform.Microsoft.gradient(startColorstr='#ddddde', endColorstr='#c6c6c6', GradientType=0);
+}

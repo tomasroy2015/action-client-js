@@ -1,0 +1,160 @@
+/**
+ * Created by syedur on 7/9/2015.
+ */
+"use restrict;"
+
+define(['application-configuration'], function(app){
+    app.register.directive('actionEvaluationSummary',[function(){
+        return{
+            restrict: 'AE',
+            scope:{
+                data: '=',
+                currentRespondentId: '=',
+                selectedServiceAreaName:'=',
+                selectedServiceAreaType:'=',
+                hasTranslation:'=',
+                customAttributeCollection:'=',
+                remarksInfo:'=',
+                selectedLanguageIndex:'=',
+                isRemarksLangSame:'=',
+                isAdditionalRemarksLangSame:'=',
+                closeEvaluationSummary:'&'
+            },
+
+            templateUrl:"Views/Shared/Template/Evaluation/EvaluationSummaryTemplate.html",
+            link: function(scope, el, attr){
+
+                scope.currentIndex = _.findIndex(scope.data, function(item){
+                   return  item.entity.RespondentId == scope.currentRespondentId;
+                });
+
+                scope.scopeData = {};
+                scope.width = 22;
+                scope.height = 18;
+                scope.scopeData.selectedLanguageForAdditionalRemarks = scope.scopeData.selectedLanguageForRegularRemarks = scope.selectedLanguageIndex === 1 ? 'ORG' : 'ENG';
+                getCurrentEvaluationData();
+                prepareAttributeCollection();
+
+                scope.getRegularRemarks = function(){
+                    return scope.selectedLanguageForRegularRemarks;
+                }
+
+                scope.cancelButtonClicked = function(event){
+                    scope.closeEvaluationSummary(event);
+                };
+
+                scope.backButtonClicked = function(event){
+                    if(scope.currentIndex > 0) {
+                        scope.currentIndex--;
+                        getCurrentEvaluationData();
+                    }
+                    stopPropagation(event);
+                };
+
+                scope.forwardButtonClicked = function(event){
+                    if(scope.currentIndex < scope.data.length - 1) {
+                        scope.currentIndex++;
+                        getCurrentEvaluationData();
+                    }
+                    stopPropagation(event);
+                };
+                
+                scope.filterExpression = function(e) {
+                    return e.QuestionId.indexOf('_SES') < 0;
+                };
+                function getCurrentEvaluationData(){
+                    scope.currentEvaluation = scope.data[scope.currentIndex].entity;
+                    scope.questionList = scope.currentEvaluation.Answers;
+                    scope.RegularRemarksOrg = scope.currentEvaluation.Remarks;
+                    scope.RegularRemarksEng = scope.currentEvaluation.RemarksEng;
+                    scope.AdditionalRemarksOrg = scope.currentEvaluation.RemarksAdd;
+                    scope.AdditionalRemarksEng = scope.currentEvaluation.RemarksAddEng;
+                    scope.currentAttributeValues = _.sortByOrder(scope.currentEvaluation.AttributeValues, 'Index', true);
+                    scope.isAdditionalRemarksLangSame = scope.currentEvaluation.IsRemarksAddLangSame;
+                    scope.isRemarksLangSame = scope.currentEvaluation.IsRemarksLangSame;
+                };
+
+                function stopPropagation(event){
+                    event.preventDefault();
+                    event.stopPropagation();
+                };
+
+                function prepareAttributeCollection(){
+                    //if(scope.selectedServiceAreaType == 'NOG' || scope.selectedServiceAreaType == 'GEN') {
+                    //    scope.firstAttrCollection = _.select(scope.customAttributeCollection, function (item) {
+                    //        return item.Type == 1 || item.Type == 3;
+                    //    });
+                    //
+                    //    scope.secoundAttrCollection = _.select(scope.customAttributeCollection, function (item) {
+                    //        return item.Type == 0;
+                    //    });
+                    //}else{
+                    //    scope.firstAttrCollection = _.select(scope.customAttributeCollection, function (item) {
+                    //        return item.Type == 2;
+                    //    });
+                    //
+                    //    scope.secoundAttrCollection = _.select(scope.customAttributeCollection, function (item) {
+                    //        return item.Type != 2;
+                    //    });
+                    //}
+                    scope.firstAttrCollection = [];
+                    scope.secoundAttrCollection = [];
+                    if(scope.selectedServiceAreaType == 'NOG' || scope.selectedServiceAreaType == 'GEN') {
+                        scope.firstAttrCollection.push({"Label": "Organization", "Index": 0, "Value": getAttributeValue(0)});
+                        scope.firstAttrCollection.push({"Label": "Division", "Index": 1, "Value": getAttributeValue(1)});
+                        scope.firstAttrCollection.push({"Label": "Business Unit", "Index": 2, "Value": getAttributeValue(2)});
+                        scope.firstAttrCollection.push({"Label": "User Type", "Index": 7, "Value": getAttributeValue(7)});
+                        scope.firstAttrCollection.push({"Label": "Optional1", "Index": 26, "Value": getAttributeValue(26)});
+                        scope.firstAttrCollection.push({"Label": "Optional2", "Index": 27, "Value": getAttributeValue(27)});
+                        scope.firstAttrCollection.push({"Label": "Optional3", "Index": 28, "Value": getAttributeValue(28)});
+                        //
+                        scope.secoundAttrCollection.push({"Label": "Country", "Index": 4, "Value": getAttributeValue(4)});
+                        scope.secoundAttrCollection.push({"Label": "City", "Index": 5, "Value": getAttributeValue(5)});
+                        scope.secoundAttrCollection.push({"Label": "Site", "Index": 3, "Value": getAttributeValue(3)});
+                        scope.secoundAttrCollection.push({"Label": "Language", "Index": 6, "Value": getAttributeValue(6)});
+                    }else{
+                        scope.firstAttrCollection.push({"Label": "Ticket ID", "Index": 8, "Value": getAttributeValue(8)});
+                        scope.firstAttrCollection.push({"Label": "ITIL Process", "Index": 10, "Value": getAttributeValue(10)});
+                        scope.firstAttrCollection.push({"Label": "Config. Category", "Index": 14, "Value": getAttributeValue(14)});
+                        scope.firstAttrCollection.push({"Label": "Description", "Index": 9, "Value": getAttributeValue(9)});
+                        scope.firstAttrCollection.push({"Label": "Provider", "Index": 22, "Value": getAttributeValue(22)});
+                        scope.firstAttrCollection.push({"Label": "Date Opened", "Index": 11, "Value": getAttributeValue(11)});
+                        scope.firstAttrCollection.push({"Label": "Date Closed", "Index": 12, "Value": getAttributeValue(12)});
+                        scope.firstAttrCollection.push({"Label": "Config. Item", "Index": 15, "Value": getAttributeValue(15)});
+                        scope.firstAttrCollection.push({"Label": "Status", "Index": 13, "Value": getAttributeValue(13)});
+                        scope.firstAttrCollection.push({"Label": "PRIORITY", "Index": 17, "Value": getAttributeValue(17)});
+                        scope.firstAttrCollection.push({"Label": "Severity", "Index": 18, "Value": getAttributeValue(18)});
+                        scope.firstAttrCollection.push({"Label": "User Type", "Index": 7, "Value": getAttributeValue(7)});
+                        scope.firstAttrCollection.push({"Label": "Delivery Center", "Index": 24, "Value": getAttributeValue(24)});
+                        scope.firstAttrCollection.push({"Label": "SLA Time", "Index": 19, "Value": getAttributeValue(19)});
+                        scope.firstAttrCollection.push({"Label": "SLA Met", "Index": 20, "Value": getAttributeValue(20)});
+                        scope.firstAttrCollection.push({"Label": "Solved First Call", "Index": 21, "Value": getAttributeValue(21)});
+                        //
+                        scope.secoundAttrCollection.push({"Label": "Division", "Index": 1, "Value": getAttributeValue(1)});
+                        scope.secoundAttrCollection.push({"Label": "Business Unit", "Index": 2, "Value": getAttributeValue(2)});
+                        scope.secoundAttrCollection.push({"Label": "Country", "Index": 4, "Value": getAttributeValue(4)});
+                        scope.secoundAttrCollection.push({"Label": "Resolver Group", "Index": 23, "Value": getAttributeValue(23)});
+                        scope.secoundAttrCollection.push({"Label": "Organization", "Index": 0, "Value": getAttributeValue(0)});
+                        scope.secoundAttrCollection.push({"Label": "City", "Index": 5, "Value": getAttributeValue(5)});
+                        scope.secoundAttrCollection.push({"Label": "Site", "Index": 3, "Value": getAttributeValue(3)});
+                        scope.secoundAttrCollection.push({"Label": "Language", "Index": 6, "Value": getAttributeValue(6)});
+                        scope.secoundAttrCollection.push({"Label": "Optional01", "Index": 26, "Value": getAttributeValue(26)});
+                        scope.secoundAttrCollection.push({"Label": "Optional02", "Index": 27, "Value": getAttributeValue(27)});
+                        scope.secoundAttrCollection.push({"Label": "Optional03", "Index": 28, "Value": getAttributeValue(28)});
+                        scope.secoundAttrCollection.push({"Label": "Source", "Index": 16, "Value": getAttributeValue(16)});
+                        scope.secoundAttrCollection.push({"Label": "Optional11", "Index": 29, "Value": getAttributeValue(29)});
+                        scope.secoundAttrCollection.push({"Label": "Optional12", "Index": 30, "Value": getAttributeValue(30)});
+                        scope.secoundAttrCollection.push({"Label": "Optional13", "Index": 31, "Value": getAttributeValue(31)});
+                    }
+                };
+
+                function getAttributeValue(index){
+                    var attributeValue = _.filter(scope.currentAttributeValues, function(obj){
+                        return obj.Index === index;
+                    });
+                    return attributeValue[0].Value;
+                }
+            }
+        }
+    }]);
+});

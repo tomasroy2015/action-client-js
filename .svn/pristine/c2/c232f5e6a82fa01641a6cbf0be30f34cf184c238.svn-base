@@ -1,0 +1,17 @@
+"use strict";
+define(['application-configuration'], function (app) {
+    app.register.directive("actionMoreSettings", function () {
+        return {
+            restrict   : 'EA',
+            scope      : {
+                selectedRespondents: '=',
+                selectedZoomLevel: '=',
+                selectedColorSet: '=',
+                moreSettingOkBtnClick:'&'
+            },
+            link       : function (scope, el, attr) {
+            },
+            templateUrl: "Views/LeftMenuSettings/MoreSettingsTemplate.html"
+        }
+    });
+});

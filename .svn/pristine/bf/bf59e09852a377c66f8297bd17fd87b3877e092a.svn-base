@@ -1,0 +1,48 @@
+"use strict";
+define(['application-configuration'], function (app) {
+    app.register.directive("actionScoreBar", function () {
+        return {
+            restrict   : 'EA',
+            scope      : {
+                scoreComparator   : '=',
+                isOsScore:'='
+            },
+            templateUrl: "Views/Shared/Template/ScoreBarTemplate.html",
+            replace: false,
+            link   : function (scope, el, attr) {
+                var svg =el[0].children[1].children[1];
+                var scoreBarMain=svg.children[0];
+                var coloredScoreBar= svg.children[1];
+                var comparatorScoreBar=svg.children[2];
+                var doubleTargetScoreBar=svg.children[3];
+
+                scope.$watch( function(scope){ return scope.scoreComparator}, function(newValue,oldValue){
+                    scope.baseScore = "";
+                    scope.comparatorValue="";
+                    if(angular.isUndefined(newValue))
+                    {
+                        newValue = oldValue;
+                    }
+                    var score = newValue.Score;
+                    var comparator  = newValue.ComparatorValue;
+                    scope.comparatorValue= newValue.ComparatorValue;
+                    var colorCode = newValue.ComparatorColorCode;
+                    var coloredBarLength =  score  * (scope.isOsScore?10:1);
+                    //rect(x,y,width,height)
+                    coloredScoreBar.setAttribute("width",coloredBarLength>3?coloredBarLength-3:coloredBarLength);
+                    coloredScoreBar.setAttribute("fill",colorCode);
+                    coloredScoreBar.style.stroke = colorCode;
+
+                    if(!isNaN(comparator)){
+                        var comparatorPosition = comparator * (scope.isOsScore?10:1);
+                        comparatorScoreBar.setAttribute("x",comparatorPosition>3?comparatorPosition-3:0);
+                    }
+                    else{
+                        scope.comparatorValue="";
+                    }
+                    scope.baseScore = isNaN(score) ? "" : scope.isOsScore ? score : score + "%";
+                })
+            }
+        }
+    });
+});

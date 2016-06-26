@@ -1,0 +1,52 @@
+/**
+ * Created by syedur on 7/7/2015.
+ */
+"use strict";
+
+define(['application-configuration'], function(app){
+
+    app.register.directive('actionOsRatio', ['moreSettingsFactory', function(moreSettingsFactory){
+        return{
+            restrict: 'AE',
+
+            scope:{
+                positiveCount: '=',
+                negativeCount: '='
+            },
+
+            templateUrl:'Views/Shared/Template/OSRatioTemplate.html',
+
+            link: function(scope, el, attr){
+                scope.colorSettings=moreSettingsFactory;
+                    if(scope.positiveCount > scope.negativeCount) {
+                        var ratioVal = 0;
+                        if(scope.negativeCount > 0) {
+                            ratioVal = scope.positiveCount / scope.negativeCount;
+                        }else{
+                            ratioVal = scope.positiveCount;
+                        }
+                        scope.maxRatioVal = Math.round(ratioVal * 10) / 10;
+                        if(ratioVal > 10){
+                            ratioVal = 10;
+                            scope.isValueMoreThanTen = true;
+                            scope.fractionVal = 0;
+                        }else{
+                            scope.isValueMoreThanTen = false;
+                            var fractionVal = ratioVal - Math.floor(ratioVal);
+                            if(fractionVal > 0) {
+                                scope.fractionVal = (Math.round(fractionVal  *10) / 10) * 10; //12 = width of user icon div
+                                ratioVal = Math.floor(ratioVal);
+                            }
+                        }
+                        scope.positiveRange = _.range(0, ratioVal);
+                        scope.negativeRange = _.range(0, 1);
+                    }else{
+                        scope.positiveRange = _.range(0, 1);
+                        scope.negativeRange = _.range(0, Math.floor(scope.negativeCount / scope.positiveCount));
+                    }
+                //});
+
+            }
+        };
+    }]);
+});

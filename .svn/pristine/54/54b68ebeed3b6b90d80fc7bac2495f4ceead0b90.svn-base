@@ -1,0 +1,50 @@
+<link rel="stylesheet" href="Views/CustomerSettings/CountryMapping/CountryMappingTemplate.css"/>
+<div class="country-mapping-container" ng-controller="countryMappingController">
+    <span class="template-header">
+        COUNTRY MAPPING
+    </span>
+    <div class="table-container">
+        <table st-table="countryMappingCollection" st-safe-src="rowCollection"  id="smartTable" class="table">
+            <thead>
+                <tr>
+                    <th class="country-column" st-sort="CountryName" st-sort-default="regular">COUNTRY<i st-sort="CountryName"/></span></th>
+                    <th class="display-label-column" st-sort="Displayname">DISPLAY LABEL<i st-sort="Displayname"></i></th>
+                    <th class="mapped-value-column" st-sort="MappedCountryValues[0]">MAPPED VALUE <i st-sort="MappedCountryValues[0]"></i></th>
+                    <th class="operation-column"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="countryMapping in countryMappingCollection"
+                    ng-mouseleave="rowMouseOut_Handler(countryMapping)"
+                    ng-mouseover="rowHover_Handler(countryMapping)">
+                    <td class="country-column"><span>{{countryMapping.CountryName}}</span></td>
+                    <td class="display-label-column"><span>{{countryMapping.Displayname}}</span></td>
+                    <td class="mapped-value-column">
+                        <span class="mapped-value-text">{{countryMapping.MappedCountryValues[0]}}</span>
+                    </td>
+                    <td class="operation-column">
+                        <button class="btn-edit" ng-hide="countryMapping.isEditDeleteHide"
+                                ng-click="editCountry(countryMapping)">Edit</button>
+                        <span ng-hide="countryMapping.isEditDeleteHide" class="fa fa-times"
+                              ng-click="deleteMapItem(countryMapping)"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="unmapped-count">
+           <span>{{unmappedCount}}</span>
+        </div>
+    </div>
+    <div class="footer-container-div">
+        <button class="left-align btn-add-country" ng-click="addCountry(null)"><i class="fa fa-plus-circle"/> <span>ADD COUNTRY</span></button>
+    </div>
+    <action-confirmation-alert-dialog show='modalShown' message="message"
+                                      confirm-ok="confirmDelete()"
+                                      info='modalShown' width='262px' height='20%'>
+    </action-confirmation-alert-dialog>
+    <action-add-edit-country-mapping show="addEditModalShown" data="mappedData" selected-data="selectedData"
+                                    customer="selectedCustomer" ng-if="addEditModalShown"
+                                    window-close-listener="addEditWindowClose()" is-edit="isEditMode"
+                                    info='addEditModalShown' width='450px' >
+    </action-add-edit-country-mapping>
+</div>

@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/AttributeEvaluationSummaryTemplate.css">
+<div class="evaluation-summary-questionContainerDiv">
+    <!--<span class="evaluation-summary-questionText evaluation-summary-questionLabelDiv">-->
+        <!--{{question.QuestionText}}-->
+    <!--</span>-->
+    <ul class="score-frequency-list-container" ng-if="question.QuestionType === 'regular'">
+        <li class="score-frequency-listItem"><span class="question-index">{{index-1}}</span></li>
+        <li class="score-frequency-listItem">
+            <div class="evaluation-summary-questionText evaluation-summary-questionLabelDiv">
+                     {{question.QuestionText}}
+            </div>
+        </li>
+        <li class="score-frequency-listItem">
+            <div id="frequency-bar1" title="n = {{question.frequency1.Frequency}}" data-toggle="tooltip" class="negative-frequency-bar"></div>
+        </li>
+        <li class="score-frequency-listItem">
+            <div id="frequency-bar2" title="n = {{question.frequency2.Frequency}}" data-toggle="tooltip" class="negative-frequency-bar"></div>
+        </li>
+        <li class="score-frequency-listItem">
+            <div id="frequency-bar3" title="n = {{question.frequency3.Frequency}}" data-toggle="tooltip" class="positive-frequency-bar"></div>
+        </li>
+        <li class="score-frequency-listItem">
+            <div id="frequency-bar4" title="n = {{question.frequency4.Frequency}}" data-toggle="tooltip" class="positive-frequency-bar"></div>
+        </li>
+        <li class="score-frequency-listItem"><span class="freq-ques-score"> {{score}}</span></li>
+    </ul>
+    <!--<span > {{score}}</span>-->
+    <!--<div class="evaluation-summary-questionText evaluation-summary-questionScoreDiv1">-->
+        <!--<span > {{score}}</span>-->
+    <!--</div>-->
+    <!--<div class="evaluation-canvasContainer">-->
+        <!--<div class="evaluation-summary-questionScorebar"  height="20" width="20">-->
+        <!--</div>-->
+        <!--<div class="evaluation-summary-questionScorebar"  height="22" width="20">-->
+        <!--</div>-->
+        <!--<div class="evaluation-summary-questionScorebar"  height="24" width="20">-->
+        <!--</div>-->
+        <!--<div class="evaluation-summary-questionScorebar"  height="26" width="20">-->
+        <!--</div>-->
+    <!--</div>-->
+</div>

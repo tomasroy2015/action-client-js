@@ -1,0 +1,7 @@
+<link rel="stylesheet" href="Views/Map/map.css"/>
+
+<div class="row" ng-controller="mapViewController">
+    <div>
+        <d3-map data="d3Data" label="title" map-width="600" map-height="500"></d3-map>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="Views/CustomerSettings/IPMapping/IPMappingTemplate.css"/>
+<div class="ip-mapping-container" ng-controller="ipMappingController">
+    <span class="template-header">
+        IP MAPPING
+    </span>
+    <div class="table-container">
+        <table st-table="ipMappingCollection" st-safe-src="rowCollection"  id="smartTable" class="table">
+            <thead>
+                <tr>
+                    <th class="location-column" st-sort="Location" st-sort-default="regular">LOCATION<i st-sort="Location"/></span></th>
+                    <th class="ip-column" st-sort="IpAddress">IP ADDRESS<i st-sort="IpAddress"></i></th>
+                    <th class="edit-delete-column"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="ipMapping in ipMappingCollection"
+                    ng-mouseleave="rowMouseOut_Handler(ipMapping)"
+                    ng-mouseover="rowHover_Handler(ipMapping)">
+                    <td class="location-column"><span>{{ipMapping.Location}}</span></td>
+                    <td class="ip-column"><span>{{ipMapping.IpAddress}}</span></td>
+                    <td class="edit-delete-column">
+                        <button class="btn-edit" ng-class="{invisiable:ipMapping.isEditDeleteHide}"
+                                ng-click="editIpMapping_ClickHandler(ipMapping)"
+                                >Edit</button>
+                    <span ng-class="{invisiable: ipMapping.isEditDeleteHide}" class="btn-delete fa fa-times"
+                          ng-click="deleteIpMapping_ClickHandler(ipMapping)"
+                          ng-mouseleave="deleteIcon_mouseleaveHandler($event)"
+                          ng-mouseover="deleteIcon_mouseoverHandler($event)"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="footer-container-div">
+            <button class="btn-add-ip" ng-click="addIp()"><i class="fa fa-plus-circle"/>
+                <span> ADD IP</span>
+            </button>
+        </div>
+        <action-confirmation-alert-dialog show='modalShown' message="message"
+                                          confirm-ok="confirmIpMappingDelete()"
+                                          info='modalShown' width='262px' height='18%'>
+        </action-confirmation-alert-dialog>
+        <action-add-or-edit-ip-mapping show="addOrEditModalShown" data="data" map-data="ipMappingCollection"
+                                        customer="modalCustomer" ng-if="addOrEditModalShown"
+                                        window-close-listener="ipMappingAddEditWindowClose()"
+                                        info='addOrEditModalShown' width='451px' >
+        </action-add-or-edit-ip-mapping>
+    </div>
+
+</div>

@@ -1,0 +1,129 @@
+"use strict";
+define(['application-configuration','lodash','customerSettingsFactory'], function (app) {
+    app.register.controller('generalSettingsController', ['$scope','$rootScope','customerSettingsFactory',
+        function ($scope,$rootScope,customerSettingsFactory) {
+            /* here $scope also inherit parent controller $scope ie 'CustomerSettingsController Scope'.
+            * because ng-include always creates a new scope and
+            * A "child scope" (prototypically) inherits properties from its parent scope.
+             * */
+            $scope.selectedAttr;
+            $scope.selectedRegionMapp;
+           // initForm();
+            prepareRegionMapping();
+            prepareNoValue();
+            $scope.$watch( function($scope){ return $scope.selectedCustomer}, function(newValue,oldValue){
+                if(angular.isUndefined(newValue)|| (newValue.CustomerId === oldValue.CustomerId))
+                return;
+                else{
+                    initForm();
+                }
+            })
+
+            function initForm(){
+              $scope.listViewSelectedDefaultAttribute=getListViewSelectedDefaultAttribute();
+                $scope.selectedRegionMapp=$scope.setDefaultRegionMapping();
+                $scope.noValueSelection=$scope.setDefaultNoValueSelection();
+                prepareDoubleTarget();
+
+            }
+            $scope.setDefaultListViewSelectedDefaultAttribute=function(){
+                $scope.listViewSelectedDefaultAttribute=  getListViewSelectedDefaultAttribute();
+            }
+
+            $scope.translationChanged=function(){
+                if(!$scope.selectedCustomer.HasTranslation){
+                    $scope.selectedCustomer.HasSentimentAnalysis=false;
+                }
+            }
+
+            $scope.saveSettings=function(){
+                $scope.selectedCustomer.DefaultListViewAttributeIndex= $scope.listViewSelectedDefaultAttribute.Index;
+                $scope.selectedCustomer.RegionMappingAttributeIndex=$scope.selectedRegionMapp.Index;
+                $scope.selectedCustomer.HasNullValueConversion=$scope.noValueSelection.value;
+                if($scope.selectedCustomer.HasDoubleTarget){
+                    $scope.selectedCustomer.DoubleTargetDefaultComparator=$scope.doubleTarget.value;
+                }
+                else{
+                    $scope.selectedCustomer.DoubleTargetDefaultComparator=0;
+                }
+                var attrRoute="/"+$scope.selectedCustomer.CustomerId+"/"+$scope.currentuser.SessionId;
+                customerSettingsFactory.UpdateGeneralSettings($scope.selectedCustomer,attrRoute);
+
+            }
+
+            function prepareDoubleTarget(){
+//                app.constant("ComparatorType", {
+//                    Target: 1,
+//                    Median: 2,
+//                    UpperLimit: 3,
+//                    LowerLimit: 4,
+//                    Average: 5,
+//                    Custom: 6
+//                });
+                $scope.doubleTargetColl=[];
+                $scope.doubleTargetColl.push({Label:'LowerLimit',value:4},
+                    {Label:'Median',value:2},
+                    {Label:'UpperLimit',value:3});
+               var dbTarget= _.filter($scope.doubleTargetColl,function(item){
+                    return item.value==$scope.selectedCustomer.DoubleTargetDefaultComparator;
+                });
+                if(dbTarget.length<1)
+                $scope.doubleTarget=$scope.doubleTargetColl[0];
+                else
+                    $scope.doubleTarget=dbTarget[0];
+
+            }
+            function prepareNoValue(){
+                $scope.noValueColl=[];
+                $scope.noValueColl.push({Label:'ON',value:true},{Label:'OFF',value:false});
+            }
+            $scope.setDefaultNoValueSelection=function(){
+                if(angular.isUndefined($scope.noValueColl))
+                    prepareNoValue();
+                $scope.noValueSelection= _.filter($scope.noValueColl,function(item){
+                    return item.value==$scope.selectedCustomer.HasNullValueConversion;
+                })[0];
+                return $scope.noValueSelection;
+            }
+            function prepareRegionMapping(){
+                $scope.regionMappedColl=[];
+                $scope.regionMappedColl= _.filter($scope.selectedCustomer.CustomAttributes,function(item){
+                    return (item.AttributeName=="Site" ||item.AttributeName=="City");
+                })
+
+                var noneRegionMapObj={
+                    AttributeName: "None",
+                    Label: "None",
+                    Index: null
+                }
+                $scope.regionMappedColl.push(noneRegionMapObj);
+            }
+            $scope.setDefaultRegionMapping=function(){
+                if(angular.isUndefined($scope.regionMappedColl))
+                    prepareRegionMapping();
+                var selectedRegionMapp = _.filter( $scope.regionMappedColl,function(item){
+                   return item.Index==$scope.selectedCustomer.RegionMappingAttributeIndex;
+               });
+                if(selectedRegionMapp.length<1){
+                    $scope.selectedRegionMapp=$scope.regionMappedColl[2];
+                }
+                else{
+                    $scope.selectedRegionMapp=selectedRegionMapp[0];
+                }
+                return $scope.selectedRegionMapp;
+
+
+                console.log("region mapping:"+$scope.selectedRegionMapp+"Index");
+            }
+
+            function getListViewSelectedDefaultAttribute(){
+                var defaultAttIndex= $scope.selectedCustomer.DefaultListViewAttributeIndex;
+                for(var i=0;i<$scope.selectedCustomer.CustomAttributes.length;i++){
+                    var item=$scope.selectedCustomer.CustomAttributes[i];
+                    if(item.Index==defaultAttIndex)
+                    return item;
+                }
+
+            }
+        }]);
+});

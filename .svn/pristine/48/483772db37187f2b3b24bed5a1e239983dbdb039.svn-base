@@ -1,0 +1,129 @@
+<!--<link rel="stylesheet" href="Views/Dataset/DropDown.css"/>-->
+<!-- Logout btn -->
+<!--<button type="submit" class="btn btn-success btn-sm" data-ng-click="logoutMain()">Log out</button>-->
+<div id="logout-container">
+    <div id="dataSet-logout-section">
+        <div  class="dataSet-logout-container" data-ng-click="logoutData()">
+            <span class = "dataSet-header-font-size">Log out</span>
+            <div class = "dataSet-logout-right-arrow-container">
+                <i class="fa fa-play-circle dataSet-logout-circle-arrow-size-2x"/>
+            </div>
+        </div>
+    </div>
+    <div id="settings" class="dataSet-settings-logo">
+        <a id="setting-image">
+            <img src="Content/images/Settings.png" height="20px"/>
+        </a>
+    </div>
+</div>
+
+<div class="container dataset-container" ng-cloak>
+    <div class="page-header">
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                Select dataset
+                <img src="Content/images/giarte-logo.png" alt="Giarte" class="logo"/>
+                <!--<div class = "clearfix"></div>-->
+            </div>
+            <!-- panel-heading -->
+
+            <div class="panel-body panel-body-container" ng-init="initializeController()">
+                <div>
+                    <label id="heading" class="content-heading">SELECT CLIENT </label>
+                    <select id="ddlClient"
+                            ng-init="selectedCustomer = currentuser.UserToCustomers[17]"
+                            ng-model="selectedCustomer"
+                            ng-options="item.CustomerName for item in currentuser.UserToCustomers"
+                            ng-change="customerChanged()"></select>
+                </div>
+                <div class="dataset-header-container">
+                    <label class="dataset-label">SELECT DATASET </label>
+                </div>
+
+                <div class="create-dataset-radiogroup-panel">
+                    <label class="radio create-dataset-radio" for="select-monthtodate">
+                        <input id="select-monthtodate" type="radio" name="dataset-group"
+                               value="MonthToDate" ng-model="selectedValue">Month To Date
+                    </label>
+
+                    <label class="radio create-dataset-radio" for="select-month">
+                        <input id="select-month" type="radio" name="dataset-group"
+                               value="LastMonth" ng-model="selectedValue">Month
+                    </label>
+                    <select id="cboMonthSelect"
+                            ng-init="selectedMonth=LastSixMonth[0]"
+                            ng-model="selectedMonth"
+                            ng-options="month.Name for month in LastSixMonth"></select>
+
+                    <label class="radio create-dataset-radio" for="select-quarter">
+                        <input id="select-quarter" type="radio" name="dataset-group"
+                               value="LastQuarter" ng-model="selectedValue">Quarter
+                    </label>
+                    <select id="cboQuarterSelect"
+                            ng-init="selectedQuarter=QuarterColl[0]"
+                            ng-model="selectedQuarter"
+                            ng-options="month.Name for month in QuarterColl"></select>
+
+                    <label class="radio create-dataset-radio" for="select-daterange">
+                        <input id="select-daterange" type="radio" name="dataset-group"
+                               value="DateRange" ng-model="selectedValue">Date Range
+                    </label>
+
+                    <div id="datePanel">
+                        <div class="form-group">
+                            <label for="inputFromDate" class="col-md-3 control-label">
+                                From date: </label>
+                            <input type="date" id="inputFromDate" ng-model="dtpValueFromDate" required>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="inputToDate" class="col-md-3 control-label">
+                            To date:</label>
+                            <input type="date" id="inputToDate" ng-model="dtpValueToDate" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="create-footer-separator"/>
+                <!--<div class = "button-container">-->
+                <div class="button-container">
+                    <button type="submit" class="btn btn-sm btn-white-bg right-side"
+                            data-ng-click="getCustomerDataSet()">
+                        Load Dataset
+                    </button>
+
+                </div>
+                <!--</div>-->
+            </div>
+
+        </div>
+        <!-- panel panel-default -->
+    </div>
+    <!-- page-header -->
+</div> <!-- container -->
+
+<!-- Footer Panel -->
+<footer class = "footer">
+    <div class = "container">
+        <div class = "url-container">
+            <a href = "http://giarte.com/itsat/" class = "footer-giarte-url">
+                <div class = "url-font-size">Visit Giarte.com/ITsat for more information</div>
+            </a>
+        </div>
+        <div class = "right-arrow-container">
+            <div class = "arrow-circle-container">
+                <svg width = "15" height = "15" style = "margin: 0 auto;">
+                    <path d = "M 7.5 0 Q 14 1 15 7.5 Q 14 14 7.5 15 Q 1 14 0 7.5 Q 1 1 7.5 0" fill = "#fff"/>
+                </svg>
+            </div>
+        </div>
+        <!-- right-arrow-container-->
+
+        <div class = "arrow-container">
+            <svg height = "8" width = "8" style = "padding-left: -10px">
+                <path d = "M 0 0 L 8 3.5 L 0 7 L 0 0z" fill = "#555759"/>
+            </svg>
+        </div>
+        <!-- arrow-container -->
+    </div>
+
+</footer>

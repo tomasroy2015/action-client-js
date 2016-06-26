@@ -1,0 +1,60 @@
+﻿<link rel="stylesheet" href="Views/Shared/SCSS/ServiceAreaEvaluationsTemplate.css"/>
+<link rel="stylesheet" href="Views/Shared/CSS/EvaluationUIGrid.css"/>
+<div class="evaluationContainer">
+    <!--<div class="headerContainer" style="padding-left: 17px;">-->
+    <div class="headerContainer">
+        <div class="labelContainer">
+            <div id="evaluationLabel">
+                Evaluation
+            </div>
+            Showing {{getVisibleRowCount()}} evaluations ({{getRemarksCount()}} commented)
+        </div>
+        <div class="filterContainer">
+            <div class="filterInput">
+                <div class="search-input-wrapper">
+                    <input type="text" required class="search-box" ng-model="filterString" placeholder="Enter filter text...">
+                    <button class="close-icon" type="reset" ng-click="resetFilter()"></button>
+                </div>
+                <div class="search-button-wrapper">
+                    <input class="btn-filter-apply" type="button" value="Filter" ng-click="onEvaluationFilterClick()">
+                </div>
+            </div>
+            <div>
+                <label><input type="checkbox" id="chkCommentedOnly"
+                              ng-disabled="filterString.length > 0"
+                              ng-model="commentedOnlyVal"
+                              ng-change="onEvaluationFilterClick()"> Only commented evaluations ({{getRemarksCount()}})</label>
+            </div>
+        </div>
+        <div class="translationContainer" ng-if="hasTranslation">
+            <div>
+                <label>Translation</label>
+            </div>
+            <div>
+                <div class="inputContainer">
+                    <input type="checkbox" id="chkOriginal"
+                           ng-checked="transCheckIndex == 1"
+                           ng-click="onTranslationCheck($event)"> Original</input>
+                </div>
+                <div class="inputContainer">
+                    <input type="checkbox" id="chkTranslated"
+                           ng-checked="transCheckIndex == 2"
+                           ng-click="onTranslationCheck($event)"> Translated</input>
+                </div>
+                <div class="inputContainer">
+                    <input type="checkbox" id="chkBoth"
+                       ng-checked="transCheckIndex == 3"
+                       ng-click="onTranslationCheck($event)"> Both</input>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="evaluation-ui-grid-container">
+        <!--<div>-->
+            <!--<div action-answer-header-grp="evaluationUiGridConfig"></div>-->
+            <div class="ui-grid" ui-grid="evaluationUiGridConfig" ui-grid-auto-resize ui-grid-selection>
+            </div>
+        <!--</div>-->
+    </div>
+</div>
+

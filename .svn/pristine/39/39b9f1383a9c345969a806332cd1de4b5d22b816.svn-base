@@ -1,0 +1,7 @@
+<div class="grid-tooltip" style="text-align: right;padding-right: 13px;">
+    <div class="ui-grid-cell-contents default-comments"
+         action-evaluation-truncated-tool-tip tooptip-placement="bottom">
+        <div ng-if="row.entity.BothEvaluationData.IsRemarksAddLangSame" class="lang-equal-circle">=</div>
+        {{row.entity.RemarksAdd}}
+    </div>
+</div>

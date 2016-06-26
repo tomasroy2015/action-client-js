@@ -1,0 +1,230 @@
+@import '../Shared/SCSS/_Colors';
+@import '../Shared/SCSS/_Mixins';
+
+$left-arrow-width:16px;
+$left-arrow-height:20px;
+$top-margin-length:16px;
+/*New style without form*/
+.dataset-radiogroup-panel{
+  margin-left:25px;
+  margin-top:25px;
+  font-family: "AkkuratStd-Regular";
+  font-size:11px;
+}
+
+.dataset-radiogroup-panel .radio.dataset-radio{
+  height:24px;
+  font-weight: normal;
+}
+
+.dataset-radiogroup-panel .daterange-panel{
+  margin-left: 21px;
+  height: 80px;
+}
+.dataset-radiogroup-panel .daterange-panel .row.custom-row{
+  height:30px;
+  width: 390px;
+}
+.dataset-radiogroup-panel #cboMonthSelect{
+  margin-left: 95px;
+  position: absolute;
+  margin-top: -40px;
+  padding-left: 3px;
+  height: 24px;
+  border-radius: 0;
+  font-weight: normal;
+  width: 150px;
+}
+.dataset-radiogroup-panel #cboQuarterSelect{
+  margin-left: 95px;
+  margin-top: -42px;
+  position: absolute;
+  padding-left: 3px;
+  height: 24px;
+  border-radius: 0;
+  font-weight: normal;
+  width: 150px;
+
+}
+.dataset-date-picker{
+  margin-left: -23px;
+  width: 150px;
+  height: 24px;
+}
+
+.dataset-body-container .footer-separator{
+  border-bottom: 1px solid #d3d3d3;
+  height: 12px;
+}
+/*End*/
+
+.dataset-heading {
+  background-image: url("");
+  background-color: #000 !important;
+  color: #fff !important;
+  height: 57px;
+  line-height: 42px;
+  font-size: 1.416666666666667em;
+  /* 17px/12px */
+  text-shadow: none;
+  border-radius: 0; }
+.dataset-heading .logo {
+  float: right;
+  margin-top: 10px;
+  margin-right: 10px; }
+.container{
+  background-color: #ffffff;
+}
+.container.dataset-body-container {
+  padding: 14px;
+  color: #000000;
+  font-family: "AkkuratStd-Regular";
+  width: 350px;
+  /*height: 380px;*/
+  border-radius: 2px;
+  -o-box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow:  0 0 4px 2px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow:  0 0 4px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.5);
+}
+.dataset-body-container .content-heading {
+  font-weight: bold;
+  font-size: 14px;
+  color: #000000;
+  border-bottom: 1px solid #000000;
+  .dataset-panel-arrow-container {
+    position: absolute;
+    top:$top-margin-length;
+    right: -16px;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
+    height: $left-arrow-height;
+    width: $left-arrow-width;
+    border-left: none;
+    background-color: #fff;
+    .fa-caret-left{
+      font-size:1.2em;
+      display:table-cell;
+      vertical-align:middle;
+      height: $left-arrow-height;
+      width:$left-arrow-width;
+      color: #555759;
+    }
+    &:hover {
+      cursor : pointer;
+    }
+  }
+}
+.dataset-body-container #ddlClient {
+  margin-left: 20px;
+  padding-left: 3px;
+  width: 180px;
+  height: 24px;
+  border-radius: 0;
+  font-weight: normal; }
+
+input[type='radio'] {
+  margin-top: 0px; }
+
+#ddlMonthSelect input[type='radio'], #ddlQuarterSelection input[type='radio'] {
+  margin-left: 5px;
+  margin-top: 0;
+  padding-left: 3px;
+  width: 180px;
+  height: 24px;
+  border-radius: 0;
+  font-weight: normal; }
+
+.btn-group > div {
+  margin-bottom: 5px; }
+.btn-group > div#monthDdlContainer, .btn-group > div#quarterDdlContainer {
+  display: flex; }
+
+select#ddlMonthSelect {
+  width: 150px;
+  height: 24px;
+  margin-left: 20px; }
+
+select#ddlQuarterSelection {
+  width: 150px;
+  height: 24px;
+  margin-left: 14px; }
+
+.checkbox-panel {
+  margin-top: 14px;
+  padding-left: 25px;
+  padding-right: 25px;
+  color: #000000;
+}
+
+.button-load-container{
+  color: #ffffff;
+  text-align: center;
+  margin-top: 14px;
+
+  .reset-checkbox-wrapper {
+     margin-left: 0px;
+     margin-bottom: 8px;
+     text-align: left;
+
+    .select-reset {
+      color: #000;
+    }
+  }:hover{
+    cursor: pointer;
+  }
+}
+
+.btn-load-ok {
+  text-align: center;
+  height: 26px;
+  width: 100px;
+  border: none;
+  border-radius: 0;
+  vertical-align: bottom;
+  background: #878787 !important;
+}
+
+.btn-load-ok:hover {
+  background-color : #555759 !important;
+}
+
+.date-panel {
+  margin-left: 14px;
+  height: 70px;
+}
+
+.form-horizontal{
+  border-bottom: 2px solid #d3d3d3;
+}
+
+.form-horizontal .control-label {
+  text-align: right;
+  font-family: "AkkuratStd-Regular";
+  font-weight: normal;
+  font-size: 11px;
+}
+
+.form-horizontal .radio, .form-horizontal .checkbox {
+  min-height: 27px;
+  font-weight: normal;
+  font-size: 11px;
+}
+#datasetSelectionGroup{
+  margin-left: 10px;
+  margin-top: -5px;
+}
+
+/*-------------------------------------------------
+                Media Query Section
+-------------------------------------------------*/
+@media only screen and (min-width : 767px) {
+  .container.dataset-body-container {
+    min-height: 350px;
+  }
+}
+
+/*-------------------------------------------------
+            End of Media Query Section
+-------------------------------------------------*/

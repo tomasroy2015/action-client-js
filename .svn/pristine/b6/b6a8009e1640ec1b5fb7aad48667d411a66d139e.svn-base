@@ -1,0 +1,195 @@
+"use strict";
+define(['application-configuration','lodash'], function (app) {
+    app.register.directive('actionAddOrEditUser',['customerSettingsFactory','Notify',
+        function (customerSettingsFactory,Notify) {
+        return {
+            restrict: 'E',
+            scope: {
+                show: '=info',
+                message:'=',
+                user:'=',
+                windowCloseListener:'&',
+                customer:'='
+            },
+            controller:function($scope){
+                $scope.isUserCreateModifyAllow=false;
+                $scope.userType= $scope.customer.CustomerId=="GIA"?[{type:'Giarte admin',id:1}] :
+                    [{type:'Customer admin',id:2},{type:'Customer user',id:3}];
+
+                initViewModel();
+                $scope.setUserType=function(user){
+                    $scope.isUserCreateModifyAllow=true;
+                    if(angular.isUndefined(user.UserType))
+                    $scope.selectedUserType=$scope.userType[0];
+                    else{
+                        $scope.selectedUserType = _.filter($scope.userType,function(item){
+                           return item.id==user.UserType;
+                        })[0];
+                    }
+                    setResetModifyUserSettings($scope.selectedUserType);
+                }
+                function setResetModifyUserSettings(user){
+                    if(user.id==1){
+                        $scope.isUserCreateModifyAllow= false;
+                        if($scope.customer.HasSentimentAnalysis){
+                            $scope.isSentimentVisiable= false;
+                            $scope.isSentimentDetailsVisiable=false;
+                        }
+                    }
+                    else if(user.id==2){
+                        $scope.isUserCreateModifyAllow= true;
+                        if($scope.customer.HasSentimentAnalysis){
+                            $scope.isSentimentVisiable=false;
+                            $scope.isSentimentDetailsVisiable=true;
+                            $scope.isSentimentDetailsDisable=false;
+                        }
+
+                    }
+                    else if(user.id==3){
+                        $scope.isUserCreateModifyAllow= false;
+                        if($scope.customer.HasSentimentAnalysis){
+                            $scope.isSentimentVisiable=true;
+                            $scope.isSentimentDetailsVisiable=true;
+                            $scope.isSentimentDetailsDisable= !$scope.user.IsSentimentAllowed ? true:false;
+                        }
+                    }
+                }
+
+                function initViewModel(){
+                    $scope.isSentimentVisiable=false;
+                    $scope.isSentimentDetailsVisiable=false;
+                    if($scope.user==null)
+                    {
+                        $scope.user={};
+                        $scope.user.UserId="";
+                        $scope.user.UserFullName="";
+                        $scope.user.IsUserCreationAllowed=false;
+                        $scope.user.IsCustomerSettingsAllowed=false;
+                        $scope.isEditMode=false;
+                        $scope.user.IsSentimentAllowed= false;
+                        $scope.user.IsSentimentDetailsAllowed= false;
+                    }
+                    else{
+                        $scope.isEditMode=true;
+                    }
+                    $scope.title=$scope.isEditMode?"Edit user account":"Add user account";
+                }
+            },
+            link:function (scope, el, attrs) {
+                scope.isInvalidInput = false;
+                scope.dialogStyle = {};
+                if (attrs.width)
+                    scope.dialogStyle.width = attrs.width;
+                if (attrs.height)
+                    scope.dialogStyle.height = attrs.height;
+                scope.hideModal = function() {
+                    scope.show = false;
+                    scope.windowCloseListener();
+                };
+                scope.confirmOperation=function(){
+                    scope.isInvalidInput = false;
+                    var isInvalid = validateInput();
+                    if(isInvalid)
+                        return;
+
+                    scope.user.SessionId=scope.customer.SessionId;
+                    scope.user.UserType=scope.selectedUserType.id;
+                    if(scope.selectedUserType.id==1){
+                        scope.user.IsUserCreationAllowed=true;
+                        scope.user.IsCustomerSettingsAllowed=true;
+                        scope.user.IsSentimentAllowed= true;
+                        scope.user.IsSentimentDetailsAllowed= true;
+                    }
+                    else if(scope.selectedUserType.id==2){
+                        scope.user.IsSentimentDetailsAllowed=  scope.user.IsSentimentAllowed;
+                    }
+                    else if(scope.selectedUserType.id==3){
+                        scope.user.IsUserCreationAllowed=false;
+                        scope.user.IsCustomerSettingsAllowed=false;
+                    }
+                    var attrRoute="/"+scope.customer.CustomerId+"/"+scope.customer.SessionId+"/"+scope.isEditMode;
+                    customerSettingsFactory.AddUpdateUserAccount(scope.user,attrRoute);
+                };
+                var validateInput = function(){
+                    if(scope.user.UserFullName === "" || typeof scope.user.UserFullName === "undefined") {
+                        scope.isInvalidInput= true;
+                    }
+                    if(scope.user.UserId === "" || typeof scope.user.UserId === "undefined") {
+                        scope.isInvalidInput= true;
+                    }
+//                    if(users && !scope.isEditMode){
+//                        var user = _.find(users,function(n){
+//                            return n.UserId == scope.user.UserId;
+//                        });
+//                        if(user){
+//                            scope.isInvalidInput= true;
+//                            alert('Email address already used!');
+//                        }
+//                    }
+                    return scope.isInvalidInput;
+                };
+                scope.sentimentSelectionChange=function(user){
+
+                   if (scope.selectedUserType.id==3){
+                       if(!user.IsSentimentAllowed)
+                       {
+                           user.IsSentimentDetailsAllowed=false;
+                           scope.isSentimentDetailsDisable=true;
+                       }
+                       else{
+                           scope.isSentimentDetailsDisable=false;
+                       }
+                   }
+
+                }
+                scope.resetPassword=function(){
+                    var attrParam="/"+scope.customer.SessionId;
+                    customerSettingsFactory.ResetCustomerSettingsUserPassword(scope.user,attrParam)
+
+                }
+
+                scope.userTypeChange=function(user){
+                    console.log("user type change...");
+                    scope.selectedUserTyp=user;
+                    scope.isSentimentDetailsDisable=false;
+                    if(user.id==1){
+                        scope.isUserCreateModifyAllow=false;
+                        scope.isSentimentVisiable= false;
+                        scope.isSentimentDetailsVisiable=false;
+                    }
+                    else if(user.id==2){
+                        scope.isUserCreateModifyAllow=true;
+                        if(scope.customer.HasSentimentAnalysis)
+                        {
+                            scope.isSentimentVisiable= false;
+                            scope.isSentimentDetailsVisiable=true;
+                            scope.isSentimentDetailsDisable=false;
+                        }
+
+                    }
+                    else if(user.id==3){
+                        scope.isUserCreateModifyAllow=false;
+                        if(scope.customer.HasSentimentAnalysis)
+                        {
+                            scope.isSentimentVisiable= true;
+                            scope.isSentimentDetailsVisiable=true;
+                            scope.isSentimentDetailsDisable=!scope.user.IsSentimentAllowed ? true:false;
+                        }
+                    }
+                }
+
+                scope.$on(Notify.CUSTOMER_SETTINGS_USER_ADD_OR_UPDATE_SUCCESS,function(event){
+                    scope.hideModal();
+                    var requestedCustomer={
+                        SessionId:scope.customer.SessionId,
+                        CustomerId: scope.customer.CustomerId
+                    }
+                    customerSettingsFactory.GetCustomerUsersList(requestedCustomer);
+                })
+
+            },
+            templateUrl: 'Views/CustomerSettings/UserAccountSettings/AddOrEditUserDirectiveTemplate.html'
+        };
+    }]);
+
+});

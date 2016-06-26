@@ -1,0 +1,25 @@
+/**
+ * Created by Shahin on 3/18/2015.
+ */
+
+/**
+ * Define entry point application module name
+ * Use constant entry point module in different js files
+ * @constructor
+ */
+
+//function AppModule() {
+//};
+//const APPLICATION_MAIN_MODULE_NAME = 'action';
+//AppModule.prototype = {
+//    get MAIN_MODULE() {
+//        return APPLICATION_MAIN_MODULE_NAME;
+//    }
+//}
+
+const APPLICATION_MAIN_MODULE_NAME = 'action';
+function AppModule() {
+    if (!(this instanceof AppModule)) return new AppModule();
+    AppModule.prototype.MAIN_MODULE = APPLICATION_MAIN_MODULE_NAME;
+    AppModule.prototype.DATA_FILTER ='datafilter';
+}

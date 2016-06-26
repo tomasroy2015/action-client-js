@@ -1,0 +1,331 @@
+"use strict";
+
+define(['application-configuration', 'd3','topojson','dataFactory','CountryViewScoreData', 'comparatorFactory',], function (app,d3,topojson) {
+
+    app.register.controller('mapViewController', ['$document', '$scope','dataFactory','Notify','CountryViewScoreData','comparatorFactory','serviceAreaScoreData', 'fullScorecardDataFactory', 'attributeScoreSummaryData','ViewDataFactory',
+        function ($document,$scope,dataFactory,Notify,CountryViewScoreData,comparatorFactory,serviceAreaScoreData, fullScorecardDataFactory, attributeScoreSummaryData,ViewDataFactory) {
+
+        var countryViewScoreDataCollection = [];
+        var selectedServiceAreaId = "";
+        var selectedServiceAreaName = "";
+
+        $scope.attributeData = {};
+        $scope.selectedAttributeScore = {};
+        $scope.generalSurveyCollection = {};
+        $scope.triggerSurveyCollection = {};
+        $scope.summaryTitle = "";
+        $scope.fullScorecardData = {};
+        $scope.isNeedToShowSummary=false;
+        initializeCountryViewData();
+
+        $scope.onCountryClick = function(selectedCountry)
+        {
+            var selectedCountryViewScoreData = _.find(countryViewScoreDataCollection, function(n){
+                return n.CountryKey == selectedCountry.properties.NAME;
+            });
+            if(selectedCountryViewScoreData){
+                //Popup scorecard stuff goes here
+                $scope.isNeedToShowSummary=true;
+                var countryViewScoreData = selectedCountryViewScoreData.ServiceAreaScoreDataCollection;
+                $scope.$apply(function(){
+                    $scope.attributeData = attributeScoreSummaryData.getAttributeScoreSummaryData(countryViewScoreData);
+                    $scope.selectedAttributeScore = attributeScoreSummaryData.getSelectedAttributeScoreSummaryData($scope.attributeData);
+                    $scope.summaryTitle = selectedCountryViewScoreData.DisplayName.toUpperCase();
+                    $scope.generalSurveyCollection = serviceAreaScoreData.GetGeneralSurveyCollection();
+                    $scope.triggerSurveyCollection = serviceAreaScoreData.GetTriggerSurveyCollection();
+                    $scope.fullScorecardData = ViewDataFactory.preparedFullScorecardDataCollection(countryViewScoreData);
+                });
+            }
+
+        };
+        $scope.$on(Notify.SERVICE_AREA_CHANGED, function () {
+            selectedServiceAreaId = dataFactory.SelectedServiceAreaId();
+            selectedServiceAreaName = getSelectedServiceAreaName(selectedServiceAreaId);
+
+            updateSelectedServiceAreaScoreData();
+            updateMapView();
+        });
+        $scope.$on(Notify.DATASET_CHANGED, function () {
+            initializeCountryViewData();
+            updateMapView();
+        });
+
+        $scope.$on(Notify.COMPARATOR_TYPE_CHANGED, function () {
+            updateSelectedServiceAreaScoreData();
+            $scope.d3Data = countryViewScoreDataCollection;
+            updateMapView();
+        });
+            $scope.$on(Notify.COMPARATOR_COLOR_CHANGED, function () {
+                updateSelectedServiceAreaScoreData();
+                $scope.d3Data = countryViewScoreDataCollection;
+                updateMapView();
+            });
+
+        //Private Methods
+        function initializeCountryViewData(){
+            countryViewScoreDataCollection.length = 0;
+            selectedServiceAreaId = dataFactory.SelectedServiceAreaId();
+
+            prepareCountryViewDataCollection(dataFactory.CountryaScoreDataCollection());
+            updateSelectedServiceAreaScoreData();
+            $scope.d3Data = countryViewScoreDataCollection;
+
+        }
+
+        function prepareCountryViewDataCollection(cCollection){
+            for ( var i=0; i<cCollection.length; i++){
+                var viewData = new CountryViewScoreData();
+                viewData.CountryKey = cCollection[i].Country.Countrykey;
+                viewData.DisplayName = cCollection[i].Country.Displayname;
+                viewData.Score = NaN;
+                viewData.Comparator = NaN;
+                viewData.CountryColor = "#736F6E";
+                viewData.MappedCountryValues = cCollection[i].Country.MappedCountryValues;
+                viewData.ServiceAreaScoreDataCollection = cCollection[i].ServiceAreaScoreDataCollection;
+
+                countryViewScoreDataCollection.push(viewData);
+            }
+        }
+
+        function updateSelectedServiceAreaScoreData(){
+            for (var i=0; i<countryViewScoreDataCollection.length; i++){
+                var countryData = countryViewScoreDataCollection[i];
+                if(countryData.ServiceAreaScoreDataCollection && countryData.ServiceAreaScoreDataCollection.length > 0){
+                    var selectedScoreItems = _.filter(countryData.ServiceAreaScoreDataCollection, function(n){
+                        return n.Id == selectedServiceAreaId
+                    });
+                    if(selectedScoreItems.length > 0){
+                        countryData.Score = selectedScoreItems[0].Score;
+                        countryData.Comparator = comparatorFactory.GetScoreItemComparator(selectedServiceAreaId);
+                        if(!isNaN(countryData.Score)){
+                            countryData.CountryColor = dataFactory.GetScoreColor(countryData.Score, countryData.Comparator);
+                        }
+
+                    }
+                }
+            }
+        }
+        var getSelectedServiceAreaName = function(serviceAreaId){
+           return _.find(dataFactory.ServiceAreaCollection(),function(n){
+             return n.Id == serviceAreaId;
+          }).Name;
+        };
+
+            //d3 map stuffs start here
+            var countries, projection, path, svg, g,
+                active = d3.select(null),
+                isReSetting =false,
+                tooltip = d3.select("#container").append("div").attr("class", "tooltip hidden");
+
+            // on window resize, re-render d3 canvas
+            window.onresize = function() {
+                return $scope.$apply();
+            };
+
+            $scope.$watch(function(){
+                    return angular.element(window)[0].innerWidth;
+                }, function(){
+                    return $scope.render($scope.d3Data);
+                }
+            );
+
+            var updateMapView = function()
+            {
+                g.selectAll(".feature").transition()
+                    .duration(700)
+                    .style("fill",setCountryFillColor);
+            };
+
+            //Set country color based on score and comparator
+            var setCountryFillColor = function(d){
+                var countryData = _.filter($scope.d3Data, function(n){
+                    return n.CountryKey == d.properties.NAME;
+                });
+
+                if(countryData && countryData.length > 0)
+                    return   countryData[0].CountryColor;
+                else
+                    return  "#ccc";//Inactive country color
+            };
+
+            // define render function
+            $scope.render = function(data){
+
+                var width = document.getElementById('mapContainer').offsetWidth,
+                    height = width / 2;
+
+                d3.select("#mapContainer").select('svg').remove();
+
+                var zoom = d3.behavior.zoom()
+                    .scaleExtent([1, 60])//How far a map can be zoomed
+                    .on("zoom", move);
+
+                setup(width,height);
+
+                function setup(width,height){
+
+                    projection = d3.geo.mercator()
+                        .translate([(width/2), height])
+                        .scale( width / 2 / Math.PI);
+
+                    path = d3.geo.path().projection(projection);
+
+                    svg = d3.select("#mapContainer").append("svg")
+                        .attr("width", "100%")
+                        .attr("height", "100%")
+                        .call(zoom)
+
+                    svg.append("rect")
+                        .attr("class", "background")
+                        .attr("width", "100%")
+                        .attr("height", "100%")
+                        .on("click", reset);
+
+                    g = svg.append("g");
+
+                }
+
+
+                d3.json("views/map/data/world_countries.json", function(error, world) {
+                    countries = topojson.feature(world, world.objects.world_countries).features;
+                    draw();
+
+                });
+
+                function draw() {
+                    var country = g.selectAll(".country").data(countries);
+                    country.enter().insert("path")
+                        .attr("class", "feature")
+                        .attr("d", path)
+                        .on("dblclick", doubleClicked)
+                        .on("click", $scope.onCountryClick)
+                        .attr("id", function(d) { return d.properties.NAME; })
+                        .attr("title", function(d) { return d.properties.NAME; })
+                        .style("fill", setCountryFillColor);
+
+                    var netherLands = countries.filter( function(d) {
+                        return d.properties.NAME === "NLD";
+                    })[0];
+                    doubleClicked(netherLands);
+                    //offsets for tooltips
+                    var offsetL = document.getElementById('container').offsetLeft+20;
+                    var offsetT = document.getElementById('container').offsetTop+10;
+
+                    //tooltips
+                    country
+                        .on("mousemove", function(d,i) {
+
+                            var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
+
+                            tooltip.classed("hidden", false)
+                                .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
+                                .html();
+                                //.html(
+                                //"<div class='tip-header'>"+
+                                //"<div class='content'>Country: " + d.properties.NAME   +"</div>" +
+                                //"<div class='content'>" + selectedServiceAreaName   + "</div>" +
+                                //"<div><svg height='10' width='97'><rect width='97' height='10' style='fill:green;stroke-width:3;stroke:rgb(0,0,0)'></svg>  </div>" +
+                                //"</div>" +
+                                //"<div>Respondent count of: " + d.properties.NAME   +"</div>");
+
+
+                        })
+                        .on("mouseout",  function(d,i) {
+                            tooltip.classed("hidden", true);
+                        });
+
+                }
+
+                function redraw() {
+                    width = document.getElementById('container').offsetWidth;
+                    height = width / 2;
+                    d3.select('svg').remove();
+                    setup(width,height);
+                    draw(topo);
+                }
+
+                function move() {
+
+                    var t = d3.event.translate;
+                    var s = d3.event.scale;
+
+                    var h = height/4;
+
+                    if(isReSetting){
+                        isReSetting = false;
+                        zoom.scale(1);
+                        zoom.translate([0,0]);
+                        return;
+                    }
+
+                    t[0] = Math.min(
+                        (width/height)  * (s - 1),
+                        Math.max( width * (1 - s), t[0] )
+                    );
+
+                    t[1] = Math.min(
+                        h * (s - 1) + h * s,
+                        Math.max(height  * (1 - s) - h * s, t[1])
+                    );
+
+                    zoom.translate(t);
+                    g.attr("transform", "translate(" + t + ")scale(" + s + ")");
+
+                    //adjust the country hover stroke width based on zoom level
+                    d3.selectAll(".feature").style("stroke-width", 1.5 / s);
+
+                }
+
+                function fitToSpecificCountry(d){
+                    var b = path.bounds(d),
+                        s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
+                        t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+
+                    projection
+                        .scale(s)
+                        .translate(t);
+                }
+
+                var throttleTimer;
+                function throttle() {
+                    window.clearTimeout(throttleTimer);
+                    throttleTimer = window.setTimeout(function() {
+                        redraw();
+                    }, 200);
+                }
+
+
+                //geo translation on mouse click in map
+
+                function doubleClicked(d) {
+                    if (active.node() === this) return reset();
+                    active.classed("active", false);
+                    active = d3.select(this).classed("active", true);
+
+                    var bounds = path.bounds(d),
+                        dx = bounds[1][0] - bounds[0][0],
+                        dy = bounds[1][1] - bounds[0][1],
+                        x = (bounds[0][0] + bounds[1][0]) / 2,
+                        y = (bounds[0][1] + bounds[1][1]) / 2,
+                        scale = .9 / Math.max(dx / width, dy / height),
+                        translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+                    g.transition()
+                        .duration(750)
+                        .style("stroke-width", 1.5 / scale + "px")
+                        .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+                }
+                function reset() {
+                    active.classed("active", false);
+                    active = d3.select(null);
+                    isReSetting = true;
+                    g.transition()
+                        .duration(750)
+                        .attr("transform", "");
+                }
+
+            };
+
+    }]);
+
+});

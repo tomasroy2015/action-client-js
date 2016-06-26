@@ -1,0 +1,208 @@
+
+define(['application-configuration','dataFactory','alertsService','accountsService'], function (app) {
+    app.register.controller('datasetController', ['$scope', '$rootScope','dataFactory','alertsService','accountsService',
+        function ($scope,$rootScope,dataFactory,alertsService, accountsService) {
+            $rootScope.closeAlert = alertsService.closeAlert;
+            $rootScope.alerts = [];
+
+            //april 18-2015
+            $scope.customer = {};
+            $scope.currentuser = null;
+            $scope.FromDate =null;
+            $scope.ToDate = null;
+            $scope.dtpValueFromDate = null;
+            $scope.dtpValueToDate = null;
+            $scope.customerID = null;
+            $scope.selectedCustomer = null;
+            $scope.sessionID = null;
+            $scope.isNeedToShowLoading = false;
+            $scope.selectedValue = "MonthToDate";
+            $scope.selectedMonth = null;
+            $scope.selectedQuarter = null;
+            $scope.selectedCustomer = null;
+            $scope.customerID = null;
+            $scope.currentuser = $rootScope.UserData;
+            $scope.sessionID = $scope.currentuser.SessionId;
+            $scope.LastSixMonth = [{Name:"",startDate:new Date(),endDate:new Date()}];
+            $scope.QuarterColl = [{Name:"",startDate:new Date(),endDate:new Date()}];
+
+            $scope.initializeController = function(){
+                var month = ['January', 'February', 'March', 'April', 'May', 'June',
+                             'July', 'August', 'September', 'October', 'November', 'December'];
+
+                $scope.isNeedToShowLoading = false;
+                $scope.getMonthSelectionData(month);
+                $scope.getQuarterSelectionData();
+
+            };
+
+            $scope.getMonthSelectionData = function(month){
+                var newDate = new Date();
+                var firstDate = new Date(newDate.getFullYear(), newDate.getMonth() - 6, 1); //First date of the last sixth month
+                var lastDate = new Date((new Date(firstDate.getFullYear(), firstDate.getMonth() + 1, 1)) - 1); //last date of the last sixth month
+
+                $scope.LastSixMonth.pop();
+                $scope.LastSixMonth.push({Name:month[firstDate.getMonth()]+" - "+ firstDate.getFullYear().toString(),startDate:firstDate,endDate:lastDate});
+
+                for ( var i = 1; i < 6; i++){
+                    var fDate = new Date(firstDate.getFullYear(), firstDate.getMonth() + i, 1);
+                    var lDate = new Date((new Date(fDate.getFullYear(), fDate.getMonth() + 1, 1)) - 1);
+                    $scope.LastSixMonth.push({Name: month[fDate.getMonth()]+" - "+ fDate.getFullYear().toString(),startDate:fDate,endDate:lDate});
+                }
+            };
+
+            $scope.getQuarterSelectionData = function(){
+                var count = 1,quarterName = "";
+                var newDate = new Date();
+                var firstDate = new Date(newDate.getFullYear(), newDate.getMonth() - 12, 1); //First date of the last 1 year
+                var lastDate = new Date((new Date(firstDate.getFullYear(), firstDate.getMonth() + 3, 1)) - 1); //last date of next 3 month
+
+                $scope.QuarterColl.pop();
+                $scope.QuarterColl.push({Name:"1st Quarter"+" - "+ firstDate.getFullYear().toString(),startDate:firstDate,endDate:lastDate});
+
+                for ( var i = 3; i < 12; i = i+3){
+                    if(count === 1)
+                        quarterName = "2nd Quarter";
+                    else if(count === 2)
+                        quarterName = "3rd Quarter";
+                    else if(count === 3)
+                        quarterName = "4th Quarter";
+
+                    var fDate = new Date(firstDate.getFullYear(), firstDate.getMonth() + i, 1);
+                    var lDate = new Date((new Date(fDate.getFullYear(), fDate.getMonth() + 3, 1)) - 1);
+                    $scope.QuarterColl.push({Name: quarterName+" - "+ fDate.getFullYear().toString(),startDate:fDate,endDate:lDate});
+                    count++;
+                }
+            };
+            $scope.getCustomerDataSet = function () {
+                $rootScope.IsDatasetLoaded = false;
+                $scope.customerID = $scope.selectedCustomer.CustomerId;
+
+                if(!$scope.isInputValidated())
+                    return;
+
+                $scope.isNeedToShowLoading = true;
+                $rootScope.loadTitle = "Loading dataset";
+                $scope.createDateRange();
+                var dataSet = $scope.createParameter();
+                dataFactory.LoadDataSet(dataSet);
+
+            };
+
+            $scope.$on('dataFactory::dataReady', function(event){
+                $scope.isNeedToShowLoading = false;
+                window.location = "#/Main";
+            });
+
+            $scope.customerChanged = function(){
+                $scope.customerID = $scope.selectedCustomer.CustomerId;
+            };
+
+            $scope.createDateRange = function(){
+                var newDate = new Date();
+                var firstDate;
+                var lastDate;
+
+                switch ($scope.selectedValue) {
+                    case "MonthToDate":
+                        //First date of current month
+                        firstDate = new Date(newDate.getFullYear(), newDate.getMonth(), 1);
+                        //Yesterday date
+                        lastDate = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate() - 1);
+
+                        $scope.FromDate = firstDate;
+                        $scope.ToDate = lastDate;
+                        break;
+                    case "LastMonth":
+                        $scope.FromDate = $scope.selectedMonth.startDate;
+                        $scope.ToDate = $scope.selectedMonth.endDate;
+                        break;
+                    case "LastQuarter":
+                        $scope.FromDate = $scope.selectedQuarter.startDate;
+                        $scope.ToDate = $scope.selectedQuarter.endDate;
+                        break;
+                    case "DateRange":
+                        $scope.FromDate = $scope.dtpValueFromDate;
+                        $scope.ToDate = $scope.dtpValueToDate;
+                        break;
+                    default:
+                        $scope.FromDate = null;
+                        $scope.ToDate = null;
+                        break;
+                }
+            };
+            $scope.isInputValidated = function()
+            {
+                var isValid = true;
+
+                if($scope.selectedValue === "DateRange") {
+                    isValid = $scope.isValidDateRange();
+                }
+
+                return isValid
+            };
+
+            $scope.createParameter = function(){
+                var params = {
+                     sessionID: $scope.sessionID,
+                    customerID: $scope.customerID,
+                      fromDate: $scope.FromDate,
+                        toDate: $scope.ToDate
+                };
+
+                return params;
+            };
+
+            $scope.isValidInput = function(){
+                var isValid = true;
+                if( $scope.selectedValue === null)
+                {
+                    alert("Please select a criteria ");
+                    isValid = false;
+                    return isValid;
+                }
+                return isValid
+            };
+
+            $scope.isValidDateRange = function(){
+                var isValid = true;
+
+                if($scope.dtpValueFromDate === null || $scope.dtpValueToDate === null) {
+                    alert("Please select a DateRange");
+                    isValid = false;
+                    return isValid;
+                }
+                if(typeof $scope.dtpValueFromDate === "undefined" || typeof $scope.dtpValueToDate === "undefined") {
+                    alert("Please select a valid DateRange");
+                    isValid = false;
+                    return isValid;
+                }
+                if($scope.dtpValueFromDate >  $scope.dtpValueToDate) {
+                    alert("Please select a valid DateRange");
+                    isValid = false;
+                    return isValid;
+                }
+
+                return isValid
+            };
+
+
+            /* log out */
+            $scope.logoutMain = function () {
+                $rootScope.IsloggedOut = false;
+                $scope.isNeedToShowLoading = true;
+                $rootScope.loadTitle = "Log out";
+                var user = $rootScope.UserData;
+                accountsService.logout(user, $scope.logoutCompleted, $scope.logoutError);
+            };
+
+            $scope.logoutCompleted = function (response) {
+                window.location = "#/";
+                $scope.isNeedToShowLoading = false;
+            };
+
+            $scope.logoutError = function (response) {
+                alertsService.RenderErrorMessage(response.ReturnMessage);
+            };
+        }]);
+});

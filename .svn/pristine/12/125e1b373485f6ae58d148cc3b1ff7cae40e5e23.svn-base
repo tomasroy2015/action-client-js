@@ -1,0 +1,228 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.controller('dataFilterController', ['$scope', function ($scope) {
+
+        $scope.myData = [
+            {
+                "firstName": "Cox",
+                "lastName": "Carney",
+                "company": "Enormo",
+                "employed": true
+            },
+            {
+                "firstName": "Lorraine",
+                "lastName": "Wise",
+                "company": "Comveyer",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            }
+            ,
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            }
+            ,
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            }
+
+        ];
+
+        //$scope.gridOptions.data = myData;
+        //$scope.gridOptions.columnDefs =  $scope.columnDefs;
+
+        $scope.columnDefs = [
+            {field: 'firstName', displayName: 'First name'},
+            {field: 'lastName', displayName: 'Last name'},
+            {field: 'company', displayName: 'Company'}];
+
+        $scope.gridOptions = {
+            data: 'myData',
+            enableSorting: true,
+            rowHeight: 25,
+            columnDefs:  $scope.columnDefs,
+            enableColumnMenus:false,
+            enableRowSelection: true,
+            enableSelectAll: true,
+            //enableHorizontalScrollbar:0,
+            //enableVerticalScrollbar:1,
+            onRegisterApi: function( gridApi ) {
+                $scope.gridApi = gridApi;
+                //$scope.gridApi.grid.options.enableColumnMenus = false;
+                //$scope.gridApi.grid.gridHeight = '1000';
+                //var wid = $scope.gridApi.grid.GridRenderContainer.getViewportWidth;
+                //var hig = $scope.gridApi.grid.GridRenderContainer.getViewportHeight;
+            }
+
+            //    [
+            //    { field: 'firstName', minWidth: 150, width: 150},
+            //    { field: 'lastName', width: 50, maxWidth: 50, minWidth: 50 },
+            //    { field: 'company', width: 50 }
+            //]
+        };
+
+        $scope.vScroller = function(){
+            return 'overflow-y:auto';
+        };
+
+        console.log($scope.gridApi);
+
+    }]);
+
+});

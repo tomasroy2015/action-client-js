@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/TCKEvaluationSummaryTemplate.css"/>
+<!--<div class="ticket-summary-container">-->
+    <div class="ticket-evaluation-container">
+        <ul class="ticket-question-list-container">
+            <li class="ticket-question-list" ng-repeat="question in ticketSummaryData track by $index">
+                <div class="row">
+                    <div class="col-md-10"><span>{{question.Name}}</span></div>
+                    <div class="col-sm-6"><span>{{question.Score}}</span></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+<!--</div>-->

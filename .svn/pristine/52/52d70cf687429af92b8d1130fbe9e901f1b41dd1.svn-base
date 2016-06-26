@@ -1,0 +1,73 @@
+<link rel="stylesheet" href="Views/CustomerSettings/CountryMapping/AddEditCountryMappingTemplate.css"/>
+<div class='ng-modal-container' ng-show='show'>
+    <div class='ng-modal-overlay' ng-click='hideModal()'></div>
+    <div class='ng-modal-dialog' ng-style='dialogStyle'>
+        <div class='ng-modal-dialog-content'>
+            <div class="dialog-header">
+                <span class="modal-title">{{title}}</span>
+                <i ng-click="hideModal()" class="fa fa-times-circle fa-lg cursor"></i>
+            </div>
+            <div class="element-parent-div">
+                <div class="country-label-div">
+                    <div class="element-container-div">
+                        <div class="left-align inline-block">
+                            <div><span class="inline-block label-width">Country</span></div>
+                            <div>
+                                <select class="drop-down inline-block"
+                                        ng-disabled="isEdit"
+                                        id="ddlCountry"
+                                        ng-model="selectedCountry"
+                                        ng-options="item.CountryName for item in countries"
+                                        ng-change="countrySelectionChange(selectedCountry)"></select>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="element-container-div">
+                        <div class="left-align">
+                           <div><span class="inline-block label-width">Display Name</span></div>
+                           <div>
+                               <input type = "text" ng-model="selectedCountry.Displayname" class="form-control text-input-normal inline-block">
+                           </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="country-values">
+                    <div><span>Choose country values</span></div>
+                    <div class="county-value-list">
+                        <table st-table="distinctCountryList"  id="smartTable" class="table">
+                            <thead ng-hide="true">
+                                <tr>
+                                    <th class="check-column" st-sort="CountryName">/th>
+                                    <th class="label-column" st-sort="Displayname"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in distinctCountryList"
+                                    ng-mouseleave="rowMouseOut_Handler(item)"
+                                    ng-mouseover="rowHover_Handler(item)">
+                                    <td class="check-column">
+                                        <input type="checkbox" ng-model="item.isSelected"/>
+                                    </td>
+                                    <td class="label-column"><span>{{item.Value}}</span></td>
+                                    <td class="operation-column">
+                                        <!--<span ng-hide="item.isEditDeleteHide" class="fa fa-times"></span>-->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--<div>-->
+                            <!--<span>Add predefined value</span>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-btn-container-div" style="text-align: right">
+            <button class="btn"  ng-click='hideModal()'> Cancel</button>
+            <button class="btn" style="width: inherit" ng-click="addEditCountryMapping()"> Ok</button>
+        </div>
+
+    </div>
+</div>

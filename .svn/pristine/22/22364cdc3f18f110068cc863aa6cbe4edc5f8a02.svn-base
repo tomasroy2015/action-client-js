@@ -1,0 +1,94 @@
+"use strict";
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionEvaluationAnswerScores',["moreSettingsFactory", function (moreSettingsFactory) {
+        var boxId = 1;
+        return {
+            restrict: 'EA',
+            scope   : {
+                id:'=',
+                value:'=',
+                colorSet:'=',
+                height:'@',
+                width:'@',
+                questionId:'=',
+                questionText:'=',
+                serviceAreaName:'='
+            },
+
+            templateUrl: "Views/Shared/Template/Evaluation/EvaluationUIGrid/CellTemplates/EvaluationAnswerScoresDirectiveTemplate.html",
+            replace    : true,
+            link       : function (scope, el, attr) {
+                var svg=el[0].children[0];
+                var scoreRect=el[0].children[0].children[0].children[0];
+                var rectWidth= 26;
+                var rectHeight=22;
+                scope.moreSettingsFactory = moreSettingsFactory;
+                if(!angular.isUndefined(scope.height) && !angular.isUndefined(scope.width)){
+                    rectWidth=scope.width;
+                    rectHeight=scope.height;
+                }
+                scope.$watchGroup( ['value','colorSet','id'], function(newValue,oldValue){
+                    if(angular.isUndefined(newValue))
+                    {
+                       return;
+                    }
+                    scope.score1=newValue[0];
+                    var score = newValue[0];
+                    var colorCode=getAnswerColorCode(score) ;
+                    function getAnswerColorCode(value){
+
+                       var colorCode = "#FFFFFF";
+                        if(value == -1){
+                           return "#555759"; //dark Gray
+                       }
+                       var colorSet=moreSettingsFactory.GetSelectedColorSet();
+                        if(scope.questionId.indexOf("OS")>-1){
+
+                            if( value>0 && value<6){
+                                colorCode=colorSet.FarFromTarget;
+                            }
+                            else if( value ==6){
+                                colorCode=colorSet.CloseToTarget;
+                            }
+                            else if(value > 6){
+                                colorCode=colorSet.OnTarget;
+                            }
+                        }
+                        else if(scope.questionId.indexOf("SES")>-1){
+                            if( value>0 && value<4){
+                                colorCode=colorSet.FarFromTarget;
+                            }
+
+                            else if(value > 3){
+                                colorCode=colorSet.OnTarget;
+                            }
+
+                        }
+                        else {
+                            if( value>0 && value<3){
+                                colorCode=colorSet.FarFromTarget;
+                            }
+                            else if(value > 2){
+                                colorCode=colorSet.OnTarget;
+                            }
+                        }
+                        return colorCode;
+                    }
+                    svg.setAttribute("width",rectWidth);
+                    svg.setAttribute("height",rectHeight);
+
+                    scoreRect.setAttribute("width",rectWidth);
+                    scoreRect.setAttribute("height",rectHeight);
+                    //scoreRect.setAttribute("fill",colorCode);
+                    if(!isNaN(score) &&score>-1 )
+                        scope.scoreTex=score;
+                    else{
+                        scope.scoreTex="NA";
+                    }
+                },true);
+            }
+
+        };
+    }]);
+});

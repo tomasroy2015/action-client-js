@@ -1,0 +1,17 @@
+"use strict";
+
+define(['application-configuration', 'd3','topojson','d3Map','dataFactory'], function (app) {
+
+    app.register.controller('mapViewController', ['$document', '$scope','dataFactory', function ($document,$scope,dataFactory) {
+
+      //  $scope.title = "MapCtrl";
+        $scope.d3Data = dataFactory.CountryaScoreDataCollection();
+
+        //$scope.$on('logedOutEvent', function () {
+        //    $scope.message = eventDispatchService.message;
+        //    console.log($scope.message+' map view');
+        //});
+
+    }]);
+
+});

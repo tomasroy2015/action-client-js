@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/ScorecardTemplate.css"/>
+<div class="scorecard-main-wrapper">
+    <ul id='SA-1' class="ac-list-group scorecard-container">
+        <div class="header-container">
+            <div class="main-title-container">
+                <!--<span class="main-title">Workplace and office applications</span>-->
+                <span class="main-title">{{data.Name}}</span>
+
+                <div class="header-scorebar">
+                    <action-customizable-score-bar width="70" is-os-selected="false"
+                                                   score-comparator="data.scoreComparator"></action-customizable-score-bar>
+                </div>
+            </div>
+            <div class="sub-title-container">
+                <!--<span class="sub-title">60 evaluations</span>-->
+                <span class="sub-title">60 evaluations</span>
+            </div>
+        </div>
+        <li class="ac-list-group-item" ng-repeat="question in data.QuestionScores">
+            <div class="question-wrapper">
+                <span class="question-text">{{question.QuestionText}}</span>
+
+                <div class="ac-list-group-item-scorebar">
+                    <action-customizable-score-bar width="70" is-os-selected="false"
+                                                   score-comparator="question.scoreComparator"></action-customizable-score-bar>
+                </div>
+            </div>
+        </li>
+        <!--<li class="ac-list-group-item">Cras justo odio</li>-->
+        <!--<li class="ac-list-group-item">Dapibus ac facilisis in</li>-->
+        <!--<li class="ac-list-group-item">Morbi leo risus</li>-->
+        <!--<li class="ac-list-group-item">Porta ac consectetur ac</li>-->
+        <!--<li class="ac-list-group-item">Vestibulum at eros</li>-->
+    </ul>
+</div>

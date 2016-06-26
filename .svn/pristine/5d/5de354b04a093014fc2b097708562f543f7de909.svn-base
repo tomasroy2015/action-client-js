@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="Views/CustomerSettings/GeneralSettings/GeneralSettings.css"/>
+<div class="general-settings-container">
+    <span class="template-header">
+        GENERAL SETTINGS
+    </span>
+    <div>
+        <div class="component-container-div">
+            <div class="left-align">
+                <span>List view default attribute</span><br>
+                <select class="attribute-drop-down"></select>
+            </div>
+            <div class="right-align right-align-div">
+                <span>Maximum user</span><br>
+                <input type = "text" class="form-control text-input-normal">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="component-container-div">
+            <div class="left-align">
+                <span>Region mapped with</span><br>
+                <select class="drop-down"></select>
+            </div>
+            <div class="right-align right-align-div">
+                    <span>Maximum dataset</span><br>
+                    <input type = "text" class="form-control text-input-normal">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="component-container-div">
+            <div class="left-align">
+                <span>NO VALUE selection(unassigned)</span><br>
+                <select class="drop-down"></select>
+            </div>
+            <div class="right-align right-align-div">
+                <span>Listview threshold value</span><br>
+                <input type = "text" class="form-control text-input-normal">
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="component-container-div" style="height: 45px">
+            <label for="translationChkBx" style="padding-right: 10px;">
+                <input type="checkbox" id="translationChkBx">
+                Translations
+            </label>
+            <label for="sentimentChkBx">
+                <input type="checkbox" id="sentimentChkBx">
+                Sentiments
+            </label>
+        </div>
+        <div class="component-container-div" style="height: 50px">
+            <label for="doubleTargetChkBx" style="padding-right: 5px;">
+                <input type="checkbox" id="doubleTargetChkBx">
+                Double Target
+            </label>
+            <select class="double-target-drop-down"></select>
+            <!--<select class="double-target-drop-down"></select>-->
+        </div>
+        <div class="component-container-div logo-url-container-div">
+            <span>Logo URL</span><br>
+            <input type = "text" class="form-control text-input-large">
+        </div>
+        <div class="component-container-div footer-container-div">
+            <button class="btn btn-export left-align"> Export settings</button>
+            <button class="btn right-align"> Save</button>
+        </div>
+    </div>
+</div>

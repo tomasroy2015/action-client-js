@@ -1,0 +1,32 @@
+define(['application-configuration','dataFactory'], function (app) {
+
+    app.register.factory('comparatorFactory', ['$rootScope','dataFactory',
+        function ($rootScope, dataFactory) {
+
+            var comparatorNames= ["Target", "Benchmark Median","Benchmark upper limit","Benchmark lower limit", "Average", "Custom value"];
+            var selectedComparatorType = 1;
+            return {
+                UpdateComparatorType: function (comparatorType) {
+                    selectedComparatorType = comparatorType;
+                },
+                GetSelectedComparatorType: function () {
+                    return selectedComparatorType;
+                },
+                GetSelectedComparatorName: function(){
+                    return comparatorNames[selectedComparatorType-1];
+                },
+                GetScoreItemComparator: function(scoreItem){
+                    var comparatorColl = dataFactory.ComparatorCollection();
+
+
+                    var selectedComparator= _.filter(comparatorColl,function(n){
+                        return n.Id == scoreItem && n.Type == selectedComparatorType;
+                    });
+
+                    return selectedComparator[0].Value;
+                }
+            };
+
+        }]);
+})
+

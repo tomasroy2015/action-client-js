@@ -1,0 +1,37 @@
+"use strict";
+define(['application-configuration'], function (app) {
+
+    app.register.directive('questionscore', function () {
+        var boxId = 1;
+        return {
+            restrict: 'EA',
+            scope   : {
+                score: '='
+            },
+
+            templateUrl: "Views/List/directives/questionscores.html",
+            replace    : true,
+            link       : function (scope, el, attr) {
+                var scoreBoxId = 'box' + boxId++;
+                el.find('canvas').attr('id', scoreBoxId);
+                var scoreCanvas = document.getElementById(scoreBoxId);
+                var context = scoreCanvas.getContext('2d');
+
+                context.save();
+                context.fillStyle = "green";
+
+                context.fillRect(0, 0, 29, 25);
+                context.fillStyle = 'white';
+
+                var w = context.measureText('100').width;
+                var x = (29 / 2) - (w / 2);
+                var y = 25 / 2;
+                context.font = "bold 12px san-serif";
+                context.textBaseline = 'center';
+                context.fillText(scope.score, x, y + 3);
+                context.restore();
+            }
+
+        };
+    });
+});

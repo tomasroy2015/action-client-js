@@ -1,0 +1,14 @@
+<div class="grid-tooltip" style="text-align: right;padding-right: 13px;">
+    <div class="ui-grid-cell-contents both-comments-cell-template-remarks-div"
+         tooltip-popup-delay='500' tooltip-trigger="mouseenter"
+         tooltip-placement="bottom" tooltip="{{row.entity.BothEvaluationData.RemarksAdd}}"
+
+            >
+        <span class="action-truncated-tool-tip">{{row.entity.BothEvaluationData.RemarksAdd}}</span>
+    </div>
+    <div  class="ui-grid-cell-contents both-comments-cell-template-remarksEng-div"
+          tooltip-popup-delay='500' tooltip-trigger="mouseenter"
+          tooltip-placement="bottom" tooltip="{{row.entity.BothEvaluationData.RemarksAddEng}}">
+        <span class="action-truncated-tool-tip">{{row.entity.BothEvaluationData.RemarksAddEng}}</span>
+    </div>
+</div>

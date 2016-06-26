@@ -1,0 +1,13 @@
+<div class="grid-tooltip">
+    <div class="ui-grid-cell-contents">
+        <div style="width: 100% !important;">
+            <ul ng-repeat="q in row.entity.ServiceAreaScoreDataCollection[0].QuestionScores"
+                style="display: inline;padding: 0px;margin: 0px">
+                <li class="horizontal">
+                   <!-- <action-question-score question-item="q"></action-question-score>-->
+                    <span>{{q.Score}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

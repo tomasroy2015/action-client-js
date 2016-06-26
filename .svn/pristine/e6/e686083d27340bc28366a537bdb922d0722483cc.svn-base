@@ -1,0 +1,34 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionDataFilterAccordion', [function () {
+
+        return {
+            restrict: 'AE',
+            scope   : {
+                categorizedAttributeCollection: "=data"
+            },
+            link    : function (scope, el, attrs) {
+                scope.isCollapsed = true;
+                scope.$watch('categorizedAttributeCollection',function(newValue){
+                    if(!angular.isUndefined(newValue))
+                        return scope.renderView(newValue);
+                },true);
+                scope.renderView = function(data) {
+                    scope.oneAtATime = true;
+                    scope.categorizedAttributeCollection = data;
+                };
+                scope.expandCollapsedPanel = function(){
+                    scope.isCollapsed = !scope.isCollapsed;
+                    _.forEach(scope.categorizedAttributeCollection,function(item,key){
+                        item.isExpand = false;
+                    });
+                }
+            },
+            templateUrl:'Views/DataFilter/AccordionPanelTemplate.html'
+        };
+
+    }]);
+
+});

@@ -1,0 +1,60 @@
+"use strict";
+
+define(['application-configuration', 'alertsService', 'dataService'], function (app) {
+
+    app.register.controller('leftMenuController', ['$scope', 'alertsService',  'dataService', function ($scope, alertsService, dataService) {
+
+        loadInitialData();
+
+        function loadInitialData() {
+            prepareDataFilterAttributeCollection(dataService.CustomAttributeCollection);
+            prepareServiceAreaCollection(dataService.ServiceAreaCollection);
+        }
+
+        /**
+         * Service area preparation
+         * @param data
+         */
+        function prepareServiceAreaCollection(data) {
+            var serviceAreaCollection = data;
+            var generalSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                return n.SurveyType == "NOG" || n.SurveyType == "GEN";
+            });
+
+            var triggerSurveyCollection = _.filter(serviceAreaCollection, function (n) {
+                return n.SurveyType == "TCK";
+            });
+
+            $scope.generalSurveyCollection = _.sortByOrder(generalSurveyCollection, 'SortOrder', true);
+            $scope.triggerSurveyCollection = _.sortByOrder(triggerSurveyCollection, 'SortOrder', true);
+        }
+
+        /**
+         * Custom attributes preparation
+         * @param data
+         */
+        function prepareDataFilterAttributeCollection(data) {
+
+            var customAttributeCollection = data;
+
+            /* Grouping filter collection */
+            var preparedCategorizedAttributeColl = _.groupBy(customAttributeCollection, function (item) {
+                if (item.Type == 0) return 'Geography';
+                else if (item.Type == 1) return 'Organization';
+                else if (item.Type == 2) return 'Ticket';
+            });
+
+            /* Sorting grouped filter collection */
+            _.forEach(preparedCategorizedAttributeColl, function (n, key) {
+                //groupedFilterColl[key] = _.sortByOrder(n, 'DisplayOrder', true);
+                var sortedColl = _.sortByOrder(n, 'DisplayOrder', true);
+                preparedCategorizedAttributeColl[key] = _.assign({}, {name: key, items: sortedColl, isExpand: false});
+            });
+
+            $scope.categorizedAttributeColl = preparedCategorizedAttributeColl;
+        }
+
+        $scope.dsIsCollapsed = true;
+
+    }]);
+});

@@ -1,0 +1,115 @@
+.data-filter-settings-container{
+    width: 100%;height: 400px;
+}
+.data-filter-settings-container .template-header{
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 10px;
+    text-transform: uppercase;
+}
+.data-filter-settings-container .table-container{
+    padding-top: 25px;
+}
+.data-filter-settings-container .table{
+    width: 95%;
+    display: table;
+    margin-bottom: 5px;
+}
+.data-filter-settings-container .table>thead,
+.data-filter-settings-container .table>tbody{
+    float: left;width: 100%;
+}
+.data-filter-settings-container .table>tbody{
+    overflow: auto;
+    height: 350px;
+    /*background-color: aliceblue;*/
+}
+.data-filter-settings-container .table>tbody>tr:hover{
+    background-color: #ddddde;
+    cursor: pointer;
+}
+.data-filter-settings-container .table>thead>tr{
+    text-transform: uppercase;
+}
+.data-filter-settings-container .table>thead>tr>th{
+    padding: 0px;
+    padding-left: 4px;
+    border-bottom: 1px solid #000000;
+}
+.data-filter-settings-container .table>tbody>tr>td{
+    padding: 2px;
+    border-top: transparent;
+    border-bottom:1px solid #000000;
+    font-size: 11px;
+    padding-left: 8px;
+    overflow: hidden; white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.data-filter-settings-container .table>tfoot > tr > td{
+    border: none;
+}
+.data-filter-settings-container .comparatorGrpRow,.data-filter-settings-container .comparatorGrpRow:hover{
+    background-color: black !important;
+    color: white;
+    cursor: default !important;
+}
+.data-filter-settings-container .data-filter-title-column{
+    width: 30%;
+}
+.data-filter-settings-container .attribute-column{
+    width: 70%;
+}
+.data-filter-settings-container .edit-delete-column{
+    width: 120px;
+}
+.data-filter-settings-container .footer-container-div{
+    padding-top: 10px;
+    padding-left: 12px;
+    border-top: 1px solid;
+    width: 95%;
+}
+.data-filter-settings-container .btn-add-filter {
+    height: 22px;
+    border: none;
+    border-radius: 0;
+    background: #FFFFFF !important;
+    margin-left: -3px;
+    padding-top: 2px;
+    float: left;
+}
+.data-filter-settings-container .btn-add-filter:hover{
+    background: #878787 !important;
+    color: white;
+}
+
+.data-filter-settings-container .footer-container-div .fa{
+    font-size: 14px;
+    margin-right: 3px;
+}
+.data-filter-settings-container .btn-edit{
+    height: 16px;
+    border: none;
+    border-radius: 0;
+    background: inherit !important;
+    color: #000000;
+    width: 33px;
+    margin-right: 4px;
+}
+.data-filter-settings-container .btn-edit:hover{
+    background: #555759 !important;
+    color: white;
+}
+.data-filter-settings-container .btn-delete{
+    display: inline-block;
+    width: 20px;
+}
+.data-filter-settings-container .invisiable{
+    visibility: hidden;
+}
+.data-filter-settings-container .fa-times{
+    font-size: 14px;
+}
+.data-filter-settings-container .fa-times-circle{
+    font-size: 14px;
+}

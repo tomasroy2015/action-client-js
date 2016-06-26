@@ -1,0 +1,200 @@
+/* All external import files
+======================================================*/
+@import '_Colors';
+@import '_Mixins';
+
+$score-item-height:24px;
+$calculate-right:11px;
+//$calculate-right: calc(#{$score-item-height/2} - 1px);
+
+
+div.service-area-questions-container {
+  margin-right : 0px;
+  width        : 229px; /*question item width in left panel.total background width of a item*/
+  margin-top   : 10px;
+  padding-left : 3px;
+}
+
+/*Question hover arrow style  */
+
+ul.question {
+  display  : table;
+  width    : 100%; /*94% need to check from this line */
+  padding  : 0px;
+  margin   : 0px;
+  position : relative;
+  width       : 240px;
+  li.questionListItem {
+    display    : block;
+    height     : $score-item-height;
+    position   : relative;
+    padding    : 0px;
+    margin     : 2px;
+    text-align : center;
+    //border     : 1px solid transparent;
+    width       : 225px;
+    &:not(.selectedQuestionItem):hover {
+      background-color : $GIARTE_LIGHT_GRAY;
+      cursor           : pointer;
+
+      &:after {
+        top   : 0;
+        @include right-arrow($score-item-height/2, $GIARTE_LIGHT_GRAY, 100);
+        right : -$calculate-right;
+      }
+    }
+  }
+
+  //li[data-questionType='group'].questionListItem {
+  //  :not(.selectedQuestionItem) :hover {
+  //    background-color: transparent;
+  //    cursor: pointer;
+  //    &:after{
+  //      border-left: $score-item-height/2 solid transparent;
+  //    }
+  //  }
+  //}
+
+
+  //ul.question li[data-questionType='group'].questionListItem:not(.selectedQuestionItem):hover:after {
+  //  //top: 0;
+  //  //content: "";
+  //  //position: absolute;
+  //  //right: -12.5px;
+  //  //border-top: 12.5px solid transparent;
+  //  //border-bottom: 12.5px solid transparent;
+  //  border-left: 12.5px solid transparent;
+  //  //z-index: 100;
+  //}
+  .questionListItemDiv {
+    position    : relative;
+    line-height : $score-item-height; /* equal to the list item's height */
+    height      : 100%;
+    width       : 225px;
+  }
+}
+
+
+ul.question li[data-questionType='group']:not(.selectedQuestionItem):hover:after{
+  /*        pointer-events: none; */
+  /*          border:1px solid red;          */
+  top: 0;
+  content: "";
+  position: absolute;
+  right: -12px;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid transparent;
+  z-index: 100;
+  right: -11px;
+
+}
+
+
+/*start*/
+.selectedQuestionListItemDiv {
+  cursor: pointer;
+  background-color : $GIARTE_YELLOW;
+  position         : relative;
+  line-height      : $score-item-height; /* equal to the list item's height */
+  height           : 100%;
+  width            : 225px;
+  &:after {
+    top   : 0;
+    @include right-arrow($score-item-height/2, $GIARTE_YELLOW, 100);
+    right : -$calculate-right;
+  }
+}
+
+/*list item style*/
+.questionContainerDiv {
+  padding   : 0;
+  margin    : 0;
+  width     : 100%;
+  float     : left;
+  height    : $score-item-height;
+  font-size : 11px;
+}
+
+.questionLabelDiv {
+  text-align    : left;
+  margin-top    : 0px;
+  width         : 134px;
+  float         : left;
+  overflow      : hidden;
+  white-space   : nowrap;
+  text-overflow : ellipsis;
+  top           : 0;
+  margin-right  : 3px;
+  padding-left  : 4px;
+}
+
+.questionScoreDiv1 {
+  margin-top  : 0px;
+  width       : 30px;
+  display     : inline-block;
+  float       : left;
+  top         : 0;
+  font-weight : bold;
+}
+
+.canvasContainer {
+  height : 28px;
+}
+
+.questionScorebar {
+  background-color : transparent;
+  padding-left     : 0;
+  padding-right    : 0;
+  margin-left      : 0;
+  margin-right     : auto;
+  display          : block;
+  float            : left;
+  top              : 5px
+}
+
+.questionText {
+  color : #000000;
+}
+
+ul li {
+  list-style : none;
+}
+
+/* Shahin new design May 24-2015 */
+
+//li[data-questionType='group'] {
+//  width      : 235px;
+//  background : #ddddde;
+//}
+
+ul.question li[data-questionType='group'] {
+  width: 235px;
+  background: #ddddde;
+  font-weight:bold;
+  /* border:2px solid red; */
+  /* color:red; */
+  margin-bottom:15px;
+}
+
+
+
+ul.question li[data-questionType='group'].selectedQuestionItem{
+  background:transparent;
+}
+
+ul.question > li[data-questiontype='group']{
+  margin-top:20px;
+  color:red;
+  /*     border:1px solid red; */
+}
+
+ul.question > li[data-questiontype='group']:first-child{
+  margin-top:0;
+  /*    border:1px solid green; */
+}
+
+
+
+//temp
+

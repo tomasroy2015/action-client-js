@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="Views/LeftMenuSettings/MoreSettings.css"/>
+<div id="more-settings-container" class="container more-settings-container">
+    <div class="page-header moresettings-page-header">
+        <p>More settings</p>
+        <div class="more-settings-arrow-container close-slide-in"><i class="fa fa-caret-left"></i></div>
+    </div>
+    <div class="more-settings-body">
+        <div id="respondentContainer" class="more-settings-panel-container">
+            <label class="more-settings-common-label" >
+                Minimum number of respondent
+            </label>
+            <div id="respondent-value" class="moresettings-value-container">
+                <div class="row">
+                    <label class="row respondent-label" for="txtPerSite">
+                        Per site
+                        <input  id="txtPerSite" type="text" ng-model="moreSettingsValue" >
+                    </label>
+                 </div>
+                 <div class="row">
+                    <label class="row respondent-label" for="txtPerCountry">
+                        Per Country
+                        <input id="txtPerCountry" type="text" ng-model="moreSettingsValue" >
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div id="zoomLevelContainer" class="more-settings-panel-container">
+            <label class="more-settings-common-label" >
+                       Default zoom level
+            </label>
+            <div  class="moresettings-value-container">
+                <div class="moresettings-radio-group">
+                    <label class="radio moresettings-radio" for="automaticLevel">
+                        <input id="automaticLevel" type="radio" name="zoomLevelGroup" ng-model="moreSettingsValue">Automatic(all sites)
+                    </label>
+                    <label class="radio moresettings-radio" for="worldViewType">
+                        <input id="worldViewType" type="radio" name="zoomLevelGroup" ng-model="moreSettingsValue">World view
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div id="colorSetContainer" class="color-settings-panel-container">
+            <label class="more-settings-common-label"  >
+                         Color set<br>
+            </label>
+            <div  class="color-set-container">
+                <div class="moresettings-radio-group">
+                    <label class="radio moresettings-radio" for="colosetStandard">
+                        <input id="colosetStandard" type="radio" name="colorSetGroup"
+                                ng-model="moreSettingsValue">Standard
+                        <div class="color-group-panel">
+                            <i id="stdColor1" class="fa fa-minus-circle"></i>
+                            <i id="stdColor2" class="fa fa-circle"></i>
+                            <i id="stdColor3" class="fa fa-plus-circle"></i>
+                        </div>
+
+                    </label>
+
+                    <label class="radio moresettings-radio" for="colosetHighContrast">
+                        <input id="colosetHighContrast" type="radio" name="colorSetGroup"
+                                ng-model="moreSettingsValue">High contrast
+                        <div class="color-group-panel">
+                            <i id="hcColor1"  class="fa fa-minus-circle"></i>
+                            <i id="hcColor2"  class="fa fa-circle"></i>
+                            <i id="hcColor3"  class="fa fa-plus-circle"></i>
+                        </div>
+                    </label>
+
+                    <label class="radio moresettings-radio" for="colosetBlind1">
+                        <input id="colosetBlind1" type="radio" name="colorSetGroup"
+                                ng-model="moreSettingsValue">Color blind 1
+                        <div class="color-group-panel">
+                            <i id="blindColor1"  class="fa fa-minus-circle"></i>
+                            <i id="blindColor2"  class="fa fa-circle"></i>
+                            <i id="blindColor3"  class="fa fa-plus-circle"></i>
+                        </div>
+                    </label>
+
+                    <label class="radio moresettings-radio" for="colosetBlind2">
+                        <input id="colosetBlind2" type="radio" name="colorSetGroup"
+                             ng-model="moreSettingsValue">Color blind 2
+                        <div class="color-group-panel">
+                            <i id="blind2Color1" class="fa fa-minus-circle"></i>
+                            <i id="blind2Color2" class="fa fa-circle"></i>
+                            <i id="blind2Color3" class="fa fa-plus-circle"></i>
+                        </div>
+                    </label>
+
+                </div>
+            </div>
+        </div>
+        <div class="moresettings-button-container">
+            <button id="btn-OK" type="submit" class="btn btn-success btn-sm btn-moresettings-ok"
+                    ng-click="moreSettingOkBtnClick()">
+                OK
+            </button>
+        </div>
+    </div>
+</div>

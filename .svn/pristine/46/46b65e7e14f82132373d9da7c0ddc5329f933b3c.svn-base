@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/OSEvaluationSummaryTemplate.css"/>
+<div class="overall-summary-container">
+    <p>n</p>
+    <div class="overall-frequency-container">
+       <ul class="overall-frequency-bars">
+           <li class="overall-frequency-list-bar" ng-repeat="scoreFrequency in selectedAttributeScore.QuestionScoreFrequency">
+               <span>{{scoreFrequency.Frequency}}</span>
+               <action-frequency-bar score-frequency="scoreFrequency" selected-attribute="selectedAttributeScore"></action-frequency-bar>
+               <span>{{scoreFrequency.AnswerType}}</span>
+           </li>
+       </ul>
+    </div>
+</div>
+

@@ -1,0 +1,246 @@
+
+html {
+    position   : relative;
+    min-height : 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+/*     margin-bottom : 45px; */
+    min-height    : 400px;
+}
+
+/*-------------------------------------------------
+               Bootstrap Override class
+-------------------------------------------------*/
+.container.loading-container {
+    opacity: 5;
+    width     : auto;
+    max-width : 680px;
+    padding   : 0 15px;
+    min-width : 455px;
+}
+
+.page-header {
+    border-bottom : none;
+}
+/*-------------------------------------------------
+             End of Bootstrap Override class
+ -------------------------------------------------*/
+
+/*-------------------------------------------------
+                Login Control Panel
+-------------------------------------------------*/
+.panel {
+    border-radius : 0;
+}
+
+.panel-default.loading-default {
+    height        : 350px;
+    width         : 425px;
+    margin-left   : auto;
+    margin-right  : auto;
+    border-radius : 0;
+}
+
+.form-group.last {
+    margin-bottom : 0;
+}
+
+.panel-body.loading-body {
+    padding : 15px;
+}
+
+.panel-default > .panel-heading.loading-heading {
+    background-image : url('');
+    background-color : #000 !important;
+    color            : #fff !important;
+    height           : 57px;
+    line-height      : 42px;
+    font-size        : 1.416666666666667em;
+    border-radius    : 0;
+}
+
+
+.logo {
+    float        : right;
+    margin-top   : 10px;
+    margin-right : 10px;
+}
+
+.content-heading {
+    font-weight : bold;
+    font-size   : 18px;
+    color       : #555759;
+}
+
+.content-heading-context {
+    margin    : 6px 0;
+    font-size : 13px;
+    color     : #555759;
+    text-wrap : normal;
+}
+
+.padding-left-label-text {
+    text-align : left !important;
+}
+
+.loading-text{
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 15px;
+}
+/*-------------------------------------------------
+                    Footer Panel
+-------------------------------------------------*/
+.footer {
+    position         : absolute;
+    bottom           : 0;
+    width            : 100%;
+    /* Set the fixed height of the footer here */
+    height           : 45px;
+    background-color : #555759;
+    min-width        : 455px;
+    left             : 0;
+}
+
+.url-container {
+    right     : 60px;
+    position  : absolute;
+    transform : translateY(100%);
+}
+
+.right-arrow-container {
+    right     : 34px;
+    position  : absolute;
+    transform : translateY(69%);
+}
+
+.arrow-container {
+    right     : 36px;
+    position  : absolute;
+    transform : translateY(90%);
+}
+
+.url-container > a {
+    text-decoration : none;
+    color           : #fff;
+}
+
+.url-container > a:hover {
+    text-decoration : none;
+    color           : #ddddde;
+}
+
+/*-------------------------------------------------
+                End of Footer Panel
+-------------------------------------------------*/
+
+/*-------------------------------------------------
+                Media Query Section
+-------------------------------------------------*/
+@media only screen and (min-width : 480px) {
+    .page-header.loading-header {
+        top         : 50%;
+        left        : 50%;
+        position    : absolute;
+        margin-left : -212.5px;
+        margin-top  : -197.5px;
+    }
+}
+
+/*-------------------------------------------------
+            End of Media Query Section
+-------------------------------------------------*/
+
+
+
+
+
+.show-loading{
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-perspective: 300px;
+    -moz-perspective: 300px;
+    -ms-perspective: 300px;
+    -o-perspective: 300px;
+    perspective: 300px;
+    margin-top: 50px;
+    margin-left: 125px;
+}
+
+/*.small,.big{*/
+    /*-webkit-perspective-origin: 50% 50%;*/
+    /*-ms-perspective-origin: 50% 50%;*/
+    /*-moz-perspective-origin: 50% 50%;*/
+    /*-o-perspective-origin: 50% 50%;*/
+    /*perspective-origin: 50% 50%;*/
+/*}*/
+
+.make-rotation{
+    -webkit-animation: rotation 2s infinite linear;
+    -moz-animation: rotation 2s infinite linear;
+    -ms-animation: rotation 2s infinite linear;
+    -o-animation: rotation 2s infinite linear;
+    animation: rotation 2s infinite linear;
+}
+
+/*.small{*/
+    /*position: fixed;*/
+    /*background:white;*/
+    /*top: 10px;*/
+    /*left: 30px;*/
+    /*-webkit-animation: rotation2 8s infinite linear;*/
+    /*-moz-animation: rotation2 8s infinite linear;*/
+    /*-ms-animation: rotation2 8s infinite linear;*/
+    /*-o-animation: rotation2 8s infinite linear;*/
+    /*animation: rotation2 8s infinite linear;*/
+
+/*}*/
+
+
+@-webkit-keyframes rotation {
+    from   { -webkit-transform: rotateZ(0deg);}
+    to { -webkit-transform: rotateZ(359deg); }
+}
+@-moz-keyframes rotation {
+    from   { -moz-transform: rotateZ(0deg);}
+    to { -moz-transform: rotateZ(359deg); }
+}
+@-ms-keyframes rotation {
+    from   { -ms-transform: rotateZ(0deg);}
+    to { -ms-transform: rotateZ(359deg); }
+}
+@-o-keyframes rotation {
+    from   { -o-transform: rotateZ(0deg);}
+    to { -o-transform: rotateZ(359deg); }
+}
+@keyframes rotation {
+    from   { transform: rotateZ(0deg);}
+    to { transform: rotateZ(359deg); }
+}
+
+@-webkit-keyframes rotation2 {
+    0%   { -webkit-transform: rotateZ(359deg);}
+    100% { -webkit-transform: rotateZ(0deg); }
+}
+@-moz-keyframes rotation2 {
+    0%   { -moz-transform: rotateZ(359deg);}
+    100% { -moz-transform: rotateZ(0deg); }
+}
+@-ms-keyframes rotation2 {
+    0%   { -ms-transform: rotateZ(359deg);}
+    100% { -ms-transform: rotateZ(0deg); }
+}
+@-o-keyframes rotation2 {
+    0%   { -o-transform: rotateZ(359deg);}
+    100% { -o-transform: rotateZ(0deg); }
+}
+@keyframes rotation2 {
+    0%   { transform: rotateZ(359deg);}
+    100% { transform: rotateZ(0deg); }
+}

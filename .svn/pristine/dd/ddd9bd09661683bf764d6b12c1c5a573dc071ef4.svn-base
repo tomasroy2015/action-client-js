@@ -1,0 +1,51 @@
+define(['application-configuration'], function (app) {
+
+    app.register.factory('comparatorFactory', ['$rootScope','ComparatorType',
+        function ($rootScope, ComparatorType) {
+
+            var comparatorFactory = {};
+            comparatorFactory.selectedComparatorType = ComparatorType.Target;
+            comparatorFactory.comparatorName = "Target";
+
+           function getComparatorName(compType){
+                var type = compType.toString();
+                switch (type) {
+                    case ComparatorType.Target.toString():
+                        comparatorFactory.comparatorName = "Target";
+                        break;
+                    case ComparatorType.Median.toString():
+                        comparatorFactory.comparatorName = "Benchmark median";
+                        break;
+                    case ComparatorType.UpperLimit.toString():
+                        comparatorFactory.comparatorName = "Benchmark upper limit";
+                        break;
+                    case ComparatorType.LowerLimit.toString():
+                        comparatorFactory.comparatorName = "Benchmark lower limit";
+                        break;
+                    case ComparatorType.Average.toString():
+                        comparatorFactory.comparatorName = "Average";
+                        break;
+                    case ComparatorType.Custom.toString():
+                        comparatorFactory.comparatorName= "Custom value";
+                        break;
+                }
+               return comparatorFactory.comparatorName;
+            };
+
+            return {
+                UpdateComparatorType: function (comparatorType) {
+                    comparatorFactory.selectedComparatorType = comparatorType;
+                    getComparatorName(comparatorType);
+                },
+                SelectedComparatorType: function () {
+                    return comparatorFactory.selectedComparatorType;
+                },
+                ComparatorName: function(){
+                    return comparatorFactory.comparatorName;
+                }
+            };
+
+            return comparatorFactory;
+        }]);
+})
+

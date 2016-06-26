@@ -1,0 +1,38 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionScorecard', [function () {
+        //$rootScopeProvider.digestTtl(1000);
+        return {
+            restrict: 'AE',
+            scope: {
+                data:"="
+            },
+            link: function (scope, el, attrs) {
+                //console.log(scope.data);
+
+                scope.getScoreComparator = function (question) {
+
+                    //tmp = {
+                    //    Score: question.Score,
+                    //    ComparatorValue: comparatorFactory.GetScoreItemComparator(question.QuestionId),
+                    //    ComparatorColorCode: dataFactory.GetScoreColor(question.Score, comparatorFactory.GetScoreItemComparator(question.QuestionId))
+                    //};
+                    //
+                    //return tmp;
+
+                    //return {
+                    //    Score: question.Score,
+                    //    ComparatorValue: comparatorFactory.GetScoreItemComparator(question.QuestionId),
+                    //    ComparatorColorCode: dataFactory.GetScoreColor(question.Score, comparatorFactory.GetScoreItemComparator(question.QuestionId))
+                    //}
+                };
+            },
+            templateUrl: 'Views/Shared/Template/ScorecardTemplate.html'
+        };
+
+
+    }]);
+
+});

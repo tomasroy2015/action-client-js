@@ -1,0 +1,109 @@
+
+"use strict";
+
+define(['application-configuration','ui-grid-unstable','lodash'], function (app) {
+
+    app.register.directive('actionEvaluations', ['uiGridConstants',function (uiGridConstants) {
+        return {
+            restrict: 'AE',
+            scope:{
+                evaluationCollection:'=',
+                selectedServiceAreaId:'=',
+                hasTranslation:'=',
+                onItemClick:'&'
+            },
+            link:function (scope, el, attrs) {
+                    scope.evaluationUiGridConfig = {
+                        rowHeight: 40,
+                        enableSorting: true,
+                        rowSelectionHeader: false,
+                        enableFullRowSelection: true,
+                        enableRowSelection: false,
+                        multiSelect: false,
+                        showTreeRowHeader:false,
+                        onRegisterApi: function (gridApi) {
+                            scope.gridApi = gridApi;
+                            scope.gridApi.grid.options.enableHorizontalScrollbar=0;
+                            scope.gridApi.core.on.sortChanged(scope, function (grid, sort) {
+                                scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+                                scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.EDIT);
+                            });
+
+                        },
+                        rowTemplate: 'Views/LeftMenu.Evaluations/EvaluationUIGrid/EvaluationGridRowTemplate.html'
+                    };
+
+                scope.columnSortOrder = "";
+                scope.selectedColumnName;
+                scope.columnsGrd=[];
+
+                scope.$watch(function(scope){return scope.evaluationCollection},function(newValue,oldValue){
+                    if(angular.isUndefined(newValue) || newValue.length<1)
+                    return;
+                    setEvaluationUIGrid();
+                    function setEvaluationUIGrid(){
+                        var colData = newValue[0].Answers;
+                        setResetUIGridColumn(colData);
+
+                        scope.evaluationUiGridConfig.data = newValue;
+                        if(!angular.isUndefined(scope.gridApi))
+                            scope.gridApi.grid.refresh();
+                    }
+                    function setResetUIGridColumn(colData){
+                        while(scope.columnsGrd && scope.columnsGrd.length > 0) {
+                            scope.columnsGrd.pop();
+                        }
+                        var commentsGridColumn= {
+                            field: 'Remarks',
+                            displayName: 'COMMENTS',
+                            //width:"100%",
+                            //columnHeaderGrpDisplayName:'COMMENTS',
+                            enableSorting: true,
+                            // width:120,
+                            headerCellTemplate: 'Views/LeftMenu.Evaluations/EvaluationUIGrid/HeaderTemplates/HeaderTemplate.html',
+                            cellTemplate: 'Views/LeftMenu.Evaluations/EvaluationUIGrid/CellTemplates/CommentsColumnCellTemplate.html'
+                        };
+
+//                        for(var i=0;i<colData.length;i++)
+//                        {
+//                            var answersGridColumn={
+//                                field:'Answers',
+//                                colIndex:i,
+//                                displayName:"",
+//                                width:30,
+//                                enableSorting:true,
+//                                //columnHeaderGrpDisplayName:'SCORES',
+//                                cellTemplate:'Views/LeftMenu.Evaluations/EvaluationUIGrid/CellTemplates/AnswerColumnCellTemplate.html',
+//                                headerCellTemplate:'Views/LeftMenu.Evaluations/EvaluationUIGrid/HeaderTemplates/HeaderTemplate.html'
+//                            }
+//                            scope.columnsGrd.push(answersGridColumn);
+//                        }
+
+                        var widthPercentage=Math.ceil((30/8)* colData.length);
+                        var widthStr=widthPercentage+"%";
+
+                        var answersGridColumn={
+                            colColl:colData,
+                            field:'Answers',
+                            displayName:'SCORES',
+                            enableSorting: false,
+                            minWidth:80,
+                            width:widthStr,
+                            cellTemplate:'Views/LeftMenu.Evaluations/EvaluationUIGrid/CellTemplates/AnswerColumnCellTemplate.html',
+                            headerCellTemplate:'Views/LeftMenu.Evaluations/EvaluationUIGrid/HeaderTemplates/AnswerColumnHeaderTemplate.html'
+                        }
+                        scope.columnsGrd.push(commentsGridColumn);
+                       scope.columnsGrd.push(answersGridColumn);
+                        scope.evaluationUiGridConfig.columnDefs = scope.columnsGrd;
+                    }
+                },true)
+                scope.onEvaluationItemClick = function(selectedItem){
+                    scope.onItemClick({selectedEvaluation:selectedItem});
+                };
+
+            },
+            templateUrl: 'Views/Shared/Template/ServiceAreaEvaluationsTemplate.html'
+        };
+    }]);
+
+});

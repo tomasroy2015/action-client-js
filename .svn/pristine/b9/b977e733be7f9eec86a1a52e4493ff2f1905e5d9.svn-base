@@ -1,0 +1,67 @@
+
+
+/*-----------------------------------
+scorebar directive style
+-------------------------------------*/
+.lisview-container {
+    padding-top: 20px;
+    width: 100%;
+    margin-top: 5px;
+    /*border : 1px solid deeppink;*/
+    height:100%;
+    min-height:100%;
+}
+
+.lisview-container .row-container{
+    margin-right: 0;
+    margin-left: 0;
+}
+.selected {
+    background-color: #d6f3da;
+}
+
+ td div {
+     width: 150px;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+ }
+
+ .table  tbody > tr div{
+     height: 30px;
+ }
+
+ .table thead > tr > th {
+     vertical-align: bottom;
+     border-bottom: 1px solid #000000;
+ }
+
+/*.scorebar-mainDiv{*/
+    /*padding: 0;margin: 0;width: 100%;float: left*/
+/*}*/
+
+/*.scorebar-scoreDiv{*/
+    /*margin-top: 0px;width: 30px;display: inline-block;float: left*/
+/*}*/
+
+/*.scorebar-scorebarCanvas{*/
+    /*padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;float: left*/
+/*}*/
+.vscrollbar
+{
+    overflow-x: hidden; /*for hiding horizontal scroll bar*/
+    overflow-y: auto; /*for vertical scroll bar*/
+}
+/*list pagination */
+.pagination {
+    display: inline-block;
+    border-radius: 1px;
+    float: right;
+    padding: 0;
+    margin-bottom: 3px;
+    margin-top: -10px;
+}
+
+/*Question score box style*/
+.horizontal { display: inline; float: left; }
+/*list view evaluation bubble style*/

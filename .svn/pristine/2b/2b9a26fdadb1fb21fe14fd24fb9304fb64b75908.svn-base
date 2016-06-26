@@ -1,0 +1,10 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.controller('headerController', ['$scope', function ($scope) {
+        console.log('Header Controller running...');
+    }]);
+
+});
+

@@ -1,0 +1,42 @@
+"use strict";
+
+define(['application-configuration', 'dataFactory', 'moreSettingsFactory','ViewDataFactory'], function (app) {
+    app.register.controller('moreSettingsController', ['$rootScope','$scope','dataFactory','ViewDataFactory','moreSettingsFactory','Notify',
+           function($rootScope,$scope,dataFactory,ViewDataFactory,moreSettingsFactory,Notify){
+               $scope.minSiteRespondent = 0;
+               $scope.minCountryRespondent = 0;
+               $scope.colorSettings = dataFactory.GetColorSettings();
+               $scope.selectedColorSet = $scope.colorSettings[0];
+               $scope.selectedZoomLevel = 1;
+               moreSettingsFactory.SetMinimumRespondentForCountry($scope.minSiteRespondent);
+               moreSettingsFactory.SetMinimumRespondentForSite($scope.minCountryRespondent);
+
+               $scope.updateColorSet = function(colorSet){
+                   moreSettingsFactory.SetColorSet(colorSet.OnTarget,colorSet.CloseToTarget,colorSet.FarFromTarget);
+                   ViewDataFactory.preparedServiceAreaScoreDataCollection();
+                   $rootScope.$broadcast(Notify.COMPARATOR_COLOR_CHANGED);
+               };
+               $scope.updateZoomLevel = function(selectedZoomLevel){
+                   moreSettingsFactory.SetDefaultZoomLevel(selectedZoomLevel);
+               };
+               $scope.respondentCountryChange_Handler= function(minResp){
+                   if(typeof (minResp) != 'undefined' || minResp != null ){
+                       moreSettingsFactory.SetMinimumRespondentForCountry(minResp);
+                   }
+                   else{
+                       minResp = 0;
+                       moreSettingsFactory.SetMinimumRespondentForCountry(minResp);
+                   }
+               };
+               $scope.respondentSiteChange_Handler= function(minResp) {
+                   if(typeof (minResp) != 'undefined' || minResp != null ) {
+                       moreSettingsFactory.SetMinimumRespondentForSite(minResp);
+                   }
+                   else{
+                       minResp = 0;
+                       moreSettingsFactory.SetMinimumRespondentForSite(minResp);
+                   }
+               };
+        }]);
+});
+

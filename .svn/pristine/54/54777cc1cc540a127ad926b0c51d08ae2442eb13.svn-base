@@ -1,0 +1,8 @@
+﻿<link rel="stylesheet" href="Views/Shared/CSS/ScoreBarTemplate.css"/>
+<div class="list-view-scorebar-mainDiv">
+    <div class="list-view-scorebar-scoreDiv"><span style="font-weight: bold;font-size: 16px;">{{baseScore}}</span></div>
+    <canvas id="{{::canvasid}}" height="23" width="100" class="list-view-scorebar-scorebarCanvas"></canvas>
+    <div class="list-view-scorebar-scoreDiv"
+         style="padding-top: 7px !important;text-align: start;width: 39px !important;">&nbsp;&nbsp;
+        <span>{{comparatorValue}}</span></div>
+</div>

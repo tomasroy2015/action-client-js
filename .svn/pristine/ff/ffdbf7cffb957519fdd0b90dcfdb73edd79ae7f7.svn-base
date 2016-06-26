@@ -1,0 +1,95 @@
+"use strict";
+define(['application-configuration','lodash'], function (app) {
+    app.register.directive('actionAddEditCountryMapping',['customerSettingsFactory','Notify',
+        function (customerSettingsFactory,Notify) {
+            return {
+                restrict: 'E',
+                scope: {
+                    show: '=info',
+                    message:'=',
+                    data:'=',
+                    selectedData:'=',
+                    windowCloseListener:'&',
+                    customer:'=',
+                    isEdit:'='
+                },
+//                controller:function($scope){
+//                },
+                link:function (scope, el, attrs) {
+                    scope.mapData = {};
+                    scope.selectedItem = {};
+                    scope.countries = [];
+                    scope.distinctCountryList = [];
+                    angular.copy(scope.data,scope.mapData);
+                    scope.dialogStyle = {};
+
+                    if (attrs.width)
+                        scope.dialogStyle.width = attrs.width;
+                    if (attrs.height)
+                        scope.dialogStyle.height = attrs.height;
+                    scope.hideModal = function() {
+                        scope.show = false;
+                        scope.windowCloseListener();
+                    };
+
+                    if(!scope.isEdit){
+                        scope.title = "Add country mapping";
+                        scope.countries = scope.mapData.UnMappedCountries;
+                        scope.selectedCountry= scope.countries[0];
+                    }else{
+                        scope.title = "Edit country mapping";
+                        angular.copy(scope.selectedData,scope.selectedItem);
+                        scope.countries.push(scope.selectedItem);
+                        scope.selectedCountry= scope.countries[0];
+                    }
+                    InitializeData();
+                    function InitializeData(){
+                       var customer={
+                            SessionId:scope.customer.SessionId,
+                            CustomerId: scope.customer.CustomerId,
+                            FromDate:new Date(new Date().getFullYear(), new Date().getMonth() - 11, 1),
+                            ToDate:new Date((new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)) - 1)
+                        };
+                        customerSettingsFactory.GetDistinctCountryList(customer);
+                    }
+                    scope.$on(Notify.CUSTOMER_SETTINGS_DISTINCT_COUNTRY_DATA_READY, function (event) {
+                        if(scope.isEdit){
+                            if(scope.selectedItem.MappedCountries){
+                                _.forEach(scope.selectedItem.MappedCountries,function(f){
+                                    scope.distinctCountryList.push({isSelected:true,Value: f.MappedCountryValue});
+                                });
+                            }
+                        }
+
+                       var distinctList = customerSettingsFactory.DistinctCountryList();
+                        if(distinctList && distinctList.length > 0){
+                            _.forEach(distinctList,function(f){
+                                scope.distinctCountryList.push({isSelected:false,Value: f});
+                            });
+                        }
+
+                    });
+                    scope.$on(Notify.CUSTOMER_SETTINGS_COUNTRYMAPPING_ADD_UPDATE_SUCCESS,function(event){
+                        scope.hideModal();
+                    });
+                    scope.addEditCountryMapping=function(){
+                        scope.selectedCountry.MappedCountries = [];
+                        addMappedValues(scope.selectedCountry);
+                        var attrRoute="/"+scope.customer.SessionId+"/"+scope.customer.CustomerId;
+                        customerSettingsFactory.AddUpdateCountryMapping(scope.selectedCountry,attrRoute);
+                    };
+
+                    var addMappedValues = function(selectedCountry){
+                        _.forEach(scope.distinctCountryList,function(f){
+                            if(f.isSelected){
+                                selectedCountry.MappedCountries.push({CountryId:selectedCountry.Countrykey,CustomerId:scope.customer.CustomerId,MappedCountryValue: f.Value});
+                            }
+                        });
+                        return selectedCountry;
+                    }
+                },
+                templateUrl: 'Views/CustomerSettings/CountryMapping/AddEditCountryMappingTemplate.html'
+            };
+        }]);
+
+});

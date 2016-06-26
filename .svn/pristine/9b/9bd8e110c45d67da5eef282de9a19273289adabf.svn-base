@@ -1,0 +1,34 @@
+"use strict";
+
+define(['application-configuration', 'dataFactory', 'comparatorFactory'], function (app) {
+    app.register.controller('compareWithSettingsController', ['$scope','dataFactory','comparatorFactory','ComparatorType',
+           function($scope,dataFactory,comparatorFactory,ComparatorType){
+               $scope.isDoubleTargetSelected = false;
+               $scope.selectedComparator = ComparatorType.Target;
+               $scope.compareSettingsCustomValue = {
+                   min: 10,
+                   max: 100,
+                   step: 2,
+                   precision:50,
+                   value:50,
+                   orientation: 'horizontal',  // vertical
+                   handle: 'square', //'square', 'triangle' or 'custom'
+                   tooltip: 'hide', //'hide','always'
+                   tooltipseparator: ':',
+                   tooltipsplit: false,
+                   enabled: true,
+                   naturalarrowkeys: false,
+                   range: false,
+                   ngDisabled: false,
+                   reversed: false
+               };
+               $scope.updateComparatorType = function (type) {
+                   comparatorFactory.UpdateComparatorType(type);
+               };
+
+               $scope.doubleTargetSelection_Handler = function () {
+                   $scope.isDoubleTargetSelected = !$scope.isDoubleTargetSelected;
+               };
+        }]);
+});
+

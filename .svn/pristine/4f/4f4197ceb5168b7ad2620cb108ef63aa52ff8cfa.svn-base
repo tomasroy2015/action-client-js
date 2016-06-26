@@ -1,0 +1,18 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionFullScorecard', [function () {
+
+        return {
+            restrict: "E",
+            transclude:false,
+            link: function (scope, el, attrs) {
+
+            },
+            templateUrl: 'Views/FullScorecard/FullScorecardTemplate.html'
+        };
+    }]);
+
+});
+

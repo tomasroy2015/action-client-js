@@ -1,0 +1,75 @@
+.general-settings-container{
+    /*padding: 5px;*/
+    /*margin: 0;*/
+    /*padding-left: 16px;*/
+}
+.general-settings-container .template-header{
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+.general-settings-container .component-container-div{
+    height: 60px;
+}
+.general-settings-container .logo-url-container-div{
+    height: 116px;
+    border-bottom: 1px solid;
+    width: 470px;
+}
+.general-settings-container .footer-container-div{
+    padding-top: 10px;
+    padding-left: 12px;
+    padding-right: 50px;
+}
+.general-settings-container .btn-export{
+    width: 120px !important;
+}
+.general-settings-container .left-align{
+    float: left;
+}
+.general-settings-container .right-align{
+    float: right;
+}
+.general-settings-container .clear{
+    clear: both;
+}
+.general-settings-container .right-align-div{
+    width: 270px;
+}
+.general-settings-container .attribute-drop-down{
+    width: 234px;
+}
+.general-settings-container .drop-down{
+    width: 174px;
+}
+.general-settings-container .double-target-drop-down{
+    width: 215px;
+}
+.general-settings-container .text-input-normal{
+    width: 173px;
+    height: 20px;
+    border-radius: 0px;
+}
+.general-settings-container .text-input-large{
+    width: 470px;
+    height: 20px;
+    border-radius: 0px;
+}
+.general-settings-container .btn{
+    height: 22px;
+    border: none;
+    border-radius: 0;
+    background: #878787 !important;
+    margin-left: -3px;
+    padding-top: 2px;
+    color: white;
+    width: 58px;
+}
+.general-settings-container label{
+    vertical-align: top;
+}
+.general-settings-container label> input[type="checkbox"] {
+    margin: 0;
+}

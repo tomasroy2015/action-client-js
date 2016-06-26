@@ -1,0 +1,23 @@
+/*-------------------------------------------------
+                    app.css
+-------------------------------------------------*/
+@font-face {
+    font-family : 'AkkuratStd-Regular';
+    src         : url('/assets/fonts/AkkuratStd-Regular.otf') format('opentype');
+}
+
+body {
+    font-family              : "AkkuratStd-Regular", "Segoe UI Light", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+    -webkit-text-size-adjust : none;
+    text-size-adjust         : none;
+    font-size                : 12px;
+    /* height: 100%; */
+}
+
+#view-container.container-fluid {
+    height:100%;
+    /*background-color: #ffc40f;*/
+}
+
+
+

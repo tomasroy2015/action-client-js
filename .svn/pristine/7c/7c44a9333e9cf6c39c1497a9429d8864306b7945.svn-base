@@ -1,0 +1,162 @@
+define(['application-configuration'], function (app) {
+    app.register.factory('CreateViewDataFactory', [function () {
+
+        var ServiceAreaViewData = function () {
+            this.Id = "";
+            this.Name = ";";
+            this.SurveyType = "";
+            this.SortOrder = 0;
+            this.NoOfRespondent = 0;
+            this.Score = NaN;
+            this.Comparator = NaN;
+            this.ScoreColor = "#65B32E";
+            this.Items = [];
+        };
+        var QuestionScoreViewData = function () {
+            this.QuestionId = "";
+            this.QuestionText = "";
+            this.NoOfRespondent = 0;
+            this.Score = NaN;
+            this.Comparator = NaN;
+            this.ScoreColor = "#65B32E";
+            this.IsGroup = false;
+            this.IncludeInGroupScore = true;
+        };
+        var ServiceAreaScore = function () {
+            this.Id = "";
+            this.Name = "";
+            this.ShortCode = "";
+            this.SurveyType = "NOG";
+            this.SortOrder = 1;
+            this.Respondent = 0;
+            this.Score = NaN;
+            this.QuestionScores = [];
+        };
+        var QuestionScore = function () {
+            this.QuestionId = "",
+                this.QuestionText = "",
+                this.Score = NaN,
+                this.TotalResponse = 0,
+                this.PositiveResponse = 0,
+                this.NegativeResponse = 0,
+                this.Comparator = 0,
+                this.DoubleTargetComparator = 0,
+                this.IncludeInGroupScore = true
+        };
+        var CountryViewScoreData = function () {
+            this.Id = "";
+            this.CountryKey = "";
+            this.DisplayName = "";
+            this.Score = NaN;
+            this.Comparator = NaN;
+            this.CountryColor = "";
+            this.MappedCountryValues = null;
+            this.ServiceAreaScoreDataCollection = null;
+        };
+
+        var AttributeScoreData = function () {
+            this.AttributeIndex = -1;
+            this.ScoreDataCollection = null;
+        };
+        AttributeScoreData.prototype.IsAttributeScoreDataNull = function () {
+            var self = this;
+            if (!self.ScoreDataCollection)
+                return true;
+            return false;
+        };
+        var EvaluationData = function () {
+            this.SurveyType = "";
+            this.EvaluationCollection = null;
+        };
+        var DataFilterViewData = function (serviceAreaId, data) {
+            this.ServiceAreaId = serviceAreaId;
+            this.Id = data.Id;
+            this.Name = data.Name;
+            this.Score = 0;
+            this.Respondent = 0;
+            this.IsGroup = false;
+            this.IsChild = false;
+            this.parent = null;
+            if (data.IsGroup && data.GroupItemsScoreDataCollection && data.GroupItemsScoreDataCollection.length > 0) {
+                this.IsGroup = true;
+            }
+            var tmp = findItem(serviceAreaId, data);
+            if (tmp) {
+                this.Score = isNaN(tmp.Score) ? 0 : tmp.Score;
+                this.Respondent = tmp.Respondent;
+            }
+            this.ServiceAreaScoreDataCollection = data.ServiceAreaScoreDataCollection;
+        };
+
+        function findItem(serviceAreaId, data) {
+            if (data.ServiceAreaScoreDataCollection) {
+                var item = _.find(data.ServiceAreaScoreDataCollection, function (n) {
+                    return n.Id === serviceAreaId;
+                });
+                return item;
+            }
+        }
+
+        DataFilterViewData.prototype.SelectedServiceAreaScoreData = function (serviceAreaId) {
+            if (this.ServiceAreaScoreDataCollection && this.ServiceAreaScoreDataCollection.length > 0) {
+                var foundItem = _.find(this.ServiceAreaScoreDataCollection, function (n) {
+                    return n.Id === serviceAreaId;
+                });
+
+                this.Score = 0;
+                this.Respondent = 0;
+                if (foundItem) {
+                    this.Score = foundItem.Score;
+                    this.Respondent = foundItem.Respondent;
+                }
+            }
+        };
+
+
+        var DimensionValueGroupModel = function (GroupName, GroupItems) {
+            this.GroupName = GroupName;
+            this.GroupItems = GroupItems;
+        };
+
+        var DimensionValueGroupDeleteModel = function (GroupName, IsGroupDelete, GroupItems) {
+            this.GroupName = GroupName;
+            this.IsGroupDelete = IsGroupDelete;
+            this.GroupItems = GroupItems;
+        };
+
+        return {
+            ServiceAreaViewData: function () {
+                return new ServiceAreaViewData();
+            },
+            QuestionScoreViewData: function () {
+                return new QuestionScoreViewData();
+            },
+            ServiceAreaScoreModel: function () {
+                return new ServiceAreaScore();
+            },
+            QuestionScoreModel: function () {
+                return new QuestionScore();
+            },
+            CountryViewScoreData: function () {
+                return new CountryViewScoreData();
+            },
+            AttributeScoreData: function () {
+                return new AttributeScoreData();
+            },
+            EvaluationData: function () {
+                return new EvaluationData();
+            },
+            DataFilterViewData: function (serviceAreaId, data) {
+                return new DataFilterViewData(serviceAreaId, data);
+            },
+            DimensionValueGroupModel: function (GroupName, GroupItems) {
+                return new DimensionValueGroupModel(GroupName, GroupItems);
+            },
+            DimensionValueGroupDeleteModel: function (GroupName, IsGroupDelete, GroupItems) {
+                return new DimensionValueGroupDeleteModel(GroupName, IsGroupDelete, GroupItems);
+            }
+
+        };
+
+    }]);
+});

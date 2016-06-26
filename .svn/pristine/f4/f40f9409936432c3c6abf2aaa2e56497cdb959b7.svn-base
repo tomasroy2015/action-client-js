@@ -1,0 +1,30 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.controller('attributeScoreSummaryController', ['$scope', '$rootScope','$timeout','Notify', 'dataFactory', 'comparatorFactory','moreSettingsFactory','attributeScoreSummaryData','ViewDataFactory',
+        function ($scope, $rootScope,$timeout,Notify, dataFactory, comparatorFactory,moreSettingsFactory,attributeScoreSummaryData,ViewDataFactory) {
+            $scope.$on(Notify.COMPARATOR_TYPE_CHANGED, function () {
+                if(angular.isUndefined($scope.attributeData) || $scope.attributeData.length <= 0)
+                    return;
+
+                $scope.attributeData = attributeScoreSummaryData.getAttributeScoreSummaryData($scope.attributeData);
+                $scope.fullScorecardData = ViewDataFactory.preparedFullScorecardDataCollection($scope.attributeData);
+            });
+            $scope.$on(Notify.COMPARATOR_COLOR_CHANGED, function () {
+                if(angular.isUndefined($scope.attributeData) || $scope.attributeData.length <= 0)
+                    return;
+
+                $scope.attributeData = attributeScoreSummaryData.getAttributeScoreSummaryData($scope.attributeData);
+                $scope.fullScorecardData = ViewDataFactory.preparedFullScorecardDataCollection($scope.attributeData);
+                SetFrequencyColor();
+            });
+
+            function SetFrequencyColor(){
+               var colorSet = moreSettingsFactory.GetSelectedColorSet();
+                $('.negative-label').css({"background-color":colorSet.FarFromTarget});
+                $('.positive-label').css({"background-color":colorSet.OnTarget});
+            }
+        }]);
+
+});

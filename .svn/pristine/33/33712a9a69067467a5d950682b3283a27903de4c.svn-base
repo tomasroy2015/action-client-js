@@ -1,0 +1,10 @@
+<!--<link rel="stylesheet" href="Views/Shared/SCSS/ServiceAreaScoreItemTemplate.css"/>-->
+<!--<div class="questionContainerDiv"  data-questionType="{{question.QuestionType}}">-->
+<div class="questionContainerDiv">
+    <div class="questionText questionLabelDiv">
+       {{data.QuestionText}}
+    </div>
+    <div class="canvasContainer">
+        <action-customizable-score-bar data="data" width="width"></action-customizable-score-bar>
+    </div>
+</div>

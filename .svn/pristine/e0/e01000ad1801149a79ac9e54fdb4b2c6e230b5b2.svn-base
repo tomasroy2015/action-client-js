@@ -1,0 +1,129 @@
+.ip-mapping-container{
+
+}
+.ip-mapping-container .ng-modal-overlay {
+    /* A dark translucent div that covers the whole screen */
+    position:absolute;
+    z-index:9999;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:#ddddde;
+    opacity: 0.8;
+}
+.ip-mapping-container .ng-modal-dialog {
+    /* A centered div above the overlay with a box shadow. */
+    z-index:10000;
+    position: absolute;
+    width: 50%; /* Default */
+
+    /* Center the dialog */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 4px 4px 80px #000;
+}
+.ip-mapping-container .ng-modal-dialog-content {
+    padding:0px;
+    text-align: left;
+}
+.ip-mapping-container .cursor{
+    cursor: pointer;
+}
+.ip-mapping-container .fa-lg{
+    font-size: 19px;
+}
+.ip-mapping-container .ng-modal-close {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 120%;
+    display: inline-block;
+    font-weight: bold;
+    font-family: 'arial', 'sans-serif';
+}
+.ip-mapping-container .confirm-btn-container-div{
+    padding-top: 40px;
+    padding-left: 30px;
+    /* padding-right: 10px; */
+    margin-right: 13px;
+    text-align: center;
+    padding-bottom: 25px;
+}
+.ip-mapping-container .dialog-header{
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    min-height: 16.428571429px;
+    background-color: #000000;
+    color: white;
+    padding-top: 15px;
+    padding-right: 0px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    /* border-bottom: 1px solid #e5e5e5; */
+    height: 60px;
+    display: inline-block;
+    width: 100%;
+}
+.ip-mapping-container .modal-title{
+    font-size: 16px;
+    font-weight: bold;
+    width: 90%;
+    display: inline-block;
+}
+.ip-mapping-container .element-parent-div{
+    padding: 43px;
+    padding-bottom: 0px;
+}
+.ip-mapping-container .element-container-div{
+    height: 35px;
+}
+.ip-mapping-container label{
+    vertical-align: top;
+}
+
+.ip-mapping-container .inline-block{
+    display: inline-block;
+}
+.ip-mapping-container .label-width{
+    width: 80px;
+}
+
+.ip-mapping-container .text-input-normal{
+    width: 219px;
+    height: 20px;
+    border-radius: 0px;
+    font-size: 12px;
+    padding: 2px 2px 0px 4px;
+    color: #000;
+}
+.ip-mapping-container .form-control:focus{
+    border-color:red ;
+}
+.ip-mapping-container .btn{
+    height: 22px;
+    border: none;
+    border-radius: 0;
+    background: #878787 !important;
+    margin-left: -3px;
+    padding-top: 2px;
+    color: white;
+    width: 65px;
+    margin-right: 10px;
+}
+.ip-mapping-container .left-align{
+    float: left;
+}
+.ip-mapping-container .right-align{
+    float: right;
+}
+.ip-mapping-container .clear{
+    clear: both;
+}

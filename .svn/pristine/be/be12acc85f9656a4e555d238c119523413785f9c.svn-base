@@ -1,0 +1,173 @@
+html {
+  position: relative;
+  min-height: 100%; }
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 45px;
+  min-height: 400px;
+  /*400px*/
+  color: #000; }
+
+.dataset-container {
+  max-width: 680px;
+  padding: 0 15px;
+  min-width: 455px; }
+  .dataset-container .page-header {
+    border-bottom: none; }
+    .dataset-container .page-header .panel {
+      border-radius: 0; }
+      .dataset-container .page-header .panel.panel-default {
+        opacity: 0.9;
+        height: 380px;
+        /*350px*/
+        width: 425px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 0; }
+
+.panel-heading {
+  background-image: url("");
+  background-color: #000 !important;
+  color: #fff !important;
+  height: 57px;
+  line-height: 42px;
+  font-size: 1.416666666666667em;
+  /* 17px/12px */
+  text-shadow: none;
+  border-radius: 0; }
+  .panel-heading .logo {
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px; }
+
+.panel-body-container {
+  padding: 18px; }
+  .panel-body-container .content-heading {
+    font-weight: bold;
+    font-size: 1em;
+    font-weight: bold;
+    padding-left: 10px; }
+  .panel-body-container #ddlClient {
+    margin-left: 20px;
+    padding-left: 3px;
+    width: 180px;
+    height: 24px;
+    border-radius: 0;
+    font-weight: normal; }
+
+input[type='radio'] {
+  margin-top: 0; }
+
+#ddlMonthSelect input[type='radio'], #ddlQuaterSelection input[type='radio'] {
+  margin-left: 5px;
+  margin-top: 0;
+  padding-left: 3px;
+  width: 180px;
+  height: 24px;
+  border-radius: 0;
+  font-weight: normal; }
+
+.btn-group > div {
+  margin-bottom: 5px; }
+  .btn-group > div#monthDdlContainer, .btn-group > div#quarterDdlContainer {
+    display: flex; }
+
+select#ddlMonthSelect {
+  width: 150px;
+  height: 24px;
+  margin-left: 20px; }
+
+select#ddlQuaterSelection {
+  width: 150px;
+  height: 24px;
+  margin-left: 14px; }
+
+.checkbox-panel {
+  margin-top: 10px;
+  padding-left: 25px;
+  padding-right: 25px; }
+
+.button-container {
+  position: relative;
+  width: 100%;
+  height: 40px; }
+
+.btn-white-bg {
+  padding-top: 0;
+  height: 26px;
+  line-height: 26px;
+  background-color: #555759;
+  color: #fff;
+  border-radius: 0; }
+  .btn-white-bg:hover {
+    background-color: rgba(85, 87, 89, 0.8); }
+
+.right-side {
+  position: absolute;
+  right: 20px; }
+
+#datePanel {
+  margin-top: 10px; }
+
+.form-horizontal .control-label {
+  text-align: left; }
+
+/*-------------------------------------------------
+                    Footer Panel
+-------------------------------------------------*/
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 40px;
+  background-color: #555759;
+  min-width: 455px;
+  left: 0;
+  font-size: 0.8333333333333333em;
+  /* 10px/12px */
+  letter-spacing: 0.0416666666666667em; }
+  .footer .url-container {
+    right: 48px;
+    position: absolute;
+    transform: translateY(100%); }
+    .footer .url-container > a {
+      text-decoration: none;
+      color: #fff; }
+      .footer .url-container > a :hover {
+        color: #ddddde; }
+
+.right-arrow-container {
+  right: 21px;
+  position: absolute;
+  transform: translateY(69%); }
+
+.arrow-container {
+  right: 23px;
+  position: absolute;
+  transform: translateY(90%);
+  top: 2px; }
+
+/*-------------------------------------------------
+                Media Query Section
+-------------------------------------------------*/
+@media only screen and (min-width: 480px) {
+  .dataset-container .page-header {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    margin-left: -212.5px;
+    margin-top: -197.5px; }
+    .dataset-container .page-header .panel.panel-default {
+      opacity: 0.9;
+      height: 420px;
+      width: 425px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 0; }
+
+  .checkbox-panel {
+    margin-top: 2px; } }
+
+/*# sourceMappingURL=DatasetSelectionTemplate.css.map */

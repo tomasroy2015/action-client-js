@@ -1,0 +1,89 @@
+"use strict";
+define(['application-configuration'], function (app) {
+    app.register.directive("actionCustomizableScoreBar", function () {
+        var uid = 1;
+        return {
+            restrict: 'EA',
+            scope: {
+                scoreComparator: '=',
+                canvasid: '=',
+                isOsScore: '=',
+                width: '=',
+                data:'=',
+                scoreText:'@',
+                isFromLeftPanel:'@'
+            },
+            templateUrl: "Views/Shared/Template/CustomizableScoreBarTemplate.html",
+            replace: false,
+            link: function (scope, el, attr) {
+                //scope.isFromLeftPanel = false;
+               // scope.isOsScore = false;
+                scope.$watch(function(scope) {return scope.data || scope.isFromLeftPanel}, function (newValue,oldValue) {
+                    scope.isFromLeftPanel= scope.isFromLeftPanel || false;
+                    if(angular.isUndefined(newValue)) return;
+                    var score = newValue.Score;
+                    var comparator = newValue.Comparator;
+                    var colorCode = newValue.ScoreColor;
+                    var isOsScore = (newValue.QuestionId === 'OS' ? true : false) || scope.isOsScore;
+
+                    var valueMaxRange = 0;
+                    var valueMinRange = 0;
+                    /*need to remove this code when used in application.*/
+
+                    if (newValue.isOsScore) {
+                        valueMinRange = 0;
+                        valueMaxRange = 10;
+                    }
+                    else {
+                        valueMinRange = 0;
+                        valueMaxRange = 100;
+                    }
+
+                    var calculatedScore = getNormalizedValue(score, valueMaxRange, valueMinRange, scope.width, 0);
+                    var calculatedComparatorValue = getNormalizedValue(comparator, valueMaxRange, valueMinRange, scope.width, 0);
+
+
+                    var item = 'item' + uid++;
+                    el.find('canvas').attr('id', item);
+                    var id = document.getElementById(item);
+                    id.width = scope.width;
+                    id.height = 20;
+                    var ctx = id.getContext('2d');
+                    var colorSettings = scope.colorSettings;
+                    var totalScorebarLength = scope.width;
+                    var colorBarlength = calculatedScore * (isOsScore ? 10 : 1);
+                    var comparatorPosition = calculatedComparatorValue * (isOsScore ? 10 : 1);
+                    var shortageScoreBarlength = totalScorebarLength - colorBarlength;
+                    /*rect(x,y,width,height)*/
+                    ctx.beginPath();
+                    ctx.rect(0, 9, totalScorebarLength, 7);
+                    ctx.fillStyle = "white";
+                    ctx.fill();
+                    ctx.strokeStyle = "#000000";
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.rect(0, 9, colorBarlength, 7);
+                    ctx.fillStyle = colorCode;
+                    ctx.fill();
+                    ctx.strokeStyle = colorCode;
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.rect(comparatorPosition > 3 ? comparatorPosition - 3 : 0, 5, 3, 20);
+                    ctx.fillStyle = '#878787';
+                    ctx.fill();
+                    scope.scoreText = isOsScore ? score : score + "%";
+                });
+            }
+        }
+    });
+
+    function getNormalizedValue(value, valueMaxRange, valueMinRange, targetedValueMaxRange, targetedValueMinRange) {
+        /*value normalization formula implement here*/
+        var normalizedValueInTargatedRange = (value - valueMinRange) * (targetedValueMaxRange - targetedValueMinRange)
+            / (valueMaxRange - valueMinRange) + targetedValueMinRange;
+        // console.log("normalized value: "+normalizedValueInTargatedRange);
+        return normalizedValueInTargatedRange;
+    }
+
+});

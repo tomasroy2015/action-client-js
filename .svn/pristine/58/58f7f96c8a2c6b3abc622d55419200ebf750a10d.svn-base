@@ -1,0 +1,291 @@
+/* Page header tab bar */
+.tab-panel-container .nav {
+    position      : absolute;
+    padding-left  : 50px;
+    margin-bottom : 1px;
+    list-style    : none;
+    bottom        : 0;
+}
+
+.tab-panel-container .nav-tabs {
+    border-bottom : none;
+}
+
+.tab-panel-container .nav-tabs > li > a {
+    height           : 26px;;
+    margin-right     : 3px;
+    line-height      : 1.42857143;
+    border           : none;
+    border-radius    : 0;
+    background-color : #C6C6C6;
+    color            : #000;
+    padding-top      : 6.5px;
+}
+
+.tab-panel-container .nav-tabs > li.active > a, .tab-panel-container .nav-tabs > li.active > a:focus,.tab-panel-container .nav-tabs > li > a:hover {
+    color                 : #000;
+    cursor                : default;
+    background-color      : #fff;
+    border                : none !important;
+    border-bottom-color   : transparent !important;
+    -moz-outline-style    : none;
+    -webkit-outline-style : none;
+    outline               : none;
+}
+
+.tab-panel-container .nav-tabs > li > a:hover {
+    cursor                : pointer;
+}
+
+.service-area-name {
+    position    : absolute;
+    left        : 50px;
+    top         : 10px;
+    font-size   : 11px;
+    font-weight : normal;
+    color       : #fff;
+}
+
+.service-area-bellow {
+    top : 30px;
+    font-size   : 14px;
+    /*font-weight : bold;*/
+}
+.header-data-div{
+    position    : absolute;
+    left        : 50px;
+    top         : 10px;
+    /*font-size   : 12px;*/
+    /*font-weight : bold;*/
+    color       : #fff;
+    /* width: 790px; */
+}
+.header-data-div ul.header-data-list-container{
+    position: relative;
+    /*width: 558px;*/
+    display: inline-block;
+    /* list-style: inherit; */
+    height: 58px;
+    margin: 0;
+    padding-left: 0px;
+    bottom: 0px;
+    text-align: left;
+    list-style: none;
+    vertical-align: top;
+    /*overflow: hidden;*/
+    /*overflow-x: auto;*/
+}
+.header-data-div ul.header-data-list-container li.header-data-list-item{
+    position: relative;
+    vertical-align: top;
+    display: table-cell;
+    text-align: left;
+    margin-right: 4px;
+    /*min-width: 210px;*/
+}
+.header-data-div ul.header-data-list-container li.header-data-list-item .div-header-attribute-type{
+    position    : relative;
+    font-weight : normal;
+    font-size   : 11px;
+    margin-right: 10px;
+    margin-bottom: 4px;
+}
+.header-data-div ul.header-data-list-container li.header-data-list-item .div-header-attribute-value{
+    font-size   : 14px;
+    margin-right: 10px;
+    position: relative;
+}
+.header-data-div ul.header-data-list-container li.header-data-list-item .div-header-attribute-value .header-name{
+ margin-right: 5px;
+}
+.header-data-div ul.header-data-list-container li.header-data-list-item .div-header-attribute-value .header-count-circle{
+    width: 25px;
+    height: 25px;
+    margin-top: -5px;
+    border-radius: 50%;
+    background-color: #d3d3d3;
+    position: relative;
+    margin-right: 6px;
+    float: right;
+    text-align: center;
+    padding-top: 3px;
+}
+/*------top bar logo------*/
+.top-bar-logo {
+    position : absolute;
+    right    : 12px;
+    top      : 6px;
+    cursor   : pointer;
+}
+
+/*-------help-------*/
+.help-btn {
+    position  : absolute;
+    font-size : 11px;
+    right: 155px;
+    top       : 35px;
+    cursor    : pointer;
+    color     : #ffffff;
+}
+
+.help-btn:hover {
+    text-decoration : none;
+    color           : #ddddde;
+}
+.help-btn-shift{
+    right: 115px;
+}
+.help-btn > .help-circle-container {
+    right        : -22px;
+    padding-left : 35px;
+    top          : -11px;
+    position     : absolute;
+    transform    : translateY(69%);
+    -ms-transform: translateY(69%); /* IE 9 */
+    -webkit-transform: translateY(69%); /* Safari */
+    width        : 50px;
+}
+
+.help-btn > .help-circle-container:hover {
+    color   : #ddddde;
+    opacity : 0.7;
+    filter  : alpha(opacity=45);
+}
+
+.question-mark-text {
+    top       : -14px;
+    right     : 5px;
+    position  : absolute;
+    color     : #555759;
+    cursor    : pointer;
+    transform : translateY(90%);
+}
+
+.help-circle {
+    margin           : 0 auto;
+    width            : 15px;
+    height           : 15px;
+    border-radius    : 50%;
+    /*background-color : #ffffff;*/
+}
+.help-icon-size{
+    font-size: 16px;
+}
+
+/*---------Settings-----*/
+.settings-logo {
+    position : absolute;
+    top      : 33px;
+    right    : 15px;
+    cursor   : pointer;
+
+}
+
+.settings-logo:hover {
+    color   : #ddddde;
+    opacity : 0.7;
+    filter  : alpha(opacity=45);
+}
+.settings-logo .app-settings-icon{
+    font-size: 18px !important;
+}
+.settings-logo .app-settings{
+    color: #ddddde;
+}
+/*-------------Log out button------------*/
+
+.logout-container {
+    position    : absolute;
+    margin-top  : 35px;
+    height      : 20px;
+    right       : 72px;
+    cursor      : pointer;
+    font-size   : 11px;
+    font-family : "AkkuratStd-Regular";
+    color       : #ffffff;
+}
+
+.logout-container:hover {
+    text-decoration : none;
+    color           : #ddddde;
+}
+.logout-shift-right
+{
+    right       : 38px;
+}
+.header-font-size {
+    font-size : 11px;
+}
+
+/*.header-font-size:hover{*/
+/*text-decoration : none;*/
+/*cursor: pointer;*/
+/*color           : #ddddde;*/
+/*}*/
+
+.logout-container .logout-url-container {
+    right     : 60px;
+    position  : absolute;
+    transform : translateY(100%);
+}
+
+.logout-right-arrow-container {
+    right     : -24px;
+    top       : -15px;
+    position  : absolute;
+    transform : translateY(85%);
+    -ms-transform: translateY(85%); /* IE 9 */
+    -webkit-transform: translateY(85%); /* Safari */
+    -moz-transform:translateY(85%); /*Safari*/
+}
+
+.logout-arrow-container {
+    right     : -18px;
+    top       : -14px;
+    position  : absolute;
+    transform : translateY(90%);
+}
+
+.logout-arrow-container:hover {
+    text-decoration : none;
+    color           : #ddddde;
+}
+
+.logout-circle-arrow-size-2x {
+    vertical-align : middle;
+    padding-left   : 10px;
+    font-size      : 1.5em;
+}
+
+/*.logout-url-container > a {*/
+/*text-decoration : none;*/
+/*color           : #fff;*/
+/*}*/
+
+/*.logout-url-container > a:hover {*/
+/*text-decoration : none;*/
+/*color           : #ddddde;*/
+/*}*/
+
+
+.btn-back .fa-arrow-left{
+    position  : absolute;
+    font-size : 1.5em;
+    right: 143px;
+    top       : 33px;
+    cursor    : pointer;
+    color     : #ffffff !important;
+}
+
+.lblBack{
+     position  : absolute;
+    font-size :0.9em;
+    right: 112px;
+    top       : 36px;
+    cursor    : pointer;
+    color     : #ffffff !important;
+}
+
+.btn-help-right{
+    right: 70px;
+}

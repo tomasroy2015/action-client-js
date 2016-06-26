@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="Views/Shared/SCSS/EvaluationSummaryTemplate.css"/>
+
+<div class="evaluationSummaryContainer">
+    <div class="evaluationSummaryHeader">
+        <button type="button" class="close" ng-click="close_summary($event)">×</button>
+    </div>
+    <div class="evaluationSummaryContent">
+        <div class="questionListContainer">
+
+        </div>
+        <div class="othersInfoContainer">
+            <div class="remarksContainer">
+            </div>
+            <div class="attributeValueContainer">
+            </div>
+        </div>
+    </div>
+</div>

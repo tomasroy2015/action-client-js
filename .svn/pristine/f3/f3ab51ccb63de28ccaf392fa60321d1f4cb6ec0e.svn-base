@@ -1,0 +1,12 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.controller('listViewController', ['$scope', function ($scope) {
+
+        console.log('Loading ListViewController');
+        $scope.title = 'List View';
+
+    }]);
+
+});

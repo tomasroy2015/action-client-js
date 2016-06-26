@@ -1,0 +1,51 @@
+"use strict";
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionQuestionScore', function () {
+        var boxId = 1;
+        return {
+            restrict: 'EA',
+            scope   : {
+                questionItem:'=',
+                colorSettings:'='
+            },
+
+            templateUrl: "Views/List/QuestionScoresTemplate.html",
+            replace    : true,
+            link       : function (scope, el, attr) {
+                scope.$watch( function(scope){ return scope.questionItem}, function(newValue,oldValue){
+                    if(angular.isUndefined(newValue))
+                    {
+                        newValue = oldValue;
+                    }
+                   // console.log("new Question Score"+newValue.Score+" Old Question Score: "+oldValue.Score);
+                    var score = newValue.Score;
+                    var colorCode=newValue.ScoreComparatorColor.ColorCode;
+                    var scoreBoxId = 'box' + boxId++;
+                    el.find('canvas').attr('id', scoreBoxId);
+                    var scoreCanvas = document.getElementById(scoreBoxId);
+                    var context = scoreCanvas.getContext('2d');
+                    context.clearRect(0, 0, scoreCanvas.width, scoreCanvas.height);
+                    //context.save();
+                    context.fillStyle = colorCode;
+                    context.fillRect(0, 0, 29, 25);
+                    context.fillStyle = 'white';
+
+                    var w = context.measureText('100').width;
+                    var x = (29 / 2) - (w / 2);
+                    var y = 25 / 2;
+                    context.font = "bold 12px san-serif";
+                    context.textBaseline = 'center';
+                    if(!isNaN(score))
+                        context.fillText(score, x, y + 3);
+                    else
+                        context.fillText('', x, y + 3);
+                   // context.restore();
+
+                });
+                //console.log("Score obj value is :"+scope.scoreObj.Score);
+            }
+
+        };
+    });
+});

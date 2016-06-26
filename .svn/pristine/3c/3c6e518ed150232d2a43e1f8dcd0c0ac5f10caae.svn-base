@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "ServiceAreaTemplate.css",
+  "sources": [
+    "ServiceAreaTemplate.scss"
+  ],
+  "sourcesContent": [],
+  "mappings": ";AAKA;EACE,AAAa;;EACf,AAAa,AAAa,AAAI;IAC1B,AAAa;;EAGjB,AAAa;IACT,AAAO;IACP,AAAQ;IACR,AAAa;IACb,AAAS;IACT,AAAe;IACf,AAAc;IACd,AAAW;IACX,AAAa;IACb,AAAQ;IACR,AAAe;IACf,AAAY;;EAGhB,AAAa;IACT,AAxB+B;IAyB/B,AA3BqB;IA4BrB,AAAY;;IAChB,AAAa,AAAY,AAAQ,AAAa,AAAY,AAAQ,AAAa,AAAY,AAAS,AAAa,AAAY,AAAS,AAAa,AAAa,AAAM,AAAgB;MAKhL,AA/B2B;MAgC3B,AAlCyB;MAmCzB,AAAQ",
+  "names": []
+}

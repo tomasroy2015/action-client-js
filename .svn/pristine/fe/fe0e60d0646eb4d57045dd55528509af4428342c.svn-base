@@ -1,0 +1,91 @@
+"use strict";
+define(['application-configuration'], function (app) {
+    app.register.directive("actionScoreBar", function () {
+        var uid = 1;
+        return {
+            restrict   : 'EA',
+            scope      : {
+                scoreComparator   : '=',
+                canvasid: '=',
+                isOsScore:'='
+            },
+            templateUrl: "Views/Shared/Template/ScoreBarTemplate.html",
+
+            replace: false,
+            link   : function (scope, el, attr) {
+
+                scope.$watch( function(scope){ return scope.scoreComparator}, function(newValue,oldValue){
+                    //console.log("new value :"+newValue.Score+" old value :"+oldValue.Score);
+                    //console.log("new Comparator value :"+newValue.ComparatorValue+" old Comparator value :"+oldValue.ComparatorValue);
+                    scope.baseScore = "";
+                    scope.comparatorValue="";
+                    if(angular.isUndefined(newValue))
+                    {
+                        newValue = oldValue;
+                    }
+
+                    var score = newValue.Score;
+                    var comparator  = newValue.ComparatorValue;
+                    scope.comparatorValue= newValue.ComparatorValue;
+                    var colorCode = newValue.ComparatorColorCode;
+//                    var item = 'item' + uid++;
+                    var canvasId = getUniqueId();
+                    el.find('canvas').attr('id', canvasId);
+                    var canvas = document.getElementById(canvasId);
+                    var ctx = canvas.getContext('2d');
+                    var colorSettings = newValue.colorSettings;
+                    var fillColor="";
+                    var totalScorebarLength = 97;
+                    var coloerdBarlength =  score  * (scope.isOsScore?10:1);
+
+                    var shortageScoreBarlength = totalScorebarLength - coloerdBarlength;
+                    /*rect(x,y,width,height)*/
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.beginPath();
+                    ctx.rect(0.5,8.5,totalScorebarLength,7);
+                    ctx.fillStyle = "white";
+                    ctx.fill();
+                    ctx.strokeStyle ="#878787";
+                    //ctx.lineWidth =1;
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.rect(0.5, 8.5, coloerdBarlength>3?coloerdBarlength-3:coloerdBarlength, 7);
+                    ctx.fillStyle = colorCode;
+                    ctx.fill();
+                    ctx.strokeStyle = colorCode;
+                    ctx.stroke();
+                    if(!isNaN(comparator)){
+                        var comparatorPosition = comparator * (scope.isOsScore?10:1);
+                        ctx.beginPath();
+                        //ctx.rect(scope.score > 0 ? scope.score - 3 : 0, 0, 3, 20);
+                        ctx.rect(comparatorPosition>3?comparatorPosition-3:0,3,3,18);
+                        ctx.fillStyle = '#878787';
+                        ctx.fill();
+                    }
+                    else{
+                        scope.comparatorValue="";
+                    }
+
+                   // console.log("is os selected :"+scope.isOsScore);
+                    scope.baseScore = scope.isOsScore?score:score+"%";
+
+                    function getUniqueId(){
+                        uid=uid+1;
+                        while(1){
+                            var a= document.getElementById("item"+uid);
+                            if(a){
+                                uid++;
+                               // console.log("alreadyExist..");
+                            }
+                            else
+                            break;
+
+                        }
+                        return "item"+uid;
+                    }
+
+                })
+            }
+        }
+    });
+});

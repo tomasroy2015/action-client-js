@@ -1,0 +1,129 @@
+define(['application-configuration', 'dataService','lodash','AttributeScoreData'], function (app) {
+
+    app.register.factory('dataFactory', ['$rootScope', '$http', 'dataService','Notify','AttributeScoreData',
+        function ($rootScope, $http, dataService,Notify,AttributeScoreData) {
+
+        var dataset = null,
+            isDatasetLoaded = false,
+            dataInfo = {},
+            serviceAreaCollection = null,
+            customAttributeCollection = null,
+            serviceAreaScoreDataCollection = null,
+            selectedServiceArea = null,
+            attributeScoreDataCollection = [],
+            colorSettings = null,
+            customerGeneralSettings = null,
+            selectedAttributeIndex = 1;
+
+
+         var onGetAllData = function(response){
+            isDatasetLoaded = true;
+            serviceAreaCollection = response.ServiceAreaCollection;
+            selectedServiceArea = serviceAreaCollection[1];
+            customAttributeCollection = response.CustomAttributeCollection;
+            serviceAreaScoreDataCollection = response.ServiceAreaScoreDataCollection;
+            colorSettings = response.Settings.ColorSettings;
+            customerGeneralSettings = response.Settings.CustomerGeneralSettings;
+            countryScoreDataCollection = response.CountryScoreDataCollection;
+            $rootScope.$broadcast(Notify.DATA_READY);
+        };
+
+        var onGetChangedDataSet = function(response){
+            isDatasetLoaded = true;
+            serviceAreaCollection = response.ServiceAreaCollection;
+            selectedServiceArea = serviceAreaCollection[1];
+            customAttributeCollection = response.CustomAttributeCollection;
+            serviceAreaScoreDataCollection = response.ServiceAreaScoreDataCollection;
+            colorSettings = response.Settings.ColorSettings;
+            customerGeneralSettings = response.Settings.CustomerGeneralSettings;
+            countryScoreDataCollection = response.CountryScoreDataCollection;
+            $rootScope.$broadcast(Notify.DATASET_CHANGED);
+        };
+
+        var errorFunction = function(response){
+            //Error handling goes here.
+            window.alert("Error in loading DataSet");
+            $rootScope.isNeedToShowLoading = false;
+            //window.location = "#/Main";
+        };
+
+
+        var onGetSelectedAttributeScoreData = function(response){
+
+            var query = _.filter(attributeScoreDataCollection, function (n) {
+                return n.AttributeIndex == selectedAttributeIndex;
+            });
+            if(query && query.length > 0){
+                if(selectedServiceArea.SurveyType === 'GEN' ||selectedServiceArea.SurveyType === 'NOG')
+                    query[0].GeneralScoreDataCollection = response;
+                if(selectedServiceArea.SurveyType === 'TCK')
+                    query[0].TicketScoreDataCollection = response;
+            }
+            else{
+                var attScoreData = new AttributeScoreData();
+                attScoreData.AttributeIndex = selectedAttributeIndex;
+
+                if(selectedServiceArea.SurveyType === 'GEN' ||selectedServiceArea.SurveyType === 'NOG')
+                    attScoreData.GeneralScoreDataCollection = response;
+                if(selectedServiceArea.SurveyType === 'TCK')
+                    attScoreData.TicketScoreDataCollection = response;
+                attributeScoreDataCollection.push(attScoreData);
+            }
+
+            $rootScope.$broadcast(Notify.ATTRIBUTE_DATA_READY);
+        }
+
+        //all public methods and properties exposed by this factory
+        return {
+            LoadDataSet : function (dataset) {
+                dataInfo = dataset;
+                return dataService.getAllData(dataset, onGetAllData, errorFunction);
+            },
+            ChangeDataSet : function (dataset) {
+                return dataService.getAllData(dataset, onGetChangedDataSet, errorFunction);
+            },
+            GetSelectedAttributeScoreData : function(requestParameter){
+                selectedAttributeIndex = requestParameter.attributeIndex;
+                return dataService.getAttributeData(requestParameter, onGetSelectedAttributeScoreData, errorFunction);
+            },
+
+            DataInfo : function(){
+                return dataInfo;
+            },
+
+            ServiceAreaChanged : function(serviceArea){
+                selectedServiceArea = serviceArea;
+                $rootScope.$broadcast(Notify.SERVICE_AREA_CHANGED,selectedServiceArea.Id);
+            },
+            ServiceAreaCollection : function(){
+                return serviceAreaCollection;
+            },
+            CustomAttributeCollection: function(){
+                return customAttributeCollection;
+            },
+            ServiceAreaScoreDataCollection : function (){
+                return serviceAreaScoreDataCollection;
+            },
+            CountryaScoreDataCollection : function (){
+                return countryScoreDataCollection;
+            },
+            SelectedServiceAreaId : function(){
+                return selectedServiceArea.Id;
+            },
+            GetSelectedServiceAreaSurveyType:function(){
+                return _.result(_.findWhere(serviceAreaCollection,{'Id':selectedServiceArea.Id}),'SurveyType');
+            },
+
+            GetAtributeScoreDataCollection: function(){
+                return attributeScoreDataCollection;
+            },
+            GetSelectedServiceArea : function(){
+                return selectedServiceArea;
+            },
+            CustomerGeneralSettings:function(){
+                return customerGeneralSettings;
+            }
+        };
+
+    }]);
+});

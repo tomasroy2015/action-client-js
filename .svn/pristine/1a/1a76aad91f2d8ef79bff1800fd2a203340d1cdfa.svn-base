@@ -1,0 +1,18 @@
+"use strict";
+define(['application-configuration'], function (app) {
+    app.register.directive("actionCompareWithSettings", function () {
+        return {
+            restrict   : 'EA',
+            scope      : {
+                selectedComparator: '=',
+                updateComparator: '&',
+                doubleTargetSelection: '&',
+                initComparator:'&'
+            },
+            link       : function (scope, el, attr) {
+               var selectedComparator = scope.selectedComparator;
+            },
+            templateUrl: "Views/LeftMenuSettings/CompareWithSettingsTemplate.html"
+        }
+    });
+});

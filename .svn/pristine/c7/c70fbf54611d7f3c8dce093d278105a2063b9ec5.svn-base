@@ -1,0 +1,15 @@
+﻿<link rel="stylesheet" href="Views/Shared/CSS/ScoreBarTemplate.css"/>
+<div class="scorebar-mainDiv">
+    <div class="scorebar-scoreDiv customizable-scorebar-score-label1">
+        <span>{{scoreText}}</span>
+    </div>
+    <svg height="20" width="100" class="scorebar-scorebarCanvas">
+        <rect ></rect>
+        <rect ></rect>
+        <rect ></rect>
+        <rect ></rect>
+    </svg>
+    <div class="scorebar-scoreDiv customizable-scorebar-score-label" ng-if="isShowComparator">
+        <span>{{data.Comparator}}</span>
+    </div>
+</div>

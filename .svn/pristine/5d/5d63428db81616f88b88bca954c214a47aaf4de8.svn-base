@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="Views/CustomerSettings/DataFilterSettings/AddOrEditDataFilterDirectiveTemplate.css"/>
+<div class='ng-modal-container' ng-show='show'>
+    <div class='ng-modal-overlay'></div>
+    <div class='ng-modal-dialog' ng-style='dialogStyle'>
+        <div class='ng-modal-dialog-content'>
+            <div class="dialog-header">
+                <span class="modal-title">{{title}}</span>
+                <i ng-click="hideModal()" class="fa fa-times-circle fa-lg cursor"></i>
+            </div>
+            <div class="element-parent-div">
+                <div class="element-container-div">
+                    <ng-form id="dataFilterTitle" name="dataFilterTitle">
+                        <div class="left-align inline-block">
+                            <span class="inline-block label-width">Title:</span>
+                            <input type = "text" ng-model="data.Label" name="title" id="title"
+                                   class="form-control text-input-normal inline-block" required>
+                        </div>
+                    </ng-form>
+
+                    <div class="clear"></div>
+                </div>
+                <div class="element-container-div">
+                    <div class="left-align">
+                        <span class="inline-block label-width">Attribute column:</span>
+                        <select class="drop-down-normal inline-block"
+                                id="ddlAttributeColumn"
+                                ng-init="setAttributeColumn(data)"
+                                ng-model="selectedAttributeColumn"
+                                ng-options="item.AttributeName for item in unassignedDataFilterColl"
+                                ng-change="attributeColumnChanged(selectedAttributeColumn)"
+                                ng-disabled="isDisable"
+                                ></select>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="element-container-div">
+                    <div class="left-align">
+                        <span class="inline-block label-width">Filter category:</span>
+                        <select class="drop-down-small inline-block"
+                                id="ddlFilterCategory"
+                                ng-init="setFilterCategory(data)"
+                                ng-model="selectedFilterCategory"
+                                ng-options="item.typeName for item in filterCategory"
+                                ng-disabled="isDisable"
+                                ng-change="filterCategoryChanged(selectedFilterCategory)">
+                        </select>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-btn-container-div" style="text-align: right">
+            <button class="btn"  ng-click='hideModal()'> Cancel</button>
+            <button ng-disabled="dataFilterTitle.title.$error.required" class="btn" style="width: inherit" ng-click="confirmOperation()"> OK</button>
+        </div>
+    </div>
+</div>
+</div>

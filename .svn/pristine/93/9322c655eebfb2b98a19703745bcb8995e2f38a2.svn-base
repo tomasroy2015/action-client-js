@@ -1,0 +1,108 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionAttributeScoreSummary', [function () {
+
+        return {
+            restrict: 'AE',
+            scope   : {
+                selectedAttributeScore: "=",
+                summaryTitle:"=",
+                titleImage:"=",
+                generalSurveyCollection:"=",
+                triggerSurveyCollection:"="
+//                scorecardClicked:"&",
+//                evaluationClicked:"&"
+            },
+            link    : function (scope,el, attrs) {
+               scope.scorecardSelected = true;
+               scope.evaluationSelected = false;
+               scope.isDetailsState = false;
+               scope.isSummaryState = true;
+               scope.scorecard_selected = function(){
+//                   $('#scorecard-summary').addClass('scorecard-summary').removeClass('scorecard-summary-hide');
+//                   $('#evaluation-summary').addClass('evaluation-summary-hide').removeClass('evaluation-summary');
+                   $('#selected-summary-arrow').css({ "margin-left": '30px' });
+
+                   scope.scorecardSelected = true;
+                   scope.evaluationSelected = false;
+               };
+               scope.evaluation_selected = function(){
+//                   $('#scorecard-summary').addClass('scorecard-summary-hide').removeClass('scorecard-summary');
+//                   $('#evaluation-summary').addClass('evaluation-summary').removeClass('evaluation-summary-hide');
+                   $('#selected-summary-arrow').css({ "margin-left": '120px' });
+
+                   scope.scorecardSelected = false;
+                   scope.evaluationSelected = true;
+               };
+               scope.questionItemClick = function (evt) {
+                   var curItem = '#' + evt.currentTarget.id;
+                   $(curItem).addClass('selectedScoreQuestionItem').siblings().removeClass('selectedScoreQuestionItem');
+                   var innerDiv = "#" + evt.currentTarget.firstElementChild.id;
+                   $(innerDiv).addClass('selectedScoreQuestionListItemDiv');
+                   var prevSlected_li = $("#score-summary-question > li > div[id^='div-attribute-'].selectedScoreQuestionListItemDiv").not(innerDiv);
+                   prevSlected_li.removeClass('selectedScoreQuestionListItemDiv').addClass('questionScoreListItemDiv');
+                };
+                scope.close_summary = function(){
+                    scope.scorecardSelected = true;
+                    scope.evaluationSelected = false;
+                    scope.isSummaryState = true;
+                    scope.isDetailsState = false;
+                    $('.modal').addClass('hide-popup').removeClass('show-popup open-popup-animation');
+                    $('.modal-backdrop').addClass('hide-popup').removeClass('show-popup');
+                    $('.modal-content').addClass('hide-popup').removeClass('show-popup');
+                    $('.modal-content').removeClass('expand-details').removeClass('collapse-details');
+                    $('#summary-service-area-container,#summary-container,#btn-view-details,#modal-footer').removeClass('hide-summary-content');
+                    $('#selected-summary-arrow').css({ "margin-left": '30px' });
+                };
+                scope.viewDetails_click_Handler = function(){
+                    scope.isDetailsState = true;
+                    scope.isSummaryState = false;
+
+                    if(scope.scorecardSelected) {
+                        $('#selected-summary-arrow').css({ "margin-left": '30px' });
+                        scope.scorecardSelected = true;
+                        scope.evaluationSelected = false;
+                    }
+                    else {
+                        $('#selected-summary-arrow').css({ "margin-left": '120px' });
+                        scope.scorecardSelected = false;
+                        scope.evaluationSelected = true;
+                    }
+
+                    $('.modal-content').addClass('expand-details').removeClass('collapse-details');
+                    $('#summary-service-area-container,#summary-container,#btn-view-details,#modal-footer').addClass('hide-summary-content');
+                };
+                scope.viewEvaluation_click_Handler = function(){
+                    scope.isDetailsState = true;
+                    scope.isSummaryState = false;
+                    scope.scorecardSelected = false;
+                    scope.evaluationSelected = true;
+                    $('#selected-summary-arrow').css({ "margin-left": '120px' });
+                    $('.modal-content').addClass('expand-details').removeClass('collapse-details');
+                    $('#summary-service-area-container,#summary-container,#btn-view-details,#modal-footer').addClass('hide-summary-content');
+
+                };
+                scope.backToSummary_click_Handler = function(){
+                    $('.modal-content').addClass('collapse-details').removeClass('expand-details');
+
+                    if(scope.scorecardSelected) {
+                        $('#selected-summary-arrow').css({ "margin-left": '30px' });
+                    }
+                    else {
+                        $('#selected-summary-arrow').css({ "margin-left": '120px' });
+                    }
+
+                    scope.isDetailsState = false;
+                    scope.isSummaryState = true;
+
+                    $('#summary-service-area-container,#summary-container,#btn-view-details,#modal-footer').removeClass('hide-summary-content');
+                };
+            },
+            templateUrl:'Views/Shared/Template/AttributeScoreSummaryTemplate.html'
+        };
+
+    }]);
+
+});

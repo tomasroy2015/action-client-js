@@ -1,0 +1,51 @@
+"use strict";
+define(['application-configuration','accountFactory','lodash'], function (app) {
+    app.register.controller('customerSettingsController', ['$scope','$rootScope','$modalInstance','accountFactory',
+        function ($scope,$rootScope,$modalInstance,accountFactory) {
+            $scope.selectedView1=true;
+            $scope.selectedView2=false;
+            $scope.selectedCustomer = null;
+            $scope.currentuser = accountFactory.UserData();
+            $scope.sessionID = $scope.currentuser.SessionId;
+            var menuColl=[];
+            var giarteUserMenu={
+                "UserType":1,
+                "Menu":[
+                    {title:'GENERAL SETTINGS',clickHandler:$scope.generalSettings_ClickHandler},
+                    {title:'USER ACCOUNTS',clickHandler:$scope.userAccounts_ClickHandler},
+                    {title:'COUNTRY MAPPING',clickHandler:'countryMapping_ClickHandler()'},
+                    {title:'REGION MAPPING',clickHandler:'regionMapping_ClickHandler()'},
+                    {title:'SITE CLUSTERING',clickHandler:'siteClustering_ClickHandler()'},
+                    {title:'COMPARATOR MAPPING',clickHandler:'comparatorMapping_ClickHandler()'},
+                    {title:'DATA FILTER SETTINGS',clickHandler:'datafilterSettings_ClickHandler()'},
+                    {title:'SHORT CODE MAPPING',clickHandler:'shortCodeMapping_ClickHandler()'},
+                    {title:'IP MAPPING',clickHandler:'ipMapping_ClickHandler()'}
+                ]
+            }
+            menuColl.push(giarteUserMenu);
+            $scope.selectedUserSettingsMenu= _.filter(menuColl,function(item){
+                return item.UserType==$scope.currentuser.UserType
+
+            })[0];
+
+            $scope.setSelectedCustomer=function(customer){
+                $scope.selectedCustomer=customer;
+            }
+            $scope.customerChanged = function(){
+                $scope.customerID = $scope.selectedCustomer.CustomerId;
+            };
+            $scope.generalSettings_ClickHandler=function(){
+                $scope.selectedView1=false;
+                $scope.selectedView2=true;
+            }
+            $scope.userAccounts_ClickHandler=function(){
+                $scope.selectedView1=true;
+                $scope.selectedView2=false;
+            }
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+        }]);
+
+});
+

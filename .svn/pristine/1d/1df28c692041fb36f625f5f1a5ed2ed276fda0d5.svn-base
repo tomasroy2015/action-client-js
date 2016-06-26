@@ -1,0 +1,26 @@
+define(['application-configuration'], function (app) {
+    app.register.factory('AttributeScoreData', ['$rootScope', '$http', function ($rootScope, $http) {
+
+        var AttributeScoreData = function(){
+            this.AttributeIndex = -1;
+            this.GeneralScoreDataCollection = null;
+            this.TicketScoreDataCollection = null;
+        };
+
+        AttributeScoreData.prototype.IsGeneralAttributeScoreDataNull = function(){
+                var self = this;
+                if (!self.GeneralScoreDataCollection)
+                    return true;
+            return false;
+        };
+        AttributeScoreData.prototype.IsTicketAttributeScoreDataNull = function(){
+            var self = this;
+            if (!self.TicketScoreDataCollection)
+                return true;
+
+            return false;
+        };
+
+        return AttributeScoreData;
+    }]);
+});

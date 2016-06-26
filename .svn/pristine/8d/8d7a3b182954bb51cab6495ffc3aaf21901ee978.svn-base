@@ -1,0 +1,460 @@
+/* Variables
+======================================================*/
+/* Mixins
+======================================================*/
+/* Containers
+======================================================*/
+.left-menu-main-container {
+  color: #000; }
+
+.expand-collapse-label {
+  font-size: 0.9em;
+  font-weight: bold; }
+
+div > i {
+  padding-right: 3px; }
+
+/* Logo section
+======================================================*/
+.logo-container {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 25px;
+  height: 60px; }
+
+img.logo {
+  width: 233px;
+  height: 60px;
+  margin: 0 auto; }
+
+.dataset-container,
+.data-filter-accordion-container {
+  margin-bottom: 15px; }
+  .dataset-container:hover,
+  .data-filter-accordion-container:hover {
+    cursor: pointer; }
+
+.data-filter-accordion-container {
+  margin-bottom: 10px; }
+
+/* Dataset selection section
+======================================================*/
+.ds-collasped-panel-bottom-border {
+  border-bottom: 1px solid #000;
+  margin-bottom: 2px; }
+
+.dataset-selection {
+  height: 30px;
+  position: relative;
+  font-family: "AkkuratStd-Regular";
+  text-align: left;
+  padding-left: 5px;
+  color: #000;
+  font-size: 11px;
+  background: #c6c6c6;
+  width: 200px; }
+  .dataset-selection:hover {
+    background: rgba(198, 198, 198, 0.4); }
+    .dataset-selection:hover:before {
+      border-color: transparent transparent transparent rgba(198, 198, 198, 0.4); }
+    .dataset-selection:hover:after {
+      border-color: transparent transparent transparent #fff; }
+  .dataset-selection:after, .dataset-selection:before {
+    content: "";
+    display: inline-block;
+    border-width: 15.5px;
+    border-style: solid;
+    width: 0px;
+    height: 0px;
+    left: 100%;
+    top: 0;
+    position: absolute;
+    z-index: 1; }
+  .dataset-selection:after {
+    border-color: transparent transparent transparent #c6c6c6; }
+  .dataset-selection:before {
+    border-width: 15.5px;
+    display: block;
+    border-color: transparent transparent transparent #c6c6c6;
+    z-index: 2;
+    top: 0px; }
+
+/* Dataset selection selected section
+======================================================*/
+.dataset-selection-selected {
+  height: 30px;
+  position: relative;
+  text-align: left;
+  padding-left: 5px;
+  font-family: "AkkuratStd-Regular";
+  font-size: 11px;
+  color: #000;
+  background: #fff000;
+  width: 98%; }
+  .dataset-selection-selected:hover {
+    background: #fff000; }
+    .dataset-selection-selected:hover:before {
+      border-color: transparent transparent transparent #fff000; }
+    .dataset-selection-selected:hover:after {
+      border-color: transparent transparent transparent #fff000; }
+  .dataset-selection-selected:after, .dataset-selection-selected:before {
+    content: "";
+    display: inline-block;
+    border-width: 15.5px;
+    border-style: solid;
+    width: 0px;
+    height: 0px;
+    left: 100%;
+    top: 0;
+    position: absolute;
+    z-index: 1; }
+  .dataset-selection-selected:after {
+    border-color: transparent transparent transparent #fff000; }
+  .dataset-selection-selected:before {
+    border-width: 15.5px;
+    display: block;
+    border-color: transparent transparent transparent #fff000;
+    z-index: 2;
+    top: 0px; }
+
+/* Service area section
+======================================================*/
+.service-area-container {
+  font-size: 0.9em;
+  padding-top: 5px; }
+  .service-area-container span {
+    padding-left: 2px;
+    font-weight: bold;
+    color: #000; }
+  .service-area-container .service-area-gap {
+    padding-top: 5px; }
+
+.nav-tabs > li > a {
+  height: 32px;
+  margin-right: 2px;
+  line-height: 1.42857143;
+  border: none;
+  border-radius: 0;
+  background-color: #ddddde;
+  color: #000; }
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+  color: #000;
+  cursor: default;
+  background-color: #fff;
+  border: none !important;
+  border-bottom-color: transparent !important; }
+
+/* Full scorecard button section
+======================================================*/
+.full-scorecard-btn-container {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  right: 0; }
+  .full-scorecard-btn-container .btn.ac-btn-full-scorecard {
+    height: 22px;
+    font-size: 0.9em;
+    position: absolute;
+    left: 90px;
+    background: #fff;
+    color: #000;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 5px;
+    border-radius: 0;
+    box-shadow: none;
+    width: 130px; }
+    .full-scorecard-btn-container .btn.ac-btn-full-scorecard:hover {
+      background: #ddddde; }
+      .full-scorecard-btn-container .btn.ac-btn-full-scorecard:hover .circle-arrow-size-2x {
+        visibility: hidden; }
+      .full-scorecard-btn-container .btn.ac-btn-full-scorecard:hover:after {
+        top: -1px;
+        content: "";
+        position: absolute;
+        right: -11px;
+        border-top: 11px solid transparent;
+        border-bottom: 11px solid transparent;
+        border-left: 11px solid #ddddde;
+        z-index: 101; }
+    .full-scorecard-btn-container .btn.ac-btn-full-scorecard.active {
+      background: #fff000;
+      width: 145px;
+      padding-left: 0; }
+      .full-scorecard-btn-container .btn.ac-btn-full-scorecard.active .circle-arrow-size-2x {
+        visibility: hidden; }
+      .full-scorecard-btn-container .btn.ac-btn-full-scorecard.active:after {
+        top: -1px;
+        content: "";
+        position: absolute;
+        right: -11px;
+        border-top: 11px solid transparent;
+        border-bottom: 11px solid transparent;
+        border-left: 11px solid #fff000;
+        z-index: 102; }
+    .full-scorecard-btn-container .btn.ac-btn-full-scorecard:focus, .full-scorecard-btn-container .btn.ac-btn-full-scorecard:active {
+      -moz-outline-style: none;
+      -webkit-outline-style: none;
+      outline: none; }
+
+.circle-arrow-size-2x {
+  vertical-align: middle;
+  padding-left: 10px;
+  font-size: 1.5em; }
+
+/* Evaluation button Section
+======================================================*/
+.left-menu-btn-container {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  color: #000;
+  cursor: pointer; }
+
+.collapsible-panel-container {
+  border-bottom: 1px solid #000;
+  margin-bottom: 2px; }
+
+.collapsible-panel-container-for-df {
+  border-bottom: 1px solid #000; }
+
+/* Custom button section
+======================================================*/
+.btn-arrow-left-menu {
+  height: 22px;
+  line-height: 22px;
+  position: relative;
+  text-align: left;
+  padding-left: 5px;
+  color: #000;
+  background: #c6c6c6;
+  width: 200px; }
+  .btn-arrow-left-menu:hover {
+    background: rgba(198, 198, 198, 0.7); }
+    .btn-arrow-left-menu:hover:after {
+      border-left: 11px solid rgba(198, 198, 198, 0.7); }
+  .btn-arrow-left-menu:after {
+    content: "";
+    position: absolute;
+    right: -11px;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-left: 11px solid #c6c6c6;
+    z-index: 100; }
+
+/* btn-arrow selected state section*/
+.btn-arrow-left-menu-selected {
+  height: 22px;
+  line-height: 22px;
+  position: relative;
+  text-align: left;
+  padding-left: 5px;
+  color: #000;
+  background: #fff000;
+  width: 95%; }
+  .btn-arrow-left-menu-selected:hover {
+    background: #fff000; }
+  .btn-arrow-left-menu-selected:after {
+    content: "";
+    position: absolute;
+    right: -11px;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-left: 11px solid #fff000;
+    z-index: 103; }
+
+/* Settings section
+======================================================*/
+.compare-with-container {
+  margin-top: 5px; }
+  .compare-with-container label#lblCompareWith {
+    font-size: 0.95em;
+    line-height: 1em;
+    margin-bottom: 0;
+    font-weight: normal;
+    margin-bottom: 7px; }
+
+.threshold-container {
+  margin-top: 12px;
+  vertical-align: middle; }
+  .threshold-container .checkbox {
+    height: 15px;
+    margin-top: 0;
+    margin-left: 5px; }
+  .threshold-container label#lblThreshold {
+    font-size: 0.95em;
+    line-height: 1em;
+    margin-bottom: 0;
+    font-weight: normal; }
+
+.more-settings-btn-container {
+  position: relative;
+  height: 20px;
+  line-height: 20px;
+  right: 0; }
+  .more-settings-btn-container .btn.btn-more-settings {
+    height: 22px;
+    font-size: 0.9em;
+    position: absolute;
+    left: 114px;
+    background: #fff;
+    color: #000;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 5px;
+    border-radius: 0;
+    box-shadow: none;
+    width: 100px; }
+    .more-settings-btn-container .btn.btn-more-settings:hover {
+      background: #ddddde; }
+      .more-settings-btn-container .btn.btn-more-settings:hover .circle-arrow-size-2x {
+        visibility: hidden; }
+      .more-settings-btn-container .btn.btn-more-settings:hover:after {
+        top: -1px;
+        content: "";
+        position: absolute;
+        right: -11px;
+        border-top: 11px solid transparent;
+        border-bottom: 11px solid transparent;
+        border-left: 11px solid #ddddde;
+        z-index: 101; }
+    .more-settings-btn-container .btn.btn-more-settings.active {
+      background: #fff000;
+      width: 119px;
+      padding-left: 0; }
+      .more-settings-btn-container .btn.btn-more-settings.active .circle-arrow-size-2x {
+        visibility: hidden; }
+      .more-settings-btn-container .btn.btn-more-settings.active:after {
+        top: -1px;
+        content: "";
+        position: absolute;
+        right: -11px;
+        border-top: 11px solid transparent;
+        border-bottom: 11px solid transparent;
+        border-left: 11px solid #fff000;
+        z-index: 102; }
+    .more-settings-btn-container .btn.btn-more-settings:focus, .more-settings-btn-container .btn.btn-more-settings:active {
+      -moz-outline-style: none;
+      outline-style: none;
+      outline: none; }
+
+.settings-float-right {
+  -webkit-animation-duration: .3s;
+  -moz-animation-duration: .3s;
+  -o-animation-duration: .3s;
+  animation-duration: .3s;
+  -webkit-animation-name: settings-float-right;
+  -moz-animation-name: settings-float-right;
+  -o-animation-name: settings-float-right;
+  animation-name: settings-float-right;
+  -webkit-animation-iteration-count: 1;
+  -moz-animation-iteration-count: 1;
+  -o-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+  -webkit-animation-timing-function: ease-out;
+  -moz-animation-timing-function: ease-out;
+  -o-animation-timing-function: ease-out;
+  animation-timing-function: ease-out;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  -o-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  display: block; }
+
+@-webkit-keyframes settings-float-right {
+  0% {
+    left: 0px; }
+  25% {
+    left: 50px; }
+  50% {
+    left: 100px; }
+  75% {
+    left: 200px; }
+  100% {
+    left: 254px; } }
+@-o-keyframes settings-float-right {
+  0% {
+    left: 0px; }
+  25% {
+    left: 50px; }
+  50% {
+    left: 100px; }
+  75% {
+    left: 200px; }
+  100% {
+    left: 254px; } }
+@keyframes settings-float-right {
+  0% {
+    left: 0px; }
+  25% {
+    left: 50px; }
+  50% {
+    left: 100px; }
+  75% {
+    left: 200px; }
+  100% {
+    left: 254px; } }
+.settings-float-left {
+  position: fixed;
+  -webkit-animation-duration: .3s;
+  -moz-animation-duration: .3s;
+  -o-animation-duration: .3s;
+  animation-duration: .3s;
+  -webkit-animation-name: settings-float-left;
+  -moz-animation-name: settings-float-left;
+  -o-animation-name: settings-float-left;
+  animation-name: settings-float-left;
+  -webkit-animation-iteration-count: 1;
+  -moz-animation-iteration-count: 1;
+  -o-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+  -webkit-animation-timing-function: ease-in;
+  -moz-animation-timing-function: ease-in;
+  -o-animation-timing-function: ease-in;
+  animation-timing-function: ease-in;
+  -webkit-animation-fill-mode: backwards;
+  -moz-animation-fill-mode: backwards;
+  -o-animation-fill-mode: backwards;
+  animation-fill-mode: backwards; }
+
+@-webkit-keyframes settings-float-left {
+  0% {
+    left: 254px; }
+  25% {
+    left: 200px; }
+  50% {
+    left: 100px; }
+  75% {
+    left: 50px; }
+  100% {
+    left: 50px; } }
+@keyframes settings-float-left {
+  0% {
+    left: 254px; }
+  25% {
+    left: 200px; }
+  50% {
+    left: 100px; }
+  75% {
+    left: 50px; }
+  100% {
+    left: 50px; } }
+@-o-keyframes settings-float-left {
+  0% {
+    left: 254px; }
+  25% {
+    left: 200px; }
+  50% {
+    left: 100px; }
+  75% {
+    left: 50px; }
+  100% {
+    left: 50px; } }
+/* Activity log section
+======================================================*/
+
+/*# sourceMappingURL=LeftMenuTemplate.css.map */

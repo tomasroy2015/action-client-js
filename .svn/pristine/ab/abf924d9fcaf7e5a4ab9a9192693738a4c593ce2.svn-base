@@ -1,0 +1,29 @@
+"use strict";
+
+define(['application-configuration'], function (app) {
+
+    app.register.directive('actionAttributeScoreSummary', [function () {
+
+        return {
+            restrict: 'AE',
+            scope   : {
+                selectedAttributeItem: "=",
+                summaryTitle:"=",
+                generalSurveyCollection:"=",
+                triggerSurveyCollection:"="
+            },
+            link    : function (scope,el, attrs) {
+//               scope.generalSurveyCollection = serviceAreaScoreData.GetGeneralSurveyCollection();
+//               scope.triggerSurveyCollection = serviceAreaScoreData.GetTriggerSurveyCollection();
+//                scope.attributeSelection_Handler = function(data){
+//                    scope.selectedAttributeItem = data;
+//                    scope.summaryTitle = data.Name.toUpperCase();
+//
+//                };
+            },
+            templateUrl:'Views/Shared/Template/AttributeScoreSummaryTemplate.html'
+        };
+
+    }]);
+
+});

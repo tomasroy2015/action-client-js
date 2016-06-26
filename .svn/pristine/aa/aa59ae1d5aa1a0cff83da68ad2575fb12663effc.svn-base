@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="Views/CustomerSettings/ComparatorMapping/ComparatorMappingTemplate.css"/>
+<!--<div style="width: 100%;height: 400px">-->
+    <!--This is user comparator mapping template-->
+<!--</div>-->
+<div ng-controller="comparatorMappingController" class="comparator-mapping-container">
+    <span class="template-header">
+        COMPARATOR MAPPING
+    </span>
+    <div class="table-container">
+        <table st-table="displayColl" st-safe-src="rowViewCollection"  id="smartTable" class="table">
+            <thead>
+            <tr>
+                <th class="service-area-column">service area</th>
+                <th class="target-column">target</th>
+                <th class="lower-limit-column">lower limit</th>
+                <th class="median-column">median</th>
+                <th class="upper-limit">upper limit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in displayColl" ng-class="{comparatorGrpRow:item.isGrpType}">
+                <td class="service-area-column"><span>{{item.DisplayShortCode}}</span></td>
+                <td class="target-column" style="padding-left: 15px">
+                    <input type="checkbox" ng-model="item.isTargerSelected" ng-disabled="item.isDisable"
+                           ng-hide="item.isGrpType" ng-click="comparatorSelectionChanged(item,1)">
+                </td>
+                <td class="lower-limit-column" style="padding-left: 30px">
+                    <input type="checkbox" ng-model="item.isLowerLimitSelected" ng-disabled="item.isDisable"
+                           ng-hide="item.isGrpType" ng-click="comparatorSelectionChanged(item,3)">
+                </td>
+                <td class="median-column" style="padding-left: 20px">
+                    <input type="checkbox" ng-model="item.isMedianSelected" ng-disabled="item.isDisable"
+                           ng-hide="item.isGrpType" ng-click="comparatorSelectionChanged(item,2)">
+                </td>
+                <td class="upper-limit" style="padding-left: 30px">
+                    <input type="checkbox" ng-model="item.isUpperLimitSelected" ng-disabled="item.isDisable"
+                           ng-hide="item.isGrpType" ng-click="comparatorSelectionChanged(item,4)">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="footer-container-div">
+            <button class="btn" ng-click="saveComparatorSettings()"> Save</button>
+        </div>
+    </div>
+</div>

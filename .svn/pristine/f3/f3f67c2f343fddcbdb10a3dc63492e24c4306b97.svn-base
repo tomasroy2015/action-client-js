@@ -1,0 +1,149 @@
+.container{
+    width: 250px;
+    height: 430px;
+    background-color: #ffffff;
+}
+.container.compare-settings-container{
+    color: #000000;
+    font-family: "AkkuratStd-Regular", "Segoe UI Light", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+    border: 1px solid #c0c0c0;
+    border-radius: 2px;
+    top: 250px;
+    box-shadow: 2px 2px 2px #d3d3d3;
+    cursor: default;
+}
+.page-header {
+    margin: 10px 0 0px;
+    border-bottom: 1px solid #000000;
+}
+.page-header.target-page-header{
+    font-size: 14px;
+    height: 30px;
+    font-weight: bold;
+}
+.compare-settings-body{
+    font-size: 11px;
+}
+.radio.target-radio{
+    font-weight: normal;
+}
+.common-target-style{
+    margin: 2px 0 0px;
+    border: none;
+    border-bottom: 1px solid #000000;
+}
+.compare-settings-body > .benchmark-container{
+    margin: 2px 0 0px;
+    border: none;
+    /*border-bottom: 1px solid #000000;*/
+}
+.compare-settings-body > .custom-value-container{
+    margin: 2px 0 0px;
+    border: none;
+    border-bottom: 2px solid  #d3d3d3;
+}
+.compare-settings-body > .benchmark-container > .benchmark-value-container{
+    background-color: #d3d3d3;
+    border: none;
+    height: 87px;
+}
+
+.compare-settings-body > .benchmark-container > .benchmark-value-container > .benchmark-radio-group {
+    padding-top: 2px;
+    padding-left: 18px;
+}
+.target-button-container{
+    position: relative;
+    width: 100%;
+    height: 40px;
+    padding-top: 28px;
+    color: #ffffff;
+}
+
+.target-button-position {
+    position: absolute;
+    text-align: center;
+    left: 42%;
+}
+
+.target-btn-white-bg {
+    padding-top: 0;
+    height: 26px;
+    line-height: 26px;
+    background-color: #555759;
+    color: #fff;
+    border-radius: 0;
+}
+.btn-target-ok {
+    position: absolute;
+    text-align: center;
+    left: 42%;
+    height: 26px;
+    border        : none;
+    border-radius : 0;
+    color: #fff;
+    background    : #878787 !important;
+}
+
+.btn-target-ok:hover {
+    background : #555759 !important;
+}
+input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
+    float: left;
+    margin-left: -20px;
+    margin-top: 0px;
+}
+input[type="checkbox"], .checkbox-inline input[type="checkbox"],.target-checkbox{
+   font-weight: normal;
+}
+/*input[type="checkbox"] {*/
+    /*display:inline-block;*/
+/*}*/
+/*input[type="checkbox"] + label {*/
+    /*display:inline-block;*/
+    /*width:30px;*/
+    /*height:19px;*/
+    /*margin:-1px 4px 0 0;*/
+    /*vertical-align:middle;*/
+    /*cursor:pointer;*/
+/*}*/
+/*input[type="checkbox"]:checked + label{*/
+    /*background:#555759 -19px top no-repeat;*/
+/*}*/
+/*.compare-settings-container.settings-float-left {*/
+    /*-webkit-animation-duration:.3s;*/
+    /*-moz-animation-duration:.3s;*/
+    /*-o-animation-duration:.3s;*/
+    /*animation-duration:.3s;*/
+    /*-webkit-animation-name:settings-float-left;*/
+    /*-moz-animation-name:settings-float-left;*/
+    /*-o-animation-name:settings-float-left;*/
+    /*animation-name:float-down;*/
+    /*-webkit-animation-iteration-count:1;*/
+    /*-moz-animation-iteration-count:1;*/
+    /*-o-animation-iteration-count:1;*/
+    /*animation-iteration-count:1;*/
+    /*-webkit-animation-timing-function:ease-out;*/
+    /*-moz-animation-timing-function:ease-out;*/
+    /*-o-animation-timing-function:ease-out;*/
+    /*animation-timing-function:ease-out;*/
+    /*-webkit-animation-fill-mode:forwards;*/
+    /*-moz-animation-fill-mode:forwards;*/
+    /*-o-animation-fill-mode:forwards;*/
+    /*animation-fill-mode:forwards;*/
+    /*position:absolute;*/
+/*}*/
+/*@-webkit-keyframes settings-float-left {*/
+    /*0% {*/
+        /*left:-25px;*/
+    /*}*/
+    /*25% {*/
+        /*left:50px;*/
+    /*}*/
+    /*35% {*/
+        /*left:100px;*/
+    /*}*/
+    /*100% {*/
+        /*left:254px;*/
+    /*}*/
+/*}*/

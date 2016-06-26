@@ -1,0 +1,164 @@
+/* All external import files
+======================================================*/
+@import '_Colors';
+@import '_Mixins';
+
+$score-container-height:26px;
+$score-item-height:22px;
+$calculate-right: calc(#{$score-item-height/2});
+
+div.service-area-questions-container {
+  margin-right : 0px;
+  width        : 235px; /*question item width in left panel.total background width of a item*/
+  margin-top   : 10px;
+  padding-left : 0px;
+}
+
+/*Question hover arrow style  */
+
+ul.question {
+  display  : table;
+  width    : 100%; /*94% need to check from this line */
+  padding  : 0px;
+  margin   : 0px;
+  position : relative;
+  width       : 235px;
+  li.questionListItemWrapper {
+    display    : block;
+    height     : $score-container-height;
+    position   : relative;
+    padding    : 0px;
+    text-align : center;
+    width       : 235px;
+  }
+  .questionListItemDiv {
+    position    : relative;
+    line-height : $score-item-height; /* equal to the list item's height */
+    height      : $score-item-height;;
+    width       : 222px;
+    padding-left: 3px;
+    float       : left;
+    &:not(.selectedQuestionListItemDiv):hover {
+      background-color : $GIARTE_LIGHT_GRAY;
+      cursor           : pointer;
+      &:after {
+        top   : 0;
+        @include right-arrow($score-item-height/2, $GIARTE_LIGHT_GRAY, 100);
+        right : -$calculate-right;
+      }
+    }
+  }
+}
+
+.summaryItemContainer{
+  width: 235px;
+  background: #ddddde;
+  font-weight:bold;
+}
+
+.topGroupContainer{
+  margin-bottom:12px;
+  font-size: 12px;
+}
+
+.bottomGroupContainer{
+  margin-top:20px;
+  font-size: 12px;
+}
+.questionLabelDiv {
+  text-align    : left;
+  margin-top    : 0px;
+  width         : 120px;
+  float         : left;
+  overflow      : hidden;
+  white-space   : nowrap;
+  text-overflow : ellipsis;
+  top           : 0;
+  margin-right  : 3px;
+  padding-left  : 0px;
+}
+
+.question-score-bar {
+  margin-top  : 0px;
+  width       : 98px;
+  display     : inline-block;
+  float       : left;
+  top         : 0;
+  font-weight : bold;
+}
+
+.scoreContainer {
+  height : 24px;
+  width: 95px;
+  float: left;
+}
+
+.questionScoreBar {
+  background-color : transparent;
+  padding-left     : 0;
+  padding-right    : 0;
+  margin-left      : 0;
+  margin-right     : auto;
+  display          : block;
+  float            : left;
+  top              : 5px
+}
+
+.questionText {
+  color : #000000;
+}
+
+ul li {
+  list-style : none;
+}
+
+ul.question > li[data-questiontype='group']:first-child {
+  margin-top: 0;
+}
+/*start*/
+.selectedQuestionListItemDiv {
+  cursor: pointer;
+  background-color : $GIARTE_YELLOW;
+  position         : relative;
+  line-height      : $score-item-height; /* equal to the list item's height */
+  height           : $score-item-height;;
+  width            : 222px;
+  &:hover {
+    background-color: $GIARTE_YELLOW;
+    cursor: pointer;
+    &:after {
+      top: 0;
+      @include right-arrow($score-item-height/2, $GIARTE_YELLOW, 100);
+      right: -$calculate-right;
+    }
+  }
+}
+.selectedQuestionListItemArrow{
+  border-top: $calculate-right solid transparent;
+  border-bottom: $calculate-right solid transparent;
+  border-left: $calculate-right solid $GIARTE_YELLOW;
+  float: left;
+}
+.SESHeaderContainer{
+  //border-bottom: solid 2px lightgrey;
+  background-color: white;
+  font-weight: bold;
+  width            : 210px;
+  padding-left: 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+}
+.SESHeaderContent {
+  border-bottom: solid 2px lightgrey;
+  width: 210px;
+  display: table-cell;
+  vertical-align: bottom;
+  text-align: left;
+}
+
+div.clear{
+  clear: both;
+}
+
+
